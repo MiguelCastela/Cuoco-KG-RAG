@@ -13,7 +13,7 @@
 \begin{document}
 
 \title{Knowledge and Language 2025/2026 \\
-{\footnotesize \textsuperscript{\textit{literature Review}}}
+{ \textsuperscript{\textit{literature Review}}}
 }
 
 \author{
@@ -28,15 +28,131 @@ uc2022213951@student.uc.pt}
 
 \maketitle
 
-\section{Introduction}
+\section{Abstract}
+\noindent
+This literature review explores the integration of Knowledge Graphs (KGs) and Retrieval-Augmented Generation (RAG) techniques for domain-specific question answering, the challenge we are trying to tackle is building a system that can reliably and accurately answer complex, domain-specific questions about Portuguese cuisine and other recipes using the food.com dataset \cite{foodcom_kaggle}. We will use draws RecipeRAG \cite{foodcom_kaggle}, a KG-driven recipe generation framework, as reference for the methodologies to build a food chatbot. Definitions and concepts are supported by the course powerpoint on semantic web framework (RDF, OWL, SPARQL), establishing the link between symbolic and knowledge graph representation.
+\section{Connections with the Topics Covered by the Course}
 
-This document presents a literature review on the topic of integrating Large Language Models (LLMs) with structured knowledge bases to enhance domain-specific question answering systems. The review covers recent advancements in LLMs, knowledge graph construction, and retrieval-augmented generation techniques.
+\noindent
+Large Language Models (LLMs) demonstrate strong generalization but fail in domain-specific reasoning due to three main limitations: (1) lack of contextual understanding, (2) incomplete factual knowledge, and (3) weak recall of precise facts \cite{agrawal2024kg_hallucinations}. This motivates the integration of symbolic knowledge (RDF/OWL-based graphs) with neural inference (LLMs and RAG) to ensure both reasoning and factual grounding.
+\noindent
+RDF can be serialized in formats such as N-TRIPLES, XML, JSON-LD, or Turtle, ensuring interoperability across systems. Vocabularies define terms and relationships and  ontologies define classes, hierarchies, and property restrictions.
+OWL (Web Ontology Language) can be used with RDF to express richer logical constraints, such as domain/range restrictions and class relations.
+
+\noindent
+This symbolic foundation aligns with the three “knowledge-aware” dimensions of KG-augmented NLP methods outlined in \cite{agrawal2024kg_hallucinations}:
+\begin{itemize}
+    \item KG-Augmented Retrieval (3.1.1): The use of structured queries (SPARQL) or textualized triples to retrieve relevant information for LLMs, comparable to RAG pipelines [Lewis et al., 2020].
+
+    \item KG-Augmented Reasoning and Controlled Generation (3.1.2–3.1.3): Incorporating graph reasoning steps (symbolic inference or logical validation) within the generation loop.
+
+    \item Knowledge-Aware Training (3.2): Using KG-derived data to fine-tune LLMs, injecting factual consistency.
+
+    \item Knowledge-Aware Validation (3.3): Employing SPARQL or rule-based checks to verify the factual correctness of generated answers.
+
+
+This emphasizes the distinction between symbolic reasoning (FOL-based) and neural reasoning, emphasizing that symbolic models provide interpretability and factual precision, while neural models capture correlations and language variability.
+
+
+\end{itemize}
+
+
+ 
+
+
+
+
+
+
 
 \section{Knowledge Graph Construction/Enrichment}
+In RDF, knowledge is represented through triples — for example:
+
+\begin{verbatim}
+
+<Bacalhau_a_Brás> <hasIngredient> <Egg>
+
+\end{verbatim}
+Each triple can be enriched through RDFS with class and property hierarchies. Ontology design (defined in OWL) allows specifying property restrictions, such as onlyUsesIngredient or hasMaxPrepTime.
+\noindent
+In \cite{loesch2025reciperag} RecipeKG is constructed as a large-scale recipe knowledge graph combining ingredients, cooking techniques, and regions, and enriching it with semantic annotations. Enabling structured querying and semantic interoperability through URIs and ontologies.
+\noindent
+Symbolic KGs are inherently sparse, so Knowledge Graph Embeddings (KGEs) are employed to map entities and relations into continuous vector spaces. Foundational models \cite{loesch2025reciperag} include TransE, RotatE, and QuatE, representing relations as translations, rotations, and quaternion transformations respectively [Han et al., 2023].
 \section{Knowledge Retrieval via NLP}
+\noindent
+Knowledge retrieval connects natural language input to structured or embedded KG representations. SPARQL is the declarative query language for RDF graphs \cite{semanticweb2024slides}, enabling semantic retrieval using triples and filters. However, natural language interfaces require NLP-based query interpretation, extracting entities and intents (via tools like spaCy or BERT) and mapping them to KG entities (URIs).
+\noindent
+KGE-based retrieval \cite{loesch2025reciperag} significantly outperforms text-based retrieval when handling multiple user constraints. As noted: “Performance declined as the number of criteria increased… Nevertheless, the results underscore the effectiveness of KGEs in supporting multi-criteria recipe retrieval, while simultaneously revealing the limitations of purely text-based embeddings.”77
+
 \section{SPARQL Query Generation}
+
+SPARQL queries operate over RDF graphs, and their construction can be made in 3 different ways:
+\begin{itemize}
+    \item The user using the Chatbot need to input the SPARQL query directly or use a form-based interface that generates the query based on user selections.
+    \item LLMs can be fine-tuned or prompted to generate SPARQL queries from natural language questions, using few-shot examples or templates to guide the generation.
+    \item NLP tools like semantic parsers can convert natural language into SPARQL queries by identifying entities, intent, relations, restrictions and query structure.
+\end{itemize}
+
+
+
+
 \section{Retrieval-Augmented Generation (RAG)}
-\section{Connections with the Topics Covered by the Course}
+
+RAG, first formalized by \cite{lewis2020rag} as a hybrid model that retrieves external documents as "he input sequence x to retrieve text documents z and use them
+as additional context when generating the target sequence y". 
+This approach separates retrieval from generation, improving factuality and reducing hallucinations. While the original RAG used text documents, later adaptations like the metioned RecipeRAG \cite{loesch2025reciperag} replace text retrieval with KG-based retrieval.
+
+RecipeRAG describe their RAG pipeline as follows:
+
+“We chose RotatE, the strongest-performing KGE model, to bootstrap the recipe generation process. The system retrieves the top-ranking recipes based on aggregated relevance scores, selects the top 5, and feeds them—together with user criteria—into the generator (DeepSeek-R1-0528).”
+
+This pipeline combines the retrieval mechanism of \cite{lewis2020rag} with structured KG enrichment, turning symbolic knowledge into context for generative models. 
+Given this, we will implement the following layered knowledge representation model: symbolic layer (RDF/OWL) → Query Layer(SPARQL) → neural layer (LLM generation given top 5 most similar recipes).
+
+RAG thus operationalizes the Knowledge-Aware Inference paradigm \cite{agrawal2024kg_hallucinations}, where external structured knowledge is used to enhance reasoning and factual correctness.
+
+
+\section{integrating concepts for the proposed architecture}
+
+
+
+The proposed architecture is:
+
+KG Construction:
+
+Build a Portuguese recipe KG using RDF/OWL.
+
+Define Recipe, Ingredient, Region, and Technique as OWL classes with property restrictions (hasIngredient only Ingredient).
+
+Entity Recognition:
+
+Use spaCy/BERT for entity linking and intent recognition.
+
+Map to KG URIs using ontology matching and synonyms.
+
+SPARQL Verification:
+
+Run queries to validate retrieved facts (e.g., prep time, allergens).
+
+RAG Generation:
+
+Feed top-5 recipes + structured SPARQL facts into an LLM.
+
+Use prompt templates and tests (for example "jeopardy questions generation task) inspired by \cite{lewis2020rag} for performance metrics evaluation.
+
+Validation:
+
+Post-generation KG validation (checking logical consistency via OWL reasoning).
+
+
 \section{Conclusion and Future Work}
 
+The reviewed literature converges on the same insight: combining symbolic reasoning (RDF, OWL, SPARQL) and neural reasoning (KGE, RAG, LLMs) yields systems that are both factual and context-aware.
+Empirically, RecipeRAG [Loesch et al., 2025] and RAG [Lewis et al., 2020] demonstrate that KG-driven retrieval enhances generation quality, while the taxonomy of [Agrawal et al., 2024] clarifies how such systems reduce hallucination through Knowledge-Aware Inference, Learning, and Validation.
+
+Together, these works guide the design of the CuocoGPT chatbot: a Linked Data-based KG, queried via SPARQL, and integrated with a RAG-enhanced LLM, achieving both accuracy and interpretability.
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{report}
 \end{document}

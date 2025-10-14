@@ -1,0 +1,7 @@
+reprompt para dar fill a mais cenas
+dar contexto do paper do wong e chong
+verificar se precisamos mesmo de usar embeddings
+falar mais sobre como vamos usar a nossa metrica de similaridade 
+falar mais de como funcionam as lobraries de NLP para map correto para SPARQL
+e falar mais sobre o LLM que vamos usar (ollama)
+FALAR SOBRE COMO O MANO DO RECIPERAG tratou do seu dataset do FOOD.COM e como e que nos o vamos tratar dando mais enfase a cozinha portuguesa
