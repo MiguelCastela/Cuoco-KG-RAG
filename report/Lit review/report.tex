@@ -98,60 +98,41 @@ SPARQL queries operate over RDF graphs, and their construction can be made in 3 
 
 \section{Retrieval-Augmented Generation (RAG)}
 
-RAG, first formalized by \cite{lewis2020rag} as a hybrid model that retrieves external documents as "he input sequence x to retrieve text documents z and use them
-as additional context when generating the target sequence y". 
-This approach separates retrieval from generation, improving factuality and reducing hallucinations. While the original RAG used text documents, later adaptations like the metioned RecipeRAG \cite{loesch2025reciperag} replace text retrieval with KG-based retrieval.
+RAG, first formalized by \cite{lewis2020rag}, is a hybrid model that retrieves external documents as the input sequence $x$ to retrieve text documents $z$ and use them
+as additional context when generating the target sequence $y$. 
+This approach separates retrieval from generation, improving factuality and reducing hallucinations. While the original RAG used text documents, later adaptations like the mentioned RecipeRAG \cite{loesch2025reciperag} replace text retrieval with KG-based retrieval.
 
-RecipeRAG describe their RAG pipeline as follows:
+The foundational work by Lewis et al. \cite{lewis2020rag} introduced RAG models as a combination of parametric and non-parametric memory systems: a pre-trained seq2seq transformer (BART) serves as the parametric memory, while a dense vector index of Wikipedia—accessed through a neural retriever (DPR)—acts as non-parametric memory. This allows the model to retrieve the top-$k$ most relevant documents for each query and marginalize over them when generating the output, effectively blending symbolic retrieval with neural generation. 
+
+Two model variants were proposed: \textit{RAG-Sequence}, which conditions generation on a single retrieved document for the entire sequence, and \textit{RAG-Token}, which allows token-level retrieval, providing finer factual grounding. Their experiments demonstrated state-of-the-art performance across knowledge-intensive tasks such as Natural Questions, TriviaQA, and FEVER, outperforming both parametric-only (e.g., T5, BART) and purely extractive retrieval models (e.g., DPR, REALM). Notably, RAG models also produced more specific, diverse, and factually correct generations, showing reduced hallucination and enabling knowledge updates simply by replacing the underlying index.
+
+RecipeRAG \cite{loesch2025reciperag} builds upon this foundation, substituting text retrieval with KG-based retrieval and applying it to domain-specific recipe generation. The authors state:
 
 “We chose RotatE, the strongest-performing KGE model, to bootstrap the recipe generation process. The system retrieves the top-ranking recipes based on aggregated relevance scores, selects the top 5, and feeds them—together with user criteria—into the generator (DeepSeek-R1-0528).”
 
 This pipeline combines the retrieval mechanism of \cite{lewis2020rag} with structured KG enrichment, turning symbolic knowledge into context for generative models. 
-Given this, we will implement the following layered knowledge representation model: symbolic layer (RDF/OWL) → Query Layer(SPARQL) → neural layer (LLM generation given top 5 most similar recipes).
+Given this, we will implement the following layered knowledge representation model: symbolic layer (RDF/OWL) → Query Layer (SPARQL) → neural layer (LLM generation given top 5 most similar recipes).
 
 RAG thus operationalizes the Knowledge-Aware Inference paradigm \cite{agrawal2024kg_hallucinations}, where external structured knowledge is used to enhance reasoning and factual correctness.
 
+\section{Integrating Concepts for the Proposed Architecture}
 
-\section{integrating concepts for the proposed architecture}
+The proposed architecture is as follows:
 
+\textbf{KG Construction:} Build a Portuguese recipe KG using RDF/OWL. Define \textit{Recipe}, \textit{Ingredient}, \textit{Region}, and \textit{Technique} as OWL classes with property restrictions (e.g., \textit{hasIngredient only Ingredient}).
 
+\textbf{Entity Recognition:} Use spaCy/BERT for entity linking and intent recognition. Map entities to KG URIs through ontology matching and synonym expansion.
 
-The proposed architecture is:
+\textbf{SPARQL Verification:} Execute SPARQL queries to validate factual attributes (e.g., preparation time, allergens, dietary restrictions).
 
-KG Construction:
+\textbf{RAG Generation:} Inspired by the RAG-Sequence and RAG-Token formulations from \cite{lewis2020rag}, the system retrieves the top-$k$ most relevant recipes (based on KGE similarity or SPARQL-filtered attributes) and uses them as external non-parametric memory for the generative model. This mechanism allows the LLM to incorporate factual culinary knowledge directly into its responses while preserving natural language fluency. Unlike text-only retrieval over Wikipedia, our system will integrate structured RDF triples as retrievable context, unifying symbolic reasoning (SPARQL querying) with neural reasoning (RAG-based language modeling).
 
-Build a Portuguese recipe KG using RDF/OWL.
-
-Define Recipe, Ingredient, Region, and Technique as OWL classes with property restrictions (hasIngredient only Ingredient).
-
-Entity Recognition:
-
-Use spaCy/BERT for entity linking and intent recognition.
-
-Map to KG URIs using ontology matching and synonyms.
-
-SPARQL Verification:
-
-Run queries to validate retrieved facts (e.g., prep time, allergens).
-
-RAG Generation:
-
-Feed top-5 recipes + structured SPARQL facts into an LLM.
-
-Use prompt templates and tests (for example "jeopardy questions generation task) inspired by \cite{lewis2020rag} for performance metrics evaluation.
-
-Validation:
-
-Post-generation KG validation (checking logical consistency via OWL reasoning).
-
+\textbf{Validation:} Post-generation KG validation (checking logical consistency via OWL reasoning) ensures that outputs adhere to domain constraints and semantic accuracy.
 
 \section{Conclusion and Future Work}
 
 The reviewed literature converges on the same insight: combining symbolic reasoning (RDF, OWL, SPARQL) and neural reasoning (KGE, RAG, LLMs) yields systems that are both factual and context-aware.
-Empirically, RecipeRAG [Loesch et al., 2025] and RAG [Lewis et al., 2020] demonstrate that KG-driven retrieval enhances generation quality, while the taxonomy of [Agrawal et al., 2024] clarifies how such systems reduce hallucination through Knowledge-Aware Inference, Learning, and Validation.
-
-Together, these works guide the design of the CuocoGPT chatbot: a Linked Data-based KG, queried via SPARQL, and integrated with a RAG-enhanced LLM, achieving both accuracy and interpretability.
-
+Empirically, RecipeRAG \cite{loesch2025reciperag} and RAG \cite{lewis2020rag} demonstrate that KG-driven retrieval enhances generation quality, while the taxonomy of \cite{agrawal2024kg_hallucinations} clarifies how such systems reduce hallucination through Knowledge-Aware Inference, Learning, and Validation.
 
 \bibliographystyle{IEEEtran}
 \bibliography{report}

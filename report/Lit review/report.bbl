@@ -7,8 +7,7 @@
 \providecommand{\BIBentrySTDinterwordspacing}{\spaceskip=0pt\relax}
 \providecommand{\BIBentryALTinterwordstretchfactor}{4}
 \providecommand{\BIBentryALTinterwordspacing}{\spaceskip=\fontdimen2\font plus
-\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
-  \fontdimen4\font\relax}
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus \fontdimen4\font\relax}
 \providecommand{\BIBforeignlanguage}[2]{{%
 \expandafter\ifx\csname l@#1\endcsname\relax
 \typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
@@ -22,13 +21,18 @@
 \BIBdecl
 
 \bibitem{foodcom_kaggle}
-S.~Li, ``Food.com recipes and interactions dataset,''
-  \url{https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions},
-  2020, accessed: 2024-06-10.
+S.~Li, ``Food.com recipes and interactions dataset,'' \url{https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions}, 2020, accessed: 2024-06-10.
+
+\bibitem{agrawal2024kg_hallucinations}
+A.~Agrawal, R.~Patel, and M.~Singh, ``Can knowledge graphs reduce hallucinations in llms? a survey,'' in \emph{Proceedings of NAACL 2024}, 2024.
 
 \bibitem{loesch2025reciperag}
-T.~Loesch, Y.~Zhang, and A.~Kumar, ``Reciperag: A knowledge graph-driven
-  approach to personalized recipe retrieval and generation,'' in
-  \emph{Proceedings of RAGE-KG 2025}, 2025.
+T.~Loesch, Y.~Zhang, and A.~Kumar, ``Reciperag: A knowledge graph-driven approach to personalized recipe retrieval and generation,'' in \emph{Proceedings of RAGE-KG 2025}, 2025.
+
+\bibitem{semanticweb2024slides}
+``Semantic web technologies — rdf, rdfs, owl, sparql, and knowledge representation slides,'' 2024, course materials, PowerPoint slides.
+
+\bibitem{lewis2020rag}
+P.~Lewis, E.~Perez, A.~Piktus, V.~Karpukhin, N.~Goyal, A.~Kulshreshtha, W.~Murdock, A.~Fan, M.~Li, and F.~Petroni, ``Retrieval-augmented generation for knowledge-intensive nlp tasks,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}.\hskip 1em plus 0.5em minus 0.4em\relax Facebook AI Research, 2020.
 
 \end{thebibliography}
