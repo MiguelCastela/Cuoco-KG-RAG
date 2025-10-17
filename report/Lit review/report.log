@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.10.13)  17 OCT 2025 17:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.10.13)  17 OCT 2025 20:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -649,17 +649,17 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 
 
 ]
-Underfull \hbox (badness 2376) in paragraph at lines 92--93
+Underfull \hbox (badness 2376) in paragraph at lines 89--90
 []\OT1/ptm/m/n/10 LLMs can be fine-tuned or prompted to gen-er-ate
  []
 
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 114.
+            Default family used instead on input line 119.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 114.
-(./report.bbl)
+            Default family used instead on input line 119.
+(./report.bbl [2])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -671,27 +671,29 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2] (./report.aux)
+[3
+
+] (./report.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 12423A453CAF33FFD904307CFFD6072B;1806.
+(rerunfilecheck)             Checksum: E075BA227F8D107939070DFD46505C87;1792.
  ) 
 Here is how much of TeX's memory you used:
- 32277 strings out of 476182
- 753029 string characters out of 5795594
- 1946975 words of memory out of 5000000
- 53773 multiletter control sequences out of 15000+600000
+ 32276 strings out of 476182
+ 753015 string characters out of 5795594
+ 1947975 words of memory out of 5000000
+ 53772 multiletter control sequences out of 15000+600000
  599953 words of font info for 128 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 99i,8n,107p,835b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,8n,107p,1175b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (2 pages, 86135 bytes).
+Output written on report.pdf (3 pages, 86993 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 103 compressed objects within 2 object streams
+ 125 PDF objects out of 1000 (max. 8388607)
+ 105 compressed objects within 2 object streams
  17 named destinations out of 1000 (max. 500000)
- 85 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 77 words of extra memory for PDF output out of 10000 (max. 10000000)
 
