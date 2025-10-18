@@ -74,9 +74,10 @@ In RDF, knowledge is represented through triples — for example:
 <Bacalhau_a_Brás> <hasIngredient> <Egg>
 
 \end{verbatim}
-Each triple can be enriched through RDFS with class and property hierarchies and constraints. 
-\noindent
-In \cite{loesch2025reciperag} RecipeKG is constructed as a large-scale recipe knowledge graph combining ingredients, cooking techniques, and regions, and enriching it with semantic annotations. Enabling structured querying and semantic interoperability through URIs and ontologies.
+
+Each triple expresses a simple subject–predicate–object relationship, which can be enriched using RDFS with class and property hierarchies, domain and range constraints, and subclass relationships, allowing the representation of more structured and semantically rich knowledge. OWL further extends RDF/RDFS with expressive constructs for logical reasoning, such as cardinality restrictions, equivalence, disjointness, and complex class expressions, enabling more sophisticated inference over the data.
+
+In \cite{loesch2025reciperag}, RecipeKG is constructed as a large-scale recipe knowledge graph that integrates ingredients, cooking techniques, and geographic regions, and enriches them with semantic annotations drawn from ontologies. By representing recipes, ingredients, and related concepts as URIs within a well-defined ontology, RecipeKG supports structured querying, semantic interoperability, and automated reasoning. For example, it can infer that all vegetarian recipes do not contain meat-based ingredients or suggest alternative ingredients based on class hierarchies. This structured representation allows applications such as intelligent recipe recommendation, dietary constraint checking, and multi-criteria search, which would be challenging to implement using unstructured data alone
 
 \section{Knowledge Retrieval via NLP}
 \noindent
@@ -93,7 +94,7 @@ Natural language interfaces require NLP-based query interpretation, extracting e
 
 \noindent
 KGE-based retrieval \cite{loesch2025reciperag} significantly outperforms text-based retrieval when handling multiple user constraints. As noted: “Performance declined as the number of criteria increased… Nevertheless, the results underscore the effectiveness of KGEs in supporting multi-criteria recipe retrieval, while simultaneously revealing the limitations of purely text-based embeddings.” %For this project, we will be using embeddings to retrieve the top-k most similar recipes from the textual properties not present in the KG (like recipe name and description).
-Symbolic KGs are inherently sparse, so in RecipeRAG Knowledge Graph Embeddings (KGEs) are employed to map entities and relations into continuous vector spaces. Foundational models \cite{loesch2025reciperag} include TransE, RotatE, and QuatE, representing relations as translations, rotations, and quaternion transformations respectively. %For this project, we will be using Intent extraction via NLP models to map user queries to KG entities and relations. The system uses BERT and spaCy together to understand user queries about recipes. BERT is fine-tuned to identify the user’s intent, such as finding a recipe, getting ingredients, or saving a recipe. This helps the system understand what the user wants, even if the question is phrased in different ways. After the intent is identified, spaCy extracts important entities from the query, such as ingredients, diet types, cuisines, and time limits. These entities are then linked to properties in the knowledge graph. The intent and entities are combined to create a SPARQL query that retrieves relevant recipes.
+Knowledge Graph Embeddings (KGEs) map entities and relations from symbolic graphs into continuous vector spaces, enabling reasoning and retrieval; \textbf{TransE} \cite{bordes2013translating} represents relations as translation vectors such that the tail entity is approximated by the head plus the relation ($\mathbf{h} + \mathbf{r} \approx \mathbf{t}$) and works well for 1-to-1 relations but struggles with complex patterns, \textbf{RotatE} \cite{sun2019rotate} models relations as rotations in the complex plane ($\mathbf{t} \approx \mathbf{h} \circ \mathbf{r}$) to naturally capture symmetry, antisymmetry, and inversion, and \textbf{QuatE} \cite{zhang2019quaternion} extends this idea to quaternions ($\mathbf{t} \approx \mathbf{h} \otimes \mathbf{r}$) for 4D rotations, allowing modeling of more complex relational patterns.
 
 
 

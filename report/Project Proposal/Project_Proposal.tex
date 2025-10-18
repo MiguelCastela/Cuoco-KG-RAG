@@ -31,47 +31,34 @@
 
 \section{Problem Statement}
 
-General LLMs can answer many questions but they can lack niche or culturally specific Knowledge. 
-The challenge we are trying to tackle is building a system that can reliably and accurately answer complex, 
-domain-specific questions about Portuguese cuisine and other recipes using a variety of datasets.
+General LLMs can answer many questions but often lack domain or culturally specific Knowledge. 
+The challenge we aim to address is building a system that can reliably and accurately answer complex, 
+domain-specific questions about Portuguese cuisine and other recipes using structured data from the food.com dataset.
 
 \section{Project Goal}
 
-The goal of the project is to develop a ChatBot that leverages a built Structured knowledge Graph of food recipes from the datasets.
-The ChatBot is then able to query the knowledge graph from a Natural Language prompt and provide accurate answers to the user.
+The goal of the project is to develop a ChatBot that combines a structured Knowledge Graph (KG) of recipes with Natural Language Processing (NLP) techniques and Retrieval-Augmented Generation (RAG).
+The ChatBot will be able to interpret user queries in natural language, retrieve the most relevant recipes or recipe attributes, and provide accurate, context-aware responses.
 
 \section{Data and Tools and Proposed Approach}
 
-The datasets are a Dataset of Portuguese recipes taken from cooking books that has the ingredients and region of origin of each recipe and a more complete dataset of recipes
-from Kaggle that has ingredients, \texttt{prep\_time}, \texttt{cook\_time}, directions etc.
-The system relies on a curated dataset of recipes that has been transformed into a structured knowledge graph using the RDF (Resource Description Framework) model. 
+We will treat the dataset to include more of Portuguese cuisine recipes and keep the distribution of other cuisines. The structured Knowledge Graph (KG) is built using the RDF (Resource Description Framework) framework.
 Each RDF triplet has the form:
 \begin{itemize}
-    \item subject (it can be a specific recipe or ingredient, e.g., "Bacalhau à Brás"),
-    \item predicate (it can be a variety of attributes like hasIngredient, hasPrepTime)
-    \item object related (ex tomato, 15 minutes) 
+    \item \textbf{subject}: a specific recipe or ingredient (e.g., "Bacalhau à Brás"),
+    \item \textbf{predicate}: an attribute such as \texttt{hasIngredient} or \texttt{hasPrepTime},
+    \item \textbf{object}: the value of the attribute (e.g., "tomato", "15 minutes").
 \end{itemize}
-this allows for querying relationships between recipes, ingredients, and other attributes.
-The knowledge base is accessed through SPARQL, which allows precise retrieval of information based on user intents and entities extracted using NLP tools like spaCy and BERT.
-A Retrieval-Augmented Generation (RAG) setup interprets the SPARQL templates and generates context-aware responses.
-The final answer is then returned to the user via a React front-end, which provides an interface for interacting with the chatbot.
-
-
-
-\section{Conection with the reviewed literature (onde encontramos artigos q dão ideias boas nestes topicos)}
-
-Knowledge Graph Construction/Enrichment: 
-
-Knowledge Retrieval via NLP:
-
-SPARQL Query Generation:
-
-Retrieval-Augmented Generation (RAG):
-
+\noindent
+The system first uses a fine-tuned BERT \cite{devlin2019bert} model to identify the user’s intent, such as finding a recipe and retrieving ingredients. Next, spaCy extracts relevant entities from the query, including ingredients, name of the recipe and cooking time, which are then linked to corresponding nodes or properties in the Knowledge Graph. The intent and linked entities are combined to generate a SPARQL query for precise retrieval of structured information. Each query has more context from the dataset, such as description, cooking steps and other tags (with information like diet, food restrictions etc) added with a RAG step to give Ollama more context through an embeddings-based retrieval that identifies the top-k most relevant recipes from textual fields, and a Retrieval-Augmented Generation (RAG). Finally, a React-based front-end presents the answers to the user in a conversational interface.
 
 \section{checkpoint dates}
 
-Checkpoint 1 -> 18 November 2025
-Checkpoint 2 -> 2 December 2025
+Checkpoint 1 $->$ 18 November 2025
+Checkpoint 2 $->$ 2 December 2025
+
+\bibliographystyle{IEEEtran}
+\bibliography{Project_Proposal}
+
 
 \end{document}

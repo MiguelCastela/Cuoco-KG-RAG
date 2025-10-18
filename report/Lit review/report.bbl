@@ -43,6 +43,19 @@ J.~Devlin, M.-W. Chang, K.~Lee, and K.~Toutanova, ``Bert: Pre-training of deep b
 \bibitem{honnibal2020spacy}
 M.~Honnibal, I.~Montani, S.~Van~Landeghem, and A.~Boyd, ``spacy: Industrial-strength natural language processing in python,'' \url{https://zenodo.org/record/1215370}, 2020, software release.
 
+\bibitem{bordes2013translating}
+A.~Bordes, N.~Usunier, A.~Garc{\'\i}a-Dur{\'a}n, J.~Weston, and O.~Yakhnenko, ``Translating embeddings for modeling multi-relational data,'' in \emph{Advances in Neural Information Processing Systems}, 2013, pp. 2787--2795.
+
+\bibitem{sun2019rotate}
+\BIBentryALTinterwordspacing
+Z.~Sun, Z.-H. Deng, J.-Y. Nie, and J.~Tang, ``Rotate: Knowledge graph embedding by relational rotation in complex space,'' in \emph{International Conference on Learning Representations (ICLR)}, 2019, accepted to ICLR 2019. [Online]. Available: \url{https://doi.org/10.48550/arXiv.1902.10197}
+\BIBentrySTDinterwordspacing
+
+\bibitem{zhang2019quaternion}
+\BIBentryALTinterwordspacing
+S.~Zhang, Y.~Tay, L.~Yao, and Q.~Liu, ``Quaternion knowledge graph embeddings,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2019, accepted by NeurIPS 2019. [Online]. Available: \url{https://arxiv.org/abs/1904.10281}
+\BIBentrySTDinterwordspacing
+
 \bibitem{sutskever2014sequence}
 \BIBentryALTinterwordspacing
 I.~Sutskever, O.~Vinyals, and Q.~V. Le, ``Sequence to sequence learning with neural networks,'' \emph{arXiv preprint arXiv:1409.3215}, 2014. [Online]. Available: \url{https://arxiv.org/abs/1409.3215}
