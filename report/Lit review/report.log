@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.12.11)  18 OCT 2025 18:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2024.12.11)  18 OCT 2025 19:14
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -642,18 +642,23 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 30.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 71.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 72.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 2376) in paragraph at lines 88--89
+Underfull \hbox (badness 2376) in paragraph at lines 87--88
 []\OT1/ptm/m/n/10 LLMs can be fine-tuned or prompted to gen-er-ate
  []
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
-] (./report.bbl [2])
+] [2] (./report.bbl
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\OT1/ptm/m/n/8 com / datasets / shuyangli94 / food-[]com-[]recipes-[]and-[]user-[]interactions$[],
+ []
+
+)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -676,18 +681,18 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: EFC04F9E42E22DE07C95C41F8003B6F0;1484.
  ) 
 Here is how much of TeX's memory you used:
- 32276 strings out of 476182
- 753089 string characters out of 5795594
+ 32286 strings out of 476182
+ 753294 string characters out of 5795594
  1948975 words of memory out of 5000000
- 53773 multiletter control sequences out of 15000+600000
+ 53778 multiletter control sequences out of 15000+600000
  599618 words of font info for 127 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 99i,8n,107p,1177b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,8n,107p,1187b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (3 pages, 122525 bytes).
+Output written on report.pdf (3 pages, 127428 bytes).
 PDF statistics:
- 135 PDF objects out of 1000 (max. 8388607)
- 108 compressed objects within 2 object streams
- 17 named destinations out of 1000 (max. 500000)
+ 153 PDF objects out of 1000 (max. 8388607)
+ 126 compressed objects within 2 object streams
+ 22 named destinations out of 1000 (max. 500000)
  69 words of extra memory for PDF output out of 10000 (max. 10000000)
 

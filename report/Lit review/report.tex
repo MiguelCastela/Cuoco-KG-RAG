@@ -50,7 +50,7 @@ This symbolic foundation aligns with the three “knowledge-aware” dimensions 
 
     \item Knowledge-Aware Validation: Employing SPARQL or rule-based checks to verify the factual correctness of generated answers.
 
-
+\noindent
 This emphasizes the distinction between symbolic reasoning (FOL-based) and neural reasoning, emphasizing that symbolic models provide interpretability and factual precision, while neural models capture language variability and contextual generation.
 
 
@@ -66,6 +66,7 @@ This emphasizes the distinction between symbolic reasoning (FOL-based) and neura
 
 
 \section{RDFS/OWL Knowledge Graphs for representing knowledge from datasets}
+\noindent
 In RDF, knowledge is represented through triples — for example:
 
 \begin{verbatim}
@@ -77,8 +78,6 @@ Each triple can be enriched through RDFS with class and property hierarchies and
 \noindent
 In \cite{loesch2025reciperag} RecipeKG is constructed as a large-scale recipe knowledge graph combining ingredients, cooking techniques, and regions, and enriching it with semantic annotations. Enabling structured querying and semantic interoperability through URIs and ontologies.
 
-\noindent
-Symbolic KGs are inherently sparse, so in RecipeRAG Knowledge Graph Embeddings (KGEs) are employed to map entities and relations into continuous vector spaces. Foundational models \cite{loesch2025reciperag} include TransE, RotatE, and QuatE, representing relations as translations, rotations, and quaternion transformations respectively. %For this project, we will be using Intent extraction via NLP models to map user queries to KG entities and relations. The system uses BERT and spaCy together to understand user queries about recipes. BERT is fine-tuned to identify the user’s intent, such as finding a recipe, getting ingredients, or saving a recipe. This helps the system understand what the user wants, even if the question is phrased in different ways. After the intent is identified, spaCy extracts important entities from the query, such as ingredients, diet types, cuisines, and time limits. These entities are then linked to properties in the knowledge graph. The intent and entities are combined to create a SPARQL query that retrieves relevant recipes.
 \section{Knowledge Retrieval via NLP}
 \noindent
 Knowledge retrieval connects natural language input to structured or embedded KG representations. SPARQL is the declarative query language for RDF graphs \cite{semanticweb2024slides}, enabling semantic retrieval using triples and filters.
@@ -89,9 +88,12 @@ SPARQL queries operate over RDF graphs, and their construction can be made in 3 
     \item NLP tools like semantic parsers can convert natural language into SPARQL queries by identifying entities, intent, relations, restrictions and query structure.
 \end{itemize}
 
-Natural language interfaces require NLP-based query interpretation, extracting entities and intents (via tools like spaCy or BERT) and mapping them to KG entities (URIs).
+\noindent
+Natural language interfaces require NLP-based query interpretation, extracting entities and intents (via tools like spaCy or BERT \cite{devlin2019bert}) and mapping them to KG entities (URIs). In the system, BERT and spaCy are used together to understand user queries about recipes. BERT is fine-tuned to identify the user’s intent—such as finding a recipe, retrieving ingredients, or saving a recipe—which enables the system to correctly interpret what the user wants even when questions are phrased in different ways. BERT’s bidirectional transformer architecture provides deep contextual understanding, improving both the identification of user intents and entity disambiguation in complex queries. spaCy \cite{honnibal2020spacy} is used to extract entities and linguistic features from user queries. Its efficient, rule and model-based pipeline enables fast and accurate identification of nouns, verbs, entities, and syntactic relations, helping map natural language input to knowledge graph entities and improving the system’s overall understanding of user intents.
+
 \noindent
 KGE-based retrieval \cite{loesch2025reciperag} significantly outperforms text-based retrieval when handling multiple user constraints. As noted: “Performance declined as the number of criteria increased… Nevertheless, the results underscore the effectiveness of KGEs in supporting multi-criteria recipe retrieval, while simultaneously revealing the limitations of purely text-based embeddings.” %For this project, we will be using embeddings to retrieve the top-k most similar recipes from the textual properties not present in the KG (like recipe name and description).
+Symbolic KGs are inherently sparse, so in RecipeRAG Knowledge Graph Embeddings (KGEs) are employed to map entities and relations into continuous vector spaces. Foundational models \cite{loesch2025reciperag} include TransE, RotatE, and QuatE, representing relations as translations, rotations, and quaternion transformations respectively. %For this project, we will be using Intent extraction via NLP models to map user queries to KG entities and relations. The system uses BERT and spaCy together to understand user queries about recipes. BERT is fine-tuned to identify the user’s intent, such as finding a recipe, getting ingredients, or saving a recipe. This helps the system understand what the user wants, even if the question is phrased in different ways. After the intent is identified, spaCy extracts important entities from the query, such as ingredients, diet types, cuisines, and time limits. These entities are then linked to properties in the knowledge graph. The intent and entities are combined to create a SPARQL query that retrieves relevant recipes.
 
 
 
@@ -106,7 +108,7 @@ RAG, first formalized by \cite{lewis2020rag}, is a hybrid model that retrieves e
 as additional context when generating the target sequence $y$. 
 This approach separates retrieval from generation, improving factuality and reducing hallucinations. While the original RAG used text documents, later adaptations like the mentioned RecipeRAG \cite{loesch2025reciperag} replace text retrieval with KG-based retrieval.
 
-Lewis et al. (2020) introduced the Retrieval-Augmented Generation (RAG) model, a hybrid architecture that combines parametric and non-parametric memory systems to improve knowledge-intensive natural language generation. The parametric memory is represented by a pre-trained seq2seq model, specifically BART, which stores implicit knowledge within its parameters. However, such knowledge is static, cannot be easily updated or interpreted, and may lead to factual inaccuracies or “hallucinations.” To address these issues, RAG incorporates a non-parametric memory — a dense vector index of Wikipedia built using the Dense Passage Retriever (DPR). Each passage is encoded as a dense vector, allowing the model to retrieve the top-k most relevant documents for a given query through Maximum Inner Product Search (MIPS):
+Lewis et al. (2020) introduced the Retrieval-Augmented Generation (RAG) model, a hybrid architecture that combines parametric and non-parametric memory systems to improve knowledge-intensive natural language generation. The parametric memory is represented by a pre-trained seq2seq model \cite{sutskever2014sequence} (a transformer base model \cite{vaswani2017attention}), specifically BART, which stores implicit knowledge within its parameters. However, such knowledge is static, cannot be easily updated or interpreted, and may lead to factual inaccuracies or “hallucinations.” To address these issues, RAG incorporates a non-parametric memory — a dense vector index of Wikipedia built using the Dense Passage Retriever (DPR). Each passage is encoded as a dense vector, allowing the model to retrieve the top-k most relevant documents for a given query through Maximum Inner Product Search (MIPS):
 
 \begin{equation}
     p_{\eta}(z \mid x) \propto \exp \left( d(z)^\top q(x) \right)
@@ -120,9 +122,9 @@ and retrieves the documents that maximize this inner product:
 \quad \underset{z}{\arg\max} \; d(z)^\top q(x).
 \]
 This operation identifies the documents whose embeddings are most similar to the query embedding, ensuring that the most relevant passages are selected for the generator to use during response generation.
-
-. During generation, RAG first uses DPR to retrieve relevant documents and then conditions the BART generator on both the input and the retrieved passages. The final output is produced by marginalizing over all retrieved documents, effectively combining symbolic retrieval with neural generation. Lewis et al. proposed two variants: RAG-Sequence, which uses the same document for the whole output, and RAG-Token, which allows different documents to inform each generated token. This means that for each token \( y_i \) being generated, the model computes a weighted sum over the probabilities of that token conditioned on each of the top-\( k \) retrieved documents.
- This architecture enables RAG to generate more factual and interpretable text, while maintaining the fluency of neural models. Unlike traditional language models that rely solely on fixed parametric memory, RAG can update its knowledge dynamically by replacing the document index, provide evidence for its outputs through retrieved passages, and reduce hallucinations, achieving superior performance on knowledge-intensive tasks such as open-domain question answering and fact verification.
+\noindent
+During generation, RAG first uses DPR to retrieve relevant documents and then conditions the  \cite{lewis2019bart} generator on both the input and the retrieved passages. The final output is produced by marginalizing over all retrieved documents, effectively combining symbolic retrieval with neural generation. Lewis et al. proposed two variants: RAG-Sequence, which uses the same document for the whole output, and RAG-Token, which allows different documents to inform each generated token. This means that for each token \( y_i \) being generated, the model computes a weighted sum over the probabilities of that token conditioned on each of the top-\( k \) retrieved documents.
+This architecture enables RAG to generate more factual and interpretable text, while maintaining the fluency of neural models. Unlike traditional language models that rely solely on fixed parametric memory, RAG can update its knowledge dynamically by replacing the document index, provide evidence for its outputs through retrieved passages, and reduce hallucinations, achieving superior performance on knowledge-intensive tasks such as open-domain question answering and fact verification.
 
 Two model variants were proposed: \textit{RAG-Sequence}, which conditions generation on a single retrieved document for the entire sequence, and \textit{RAG-Token}, which allows token-level retrieval, providing finer factual grounding. Their experiments demonstrated state-of-the-art performance across knowledge-intensive tasks such as Natural Questions, TriviaQA, and FEVER, outperforming both parametric-only (e.g., T5, BART) and purely extractive retrieval models (e.g., DPR, REALM). Notably, RAG models also produced more specific, diverse, and factually correct generations, showing reduced hallucination and enabling knowledge updates simply by replacing the underlying index.
 
