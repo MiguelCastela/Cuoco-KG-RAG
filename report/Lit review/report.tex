@@ -36,8 +36,8 @@ This literature review explores the integration of Knowledge Graphs (KGs) and Re
 \noindent
 Large Language Models (LLMs) demonstrate strong generalization but fail in domain-specific reasoning due to three main limitations: "a failure to comprehend the question due to lack of context, insufficient knowledge to respond accurately, or an inability to recall specific facts" \cite{agrawal2024kg_hallucinations}. This motivates the integration of RDF/OWL-based graphs with LLMs and RAG for inference, to ensure contextual understanding and factual accuracy.
 \noindent
-RDF can be serialized in formats such as N-TRIPLES, XML, JSON-LD, or Turtle \cite{semanticweb2024slides}, ensuring interoperability across systems . Vocabularies define terms, relationships and ontologies define classes, hierarchies, and property restrictions.
-OWL (Web Ontology Language) can be used with RDF to express richer logical constraints, such as domain/range restrictions and class relations \cite{semanticweb2024slides}.
+RDF can be serialized in formats such as N-TRIPLES, XML, JSON-LD, or Turtle \cite{KL2025slides}, ensuring interoperability across systems . Vocabularies define terms, relationships and ontologies define classes, hierarchies, and property restrictions.
+OWL (Web Ontology Language) can be used with RDF to express richer logical constraints, such as domain/range restrictions and class relations \cite{KL2025slides}.
 
 \noindent
 This symbolic foundation serves as the base for the three “knowledge-aware” dimensions of KG-augmented NLP methods outlined in \cite{agrawal2024kg_hallucinations}:
@@ -52,7 +52,7 @@ This symbolic foundation serves as the base for the three “knowledge-aware” 
     
 \noindent
 \\
-This emphasizes the distinction between symbolic reasoning (FOL-based) \cite{semanticweb2024slides} and neural reasoning, emphasizing that symbolic models provide factual precision, while neural models capture language generation variabilty.
+This emphasizes the distinction between symbolic reasoning (FOL-based) \cite{KL2025slides} and neural reasoning, emphasizing that symbolic models provide factual precision, while neural models capture language generation variabilty.
 
 
 
@@ -75,13 +75,13 @@ In RDF, knowledge is represented through triples, for example:
 
 \end{verbatim}
 \noindent
-Each triple expresses a simple \texttt{<subject> <predicate> <object>} relationship \cite{semanticweb2024slides}, which can be enriched using RDFS with class and property hierarchies, domain and range constraints, and subclass relationships, allowing for the representation of more structured and semantically rich knowledge. OWL further extends RDF/RDFS with an ontology for logical reasoning, such as cardinality restrictions, equivalence, disjointness, and complex class expressions, enabling more sophisticated inference over the data.
+Each triple expresses a simple \texttt{<subject> <predicate> <object>} relationship \cite{KL2025slides}, which can be enriched using RDFS with class and property hierarchies, domain and range constraints, and subclass relationships, allowing for the representation of more structured and semantically rich knowledge. OWL further extends RDF/RDFS with an ontology for logical reasoning, such as cardinality restrictions, equivalence, disjointness, and complex class expressions, enabling more sophisticated inference over the data.
 
 %In \cite{loesch2025reciperag}, RecipeKG is constructed as a large-scale recipe knowledge graph that integrates ingredients, cooking techniques, and geographic regions, and enriches them with semantic annotations drawn from ontologies. By representing recipes, ingredients, and related concepts as URIs within a well-defined ontology, RecipeKG supports structured querying, semantic interoperability, and automated reasoning. For example, it can infer that all vegetarian recipes do not contain meat-based ingredients or suggest alternative ingredients based on class hierarchies. This structured representation allows applications such as intelligent recipe recommendation, dietary constraint checking, and multi-criteria search, which would be challenging to implement using unstructured data alone.
 
 \section{Knowledge Retrieval via NLP}
 \noindent
-Knowledge retrieval connects natural language input to KG representations. SPARQL is the declarative query language for RDF graphs \cite{semanticweb2024slides}, enabling semantic retrieval using triples and filters.
+Knowledge retrieval connects natural language input to KG representations. SPARQL is the declarative query language for RDF graphs \cite{KL2025slides}, enabling semantic retrieval using triples and filters.
 SPARQL query construction can be made in 3 different ways:
 \begin{itemize}
     \item The user, using the Chatbot, needs to input the SPARQL query directly or use a form-based interface that generates the query based on user selections.
@@ -90,7 +90,7 @@ SPARQL query construction can be made in 3 different ways:
 \end{itemize}
 
 \noindent
-NLP-based query interpretation is the lighter and more deterministic approach. For this, Natural Language Processing interfaces require extracting entities and intents (via tools like spaCy \cite{honnibal2020spacy} or BERT \cite{devlin2019bert}) and mapping them to KG entities (URIs \cite{semanticweb2024slides}). BERT can be fine-tuned to identify the user’s intent, which enables the system to correctly interpret what the user wants even when questions are phrased in different ways. BERT's \cite{devlin2019bert} bidirectional transformer architecture provides deep contextual understanding, improving both the identification of user intents and entity disambiguation in complex queries. spaCy \cite{honnibal2020spacy} is used to extract entities and linguistic features from user queries. Its an efficient, rule and model-based pipeline that enables fast and accurate identification of nouns, verbs, entities, and syntactic relations, helping map natural language input to knowledge graph entities and improving the system's overall understanding of user intents.
+NLP-based query interpretation is the lighter and more deterministic approach. For this, Natural Language Processing interfaces require extracting entities and intents (via tools like spaCy \cite{honnibal2020spacy} or BERT \cite{devlin2019bert}) and mapping them to KG entities (URIs \cite{KL2025slides}). BERT can be fine-tuned to identify the user’s intent, which enables the system to correctly interpret what the user wants even when questions are phrased in different ways. BERT's \cite{devlin2019bert} bidirectional transformer architecture provides deep contextual understanding, improving both the identification of user intents and entity disambiguation in complex queries. spaCy \cite{honnibal2020spacy} is used to extract entities and linguistic features from user queries. Its an efficient, rule and model-based pipeline that enables fast and accurate identification of nouns, verbs, entities, and syntactic relations, helping map natural language input to knowledge graph entities and improving the system's overall understanding of user intents.
 
 
 \section{Retrieval-Augmented Generation (RAG)}
