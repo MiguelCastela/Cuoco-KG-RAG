@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.10.13)  19 OCT 2025 19:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.10.13)  19 OCT 2025 20:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -678,15 +678,15 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 (rerunfilecheck)             Checksum: DA78074847A75147FBA9A63A90BFE9DB;1676.
  ) 
 Here is how much of TeX's memory you used:
- 32302 strings out of 476182
- 753519 string characters out of 5795594
+ 32301 strings out of 476182
+ 753497 string characters out of 5795594
  1946975 words of memory out of 5000000
- 53786 multiletter control sequences out of 15000+600000
- 601166 words of font info for 132 fonts, out of 8000000 for 9000
+ 53785 multiletter control sequences out of 15000+600000
+ 600560 words of font info for 131 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  99i,8n,107p,1181b,609s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (3 pages, 139443 bytes).
+Output written on report.pdf (3 pages, 139191 bytes).
 PDF statistics:
  177 PDF objects out of 1000 (max. 8388607)
  148 compressed objects within 2 object streams

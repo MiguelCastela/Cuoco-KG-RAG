@@ -1,23 +1,14 @@
 # Fdb version 4
-["bibtex Project_Proposal"] 1760816986.5378 "Project_Proposal.aux" "Project_Proposal.bbl" "Project_Proposal" 1760816987.38457 0
-  "./Project_Proposal.bib" 1760816756.4856 5590 5d2c37e7eb1bd7db0ed26b9872014268 ""
-  "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "Project_Proposal.aux" 1760816987.30949 566 ebb1f6228b0ccb929f285a161acb7b22 "pdflatex"
-  (generated)
-  "Project_Proposal.bbl"
-  "Project_Proposal.blg"
-  (rewritten before read)
-["pdflatex"] 1760816986.56638 "/home/castela/Documents/GitHub/Knowledge-and-Language/report/Project Proposal/Project_Proposal.tex" "Project_Proposal.pdf" "Project_Proposal" 1760816987.38483 0
-  "/etc/texmf/web2c/texmf.cnf" 1733106275.85044 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1759863741.61912 11524 d151522532b2ca333f0cd1539f792715 ""
-  "/home/castela/Documents/GitHub/Knowledge-and-Language/report/Project Proposal/Project_Proposal.tex" 1760816984.51749 3181 1e56e2a74287c8540b5b6aac8810989e ""
+["pdflatex"] 1760901619.72885 "/home/castela/Documents/GitHub/Knowledge-and-Language/report/Project Proposal/Project_Proposal.tex" "Project_Proposal.pdf" "Project_Proposal" 1760901620.9095 0
+  "/etc/texmf/web2c/texmf.cnf" 1759240955.47625 475 c0e671620eb5563b2130f56340a5fde8 ""
+  "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1760023769.835 11524 1a0083dd0ecd7a649ee67f38c95dbf6c ""
+  "/home/castela/Documents/GitHub/Knowledge-and-Language/report/Project Proposal/Project_Proposal.tex" 1760901618.18597 3694 a890b3750884fe54d9ee7527273e5cec ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1136768653 1288 655e228510b4c2a1abe905c368440826 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmr17.tfm" 1136768653 1292 296a67155bdbfc32aa9c636f21e91433 ""
-  "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti10.tfm" 1136768653 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmti12.tfm" 1136768653 1484 ed72f8f5cf654cda15ecc8e32bfcbee5 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmtt10.tfm" 1136768653 768 1321e9409b4137d6fb428ac9dc956269 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1248133631 34811 78b52f49e893bcba91bd7581cdc144c0 ""
@@ -26,7 +17,6 @@
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb" 1248133631 32722 d7379af29a190c3f453aba36302ff5a9 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb" 1248133631 37944 359e864bd06cde3b1cf57bb20757fb06 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb" 1248133631 36118 fad905eba93cff5bce1e185fe980a177 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb" 1248133631 31099 c85edf1dd5b9e826d67c9c7293b6786c ""
   "/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -43,12 +33,11 @@
   "/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg" 1279039959 678 4792914a8f45be57bb98413425e4c7af ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1733107137.99265 128028 f533b797fba58d231669ea19e894e23e ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1733922934 6800790 4f44c5be00cf6bb5c5639010e479b2cb ""
-  "Project_Proposal.aux" 1760816987.30949 566 ebb1f6228b0ccb929f285a161acb7b22 "pdflatex"
-  "Project_Proposal.bbl" 1760816986.56249 1270 3ef1c01de6e311b4cc5f10cfe0506eb3 "bibtex Project_Proposal"
-  "Project_Proposal.tex" 1760816984.51749 3181 1e56e2a74287c8540b5b6aac8810989e ""
-  "images/UC_logo.png" 1760806705.45487 270084 2bb06064e504dfd1a83380f483a7060d ""
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1760374369.9756 128028 f533b797fba58d231669ea19e894e23e ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1760374383 6800788 1ef16c63bd6c720a0d83623048aee721 ""
+  "Project_Proposal.aux" 1760901620.8717 379 58fbd9902cc89a498052008747ce209a "pdflatex"
+  "Project_Proposal.tex" 1760901618.18597 3694 a890b3750884fe54d9ee7527273e5cec ""
+  "images/UC_logo.png" 1759774542.81183 270084 2bb06064e504dfd1a83380f483a7060d ""
   (generated)
   "Project_Proposal.aux"
   "Project_Proposal.log"
