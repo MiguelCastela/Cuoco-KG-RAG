@@ -21,13 +21,10 @@
 \BIBdecl
 
 \bibitem{loesch2025reciperag}
-T.~Loesch, Y.~Zhang, and A.~Kumar, ``Reciperag: A knowledge graph-driven approach to personalized recipe retrieval and generation,'' in \emph{Proceedings of RAGE-KG 2025}, 2025.
-
-\bibitem{agrawal2024kg_hallucinations}
-A.~Agrawal, R.~Patel, and M.~Singh, ``Can knowledge graphs reduce hallucinations in llms? a survey,'' in \emph{Proceedings of NAACL 2024}, 2024.
+T.~Loesch, E.~Durmuş, and R.~Celebi, ``Reciperag: A knowledge graph-driven approach to personalized recipe retrieval and generation,'' in \emph{Proceedings of RAGE-KG 2025}, 2025.
 
 \bibitem{semanticweb2024slides}
-``Semantic web technologies — rdf, rdfs, owl, sparql, and knowledge representation slides,'' 2024, course materials, PowerPoint slides.
+``Course slides,'' 2024, course materials, PowerPoint slides.
 
 \bibitem{honnibal2020spacy}
 M.~Honnibal, I.~Montani, S.~Van~Landeghem, and A.~Boyd, ``spacy: Industrial-strength natural language processing in python,'' \url{https://zenodo.org/record/1215370}, 2020, software release.
@@ -38,7 +35,9 @@ J.~Devlin, M.-W. Chang, K.~Lee, and K.~Toutanova, ``Bert: Pre-training of deep b
 \BIBentrySTDinterwordspacing
 
 \bibitem{lewis2020rag}
-P.~Lewis, E.~Perez, A.~Piktus, V.~Karpukhin, N.~Goyal, A.~Kulshreshtha, W.~Murdock, A.~Fan, M.~Li, and F.~Petroni, ``Retrieval-augmented generation for knowledge-intensive nlp tasks,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}.\hskip 1em plus 0.5em minus 0.4em\relax Facebook AI Research, 2020.
+\BIBentryALTinterwordspacing
+P.~Lewis, E.~Perez, A.~Piktus, F.~Petroni, V.~Karpukhin, N.~Goyal, H.~K{\"u}ttler, M.~Lewis, W.-t. Yih, T.~Rockt{\"a}schel, S.~Riedel, and D.~Kiela, ``Retrieval-augmented generation for knowledge-intensive nlp tasks,'' \emph{arXiv preprint arXiv:2005.11401}, 2020, accepted at NeurIPS 2020; v4. [Online]. Available: \url{https://arxiv.org/abs/2005.11401}
+\BIBentrySTDinterwordspacing
 
 \bibitem{sutskever2014sequence}
 \BIBentryALTinterwordspacing
