@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex report"] 1760874609.87668 "report.aux" "report.bbl" "report" 1760874610.93885 0
+["bibtex report"] 1760886298.48944 "report.aux" "report.bbl" "report" 1760886324.52016 0
   "./report.bib" 1760871887.08771 5590 5d2c37e7eb1bd7db0ed26b9872014268 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "report.aux" 1760874610.65439 2353 a87a7140f5119d15571f29c4da79063c "pdflatex"
+  "report.aux" 1760886324.10975 2353 0b17dbb2b9060d058b4e2569de9d0714 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1760874609.97925 "/home/ozzy/Desktop/mei/1ºano/1ºsemestre/CL/Knowledge-and-Language/report/Lit review/report.tex" "report.pdf" "report" 1760874610.93902 0
+["pdflatex"] 1760886323.22935 "/home/ozzy/Desktop/mei/1ºano/1ºsemestre/CL/Knowledge-and-Language/report/Lit review/report.tex" "report.pdf" "report" 1760886324.52034 0
   "/etc/texmf/web2c/texmf.cnf" 1733336306.12301 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/ozzy/Desktop/mei/1ºano/1ºsemestre/CL/Knowledge-and-Language/report/Lit review/report.tex" 1760874608.85138 14153 d37d45c340249d1a7414a575356ff041 ""
+  "/home/ozzy/Desktop/mei/1ºano/1ºsemestre/CL/Knowledge-and-Language/report/Lit review/report.tex" 1760886323.06836 14010 fa7152bbfea6a9088c3bf8f55c0c2545 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -228,10 +228,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1745943793.02127 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1745943951 8213120 d5da6b8c983a423033010a23a28ab577 ""
-  "report.aux" 1760874610.65439 2353 a87a7140f5119d15571f29c4da79063c "pdflatex"
-  "report.bbl" 1760874609.97439 4670 bb96fa7006b5627ccfa817f07d6ab716 "bibtex report"
-  "report.out" 1760874610.65439 1484 efc04f9e42e22de07c95c41f8003b6f0 "pdflatex"
-  "report.tex" 1760874608.85138 14153 d37d45c340249d1a7414a575356ff041 ""
+  "report.aux" 1760886324.10975 2353 0b17dbb2b9060d058b4e2569de9d0714 "pdflatex"
+  "report.bbl" 1760886298.63358 4670 bb96fa7006b5627ccfa817f07d6ab716 "bibtex report"
+  "report.out" 1760886324.11075 1484 efc04f9e42e22de07c95c41f8003b6f0 "pdflatex"
+  "report.tex" 1760886323.06836 14010 fa7152bbfea6a9088c3bf8f55c0c2545 ""
   (generated)
   "report.aux"
   "report.log"
