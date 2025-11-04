@@ -1,0 +1,5 @@
+KG - name, id, minutes, n_steps, nutrition, technique retirada com NLP dos steps
+
+RAG - tags, steps, descritpion, reviews
+
+Nutrition tags: calories, total fat, sugar, sodium, protein, saturated fat
