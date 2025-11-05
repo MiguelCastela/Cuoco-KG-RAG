@@ -6,10 +6,10 @@ import re
 import langid
 
 # Ensure curated directory exists
-os.makedirs("data/curated", exist_ok=True)
+os.makedirs("../data/curated", exist_ok=True)
 
 # Load dataset
-df = pd.read_csv("data/raw/RAW_recipes.csv")
+df = pd.read_csv("../data/raw/RAW_recipes.csv")
 
 # Safely parse lists from text columns (if exist)
 def safe_parse(x):
