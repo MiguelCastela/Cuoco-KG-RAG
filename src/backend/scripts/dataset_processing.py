@@ -5,9 +5,9 @@ from tqdm import tqdm
 import re
 import langid
 
-os.makedirs("data/curated", exist_ok=True)
+os.makedirs("../..data/curated", exist_ok=True)
 
-df = pd.read_csv("data/raw/RAW_recipes.csv")
+df = pd.read_csv("../..data/raw/RAW_recipes.csv")
 
 def safe_parse(x):
     if isinstance(x, str) and x.startswith("["):
@@ -37,17 +37,38 @@ def is_pt(text: str) -> bool:
     return lang == "pt" and prob >= 0.8
 
 def classify_row(row):
-    # keyword pass
-    if contains_kw(row.get("name","")): return True
-    if contains_kw(row.get("description","")): return True
-    if any(contains_kw(t) for t in row.get("tags", [])): return True
-    
-    # fallback: lang only on name + desc
-    if is_pt(row.get("name","")): return True
-    if is_pt(row.get("description","")): return True
-    return False
+    name = row.get("name","")
+    desc = row.get("description","")
+    tags = row.get("tags", [])
 
-df["is_pt"] = [classify_row(row) for _, row in tqdm(df.iterrows(), total=len(df))]
+    # keyword pass
+    # name
+    m = contains_kw(name)
+    if m: return True, "keyword:name"
+
+    # description
+    m = contains_kw(desc)
+    if m: return True, "keyword:description"
+
+    # tags
+    for t in tags:
+        if contains_kw(t):
+            return True, f"keyword:tag:{t}"
+
+    # fallback lang
+    if is_pt(name): return True, "langid:name"
+    if is_pt(desc): return True, "langid:description"
+
+    return False, ""
+
+
+is_pt_flags = []
+triggers = []
+
+for _, row in tqdm(df.iterrows(), total=len(df)):
+    is_pt, reason = classify_row(row)
+    is_pt_flags.append(is_pt)
+    triggers.append(reason)
 
 pt_df = df[df["is_pt"]]
 pt_df.to_csv("data/curated/recipes.csv", index=False)
