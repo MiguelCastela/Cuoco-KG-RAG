@@ -1,0 +1,94 @@
+text,label
+"quero uma receita com bacalhau",list_by_ingredient
+"mostra receitas com frango",list_by_ingredient
+"find recipes using chocolate",list_by_ingredient
+"procura receitas com arroz",list_by_ingredient
+"show me dishes with salmon",list_by_ingredient
+"receitas que levem tomate",list_by_ingredient
+"which recipes use codfish",list_by_ingredient
+"dá me receitas com batata",list_by_ingredient
+"give me recipes that include eggs",list_by_ingredient
+"procura receitas com queijo",list_by_ingredient
+"ingredientes da francesinha",retrieve_ingredients
+"o que preciso para fazer bacalhau à brás",retrieve_ingredients
+"que igredientes preciso para lasagna",retrieve_ingredients
+"lista de ingredientes para fazer pão",retrieve_ingredients
+"list the ingredients for tiramisu",retrieve_ingredients
+"quais são os ingredientes da feijoada",retrieve_ingredients
+"show ingredients for pancakes",retrieve_ingredients
+"ingredientes da cataplana",retrieve_ingredients
+"what do I need for carbonara",retrieve_ingredients
+"ingredientes do arroz doce",retrieve_ingredients
+"tempo de preparo da cataplana",get_prep_time
+"quanto tempo leva a feijoada",get_prep_time
+"how long to cook lasagna",get_prep_time
+"preparation time for tiramisu",get_prep_time
+"tempo necessário para cozinhar arroz doce",get_prep_time
+"how long does it take to make pancakes",get_prep_time
+"quanto demora o bacalhau à brás",get_prep_time
+"prep time for chocolate cake",get_prep_time
+"qual o tempo de preparo da moqueca",get_prep_time
+"how long to prepare carbonara",get_prep_time
+"find a traditional dessert",find_recipe
+"procura uma sobremesa portuguesa",find_recipe
+"show me a pasta recipe",find_recipe
+"encontra uma receita simples",find_recipe
+"find a cake recipe",find_recipe
+"procura uma receita de sopa",find_recipe
+"show a traditional Portuguese dish",find_recipe
+"find me something easy to cook",find_recipe
+"procura receitas típicas",find_recipe
+"find healthy recipes",find_recipe
+"show vegetarian recipes",list_by_tag
+"mostra receitas vegetarianas",list_by_tag
+"list vegan dishes",list_by_tag
+"receitas sem carne",list_by_tag
+"show gluten-free recipes",list_by_tag
+"procura receitas saudáveis",list_by_tag
+"show dessert recipes",list_by_tag
+"mostra receitas doces",list_by_tag
+"find spicy recipes",list_by_tag
+"mostra receitas picantes",list_by_tag
+"receitas com peixe",list_by_ingredient
+"find dishes that use rice",list_by_ingredient
+"procura receitas com marisco",list_by_ingredient
+"recipes with beef",list_by_ingredient
+"find a recipe using potatoes",list_by_ingredient
+"show recipes with mushrooms",list_by_ingredient
+"o que leva a francesinha",retrieve_ingredients
+"how to make codfish stew",retrieve_ingredients
+"ingredientes da mousse de chocolate",retrieve_ingredients
+"ingredients for custard tart",retrieve_ingredients
+"tempo de preparo do bolo de cenoura",get_prep_time
+"how long to bake a cake",get_prep_time
+"quanto tempo leva a pizza",get_prep_time
+"prep time for lasagna",get_prep_time
+"find a main dish",find_recipe
+"procura um prato principal",find_recipe
+"show me a soup recipe",find_recipe
+"find a fish recipe",find_recipe
+"show meat recipes",list_by_tag
+"mostra pratos vegetarianos",list_by_tag
+"find dessert options",list_by_tag
+"procura receitas doces",list_by_tag
+"list sugar-free recipes",list_by_tag
+"show breakfast recipes",list_by_tag
+"receitas para o jantar",find_recipe
+"find quick meals",find_recipe
+"procura receitas rápidas",find_recipe
+"find Portuguese dishes",find_recipe
+"mostra receitas de marisco",list_by_ingredient
+"find dishes using eggs",list_by_ingredient
+"quais receitas levam leite condensado",list_by_ingredient
+"find recipes that use garlic",list_by_ingredient
+"mostra pratos com legumes",list_by_ingredient
+"what are the ingredients for brownies",retrieve_ingredients
+"ingredientes para pizza",retrieve_ingredients
+"ingredients of soup",retrieve_ingredients
+"quanto tempo demora o arroz de marisco",get_prep_time
+"prep time for cookies",get_prep_time
+"find seafood recipes",list_by_tag
+"show low-calorie recipes",list_by_tag
+"procura pratos sem glúten",list_by_tag
+"mostra sobremesas",list_by_tag
+"find recipes by tag vegetarian",list_by_tag
