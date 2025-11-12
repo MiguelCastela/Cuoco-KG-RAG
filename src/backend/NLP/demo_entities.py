@@ -24,7 +24,10 @@ def main():
     query = sys.argv[1]
     # Default TTL relative to this file: ../../data/curated/recipes_graph_cleaned.ttl
     base_dir = os.path.dirname(__file__)
-    ttl_path = os.path.normpath(os.path.join(base_dir, "../../data/curated/recipes_graph_cleaned.ttl"))
+    # Use example.ttl if the cleaned graph is not available in the repo for quick demo
+    default_a = os.path.normpath(os.path.join(base_dir, "../../data/curated/recipes_graph_cleaned.ttl"))
+    default_b = os.path.normpath(os.path.join(base_dir, "../../data/curated/example.ttl"))
+    ttl_path = default_a if os.path.exists(default_a) else default_b
 
     result = extract_and_link(query, ttl_path, lang_priority="pt")
     print("Query:", query)

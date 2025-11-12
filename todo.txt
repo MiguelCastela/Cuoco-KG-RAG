@@ -1,4 +1,4 @@
-KG - name, id, minutes, n_steps, nutrition, n_ingredients technique retirada com NLP dos steps
+KG - name, id, minutes, n_steps, nutrition, n_ingredients, tags, steps,
 
 RAG - tags, steps, descritpion, reviews
 

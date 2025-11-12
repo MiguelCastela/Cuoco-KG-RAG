@@ -130,6 +130,9 @@ class KGIndex:
     recipes: List[str]
     ingredients: List[str]
     tags: List[str]
+    # internal: mapping label -> subject and rdflib Graph
+    recipe_label_to_subject: Dict[str, object] = None
+    graph: Optional[Graph] = None
 
     @classmethod
     def from_ttl(cls, ttl_path: str) -> "KGIndex":
@@ -144,10 +147,92 @@ class KGIndex:
                     vals.append(str(lab))
             return vals
 
-        recipes = labels_of(EX.Recipe)
+        # Build label -> subject map for recipes (use rdfs:label)
+        recipes = []
+        recipe_label_to_subject: Dict[str, object] = {}
+        for s in g.subjects(RDF.type, EX.Recipe):
+            lab = g.value(s, RDFS.label)
+            if lab is not None:
+                label_str = str(lab)
+                recipes.append(label_str)
+                recipe_label_to_subject[label_str] = s
+
         ingredients = labels_of(EX.Ingredient)
         tags = labels_of(EX.Tag)
-        return cls(recipes=recipes, ingredients=ingredients, tags=tags)
+        return cls(recipes=recipes, ingredients=ingredients, tags=tags,
+                   recipe_label_to_subject=recipe_label_to_subject, graph=g)
+
+    def get_recipe_meta(self, label: str) -> Optional[Dict]:
+        """Return metadata for a recipe label: id, minutes, n_ingredients, n_steps, nutrition, steps, tags.
+        If label not found, return None.
+        """
+        if not self.graph or not self.recipe_label_to_subject:
+            return None
+        subj = self.recipe_label_to_subject.get(label)
+        if subj is None:
+            return None
+        g = self.graph
+
+        def lit_to_number(v):
+            if v is None:
+                return None
+            try:
+                return int(v)
+            except Exception:
+                try:
+                    return float(v)
+                except Exception:
+                    return str(v)
+
+        meta: Dict = {}
+        meta["id"] = lit_to_number(g.value(subj, EX.id))
+        meta["minutes"] = lit_to_number(g.value(subj, EX.minutes))
+        meta["n_ingredients"] = lit_to_number(g.value(subj, EX.n_ingredients))
+        meta["n_steps"] = lit_to_number(g.value(subj, EX.n_steps))
+
+        # Tags
+        tags_list: List[str] = []
+        for tag_node in g.objects(subj, EX.hasTag):
+            lab = g.value(tag_node, RDFS.label)
+            if lab is not None:
+                tags_list.append(str(lab))
+        meta["tags"] = tags_list
+
+        # Nutrition
+        nutrition_node = g.value(subj, EX.hasNutrition)
+        nutrition: Dict[str, float] = {}
+        if nutrition_node is not None:
+            for p, o in g.predicate_objects(nutrition_node):
+                # skip rdf:type
+                if p == RDF.type:
+                    continue
+                key = p.split("#")[-1] if "#" in p else str(p)
+                nutrition[key] = lit_to_number(o)
+        meta["nutrition"] = nutrition
+
+        # Steps: follow ex:hasStep -> rdf:Seq and iterate rdf:_1...rdf:_n
+        steps_node = g.value(subj, EX.hasStep)
+        steps_list: List[str] = []
+        if steps_node is not None:
+            # If it's an rdf:Seq, collect ordered members
+            members = []
+            for p, o in g.predicate_objects(steps_node):
+                pname = p.split("#")[-1] if "#" in p else str(p)
+                if pname.startswith("_"):
+                    try:
+                        idx = int(pname.lstrip("_"))
+                        members.append((idx, o))
+                    except Exception:
+                        continue
+            members.sort(key=lambda x: x[0])
+            for _i, member in members:
+                # member is a Step node; get rdfs:comment
+                comment = g.value(member, RDFS.comment)
+                if comment is not None:
+                    steps_list.append(str(comment))
+        meta["steps"] = steps_list
+
+        return meta
 
     def search(self, collection: str, query: str, limit: int = 5, score_cutoff: int = 75) -> List[Tuple[str, float]]:
         """Fuzzy search within one of the indexed lists. Returns (match, score)."""
@@ -209,9 +294,12 @@ def extract_entities(text: str, nlp=None) -> Dict[str, List[str] | Optional[int]
             if cl not in seen:
                 seen.add(cl)
                 ordered.append(c)
+        # Filter out generic candidates (like the word 'ingredients') that confuse KG matching
+        generic_stop = {"ingredients", "ingredientes", "ingredient", "ingrediente", "ingredientes da", "ingredients for", "for"}
+        filtered = [o for o in ordered if o.lower().strip() not in generic_stop]
         # Tentatively assign to ingredient or recipe_name later via KG matching
-        slots["ingredient"] = ordered  # temporary pool of candidates
-        slots["recipe_name"] = ordered.copy()
+        slots["ingredient"] = ordered  # keep original for ingredient fuzzy matching
+        slots["recipe_name"] = filtered.copy()
     else:
         # Fallback: extract words following "com"/"with" as ingredient hints
         m = re.search(r"\b(com|with)\s+([^,.!?]{3,})", text, re.I)
@@ -231,6 +319,7 @@ def link_slots_to_kg(slots: Dict[str, List[str] | Optional[int]], kg: KGIndex,
         "ingredient": [],
         "recipe_name": [],
         "cooking_time": slots.get("cooking_time"),
+        "recipe_meta": None,
     }
 
     # Ingredients
@@ -249,6 +338,16 @@ def link_slots_to_kg(slots: Dict[str, List[str] | Optional[int]], kg: KGIndex,
             out["recipe_name"].extend(matches)
             if len(out["recipe_name"]) >= recipe_limit:
                 break
+
+    # If we have recipe matches, pick the highest-scoring match (avoid relying on insertion order)
+    if out.get("recipe_name"):
+        try:
+            top_match = max(out["recipe_name"], key=lambda x: x[1])
+            top_label = top_match[0]
+            meta = kg.get_recipe_meta(top_label)
+            out["recipe_meta"] = meta
+        except Exception:
+            out["recipe_meta"] = None
 
     return out
 
