@@ -5,7 +5,9 @@ import os
 import torch.nn.functional as F
 
 # Prefer local fine-tuned model directory; allow override via ENV
-MODEL_DIR = os.environ.get("INTENT_MODEL_DIR", "../../models/intent-bert")
+BASE_DIR = os.path.dirname(__file__)
+DEFAULT_MODEL_DIR = os.path.normpath(os.path.join(BASE_DIR, "../../models/intent-bert"))
+MODEL_DIR = os.environ.get("INTENT_MODEL_DIR", DEFAULT_MODEL_DIR)
 
 if not os.path.isdir(MODEL_DIR):
     raise FileNotFoundError(
@@ -28,6 +30,17 @@ def predict_intent(text: str, top_k: int = 2):
     results = [(id2label[int(i)], float(p)) for p, i in zip(topk.values, topk.indices)]
     return results  # list of (label, confidence)
 
+# Replace the old __main__ with a CLI that accepts a user query
 if __name__ == "__main__":
-    q = "ingredientes da francesinha"
-    print(predict_intent(q))
+    import argparse
+    parser = argparse.ArgumentParser(description="Infer intent for a user query")
+    parser.add_argument("text", nargs="*", help="User query text")
+    parser.add_argument("--top-k", type=int, default=2, help="Number of top intents to return")
+    args = parser.parse_args()
+
+    if not args.text:
+        parser.error("Please provide a query text, e.g.: python infer_intent.py \"i want duck recipe\"")
+
+    query = " ".join(args.text)
+    preds = predict_intent(query, top_k=args.top_k)
+    print(json.dumps({"text": query, "predictions": preds}, ensure_ascii=False))

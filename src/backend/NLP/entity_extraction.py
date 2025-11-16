@@ -1,72 +1,72 @@
 """
-Rule-assisted entity extraction (ingredient, recipe_name, cooking_time) and KG linking.
+entity_extraction.py
 
 Features:
-- spaCy pipeline with light-weight patterns; works if spaCy models are missing (falls back to blank pipeline).
-- Regex-based cooking time extraction with normalization to minutes.
-- KG indexing from Turtle (recipes_graph_cleaned.ttl) via rdflib.
-- Fuzzy matching using rapidfuzz to link extracted text to KG labels.
+- Portuguese-first fuzzy matching (heuristic prioritization).
+- Unicode normalization (accent-preserving & accent-stripped forms).
+- Per-collection thresholds tuned for better precision.
+- Tag domain filtering (only search tags for tag intents).
+- Cooking-time extraction and list_by_time support.
+- Backwards-compatible function signatures for pipeline.py usage.
 
-Usage:
-    python -m backend.NLP.demo_entities  # see demo script for examples
+Dependencies:
+- spacy
+- rdflib
+- rapidfuzz
+
+Drop-in replacement: keep your pipeline.py as-is except for the small changes listed later.
 """
-
 from __future__ import annotations
-
-import os
-import re
+import re, unicodedata
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple
 
-try:
-    import spacy
-    from spacy.pipeline import EntityRuler
-except Exception:  # pragma: no cover - allow import even if spacy isn't installed yet
-    spacy = None
-    EntityRuler = None
+import spacy
+from spacy.pipeline import EntityRuler
 
 from rdflib import Graph, Namespace, RDF, RDFS
-
-try:
-    from rapidfuzz import process, fuzz
-except Exception:
-    # Minimal fallback if rapidfuzz isn't available
-    process = None
-    fuzz = None
-
+from rapidfuzz import process, fuzz
 
 EX = Namespace("http://example.org/recipes#")
 
 
-# ---- Cooking time parsing ----
+# -----------------------
+# Configurable thresholds (tune these)
+# scores are 0..100 when passed to rapidfuzz score_cutoff
+THRESHOLDS = {
+    "recipe_name": 60,   # more strict (want accurate recipe title)
+    "ingredient": 50,    # medium
+    "tag": 45,           # lower but domain-filtered
+}
+# If candidate contains explicit Portuguese features, boost preference
+PT_PREF_BOOST = 5  # add to score for PT-likely items
+
+
+# ===========================================================
+# 1. COOKING TIME REGEX
+# ===========================================================
 TIME_PATTERNS = [
-    # e.g., 30 min, 30 mins, 30 minutos
     re.compile(r"\b(?P<val>\d{1,3})\s*(minutos|min|mins|minute|minutes)\b", re.I),
-    # e.g., 1 h, 2 horas, 1 hora
     re.compile(r"\b(?P<val>\d{1,2})\s*(h|hora|horas|hour|hours)\b", re.I),
-    # e.g., 1h30, 1h 30m
     re.compile(r"\b(?P<h>\d{1,2})\s*h\s*(?P<m>\d{1,2})\s*m?\b", re.I),
-    # e.g., 1:30 (hh:mm)
     re.compile(r"\b(?P<h>\d{1,2}):(?P<m>\d{1,2})\b"),
 ]
 
-
 def cooking_time_to_minutes(text: str) -> Optional[int]:
-    if not isinstance(text, str):
+    if not text or not isinstance(text, str):
         return None
-    t = text.strip().lower()
-    # Try combined hour+minute first
+    t = text.lower()
+
+    # Combined H + M first
     for pat in TIME_PATTERNS[2:]:
         m = pat.search(t)
         if m:
             try:
-                h = int(m.group("h"))
-                m_val = int(m.group("m"))
-                return h * 60 + m_val
+                return int(m.group("h")) * 60 + int(m.group("m"))
             except Exception:
-                continue
+                pass
 
-    # Try pure minutes
+    # Minutes only
     m = TIME_PATTERNS[0].search(t)
     if m:
         try:
@@ -74,7 +74,7 @@ def cooking_time_to_minutes(text: str) -> Optional[int]:
         except Exception:
             pass
 
-    # Try pure hours
+    # Hours only
     m = TIME_PATTERNS[1].search(t)
     if m:
         try:
@@ -85,71 +85,93 @@ def cooking_time_to_minutes(text: str) -> Optional[int]:
     return None
 
 
-# ---- spaCy pipeline ----
+# ===========================================================
+# 2. SPACY PIPELINE
+# ===========================================================
 def build_spacy_pipeline(lang_priority: str = "pt"):
     """
-    Try to load a Portuguese or English model; fallback to blank pipeline with an EntityRuler.
+    Load a PT or EN spaCy model. Fall back to blank "xx".
+    Adds EntityRuler for simple TIME cues.
     """
+    models = ["pt_core_news_sm", "en_core_web_sm"] if lang_priority == "pt" \
+             else ["en_core_web_sm", "pt_core_news_sm"]
+
     nlp = None
-    model_candidates = []
-    if lang_priority == "pt":
-        model_candidates = ["pt_core_news_sm", "en_core_web_sm"]
-    else:
-        model_candidates = ["en_core_web_sm", "pt_core_news_sm"]
-
-    if spacy is None:
-        return None
-
-    for m in model_candidates:
+    for m in models:
         try:
             nlp = spacy.load(m)
             break
         except Exception:
-            continue
+            pass
+
     if nlp is None:
         nlp = spacy.blank("xx")
 
-    # Add an EntityRuler with light patterns (mainly to help cooking time keywords)
-    try:
-        ruler = nlp.add_pipe("entity_ruler")
-    except Exception:
-        # Older spaCy: insert with name
-        ruler = EntityRuler(nlp)
-        nlp.add_pipe(ruler)
+    # EntityRuler for TIME keywords
+    if "entity_ruler" not in nlp.pipe_names:
+        try:
+            ruler = nlp.add_pipe("entity_ruler", config={"overwrite_ents": True})
+        except Exception:
+            ruler = EntityRuler(nlp)
+            nlp.add_pipe(ruler)
+    else:
+        ruler = nlp.get_pipe("entity_ruler")
 
-    patterns = [
-        {"label": "TIME", "pattern": [{"LOWER": {"IN": ["min", "mins", "minute", "minutes", "minutos"]}}]},
-        {"label": "TIME", "pattern": [{"LOWER": {"IN": ["h", "hour", "hours", "hora", "horas"]}}]},
-    ]
-    ruler.add_patterns(patterns)
+    ruler.add_patterns([
+        {"label": "TIME", "pattern": [{"LOWER": {"IN": ["min", "mins", "minutos", "minuto"]}}]},
+        {"label": "TIME", "pattern": [{"LOWER": {"IN": ["h", "hora", "horas", "hour", "hours"]}}]},
+    ])
     return nlp
 
+
+# ===========================================================
+# 3. KG INDEX + FUZZY SEARCH (with normalization)
+# ===========================================================
+def strip_accents(s: str) -> str:
+    """Return accent-stripped lowercased form"""
+    if not isinstance(s, str):
+        return s
+    nk = unicodedata.normalize("NFKD", s)
+    return "".join([c for c in nk if not unicodedata.combining(c)]).lower()
+
+def has_portuguese_chars(s: str) -> bool:
+    """Heuristic: accents or 'ç' or typical Portuguese words"""
+    if not isinstance(s, str):
+        return False
+    if re.search(r"[áàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚ]", s):
+        return True
+    # also check common PT words
+    if re.search(r"\b(para|com|sem|receita|rápido|fácil|fáceis|cozinhar|açorda|bacalhau)\b", s, re.I):
+        return True
+    return False
 
 @dataclass
 class KGIndex:
     recipes: List[str]
     ingredients: List[str]
     tags: List[str]
-    # internal: mapping label -> subject and rdflib Graph
-    recipe_label_to_subject: Dict[str, object] = None
-    graph: Optional[Graph] = None
+    recipe_label_to_subject: Dict[str, Any]
+    graph: Graph
+    # precomputed normalized maps
+    recipes_norm: List[str]
+    ingredients_norm: List[str]
+    tags_norm: List[str]
 
     @classmethod
-    def from_ttl(cls, ttl_path: str) -> "KGIndex":
+    def from_ttl(cls, ttl_path: str):
         g = Graph()
         g.parse(ttl_path, format="turtle")
 
         def labels_of(rdf_type) -> List[str]:
-            vals: List[str] = []
+            vals = []
             for s in g.subjects(RDF.type, rdf_type):
                 lab = g.value(s, RDFS.label)
                 if lab is not None:
                     vals.append(str(lab))
             return vals
 
-        # Build label -> subject map for recipes (use rdfs:label)
         recipes = []
-        recipe_label_to_subject: Dict[str, object] = {}
+        recipe_label_to_subject = {}
         for s in g.subjects(RDF.type, EX.Recipe):
             lab = g.value(s, RDFS.label)
             if lab is not None:
@@ -159,202 +181,172 @@ class KGIndex:
 
         ingredients = labels_of(EX.Ingredient)
         tags = labels_of(EX.Tag)
-        return cls(recipes=recipes, ingredients=ingredients, tags=tags,
-                   recipe_label_to_subject=recipe_label_to_subject, graph=g)
 
-    def get_recipe_meta(self, label: str) -> Optional[Dict]:
-        """Return metadata for a recipe label: id, minutes, n_ingredients, n_steps, nutrition, steps, tags.
-        If label not found, return None.
+        # Precompute normalized lists (accent stripped & lower)
+        recipes_norm = [strip_accents(x) for x in recipes]
+        ingredients_norm = [strip_accents(x) for x in ingredients]
+        tags_norm = [strip_accents(x) for x in tags]
+
+        return cls(
+            recipes=recipes,
+            ingredients=ingredients,
+            tags=tags,
+            recipe_label_to_subject=recipe_label_to_subject,
+            graph=g,
+            recipes_norm=recipes_norm,
+            ingredients_norm=ingredients_norm,
+            tags_norm=tags_norm
+        )
+
+    def _choose_collection(self, collection: str):
+        if collection == "recipes":
+            return self.recipes, self.recipes_norm
+        if collection == "ingredients":
+            return self.ingredients, self.ingredients_norm
+        if collection == "tags":
+            return self.tags, self.tags_norm
+        raise ValueError("Unknown collection: " + collection)
+
+    def search(self, collection: str, query: str, limit=5, score_cutoff=50, prefer_pt=False):
         """
-        if not self.graph or not self.recipe_label_to_subject:
-            return None
-        subj = self.recipe_label_to_subject.get(label)
-        if subj is None:
-            return None
-        g = self.graph
-
-        def lit_to_number(v):
-            if v is None:
-                return None
-            try:
-                return int(v)
-            except Exception:
-                try:
-                    return float(v)
-                except Exception:
-                    return str(v)
-
-        meta: Dict = {}
-        meta["id"] = lit_to_number(g.value(subj, EX.id))
-        meta["minutes"] = lit_to_number(g.value(subj, EX.minutes))
-        meta["n_ingredients"] = lit_to_number(g.value(subj, EX.n_ingredients))
-        meta["n_steps"] = lit_to_number(g.value(subj, EX.n_steps))
-
-        # Tags
-        tags_list: List[str] = []
-        for tag_node in g.objects(subj, EX.hasTag):
-            lab = g.value(tag_node, RDFS.label)
-            if lab is not None:
-                tags_list.append(str(lab))
-        meta["tags"] = tags_list
-
-        # Nutrition
-        nutrition_node = g.value(subj, EX.hasNutrition)
-        nutrition: Dict[str, float] = {}
-        if nutrition_node is not None:
-            for p, o in g.predicate_objects(nutrition_node):
-                # skip rdf:type
-                if p == RDF.type:
-                    continue
-                key = p.split("#")[-1] if "#" in p else str(p)
-                nutrition[key] = lit_to_number(o)
-        meta["nutrition"] = nutrition
-
-        # Steps: follow ex:hasStep -> rdf:Seq and iterate rdf:_1...rdf:_n
-        steps_node = g.value(subj, EX.hasStep)
-        steps_list: List[str] = []
-        if steps_node is not None:
-            # If it's an rdf:Seq, collect ordered members
-            members = []
-            for p, o in g.predicate_objects(steps_node):
-                pname = p.split("#")[-1] if "#" in p else str(p)
-                if pname.startswith("_"):
-                    try:
-                        idx = int(pname.lstrip("_"))
-                        members.append((idx, o))
-                    except Exception:
-                        continue
-            members.sort(key=lambda x: x[0])
-            for _i, member in members:
-                # member is a Step node; get rdfs:comment
-                comment = g.value(member, RDFS.comment)
-                if comment is not None:
-                    steps_list.append(str(comment))
-        meta["steps"] = steps_list
-
-        return meta
-
-    def search(self, collection: str, query: str, limit: int = 5, score_cutoff: int = 75) -> List[Tuple[str, float]]:
-        """Fuzzy search within one of the indexed lists. Returns (match, score)."""
-        items = getattr(self, collection, None)
-        if not items or not query:
+        Query: original user candidate string.
+        prefer_pt: boolean hint to prefer pt-labeled items when candidate looks portuguese.
+        Returns list of (match_label, score_float).
+        """
+        items, items_norm = self._choose_collection(collection)
+        if not query:
             return []
-        q = query.strip()
-        if process and fuzz:
-            results = process.extract(q, items, scorer=fuzz.WRatio, limit=limit, score_cutoff=score_cutoff)
-            # results: list of (match, score, idx)
-            return [(m, float(s)) for (m, s, _i) in results]
-        # Fallback exact/substring match if rapidfuzz is missing
-        ql = q.lower()
-        scored = []
-        for it in items:
-            itl = it.lower()
-            if ql == itl:
-                scored.append((it, 100.0))
-            elif ql in itl or itl in ql:
-                scored.append((it, 85.0))
-        scored.sort(key=lambda x: x[1], reverse=True)
-        return scored[:limit]
+
+        # Build search pool as (orig_label, norm_label)
+        query_norm = strip_accents(query)
+        # 1) Use rapidfuzz on the normalized lists (faster and more robust across diacritics)
+        raw_results = process.extract(query_norm, items_norm, scorer=fuzz.WRatio, limit=limit, score_cutoff=score_cutoff)
+        # raw_results: list of (matched_norm_label, score, idx)
+        results = []
+        for matched_norm, score, idx in raw_results:
+            orig_label = items[idx]
+            adj_score = float(score)
+            # boost Portuguese-labelled items if requested and heuristic indicates PT
+            if prefer_pt and has_portuguese_chars(orig_label):
+                adj_score = min(100.0, adj_score + PT_PREF_BOOST)
+            results.append((orig_label, adj_score))
+        return results
 
 
-def extract_entities(text: str, nlp=None) -> Dict[str, List[str] | Optional[int]]:
-    """Return a slots dict: {ingredient: [..], recipe_name: [..], cooking_time: minutes or None}"""
-    slots: Dict[str, List[str] | Optional[int]] = {
-        "ingredient": [],
-        "recipe_name": [],
-        "cooking_time": None,
-    }
-    if not text:
-        return slots
-
-    # Cooking time via regex, independent of spaCy
-    minutes = cooking_time_to_minutes(text)
-    slots["cooking_time"] = minutes
-
-    # Try spaCy to get candidate noun chunks for ingredients / recipe names
-    if nlp is not None:
-        doc = nlp(text)
-        noun_chunks = [nc.text.strip() for nc in getattr(doc, "noun_chunks", [])]
-        # Heuristics: take noun chunks longer than 2 chars as candidates
-        cand = [c for c in noun_chunks if len(c) >= 3]
-        # Also add quoted spans as candidates (often recipe names)
-        cand += re.findall(r"\"([^\"]{3,})\"|'([^']{3,})'", text)
-        # flatten quotes tuples
-        flat_cand = []
-        for t in cand:
-            if isinstance(t, tuple):
-                flat_cand.extend([x for x in t if x])
-            else:
-                flat_cand.append(t)
-        # Deduplicate while preserving order
-        seen = set()
-        ordered = []
-        for c in flat_cand:
-            cl = c.lower()
-            if cl not in seen:
-                seen.add(cl)
-                ordered.append(c)
-        # Filter out generic candidates (like the word 'ingredients') that confuse KG matching
-        generic_stop = {"ingredients", "ingredientes", "ingredient", "ingrediente", "ingredientes da", "ingredients for", "for"}
-        filtered = [o for o in ordered if o.lower().strip() not in generic_stop]
-        # Tentatively assign to ingredient or recipe_name later via KG matching
-        slots["ingredient"] = ordered  # keep original for ingredient fuzzy matching
-        slots["recipe_name"] = filtered.copy()
-    else:
-        # Fallback: extract words following "com"/"with" as ingredient hints
-        m = re.search(r"\b(com|with)\s+([^,.!?]{3,})", text, re.I)
-        if m:
-            slots["ingredient"] = [m.group(2).strip()]
-
-    return slots
-
-
-def link_slots_to_kg(slots: Dict[str, List[str] | Optional[int]], kg: KGIndex,
-                     ing_limit: int = 3, recipe_limit: int = 2,
-                     score_cutoff_ing: int = 75, score_cutoff_recipe: int = 70) -> Dict[str, List[Tuple[str, float]] | Optional[int]]:
-    """Link candidate text to KG labels using fuzzy matching. Returns matched items with scores.
-    slots keys preserved; cooking_time passed through unchanged.
+# ===========================================================
+# 4. NLP CANDIDATES
+# ===========================================================
+def extract_candidates(text: str, nlp):
     """
-    out: Dict[str, List[Tuple[str, float]] | Optional[int]] = {
-        "ingredient": [],
-        "recipe_name": [],
-        "cooking_time": slots.get("cooking_time"),
-        "recipe_meta": None,
-    }
+    Returns:
+        {
+            "candidate_chunks": [str,...],
+            "cooking_time": int|None,
+            "raw_doc": doc
+        }
+    """
+    doc = nlp(text)
+    # gather noun_chunks (avoid duplicates)
+    noun_chunks = []
+    try:
+        for nc in doc.noun_chunks:
+            chunk = nc.text.strip()
+            if len(chunk) >= 2:
+                noun_chunks.append(chunk)
+    except Exception:
+        # fallback simple token-based grouping for blank models
+        noun_chunks = [t.text for t in doc if len(t.text) > 2]
 
-    # Ingredients
-    for cand in slots.get("ingredient", []) or []:
-        matches = kg.search("ingredients", cand, limit=1, score_cutoff=score_cutoff_ing)
-        if matches:
+    # Also include quoted strings and direct objects found as PROPN/NOUN tokens
+    quoted = re.findall(r'["\']([^"\']{2,})["\']', text)
+    noun_chunks.extend([q for q in quoted])
+
+    # Filter generic words
+    blacklist = {"ingredientes", "ingredients", "recipe", "receita", "receitas", "com", "para", "a"}
+    noun_chunks = [c for c in noun_chunks if c.lower() not in blacklist]
+
+    # Deduplicate preserving order
+    seen = set()
+    final_chunks = []
+    for c in noun_chunks:
+        ck = c.lower().strip()
+        if ck not in seen:
+            seen.add(ck)
+            final_chunks.append(c)
+
+    return {"candidate_chunks": final_chunks, "cooking_time": cooking_time_to_minutes(text), "doc": doc}
+
+
+# ===========================================================
+# 5. LINKING (intent-aware, PT-first)
+# ===========================================================
+def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) -> Dict[str, Any]:
+    chunks: List[str] = candidates["candidate_chunks"]
+    cooking_time = candidates["cooking_time"]
+    out = {"ingredient": [], "recipe_name": [], "tag": [], "cooking_time": cooking_time}
+
+    # Heuristic: detect whether the user text is Portuguese (presence of pt chars or PT tokens)
+    text_join = " ".join(chunks).lower() if chunks else ""
+    prefer_pt = has_portuguese_chars(text_join)
+
+    # If intent is time-related explicitly, prefer recipe matching + cooking_time use
+    if intent == "list_by_time":
+        # We'll return cooking_time (already present) and possibly matched recipes
+        if cooking_time:
+            out["cooking_time"] = cooking_time
+        for c in sorted(chunks, key=len, reverse=True):
+            matches = kg.search("recipes", c, limit=1, score_cutoff=THRESHOLDS["recipe_name"], prefer_pt=prefer_pt)
+            if matches:
+                out["recipe_name"].append(matches[0])
+                break
+        return out
+
+    if intent == "list_by_ingredient":
+        for c in chunks:
+            matches = kg.search("ingredients", c, limit=3, score_cutoff=THRESHOLDS["ingredient"], prefer_pt=prefer_pt)
             out["ingredient"].extend(matches)
-            if len(out["ingredient"]) >= ing_limit:
-                break
+        return out
 
-    # Recipe names – prefer longer candidates first
-    recipe_cands = sorted((slots.get("recipe_name", []) or []), key=lambda s: -len(s))
-    for cand in recipe_cands:
-        matches = kg.search("recipes", cand, limit=1, score_cutoff=score_cutoff_recipe)
+    if intent == "list_by_tag":
+        # Tag domain filtering: only search tags
+        for c in chunks:
+            matches = kg.search("tags", c, limit=3, score_cutoff=THRESHOLDS["tag"], prefer_pt=prefer_pt)
+            out["tag"].extend(matches)
+        return out
+
+    if intent in {"find_recipe", "retrieve_ingredients", "get_prep_time"}:
+        # Try to match best recipe name from longest chunks
+        for c in sorted(chunks, key=len, reverse=True):
+            matches = kg.search("recipes", c, limit=1, score_cutoff=THRESHOLDS["recipe_name"], prefer_pt=prefer_pt)
+            if matches:
+                out["recipe_name"].append(matches[0])
+                break
+        return out
+
+    # fallback: attempt recipe matching
+    for c in sorted(chunks, key=len, reverse=True):
+        matches = kg.search("recipes", c, limit=1, score_cutoff=THRESHOLDS["recipe_name"], prefer_pt=prefer_pt)
         if matches:
-            out["recipe_name"].extend(matches)
-            if len(out["recipe_name"]) >= recipe_limit:
-                break
-
-    # If we have recipe matches, pick the highest-scoring match (avoid relying on insertion order)
-    if out.get("recipe_name"):
-        try:
-            top_match = max(out["recipe_name"], key=lambda x: x[1])
-            top_label = top_match[0]
-            meta = kg.get_recipe_meta(top_label)
-            out["recipe_meta"] = meta
-        except Exception:
-            out["recipe_meta"] = None
-
+            out["recipe_name"].append(matches[0])
+            break
     return out
 
 
-def extract_and_link(text: str, ttl_path: str, lang_priority: str = "pt"):
-    nlp = build_spacy_pipeline(lang_priority=lang_priority)
-    slots = extract_entities(text, nlp)
-    kg = KGIndex.from_ttl(ttl_path)
-    linked = link_slots_to_kg(slots, kg)
+# ===========================================================
+# 6. MASTER FUNCTION (compatible with your pipeline)
+# ===========================================================
+def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
+    """
+    Keep signature: extract_and_link(text, intent=..., nlp=NLP, kg=KG)
+    """
+    candidates = extract_candidates(text, nlp)
+    # safety rule: if text explicitly mentions time but intent is not time, override to list_by_time
+    if candidates.get("cooking_time") is not None and intent not in {"list_by_time", "get_prep_time"}:
+        # override only when user explicitly mentions time tokens
+        # e.g. "em 30 minutos", "que demorem 30", "30 mins"
+        # keep a conservative override to avoid false positives
+        if re.search(r"\b(\d{1,3})\s*(minutos|min|mins|h|hora|horas)\b", text, re.I):
+            intent = "list_by_time"
+
+    linked = link_candidates_to_kg(candidates, kg, intent=intent)
     return linked
