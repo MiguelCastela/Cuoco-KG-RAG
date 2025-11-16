@@ -27,6 +27,16 @@ from spacy.pipeline import EntityRuler
 from rdflib import Graph, Namespace, RDF, RDFS
 from rapidfuzz import process, fuzz
 
+from langdetect import detect_langs
+from langdetect.lang_detect_exception import LangDetectException
+
+# ADD: Argos Translate (offline, fast)
+import argostranslate.translate as _argos_translate
+
+import logging, warnings
+logging.getLogger("stanza").setLevel(logging.ERROR)
+warnings.filterwarnings("ignore", message="Language pt package default expects mwt*")
+
 EX = Namespace("http://example.org/recipes#")
 
 
@@ -34,9 +44,9 @@ EX = Namespace("http://example.org/recipes#")
 # Configurable thresholds (tune these)
 # scores are 0..100 when passed to rapidfuzz score_cutoff
 THRESHOLDS = {
-    "recipe_name": 60,   # more strict (want accurate recipe title)
-    "ingredient": 50,    # medium
-    "tag": 45,           # lower but domain-filtered
+    "recipe_name": 75,   
+    "ingredient": 80,    
+    "tag": 90,           
 }
 # If candidate contains explicit Portuguese features, boost preference
 PT_PREF_BOOST = 5  # add to score for PT-likely items
@@ -51,6 +61,26 @@ TIME_PATTERNS = [
     re.compile(r"\b(?P<h>\d{1,2})\s*h\s*(?P<m>\d{1,2})\s*m?\b", re.I),
     re.compile(r"\b(?P<h>\d{1,2}):(?P<m>\d{1,2})\b"),
 ]
+
+def detect_language(text: str) -> str:
+    """
+    Detects the language of the input text using langdetect.
+    Returns ISO-639-1 codes (e.g., 'pt', 'en', 'es'), or 'unknown'.
+    """
+    if not text or not isinstance(text, str):
+        return "unknown"
+
+    try:
+        langs = detect_langs(text)
+        best = langs[0]
+
+        # optional threshold: filter out weak predictions
+        if best.prob < 0.60:
+            return "unknown"
+
+        return best.lang
+    except LangDetectException:
+        return "unknown"
 
 def cooking_time_to_minutes(text: str) -> Optional[int]:
     if not text or not isinstance(text, str):
@@ -335,18 +365,126 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
 # ===========================================================
 # 6. MASTER FUNCTION (compatible with your pipeline)
 # ===========================================================
+# Minimal accent/spelling normalization (fast) for frequent Portuguese misspellings
+_PT_FIX = {
+    "acorda": "açorda",
+    "faceis": "fáceis",
+    "facil": "fácil",
+    "facilmente": "facilmente",
+    "quejo": "queijo",
+    "bras": "brás",
+    "braz": "brás",
+}
+
+# Protected culinary terms we prefer not to be mistranslated
+_PROTECTED_PT_TERMS = {"açorda", "bacalhau", "brás", "braz"}
+
+def _restore_accents_pt(text: str) -> str:
+    def repl(m):
+        w = m.group(0)
+        lw = w.lower()
+        fixed = _PT_FIX.get(lw)
+        if not fixed:
+            return w
+        return fixed if w.islower() else fixed.capitalize()
+    return re.sub(r"\b\w+\b", repl, text)
+
+def _protect_terms(original: str, translated: str) -> str:
+    """
+    Ensure protected terms remain (or are re-injected) if Argos mangles them.
+    Strategy: if a protected term appears in original (accent-insensitive) but
+    not in translated (any form), append the original term at end or replace suspicious token.
+    """
+    out = translated
+    orig_tokens = set(re.findall(r"\b\w+\b", original.lower()))
+    for term in _PROTECTED_PT_TERMS:
+        # term match accent-insensitive
+        norm_term = strip_accents(term)
+        if any(strip_accents(t) == norm_term for t in orig_tokens):
+            # If missing in translation, reinsert
+            if norm_term not in strip_accents(out):
+                out = out.strip() + f" {term}"
+    return out
+
+def translate_between(text: str, src_lang: str, tgt_lang: str) -> str:
+    """
+    Offline Argos translation with PT accent restoration + protected term preservation.
+    """
+    if not text or src_lang == tgt_lang:
+        return text
+    if src_lang not in {"pt", "en"} or tgt_lang not in {"pt", "en"}:
+        return text
+    prep = text
+    if src_lang == "pt":
+        prep = _restore_accents_pt(prep)
+    translated = _argos_translate.translate(prep, src_lang, tgt_lang)
+    if src_lang == "pt":
+        translated = _protect_terms(prep, translated)
+    return translated
+
+
+def _merge_scored_lists(a, b):
+    """
+    Deduplicate by label; keep the highest score. Return sorted descending.
+    """
+    a = a or []
+    b = b or []
+    best = {}
+    for label, score in a + b:
+        s = float(score)
+        if label not in best or s > best[label]:
+            best[label] = s
+    return sorted(best.items(), key=lambda x: x[1], reverse=True)
+
+
 def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
     """
-    Keep signature: extract_and_link(text, intent=..., nlp=NLP, kg=KG)
+    Detect language (PT/EN), run the pipeline on original and translated queries,
+    and return the highest-confidence matches across both.
     """
-    candidates = extract_candidates(text, nlp)
-    # safety rule: if text explicitly mentions time but intent is not time, override to list_by_time
-    if candidates.get("cooking_time") is not None and intent not in {"list_by_time", "get_prep_time"}:
-        # override only when user explicitly mentions time tokens
-        # e.g. "em 30 minutos", "que demorem 30", "30 mins"
-        # keep a conservative override to avoid false positives
-        if re.search(r"\b(\d{1,3})\s*(minutos|min|mins|h|hora|horas)\b", text, re.I):
+    # 1) Detect language (PT/EN only)
+    lang = detect_language(text)
+    if lang not in {"pt", "en"}:
+        lang = "pt" if has_portuguese_chars(text) else "en"
+    other = "en" if lang == "pt" else "pt"
+
+    # 2) Ensure spaCy pipelines for both languages
+    nlp_primary = nlp if getattr(nlp, "lang", None) == lang else build_spacy_pipeline(lang)
+    nlp_secondary = build_spacy_pipeline(other)
+
+    # 3) Extract candidates on original
+    candidates_primary = extract_candidates(text, nlp_primary)
+
+    # Conservative time-intent override (based on original text)
+    if candidates_primary.get("cooking_time") is not None and intent not in {"list_by_time", "get_prep_time"}:
+        if re.search(r"\b(\d{1,3})\s*(minutos|min|mins|h|hora|horas|hour|hours)\b", text, re.I):
             intent = "list_by_time"
 
-    linked = link_candidates_to_kg(candidates, kg, intent=intent)
-    return linked
+    linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
+
+    # 4) Translate and run second pass
+    translated_text = translate_between(text, lang, other)
+    candidates_secondary = extract_candidates(translated_text, nlp_secondary)
+    linked_secondary = link_candidates_to_kg(candidates_secondary, kg, intent=intent)
+
+    # 5) Merge results by highest confidence
+    merged = {
+        "ingredient": _merge_scored_lists(
+            linked_primary.get("ingredient", []),
+            linked_secondary.get("ingredient", []),
+        ),
+        "recipe_name": _merge_scored_lists(
+            linked_primary.get("recipe_name", []),
+            linked_secondary.get("recipe_name", []),
+        ),
+        "tag": _merge_scored_lists(
+            linked_primary.get("tag", []),
+            linked_secondary.get("tag", []),
+        ),
+        "cooking_time": linked_primary.get("cooking_time") or linked_secondary.get("cooking_time"),
+        # Optional extras (safe to ignore downstream)
+        "detected_language": lang,
+        "original_query": text,
+        "translated_query": translated_text,
+    }
+    return merged

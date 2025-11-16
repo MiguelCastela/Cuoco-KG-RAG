@@ -15,7 +15,7 @@ def clean_uri(text: str) -> str:
     return text.strip("_")
 
 # Load data
-df = pd.read_csv("../../data/curated/merged_filtered_balanced_10k.csv")
+df = pd.read_csv("../../data/curated/filtered_pt_en.csv")
 
 # Define namespace
 EX = Namespace("http://example.org/recipes#")
