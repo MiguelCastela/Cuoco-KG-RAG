@@ -6,76 +6,155 @@ EX = Namespace("http://example.org/recipes#")
 def _esc(s: str) -> str:
     return s.replace('"', '\\"')
 
-def query_list_by_ingredient(graph: Graph, ingredient_name: str):
+# --- Helpers to enrich a recipe node ---
+
+_NUTRITION_PROPS = [
+    "calories", "protein", "saturatedFat", "sodium", "sugar", "totalFat", "unknown",
+]
+
+def _nutrition_dict(graph: Graph, recipe) -> dict:
+    out = {}
+    n = graph.value(recipe, EX.hasNutrition)
+    if n is None:
+        return out
+    for k in _NUTRITION_PROPS:
+        v = graph.value(n, EX[k])
+        if v is not None:
+            try:
+                out[k] = float(v)
+            except Exception:
+                out[k] = str(v)
+    return out
+
+def _ingredients_list(graph: Graph, recipe) -> list[str]:
+    vals = []
+    for ing in graph.objects(recipe, EX.hasIngredient):
+        label = graph.value(ing, RDFS.label)
+        if label:
+            vals.append(str(label))
+    # de-duplicate, keep order
+    seen = set()
+    uniq = []
+    for x in vals:
+        if x not in seen:
+            uniq.append(x); seen.add(x)
+    return uniq
+
+def _tags_list(graph: Graph, recipe) -> list[str]:
+    vals = []
+    for t in graph.objects(recipe, EX.hasTag):
+        label = graph.value(t, RDFS.label)
+        if label:
+            vals.append(str(label))
+    # de-duplicate, keep order
+    seen = set()
+    uniq = []
+    for x in vals:
+        if x not in seen:
+            uniq.append(x); seen.add(x)
+    return uniq
+
+def _steps_list(graph: Graph, recipe) -> list[str]:
+    steps = []
+    seq = graph.value(recipe, EX.hasStep)
+    if seq is None:
+        return steps
+    # Iterate rdf:_1, rdf:_2, ...
+    i = 1
+    while True:
+        pred = RDF[f"_{i}"]
+        step_node = graph.value(seq, pred)
+        if step_node is None:
+            break
+        comment = graph.value(step_node, RDFS.comment)
+        if comment:
+            steps.append(str(comment))
+        i += 1
+    return steps
+
+def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5):
     """
-    Retorna receitas que contenham o ingrediente, com recipe_name, tags, n_steps, nutrition.
-    Top-k receitas.
+    Return up to top_k distinct recipes containing the ingredient, enriched with
+    tags, ingredients and ordered steps. Nutrition is expanded to a dict.
     """
     needle = _esc(ingredient_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps ?nutrition ?tagLabel WHERE {{
-        ?recipe rdf:type ex:Recipe .
+    SELECT ?recipe ?label ?n_steps
+    WHERE {{
+        {{
+            SELECT DISTINCT ?recipe WHERE {{
+                ?recipe rdf:type ex:Recipe .
+                ?recipe ex:hasIngredient ?ing .
+                ?ing rdfs:label ?ingLabel .
+                FILTER(CONTAINS(LCASE(STR(?ingLabel)), LCASE("{needle}")))
+            }} LIMIT {top_k}
+        }}
         ?recipe rdfs:label ?label .
-        ?recipe ex:hasIngredient ?ing .
-        ?ing rdfs:label ?ingLabel .
-        FILTER(CONTAINS(LCASE(STR(?ingLabel)), LCASE("{needle}")))
         ?recipe ex:n_steps ?n_steps .
-        ?recipe ex:hasNutrition ?nutrition .
-        ?recipe ex:hasTag ?tag .
-        ?tag rdfs:label ?tagLabel .
-    }} LIMIT 2
+    }}
     """
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        recipe = row.recipe
         results.append({
-            "recipe_uri": str(row.recipe),
+            "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
-            "nutrition": str(row.nutrition),
-            "tag": str(row.tagLabel)
+            "nutrition": _nutrition_dict(graph, recipe),
+            "tags": _tags_list(graph, recipe),
+            "ingredients": _ingredients_list(graph, recipe),
+            "steps": _steps_list(graph, recipe),
         })
     return results
 
-
-def query_list_by_tag(graph: Graph, tag_name: str):
+def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5):
     """
-    Retorna uma receita que tenha a tag, com recipe_name, n_steps, nutrition.
-    Top 1.
+    Return up to top_k distinct recipes having the tag, enriched with tags,
+    ingredients and ordered steps. Nutrition is expanded to a dict.
     """
     needle = _esc(tag_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps ?nutrition WHERE {{
-        ?recipe rdf:type ex:Recipe .
+    SELECT ?recipe ?label ?n_steps
+    WHERE {{
+        {{
+            SELECT DISTINCT ?recipe WHERE {{
+                ?recipe rdf:type ex:Recipe .
+                ?recipe ex:hasTag ?t .
+                ?t rdfs:label ?tagLabel .
+                FILTER(CONTAINS(LCASE(STR(?tagLabel)), LCASE("{needle}")))
+            }} LIMIT {top_k}
+        }}
         ?recipe rdfs:label ?label .
-        ?recipe ex:hasTag ?t .
-        ?t rdfs:label ?tagLabel .
-        FILTER(CONTAINS(LCASE(STR(?tagLabel)), LCASE("{needle}")))
         ?recipe ex:n_steps ?n_steps .
-        ?recipe ex:hasNutrition ?nutrition .
-    }} LIMIT 1
+    }}
     """
+    out = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
-        return {
-            "recipe_uri": str(row.recipe),
+        recipe = row.recipe
+        out.append({
+            "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
-            "nutrition": str(row.nutrition),
-        }
-    return None
-
+            "nutrition": _nutrition_dict(graph, recipe),
+            "tags": _tags_list(graph, recipe),
+            "ingredients": _ingredients_list(graph, recipe),
+            "steps": _steps_list(graph, recipe),
+        })
+    # keep API stable: return first or None
+    return out[0] if out else None
 
 def query_find_recipe(graph: Graph, recipe_name: str):
     """
-    Retorna todos os dados de uma receita (uma) pelo nome.
+    Return full details for a single recipe matched by name, including
+    nutrition dict, tags, ingredients and ordered steps.
     """
     needle = _esc(recipe_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps ?nutrition ?id ?minutes ?n_ingredients ?origin WHERE {{
+    SELECT ?recipe ?label ?n_steps ?id ?minutes ?n_ingredients ?origin WHERE {{
         ?recipe rdf:type ex:Recipe .
         ?recipe rdfs:label ?label .
         FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{needle}")))
         ?recipe ex:n_steps ?n_steps .
-        ?recipe ex:hasNutrition ?nutrition .
         ?recipe ex:id ?id .
         ?recipe ex:minutes ?minutes .
         ?recipe ex:n_ingredients ?n_ingredients .
@@ -83,84 +162,90 @@ def query_find_recipe(graph: Graph, recipe_name: str):
     }} LIMIT 1
     """
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        recipe = row.recipe
         return {
-            "recipe_uri": str(row.recipe),
+            "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
-            "nutrition": str(row.nutrition),
             "id": int(row.id),
             "minutes": int(row.minutes),
             "n_ingredients": int(row.n_ingredients),
-            "origin": str(row.origin)
+            "origin": str(row.origin),
+            "nutrition": _nutrition_dict(graph, recipe),
+            "tags": _tags_list(graph, recipe),
+            "ingredients": _ingredients_list(graph, recipe),
+            "steps": _steps_list(graph, recipe),
         }
     return None
 
-
-def query_retrieve_ingredients(graph: Graph, recipe_name: str):
+def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5):
     """
-    Retorna os ingredients de uma receita pelo nome (uma).
-    """
-    needle = _esc(recipe_name)
-    q = f"""
-    SELECT ?ingredientLabel WHERE {{
-        ?recipe rdf:type ex:Recipe .
-        ?recipe rdfs:label ?label .
-        FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{needle}")))
-        ?recipe ex:hasIngredient ?ingredient .
-        ?ingredient rdfs:label ?ingredientLabel .
-    }}
-    """
-    return [str(r.ingredientLabel) for r in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS})]
-
-
-def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 3):
-    """
-    Retorna recipe_name, n_steps, nutrition para top 3 receitas que correspondam ao nome.
+    Return up to top_k matches with only:
+      - recipe_name
+      - time_uri (URI of ex:hasTime node if present; else None)
+      - minutes (time attribute)
     """
     needle = _esc(recipe_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps ?nutrition WHERE {{
+    SELECT ?label ?time ?minutes WHERE {{
         ?recipe rdf:type ex:Recipe .
         ?recipe rdfs:label ?label .
         FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{needle}")))
-        ?recipe ex:n_steps ?n_steps .
-        ?recipe ex:hasNutrition ?nutrition .
+
+        OPTIONAL {{
+            ?recipe ex:hasTime ?time .
+            OPTIONAL {{ ?time ex:minutes ?m1 . }}
+        }}
+        OPTIONAL {{ ?recipe ex:minutes ?m2 . }}
+        BIND(COALESCE(?m1, ?m2) AS ?minutes)
     }} LIMIT {top_k}
     """
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        # minutes may be untyped or typed; convert safely
+        mins = None
+        if row.minutes is not None:
+            try:
+                mins = int(str(row.minutes))
+            except Exception:
+                try:
+                    mins = float(str(row.minutes))
+                except Exception:
+                    mins = str(row.minutes)
         results.append({
-            "recipe_uri": str(row.recipe),
             "recipe_name": str(row.label),
-            "n_steps": int(row.n_steps),
-            "nutrition": str(row.nutrition),
+            "time_uri": str(row.time) if row.time is not None else None,
+            "minutes": mins,
         })
     return results
 
-
-def query_by_cooking_time(graph: Graph, minutes: int):
+def query_by_cooking_time(graph: Graph, minutes: int, top_k: int = 5):
     """
-    Retorna receitas que tenham ex:minutes igual ao tempo fornecido, com recipe_name, tag, n_steps, nutrition.
-    Top 2.
+    Return up to top_k distinct recipes with exact minutes, enriched with
+    nutrition dict, tags, ingredients and ordered steps.
     """
     q = f"""
-    SELECT ?recipe ?label ?tagLabel ?n_steps ?nutrition WHERE {{
-        ?recipe rdf:type ex:Recipe .
+    SELECT ?recipe ?label ?n_steps WHERE {{
+        {{
+            SELECT DISTINCT ?recipe WHERE {{
+                ?recipe rdf:type ex:Recipe .
+                ?recipe ex:minutes {minutes} .
+            }} LIMIT {top_k}
+        }}
         ?recipe rdfs:label ?label .
-        ?recipe ex:minutes {minutes} .
         ?recipe ex:n_steps ?n_steps .
-        ?recipe ex:hasNutrition ?nutrition .
-        ?recipe ex:hasTag ?tag .
-        ?tag rdfs:label ?tagLabel .
-    }} LIMIT 2
+    }}
     """
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        recipe = row.recipe
         results.append({
-            "recipe_uri": str(row.recipe),
+            "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
-            "tag": str(row.tagLabel),
             "n_steps": int(row.n_steps),
-            "nutrition": str(row.nutrition)
+            "nutrition": _nutrition_dict(graph, recipe),
+            "tags": _tags_list(graph, recipe),
+            "ingredients": _ingredients_list(graph, recipe),
+            "steps": _steps_list(graph, recipe),
         })
     return results
