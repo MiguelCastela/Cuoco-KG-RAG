@@ -6,21 +6,18 @@ from typing import Dict, Any, Optional
 try:
     from infer_intent import predict_intent
     from entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link
-    import sparql_queries  # <- novo: nosso script com queries SPARQL
+    import sparql_queries
 except Exception:
     THIS_DIR = os.path.dirname(__file__)
     SRC_ROOT = os.path.normpath(os.path.join(THIS_DIR, "..", ".."))
 
-# Resolve TTL relative to this file
 BASE_DIR = os.path.dirname(__file__)
 DEFAULT_TTL = os.path.normpath(os.path.join(BASE_DIR, "../../data/curated/recipes_graph_cleaned.ttl"))
 TTL_PATH = os.environ.get("RECIPES_TTL_PATH", DEFAULT_TTL)
 
-# Preload resources once
 NLP = build_spacy_pipeline(lang_priority="pt")
 KG = KGIndex.from_ttl(TTL_PATH)
 
-# Intents that need downstream entity extraction
 INTENTS_NEEDING_EXTRACTION = {
     "find_recipe",
     "get_prep_time",
@@ -30,81 +27,321 @@ INTENTS_NEEDING_EXTRACTION = {
     "list_by_time",
 }
 
+# -----------------------------------------------------------
+# NEW: SLOT EXTRACTION WITHOUT RUNNING SPARQL
+# -----------------------------------------------------------
+
+def extract_slots_only(text: str, top_k: int = 1):
+    """Extract intent + slots WITHOUT running SPARQL queries."""
+    preds = predict_intent(text, top_k=top_k)
+    top_intent, conf = preds[0] if preds else (None, 0.0)
+
+    slots = {}
+    if top_intent in INTENTS_NEEDING_EXTRACTION:
+        slots = extract_and_link(text, intent=top_intent, nlp=NLP, kg=KG)
+
+    return top_intent, conf, slots
+
+
+# -----------------------------------------------------------
+# SEQUENTIAL PRINT HELPERS
+# -----------------------------------------------------------
+
+def _fmt_nutrition(n: Dict[str, Any]) -> str:
+    if not n:
+        return "(none)"
+    return ", ".join(f"{k}={v}" for k, v in n.items())
+
+def _fmt_steps(steps):
+    if not steps:
+        return ["      (no steps)"]
+    return [f"      {i+1:02d}. {s}" for i, s in enumerate(steps)]
+
+def _fmt_recipe(r: Dict[str, Any]):
+    out = []
+    name = r.get('recipe_name') or r.get('recipe_uri')
+    out.append(f"    • {name}")
+    if 'recipe_uri' in r:
+        out.append(f"      URI: {r['recipe_uri']}")
+    if 'origin' in r:
+        out.append(f"      Origin: {r['origin']}")
+    if 'minutes' in r and r.get('minutes') is not None:
+        out.append(f"      Minutes: {r['minutes']}")
+    if 'n_steps' in r:
+        out.append(f"      #Steps: {r['n_steps']}")
+    if 'n_ingredients' in r:
+        out.append(f"      #Ingredients: {r['n_ingredients']}")
+    tags = r.get('tags')
+    if tags is not None:
+        out.append(f"      Tags: {', '.join(tags) if tags else '(none)'}")
+    ings = r.get('ingredients')
+    if ings is not None:
+        out.append(f"      Ingredients ({len(ings)}): {', '.join(ings) if ings else '(none)'}")
+    nutrition = r.get('nutrition')
+    if nutrition is not None:
+        out.append(f"      Nutrition: {_fmt_nutrition(nutrition)}")
+    steps = r.get('steps')
+    if steps is not None:
+        out.append("      Steps:")
+        out.extend(_fmt_steps(steps))
+    return out
+
+
+# -----------------------------------------------------------
+# UTIL SLOT FUNCTIONS
+# -----------------------------------------------------------
 
 def _slot_top_label(slots: Dict[str, Any], key: str) -> Optional[str]:
     v = slots.get(key)
     if not v:
         return None
-    # List of (label, score)
     if isinstance(v, list) and v:
         head = v[0]
         if isinstance(head, (list, tuple)) and head:
-            return str(head[0])  # take label
-        return str(head)        # already a str
-    # Single (label, score)
+            return str(head[0])
+        return str(head)
     if isinstance(v, (list, tuple)) and v and isinstance(v[0], str):
         return v[0]
-    # Already a string
     if isinstance(v, str):
         return v
     return None
 
 
-def handle_query(text: str, top_k: int = 1) -> Dict[str, Any]:
-    # Predict intent
-    preds = predict_intent(text, top_k=top_k)
+def _slot_all_labels(slots: Dict[str, Any], key: str) -> list[str]:
+    v = slots.get(key)
+    if not v:
+        return []
+    labels = []
+    if isinstance(v, list):
+        for item in v:
+            if isinstance(item, (list, tuple)) and len(item) >= 1:
+                labels.append(str(item[0]))
+            elif isinstance(item, str):
+                labels.append(item)
+    elif isinstance(v, (list, tuple)) and len(v) >= 1 and isinstance(v[0], str):
+        labels.append(v[0])
+    elif isinstance(v, str):
+        labels.append(v)
+    return labels
+
+
+# -----------------------------------------------------------
+# MAIN LOGIC WITH SEQUENTIAL QUERY EXECUTION
+# -----------------------------------------------------------
+
+def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dict[str, Any]:
+    preds = predict_intent(text, top_k=intent_top_k)
     top_intent, conf = preds[0] if preds else (None, 0.0)
 
     result: Dict[str, Any] = {"intent": top_intent, "confidence": conf, "text": text}
 
     slots = {}
     if top_intent in INTENTS_NEEDING_EXTRACTION:
-        # Extract entities
-        slots = extract_and_link(
-            text,
-            intent=top_intent,
-            nlp=NLP,
-            kg=KG
-        )
+        slots = extract_and_link(text, intent=top_intent, nlp=NLP, kg=KG)
         result["slots"] = slots
 
-        # SPARQL queries based on intent
+        # INTENT: list_by_ingredient
         if top_intent == "list_by_ingredient":
-            ingredient = _slot_top_label(slots, "ingredient")
-            if ingredient:
-                result["kg_results"] = sparql_queries.query_list_by_ingredient(KG.graph, ingredient, top_k=2)
+            ingredients = _slot_all_labels(slots, "ingredient")
+            seq: list[Dict[str, Any]] = []
+            for ing in ingredients:
+                print(f"\n🔎 Searching recipes with ingredient: {ing}")
+                recs = sparql_queries.query_list_by_ingredient(KG.graph, ing, top_k=sparql_top_k)
+                if not recs:
+                    print("   ✖ No recipes found.")
+                    continue
+                print(f"   ✔ Found {len(recs)} recipes:")
+                for r in recs:
+                    for line in _fmt_recipe(r):
+                        print(line)
+                seq.extend(recs)
+            result["kg_results"] = seq
 
+        # INTENT: list_by_tag
         elif top_intent == "list_by_tag":
-            tag = _slot_top_label(slots, "tag")
-            if tag:
-                result["kg_results"] = sparql_queries.query_list_by_tag(KG.graph, tag)
+            tags = _slot_all_labels(slots, "tag")
+            seq: list[Dict[str, Any]] = []
+            for tag in tags:
+                print(f"\n🔎 Searching recipes with tag: {tag}")
+                recs = sparql_queries.query_list_by_tag(KG.graph, tag, top_k=sparql_top_k)
+                if not recs:
+                    print("   ✖ No recipes found.")
+                    continue
+                print(f"   ✔ Found {len(recs)} recipes:")
+                for r in recs:
+                    for line in _fmt_recipe(r):
+                        print(line)
+                seq.extend(recs)
+            # deduplicate by recipe_uri
+            seen = set()
+            dedup = []
+            for r in seq:
+                uri = r.get("recipe_uri")
+                if uri and uri in seen:
+                    continue
+                if uri:
+                    seen.add(uri)
+                dedup.append(r)
+            result["kg_results"] = dedup
 
+        # INTENT: find_recipe
         elif top_intent == "find_recipe":
-            recipe_name = _slot_top_label(slots, "recipe_name")
-            if recipe_name:
-                result["kg_results"] = sparql_queries.query_find_recipe(KG.graph, recipe_name)
+            names = _slot_all_labels(slots, "recipe_name")
+            seq: list[Dict[str, Any]] = []
+            for name in names:
+                print(f"\n🔎 Searching recipe: {name}")
+                r = sparql_queries.query_find_recipe(KG.graph, name)
+                if not r:
+                    print("   ✖ No recipe found.")
+                    continue
+                print("   ✔ Found recipe:")
+                for line in _fmt_recipe(r):
+                    print(line)
+                seq.append(r)
+            result["kg_results"] = seq
 
+        # INTENT: retrieve_ingredients
         elif top_intent == "retrieve_ingredients":
-            recipe_name = _slot_top_label(slots, "recipe_name")
-            if recipe_name:
-                result["kg_results"] = sparql_queries.query_retrieve_ingredients(KG.graph, recipe_name)
+            names = _slot_all_labels(slots, "recipe_name")
+            seq: list[Dict[str, Any]] = []
+            for name in names:
+                print(f"\n🔎 Retrieving ingredients for: {name}")
+                r = sparql_queries.query_retrieve_ingredients(KG.graph, name)
+                if not r:
+                    print("   ✖ No recipe found.")
+                    continue
+                print("   ✔ Ingredients:")
+                print("    • " + (r.get('recipe_name') or r.get('recipe_uri')))
+                ings = r.get("ingredients", [])
+                print("      " + (", ".join(ings) if ings else "(none)"))
+                seq.append(r)
+            result["kg_results"] = seq
 
+        # INTENT: get_prep_time
         elif top_intent == "get_prep_time":
-            recipe_name = _slot_top_label(slots, "recipe_name")
-            if recipe_name:
-                result["kg_results"] = sparql_queries.query_get_prep_time(KG.graph, recipe_name, top_k=3)
+            names = _slot_all_labels(slots, "recipe_name")
+            seq: list[Dict[str, Any]] = []
+            for name in names:
+                print(f"\n⏱ Getting prep time for: {name}")
+                times = sparql_queries.query_get_prep_time(KG.graph, name, top_k=sparql_top_k)
+                if not times:
+                    print("   ✖ No prep time found.")
+                    continue
+                for t in times:
+                    print(f"   ✔ {t['recipe_name']} -> {t['minutes']} minutes")
+                seq.extend(times)
+            result["kg_results"] = seq
 
+        # INTENT: list_by_time
         elif top_intent == "list_by_time" and slots.get("cooking_time"):
             minutes = slots["cooking_time"]
-            result["kg_results"] = sparql_queries.query_by_cooking_time(KG.graph, minutes, top_k=2)
+            print(f"\n⏱ Searching recipes under {minutes} minutes...")
+            recs = sparql_queries.query_by_cooking_time(KG.graph, minutes, top_k=sparql_top_k)
+            if not recs:
+                print("   ✖ No recipes found.")
+            else:
+                for r in recs:
+                    for line in _fmt_recipe(r):
+                        print(line)
+            result["kg_results"] = recs
 
     return result
 
 
+# -----------------------------------------------------------
+# MAIN CLI – NOW PRINTS SLOTS BEFORE SPARQL EXECUTION
+# -----------------------------------------------------------
+
 if __name__ == "__main__":
-    # Use CLI arg if provided, else default example
+    # Default values
     text = "Quais são os ingredientes da francesinha?"
-    if len(sys.argv) > 1:
-        text = " ".join(sys.argv[1:])
-    output = handle_query(text)
-    print(output)
+    intent_top_k = 1
+    sparql_top_k = 5
+
+    # Simple manual arg parsing (no external deps)
+    args = sys.argv[1:]
+    i = 0
+    remaining = []
+    while i < len(args):
+        a = args[i]
+        if a == "--intent-topk" and i + 1 < len(args):
+            try:
+                intent_top_k = int(args[i+1])
+            except Exception:
+                pass
+            i += 2
+            continue
+        if a == "--sparql-topk" and i + 1 < len(args):
+            try:
+                sparql_top_k = int(args[i+1])
+            except Exception:
+                pass
+            i += 2
+            continue
+        if a == "--topk" and i + 1 < len(args):  # convenience: sets both
+            try:
+                k = int(args[i+1])
+                intent_top_k = max(1, k)
+                sparql_top_k = max(1, k)
+            except Exception:
+                pass
+            i += 2
+            continue
+        remaining.append(a)
+        i += 1
+
+    if remaining:
+        text = " ".join(remaining)
+
+    # -----------------------------------------
+    # 1) Extract intent & slots FIRST
+    # -----------------------------------------
+    intent, conf, slots = extract_slots_only(text, top_k=intent_top_k)
+
+    print("\n========== QUERY INFO ==========")
+    print(f"Intent: {intent} (confidence={conf:.2f})")
+    print(f"Query: {text}")
+
+    # Print detected slots BEFORE running SPARQL
+    if slots:
+        # Print translation / normalization info first if available
+        if any(k in slots for k in ("original_query", "translated_query", "detected_language")):
+            print("\n=== Normalization & Translation ===")
+            if "original_query" in slots:
+                print(f"Original: {slots['original_query']}")
+            else:
+                print(f"Original: {text}")
+            if "detected_language" in slots:
+                print(f"Detected language: {slots['detected_language']}")
+            if "translated_query" in slots:
+                print(f"Translated (for intent/NER): {slots['translated_query']}")
+
+        print("\nDetected slots:")
+        for k, v in slots.items():
+            if k in {"detected_language", "original_query", "translated_query"}:
+                continue
+
+            if k == "cooking_time" and isinstance(v, int):
+                print(f"  - cooking_time: {v} minutes")
+                continue
+
+            if isinstance(v, list):
+                rendered = []
+                for item in v:
+                    if isinstance(item, (list, tuple)) and len(item) >= 2:
+                        rendered.append(f"{item[0]} ({item[1]:.1f})")
+                    elif isinstance(item, (list, tuple)) and len(item) == 1:
+                        rendered.append(str(item[0]))
+                    else:
+                        rendered.append(str(item))
+                print(f"  - {k}: {', '.join(rendered)}")
+            else:
+                print(f"  - {k}: {v}")
+
+    print("\n========== RESULTS (Sequential Execution) ==========\n")
+    print("(Below, each SPARQL query is executed and printed one by one.)\n")
+
+    # -----------------------------------------
+    # 2) Now run the real pipeline (prints SPARQL)
+    # -----------------------------------------
+    handle_query(text, intent_top_k=intent_top_k, sparql_top_k=sparql_top_k)

@@ -45,7 +45,7 @@ EX = Namespace("http://example.org/recipes#")
 # scores are 0..100 when passed to rapidfuzz score_cutoff
 THRESHOLDS = {
     "recipe_name": 75,   
-    "ingredient": 80,    
+    "ingredient": 90,    
     "tag": 90,           
 }
 # If candidate contains explicit Portuguese features, boost preference

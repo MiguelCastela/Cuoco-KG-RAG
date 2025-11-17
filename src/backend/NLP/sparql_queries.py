@@ -72,7 +72,7 @@ def _steps_list(graph: Graph, recipe) -> list[str]:
         i += 1
     return steps
 
-def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5):
+def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5, debug_print: bool = False):
     """
     Return up to top_k distinct recipes containing the ingredient, enriched with
     tags, ingredients and ordered steps. Nutrition is expanded to a dict.
@@ -93,6 +93,9 @@ def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5)
         ?recipe ex:n_steps ?n_steps .
     }}
     """
+    if debug_print:
+        print("\n[SPARQL QUERY][list_by_ingredient]" )
+        print(q.strip())
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
         recipe = row.recipe
@@ -107,10 +110,12 @@ def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5)
         })
     return results
 
-def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5):
-    """
-    Return up to top_k distinct recipes having the tag, enriched with tags,
-    ingredients and ordered steps. Nutrition is expanded to a dict.
+def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5, debug_print: bool = False):
+    """Return a LIST of up to top_k distinct recipes having the tag.
+
+    NOTE: Previously this function returned only the first match (to keep an older
+    API stable). That prevented the caller from seeing multiple results even when
+    LIMIT > 1. Now we return the full list so the pipeline can stream/aggregate all.
     """
     needle = _esc(tag_name)
     q = f"""
@@ -128,10 +133,13 @@ def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5):
         ?recipe ex:n_steps ?n_steps .
     }}
     """
-    out = []
+    if debug_print:
+        print("\n[SPARQL QUERY][list_by_tag]")
+        print(q.strip())
+    results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
         recipe = row.recipe
-        out.append({
+        results.append({
             "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
@@ -140,10 +148,9 @@ def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5):
             "ingredients": _ingredients_list(graph, recipe),
             "steps": _steps_list(graph, recipe),
         })
-    # keep API stable: return first or None
-    return out[0] if out else None
+    return results
 
-def query_find_recipe(graph: Graph, recipe_name: str):
+def query_find_recipe(graph: Graph, recipe_name: str, debug_print: bool = False):
     """
     Return full details for a single recipe matched by name, including
     nutrition dict, tags, ingredients and ordered steps.
@@ -161,6 +168,9 @@ def query_find_recipe(graph: Graph, recipe_name: str):
         ?recipe ex:origin ?origin .
     }} LIMIT 1
     """
+    if debug_print:
+        print("\n[SPARQL QUERY][find_recipe]")
+        print(q.strip())
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
         recipe = row.recipe
         return {
@@ -178,7 +188,32 @@ def query_find_recipe(graph: Graph, recipe_name: str):
         }
     return None
 
-def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5):
+def query_retrieve_ingredients(graph: Graph, recipe_name: str, debug_print: bool = False):
+    """
+    Return ingredients list for a single recipe matched by name.
+    """
+    needle = _esc(recipe_name)
+    q = f"""
+    SELECT ?recipe ?label WHERE {{
+        ?recipe rdf:type ex:Recipe .
+        ?recipe rdfs:label ?label .
+        FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{needle}")))
+    }} LIMIT 1
+    """
+    if debug_print:
+        print("\n[SPARQL QUERY][retrieve_ingredients]")
+        print(q.strip())
+    for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        recipe = row.recipe
+        return {
+            "recipe_uri": str(recipe),
+            "recipe_name": str(row.label),
+            "ingredients": _ingredients_list(graph, recipe),
+        }
+    return None
+
+
+def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5, debug_print: bool = False):
     """
     Return up to top_k matches with only:
       - recipe_name
@@ -200,6 +235,9 @@ def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5):
         BIND(COALESCE(?m1, ?m2) AS ?minutes)
     }} LIMIT {top_k}
     """
+    if debug_print:
+        print("\n[SPARQL QUERY][get_prep_time]")
+        print(q.strip())
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
         # minutes may be untyped or typed; convert safely
@@ -219,7 +257,7 @@ def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5):
         })
     return results
 
-def query_by_cooking_time(graph: Graph, minutes: int, top_k: int = 5):
+def query_by_cooking_time(graph: Graph, minutes: int, top_k: int = 5, debug_print: bool = False):
     """
     Return up to top_k distinct recipes with exact minutes, enriched with
     nutrition dict, tags, ingredients and ordered steps.
@@ -236,6 +274,9 @@ def query_by_cooking_time(graph: Graph, minutes: int, top_k: int = 5):
         ?recipe ex:n_steps ?n_steps .
     }}
     """
+    if debug_print:
+        print("\n[SPARQL QUERY][list_by_time]")
+        print(q.strip())
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
         recipe = row.recipe
