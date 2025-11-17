@@ -145,7 +145,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
             ingredients = _slot_all_labels(slots, "ingredient")
             seq: list[Dict[str, Any]] = []
             for ing in ingredients:
-                print(f"\n🔎 Searching recipes with ingredient: {ing}")
+                print(f"\n---- Searching recipes with ingredient: {ing}----")
                 recs = sparql_queries.query_list_by_ingredient(KG.graph, ing, top_k=sparql_top_k)
                 if not recs:
                     print("   ✖ No recipes found.")
@@ -162,7 +162,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
             tags = _slot_all_labels(slots, "tag")
             seq: list[Dict[str, Any]] = []
             for tag in tags:
-                print(f"\n🔎 Searching recipes with tag: {tag}")
+                print(f"\n---- Searching recipes with tag: {tag}----")
                 recs = sparql_queries.query_list_by_tag(KG.graph, tag, top_k=sparql_top_k)
                 if not recs:
                     print("   ✖ No recipes found.")
@@ -189,7 +189,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
             names = _slot_all_labels(slots, "recipe_name")
             seq: list[Dict[str, Any]] = []
             for name in names:
-                print(f"\n🔎 Searching recipe: {name}")
+                print(f"\n---- Searching recipe: {name}----")
                 r = sparql_queries.query_find_recipe(KG.graph, name)
                 if not r:
                     print("   ✖ No recipe found.")
@@ -205,7 +205,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
             names = _slot_all_labels(slots, "recipe_name")
             seq: list[Dict[str, Any]] = []
             for name in names:
-                print(f"\n🔎 Retrieving ingredients for: {name}")
+                print(f"\n---- Retrieving ingredients for: {name}----")
                 r = sparql_queries.query_retrieve_ingredients(KG.graph, name)
                 if not r:
                     print("   ✖ No recipe found.")
@@ -222,7 +222,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
             names = _slot_all_labels(slots, "recipe_name")
             seq: list[Dict[str, Any]] = []
             for name in names:
-                print(f"\n⏱ Getting prep time for: {name}")
+                print(f"\n---- Getting prep time for: {name}----")
                 times = sparql_queries.query_get_prep_time(KG.graph, name, top_k=sparql_top_k)
                 if not times:
                     print("   ✖ No prep time found.")
@@ -235,7 +235,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
         # INTENT: list_by_time
         elif top_intent == "list_by_time" and slots.get("cooking_time"):
             minutes = slots["cooking_time"]
-            print(f"\n⏱ Searching recipes under {minutes} minutes...")
+            print(f"\n---- Searching recipes under {minutes} minutes----")
             recs = sparql_queries.query_by_cooking_time(KG.graph, minutes, top_k=sparql_top_k)
             if not recs:
                 print("   ✖ No recipes found.")

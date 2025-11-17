@@ -76,10 +76,11 @@ def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5,
     """
     Return up to top_k distinct recipes containing the ingredient, enriched with
     tags, ingredients and ordered steps. Nutrition is expanded to a dict.
+    Also returns minutes if present.
     """
     needle = _esc(ingredient_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps
+    SELECT ?recipe ?label ?n_steps ?minutes
     WHERE {{
         {{
             SELECT DISTINCT ?recipe WHERE {{
@@ -91,6 +92,7 @@ def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5,
         }}
         ?recipe rdfs:label ?label .
         ?recipe ex:n_steps ?n_steps .
+        OPTIONAL {{ ?recipe ex:minutes ?minutes . }}
     }}
     """
     if debug_print:
@@ -98,11 +100,21 @@ def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5,
         print(q.strip())
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        mins = None
+        if row.minutes is not None:
+            try:
+                mins = int(str(row.minutes))
+            except Exception:
+                try:
+                    mins = float(str(row.minutes))
+                except Exception:
+                    mins = str(row.minutes)
         recipe = row.recipe
         results.append({
             "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
+            "minutes": mins,
             "nutrition": _nutrition_dict(graph, recipe),
             "tags": _tags_list(graph, recipe),
             "ingredients": _ingredients_list(graph, recipe),
@@ -112,14 +124,11 @@ def query_list_by_ingredient(graph: Graph, ingredient_name: str, top_k: int = 5,
 
 def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5, debug_print: bool = False):
     """Return a LIST of up to top_k distinct recipes having the tag.
-
-    NOTE: Previously this function returned only the first match (to keep an older
-    API stable). That prevented the caller from seeing multiple results even when
-    LIMIT > 1. Now we return the full list so the pipeline can stream/aggregate all.
+    Also returns minutes if present.
     """
     needle = _esc(tag_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps
+    SELECT ?recipe ?label ?n_steps ?minutes
     WHERE {{
         {{
             SELECT DISTINCT ?recipe WHERE {{
@@ -131,6 +140,7 @@ def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5, debug_print: 
         }}
         ?recipe rdfs:label ?label .
         ?recipe ex:n_steps ?n_steps .
+        OPTIONAL {{ ?recipe ex:minutes ?minutes . }}
     }}
     """
     if debug_print:
@@ -138,11 +148,21 @@ def query_list_by_tag(graph: Graph, tag_name: str, top_k: int = 5, debug_print: 
         print(q.strip())
     results = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        mins = None
+        if row.minutes is not None:
+            try:
+                mins = int(str(row.minutes))
+            except Exception:
+                try:
+                    mins = float(str(row.minutes))
+                except Exception:
+                    mins = str(row.minutes)
         recipe = row.recipe
         results.append({
             "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
+            "minutes": mins,
             "nutrition": _nutrition_dict(graph, recipe),
             "tags": _tags_list(graph, recipe),
             "ingredients": _ingredients_list(graph, recipe),
@@ -191,23 +211,35 @@ def query_find_recipe(graph: Graph, recipe_name: str, debug_print: bool = False)
 def query_retrieve_ingredients(graph: Graph, recipe_name: str, debug_print: bool = False):
     """
     Return ingredients list for a single recipe matched by name.
+    Also returns minutes if present.
     """
     needle = _esc(recipe_name)
     q = f"""
-    SELECT ?recipe ?label WHERE {{
+    SELECT ?recipe ?label ?minutes WHERE {{
         ?recipe rdf:type ex:Recipe .
         ?recipe rdfs:label ?label .
         FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{needle}")))
+        OPTIONAL {{ ?recipe ex:minutes ?minutes . }}
     }} LIMIT 1
     """
     if debug_print:
         print("\n[SPARQL QUERY][retrieve_ingredients]")
         print(q.strip())
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+        mins = None
+        if row.minutes is not None:
+            try:
+                mins = int(str(row.minutes))
+            except Exception:
+                try:
+                    mins = float(str(row.minutes))
+                except Exception:
+                    mins = str(row.minutes)
         recipe = row.recipe
         return {
             "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
+            "minutes": mins,
             "ingredients": _ingredients_list(graph, recipe),
         }
     return None
