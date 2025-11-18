@@ -40,21 +40,16 @@ warnings.filterwarnings("ignore", message="Language pt package default expects m
 EX = Namespace("http://example.org/recipes#")
 
 
-# -----------------------
-# Configurable thresholds (tune these)
-# scores are 0..100 when passed to rapidfuzz score_cutoff
 THRESHOLDS = {
     "recipe_name": 75,   
     "ingredient": 90,    
     "tag": 90,           
 }
 # If candidate contains explicit Portuguese features, boost preference
-PT_PREF_BOOST = 5  # add to score for PT-likely items
+PT_PREF_BOOST = 5 
 
 
-# ===========================================================
 # 1. COOKING TIME REGEX
-# ===========================================================
 TIME_PATTERNS = [
     re.compile(r"\b(?P<val>\d{1,3})\s*(minutos|min|mins|minute|minutes)\b", re.I),
     re.compile(r"\b(?P<val>\d{1,2})\s*(h|hora|horas|hour|hours)\b", re.I),
@@ -115,9 +110,7 @@ def cooking_time_to_minutes(text: str) -> Optional[int]:
     return None
 
 
-# ===========================================================
 # 2. SPACY PIPELINE
-# ===========================================================
 def build_spacy_pipeline(lang_priority: str = "pt"):
     """
     Load a PT or EN spaCy model. Fall back to blank "xx".
@@ -154,9 +147,8 @@ def build_spacy_pipeline(lang_priority: str = "pt"):
     return nlp
 
 
-# ===========================================================
+
 # 3. KG INDEX + FUZZY SEARCH (with normalization)
-# ===========================================================
 def strip_accents(s: str) -> str:
     """Return accent-stripped lowercased form"""
     if not isinstance(s, str):
@@ -249,7 +241,6 @@ class KGIndex:
 
         # Build search pool as (orig_label, norm_label)
         query_norm = strip_accents(query)
-        # 1) Use rapidfuzz on the normalized lists (faster and more robust across diacritics)
         raw_results = process.extract(query_norm, items_norm, scorer=fuzz.WRatio, limit=limit, score_cutoff=score_cutoff)
         # raw_results: list of (matched_norm_label, score, idx)
         results = []
@@ -263,9 +254,7 @@ class KGIndex:
         return results
 
 
-# ===========================================================
 # 4. NLP CANDIDATES
-# ===========================================================
 def extract_candidates(text: str, nlp):
     """
     Returns:
@@ -307,9 +296,7 @@ def extract_candidates(text: str, nlp):
     return {"candidate_chunks": final_chunks, "cooking_time": cooking_time_to_minutes(text), "doc": doc}
 
 
-# ===========================================================
 # 5. LINKING (intent-aware, PT-first)
-# ===========================================================
 def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) -> Dict[str, Any]:
     chunks: List[str] = candidates["candidate_chunks"]
     cooking_time = candidates["cooking_time"]
@@ -362,9 +349,7 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
     return out
 
 
-# ===========================================================
 # 6. MASTER FUNCTION (compatible with your pipeline)
-# ===========================================================
 # Minimal accent/spelling normalization (fast) for frequent Portuguese misspellings
 _PT_FIX = {
     "acorda": "açorda",
@@ -436,7 +421,7 @@ def _merge_scored_lists(a, b):
             best[label] = s
     return sorted(best.items(), key=lambda x: x[1], reverse=True)
 
-
+#pipeline-compatible function
 def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
     """
     Detect language (PT/EN), run the pipeline on original and translated queries,

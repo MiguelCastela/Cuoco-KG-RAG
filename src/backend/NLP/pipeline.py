@@ -2,7 +2,6 @@ import os
 import sys
 from typing import Dict, Any, Optional
 
-# Robust imports: module or script
 try:
     from infer_intent import predict_intent
     from entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link
@@ -27,10 +26,7 @@ INTENTS_NEEDING_EXTRACTION = {
     "list_by_time",
 }
 
-# -----------------------------------------------------------
 # NEW: SLOT EXTRACTION WITHOUT RUNNING SPARQL
-# -----------------------------------------------------------
-
 def extract_slots_only(text: str, top_k: int = 1):
     """Extract intent + slots WITHOUT running SPARQL queries."""
     preds = predict_intent(text, top_k=top_k)
@@ -43,10 +39,7 @@ def extract_slots_only(text: str, top_k: int = 1):
     return top_intent, conf, slots
 
 
-# -----------------------------------------------------------
 # SEQUENTIAL PRINT HELPERS
-# -----------------------------------------------------------
-
 def _fmt_nutrition(n: Dict[str, Any]) -> str:
     if not n:
         return "(none)"
@@ -87,10 +80,7 @@ def _fmt_recipe(r: Dict[str, Any]):
     return out
 
 
-# -----------------------------------------------------------
 # UTIL SLOT FUNCTIONS
-# -----------------------------------------------------------
-
 def _slot_top_label(slots: Dict[str, Any], key: str) -> Optional[str]:
     v = slots.get(key)
     if not v:
@@ -125,10 +115,7 @@ def _slot_all_labels(slots: Dict[str, Any], key: str) -> list[str]:
     return labels
 
 
-# -----------------------------------------------------------
 # MAIN LOGIC WITH SEQUENTIAL QUERY EXECUTION
-# -----------------------------------------------------------
-
 def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dict[str, Any]:
     preds = predict_intent(text, top_k=intent_top_k)
     top_intent, conf = preds[0] if preds else (None, 0.0)
@@ -248,10 +235,6 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
     return result
 
 
-# -----------------------------------------------------------
-# MAIN CLI – NOW PRINTS SLOTS BEFORE SPARQL EXECUTION
-# -----------------------------------------------------------
-
 if __name__ == "__main__":
     # Default values
     text = "Quais são os ingredientes da francesinha?"
@@ -293,9 +276,7 @@ if __name__ == "__main__":
     if remaining:
         text = " ".join(remaining)
 
-    # -----------------------------------------
     # 1) Extract intent & slots FIRST
-    # -----------------------------------------
     intent, conf, slots = extract_slots_only(text, top_k=intent_top_k)
 
     print("\n========== QUERY INFO ==========")
@@ -341,7 +322,5 @@ if __name__ == "__main__":
     print("\n========== RESULTS (Sequential Execution) ==========\n")
     print("(Below, each SPARQL query is executed and printed one by one.)\n")
 
-    # -----------------------------------------
     # 2) Now run the real pipeline (prints SPARQL)
-    # -----------------------------------------
     handle_query(text, intent_top_k=intent_top_k, sparql_top_k=sparql_top_k)

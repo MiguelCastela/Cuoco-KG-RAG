@@ -9,11 +9,10 @@ import sys
 
 # Support both package and direct script execution
 try:
-    from .entity_extraction import extract_and_link  # type: ignore
+    from .entity_extraction import extract_and_link 
 except Exception:
-    # When run as a script, relative import fails; add this folder to sys.path
     sys.path.append(os.path.dirname(__file__))
-    from entity_extraction import extract_and_link  # type: ignore
+    from entity_extraction import extract_and_link  
 
 
 def main():
@@ -22,9 +21,7 @@ def main():
         sys.exit(1)
 
     query = sys.argv[1]
-    # Default TTL relative to this file: ../../data/curated/recipes_graph_cleaned.ttl
     base_dir = os.path.dirname(__file__)
-    # Use example.ttl if the cleaned graph is not available in the repo for quick demo
     default_a = os.path.normpath(os.path.join(base_dir, "../../data/curated/recipes_graph_cleaned.ttl"))
     default_b = os.path.normpath(os.path.join(base_dir, "../../data/curated/example.ttl"))
     ttl_path = default_a if os.path.exists(default_a) else default_b
