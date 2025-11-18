@@ -1,6 +1,6 @@
-list_by_ingredient - top-k ingredients above threshold -> recipe_name e a tag, n_steps, nutrition, recipe_name (duas, se houver)
-list_by_tag	- top-k tags above threshol -> recipe_name e a n_steps, nutrition (só uma)
+list_by_ingredient - top-k ingredients above threshold -> tudo (cinco)
+list_by_tag	- top-k tags above threshol -> tudo (cinco)
 find_recipe	- best recipe_name -> todos os dados dessa recipe (só uma) 
 retrieve_ingredients - best recipe_name -> ingredients dessa recipe (só uma)
-get_prep_time - best recipe_name -> ag, n_steps, nutrition, recipe_name (top três, se houver)
-Se tiver Cooking_time -> procurar no "time" se tem esse tempo e retornar ecipe_name e a tag, n_steps, nutrition, recipe_name (duas, se houver)
+get_prep_time - best recipe_name -> 
+Se tiver Cooking_time -> procurar no "time" se tem esse tempo e retornar

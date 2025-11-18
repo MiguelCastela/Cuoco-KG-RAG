@@ -7,7 +7,6 @@ def _esc(s: str) -> str:
     return s.replace('"', '\\"')
 
 # --- Helpers to enrich a recipe node ---
-
 _NUTRITION_PROPS = [
     "calories", "protein", "saturatedFat", "sodium", "sugar", "totalFat", "unknown",
 ]
