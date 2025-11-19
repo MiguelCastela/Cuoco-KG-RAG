@@ -177,7 +177,7 @@ def query_find_recipe(graph: Graph, recipe_name: str, debug_print: bool = False)
     """
     needle = _esc(recipe_name)
     q = f"""
-    SELECT ?recipe ?label ?n_steps ?id ?minutes ?n_ingredients ?origin WHERE {{
+    SELECT ?recipe ?label ?n_steps ?id ?minutes ?n_ingredients WHERE {{
         ?recipe rdf:type ex:Recipe .
         ?recipe rdfs:label ?label .
         FILTER(CONTAINS(LCASE(STR(?label)), LCASE("{needle}")))
@@ -185,7 +185,6 @@ def query_find_recipe(graph: Graph, recipe_name: str, debug_print: bool = False)
         ?recipe ex:id ?id .
         ?recipe ex:minutes ?minutes .
         ?recipe ex:n_ingredients ?n_ingredients .
-        ?recipe ex:origin ?origin .
     }} LIMIT 1
     """
     if debug_print:
@@ -200,7 +199,6 @@ def query_find_recipe(graph: Graph, recipe_name: str, debug_print: bool = False)
             "id": int(row.id),
             "minutes": int(row.minutes),
             "n_ingredients": int(row.n_ingredients),
-            "origin": str(row.origin),
             "nutrition": _nutrition_dict(graph, recipe),
             "tags": _tags_list(graph, recipe),
             "ingredients": _ingredients_list(graph, recipe),
