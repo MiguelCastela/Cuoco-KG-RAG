@@ -82,6 +82,10 @@ def cooking_time_to_minutes(text: str) -> Optional[int]:
         return None
     t = text.lower()
 
+    # Require an explicit digit somewhere to consider time extraction
+    if not re.search(r"\d", t):
+        return None
+
     # Combined H + M first
     for pat in TIME_PATTERNS[2:]:
         m = pat.search(t)
@@ -299,23 +303,22 @@ def extract_candidates(text: str, nlp):
 # 5. LINKING (intent-aware, PT-first)
 def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) -> Dict[str, Any]:
     chunks: List[str] = candidates["candidate_chunks"]
-    cooking_time = candidates["cooking_time"]
-    out = {"ingredient": [], "recipe_name": [], "tag": [], "cooking_time": cooking_time}
+    # Only keep cooking_time if intent is list_by_time
+    cooking_time_raw = candidates["cooking_time"] if intent == "list_by_time" else None
+    out = {"ingredient": [], "recipe_name": [], "tag": [], "cooking_time": cooking_time_raw}
 
     # Heuristic: detect whether the user text is Portuguese (presence of pt chars or PT tokens)
     text_join = " ".join(chunks).lower() if chunks else ""
     prefer_pt = has_portuguese_chars(text_join)
 
-    # If intent is time-related explicitly, prefer recipe matching + cooking_time use
+    # If intent is time-related explicitly, only extract cooking time using regex patterns
     if intent == "list_by_time":
-        # We'll return cooking_time (already present) and possibly matched recipes
-        if cooking_time:
-            out["cooking_time"] = cooking_time
-        for c in sorted(chunks, key=len, reverse=True):
-            matches = kg.search("recipes", c, limit=1, score_cutoff=THRESHOLDS["recipe_name"], prefer_pt=prefer_pt)
-            if matches:
-                out["recipe_name"].append(matches[0])
-                break
+        # Only use explicitly parsed time from the user's text.
+        # Do NOT infer minutes from KG labels/tags to avoid accidental defaults (e.g., 30).
+        if cooking_time_raw is not None:
+            out["cooking_time"] = cooking_time_raw
+        else:
+            out["cooking_time"] = None
         return out
 
     if intent == "list_by_ingredient":
@@ -326,9 +329,14 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
 
     if intent == "list_by_tag":
         # Tag domain filtering: only search tags
+        # Dynamic lowering of threshold for time-related generic phrases to allow fuzzy match to time tags.
+        lowered = any(strip_accents(c).startswith(x) or x in strip_accents(c) for x in ["tempo", "rapido", "rapida", "rapidas", "pouco tempo"] for c in chunks)
+        tag_cutoff = 70 if lowered else THRESHOLDS["tag"]
         for c in chunks:
-            matches = kg.search("tags", c, limit=3, score_cutoff=THRESHOLDS["tag"], prefer_pt=prefer_pt)
+            matches = kg.search("tags", c, limit=3, score_cutoff=tag_cutoff, prefer_pt=prefer_pt)
             out["tag"].extend(matches)
+        # Add synonym expansions (synthetic high-score tags) for time expressions
+        out["tag"].extend(_expand_time_tag_synonyms(chunks))
         return out
 
     if intent in {"find_recipe", "retrieve_ingredients", "get_prep_time"}:
@@ -440,11 +448,7 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
     # 3) Extract candidates on original
     candidates_primary = extract_candidates(text, nlp_primary)
 
-    # Conservative time-intent override (based on original text)
-    if candidates_primary.get("cooking_time") is not None and intent not in {"list_by_time", "get_prep_time"}:
-        if re.search(r"\b(\d{1,3})\s*(minutos|min|mins|h|hora|horas|hour|hours)\b", text, re.I):
-            intent = "list_by_time"
-
+    # Removed automatic intent override; intent remains as predicted.
     linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
 
     # 4) Translate and run second pass
@@ -466,10 +470,34 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
             linked_primary.get("tag", []),
             linked_secondary.get("tag", []),
         ),
-        "cooking_time": linked_primary.get("cooking_time") or linked_secondary.get("cooking_time"),
+        "cooking_time": linked_primary.get("cooking_time") or linked_secondary.get("cooking_time") if intent == "list_by_time" else None,
         # Optional extras (safe to ignore downstream)
         "detected_language": lang,
         "original_query": text,
         "translated_query": translated_text,
     }
     return merged
+
+# Time / speed related PT expressions mapped to KG tags
+_TIME_TAG_SYNONYMS = {
+    "pouco tempo": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make"],
+    "rapido": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make", "quick"],
+    "rápido": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make", "quick"],
+    "rápidas": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make", "quick"],
+    "rapidas": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make", "quick"],
+    "rápida": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make", "quick"],
+    "rapida": ["30-minutes-or-less", "15-minutes-or-less", "time-to-make", "quick"],
+    "fácil": ["easy"],
+    "facil": ["easy"],
+    "faceis": ["easy"],
+    "fáceis": ["easy"],
+}
+
+def _expand_time_tag_synonyms(chunks: List[str]) -> List[tuple[str, float]]:
+    out = []
+    for c in chunks:
+        key = strip_accents(c.lower())
+        if key in _TIME_TAG_SYNONYMS:
+            for tag in _TIME_TAG_SYNONYMS[key]:
+                out.append((tag, 96.0))  # high confidence synthetic match
+    return out

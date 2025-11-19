@@ -1,5 +1,6 @@
 # sparql_queries.py
 from rdflib import Graph, Namespace, RDF, RDFS, URIRef
+from rdflib.namespace import XSD
 
 EX = Namespace("http://example.org/recipes#")
 
@@ -288,33 +289,41 @@ def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5, debug_pr
         })
     return results
 
-def query_by_cooking_time(graph: Graph, minutes: int, top_k: int = 5, debug_print: bool = False):
-    """
-    Return up to top_k distinct recipes with exact minutes, enriched with
-    nutrition dict, tags, ingredients and ordered steps.
+def query_by_exact_minutes(graph: Graph, minutes: int, top_k: int = 5):
+    """Return up to top_k distinct recipes whose ex:minutes value equals the given minutes.
+    Enriched like other list queries. Used for regex-extracted exact minute searches before fuzzy fallback.
     """
     q = f"""
-    SELECT ?recipe ?label ?n_steps WHERE {{
+    SELECT ?recipe ?label ?n_steps ?m WHERE {{
         {{
-            SELECT DISTINCT ?recipe WHERE {{
+            SELECT DISTINCT ?recipe ?m WHERE {{
                 ?recipe rdf:type ex:Recipe .
-                ?recipe ex:minutes {minutes} .
+                ?recipe ex:minutes ?rawM .
+                FILTER(xsd:integer(?rawM) = {minutes})
+                BIND(xsd:integer(?rawM) AS ?m)
             }} LIMIT {top_k}
         }}
         ?recipe rdfs:label ?label .
         ?recipe ex:n_steps ?n_steps .
     }}
     """
-    if debug_print:
-        print("\n[SPARQL QUERY][list_by_time]")
-        print(q.strip())
     results = []
-    for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS}):
+    for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS, "xsd": XSD}):
         recipe = row.recipe
+        mins = None
+        if row.m is not None:
+            try:
+                mins = int(str(row.m))
+            except Exception:
+                try:
+                    mins = float(str(row.m))
+                except Exception:
+                    mins = str(row.m)
         results.append({
             "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
             "n_steps": int(row.n_steps),
+            "minutes": mins,
             "nutrition": _nutrition_dict(graph, recipe),
             "tags": _tags_list(graph, recipe),
             "ingredients": _ingredients_list(graph, recipe),

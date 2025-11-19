@@ -115,10 +115,36 @@ def _slot_all_labels(slots: Dict[str, Any], key: str) -> list[str]:
     return labels
 
 
+def _slot_all_scored(slots: Dict[str, Any], key: str) -> list[tuple[str, float]]:
+    v = slots.get(key)
+    out: list[tuple[str, float]] = []
+    if not v:
+        return out
+    if isinstance(v, list):
+        for item in v:
+            if isinstance(item, (list, tuple)) and len(item) >= 2:
+                try:
+                    out.append((str(item[0]), float(item[1])))
+                except Exception:
+                    out.append((str(item[0]), 0.0))
+            elif isinstance(item, str):
+                out.append((item, 0.0))
+    elif isinstance(v, (list, tuple)) and len(v) >= 1:
+        try:
+            out.append((str(v[0]), float(v[1]) if len(v) > 1 else 0.0))
+        except Exception:
+            out.append((str(v[0]), 0.0))
+    elif isinstance(v, str):
+        out.append((v, 0.0))
+    return out
+
+
 # MAIN LOGIC WITH SEQUENTIAL QUERY EXECUTION
 def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dict[str, Any]:
     preds = predict_intent(text, top_k=intent_top_k)
     top_intent, conf = preds[0] if preds else (None, 0.0)
+
+    top_intent = top_intent.strip() if isinstance(top_intent, str) else top_intent
 
     result: Dict[str, Any] = {"intent": top_intent, "confidence": conf, "text": text}
 
@@ -220,17 +246,70 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
             result["kg_results"] = seq
 
         # INTENT: list_by_time
-        elif top_intent == "list_by_time" and slots.get("cooking_time"):
-            minutes = slots["cooking_time"]
-            print(f"\n---- Searching recipes under {minutes} minutes----")
-            recs = sparql_queries.query_by_cooking_time(KG.graph, minutes, top_k=sparql_top_k)
-            if not recs:
-                print("   ✖ No recipes found.")
+        elif top_intent == "list_by_time":
+            print("[DEBUG] Entered list_by_time handler")
+            minutes = slots.get("cooking_time")
+            print(f"[DEBUG] Extracted minutes: {minutes}")
+            if minutes is not None:
+                print(f"\n---- Exact time search: minutes == {minutes} ----")
+                recs_exact = sparql_queries.query_by_exact_minutes(KG.graph, minutes, top_k=sparql_top_k)
+                print(f"[DEBUG] Exact minutes query returned {len(recs_exact)} rows")
+                if recs_exact:
+                    print(f"   ✔ Found {len(recs_exact)} recipes (regex exact minutes match)")
+                    for r in recs_exact:
+                        for line in _fmt_recipe(r):
+                            print(line)
+                    result["kg_results"] = recs_exact
+                    result["result_basis"] = "regex_exact_minutes"
+                    print("\n[Result basis] regex_exact_minutes")
+                else:
+                    print("   ✖ No exact matches by minutes. Falling back to fuzzy tag matching only.")
+                    tag_slots = extract_and_link(text, intent="list_by_tag", nlp=NLP, kg=KG)
+                    tags_scored = _slot_all_scored(tag_slots, "tag")
+                    seq: list[Dict[str, Any]] = []
+                    seen = set()
+                    for tag, score in tags_scored[:sparql_top_k]:
+                        print(f"\n---- Fuzzy tag fallback: {tag} (score {score:.1f}) ----")
+                        recs = sparql_queries.query_list_by_tag(KG.graph, tag, top_k=sparql_top_k)
+                        if not recs:
+                            print("   ✖ No recipes for tag.")
+                            continue
+                        print(f"   ✔ {len(recs)} recipes for tag '{tag}':")
+                        for r in recs:
+                            uri = r.get("recipe_uri")
+                            if uri in seen:
+                                continue
+                            seen.add(uri)
+                            for line in _fmt_recipe(r):
+                                print(line)
+                            seq.append(r)
+                    result["kg_results"] = seq
+                    result["result_basis"] = "fuzzy_tag_fallback"
+                    print("\n[Result basis] fuzzy_tag_fallback")
             else:
-                for r in recs:
-                    for line in _fmt_recipe(r):
-                        print(line)
-            result["kg_results"] = recs
+                print("\n---- No explicit minutes detected. Using fuzzy tag fallback only. ----")
+                tag_slots = extract_and_link(text, intent="list_by_tag", nlp=NLP, kg=KG)
+                tags_scored = _slot_all_scored(tag_slots, "tag")
+                seq: list[Dict[str, Any]] = []
+                seen = set()
+                for tag, score in tags_scored[:sparql_top_k]:
+                    print(f"\n---- Fuzzy tag fallback: {tag} (score {score:.1f}) ----")
+                    recs = sparql_queries.query_list_by_tag(KG.graph, tag, top_k=sparql_top_k)
+                    if not recs:
+                        print("   ✖ No recipes for tag.")
+                        continue
+                    print(f"   ✔ {len(recs)} recipes for tag '{tag}':")
+                    for r in recs:
+                        uri = r.get("recipe_uri")
+                        if uri in seen:
+                            continue
+                        seen.add(uri)
+                        for line in _fmt_recipe(r):
+                            print(line)
+                        seq.append(r)
+                result["kg_results"] = seq
+                result["result_basis"] = "fuzzy_tag_fallback"
+                print("\n[Result basis] fuzzy_tag_fallback")
 
     return result
 

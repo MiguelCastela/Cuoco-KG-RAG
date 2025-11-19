@@ -27,7 +27,7 @@ def predict_intent(text: str, top_k: int = 2):
         logits = model(**inputs).logits
         probs = F.softmax(logits, dim=-1).squeeze(0)
     topk = torch.topk(probs, k=min(top_k, probs.shape[0]))
-    results = [(id2label[int(i)], float(p)) for p, i in zip(topk.values, topk.indices)]
+    results = [(id2label[int(i)].strip(), float(p)) for p, i in zip(topk.values, topk.indices)]
     return results  # list of (label, confidence)
 
 # Replace the old __main__ with a CLI that accepts a user query
