@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ollama_chat_pipeline.py - Ollama HTTP-only client (compatible with Ollama 0.6.x)
+groq_chat_pipeline.py - Ollama HTTP-only client (compatible with Ollama 0.6.x)
 
 This version:
 - Does NOT rewrite the user query.
@@ -14,6 +14,7 @@ import json
 import textwrap
 import requests
 from typing import Any, Dict
+from functools import lru_cache
 
 # -------------------------
 # Load .env optionally
@@ -58,6 +59,53 @@ try:
     _MAX_TOK = int(_MAX_TOK) if _MAX_TOK is not None else None
 except Exception:
     _MAX_TOK = None
+
+# ---- Vector description similarity (FAISS) ----
+_DESC_INDEX_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "data", "vector_index"))
+_DESC_META = os.path.join(_DESC_INDEX_DIR, "desc_meta.json")
+_DESC_EMB = os.path.join(_DESC_INDEX_DIR, "embeddings.npy")
+_DESC_FAISS = os.path.join(_DESC_INDEX_DIR, "faiss.index")
+
+@lru_cache(maxsize=1)
+def _load_desc_index():
+    try:
+        if not (os.path.exists(_DESC_META) and os.path.exists(_DESC_EMB) and os.path.exists(_DESC_FAISS)):
+            return None
+        import json, numpy as np, faiss
+        from sentence_transformers import SentenceTransformer
+        with open(_DESC_META, encoding="utf-8") as f:
+            meta = json.load(f)
+        emb = np.load(_DESC_EMB)
+        index = faiss.read_index(_DESC_FAISS)
+        model_name = meta.get("meta", {}).get("model") or "sentence-transformers/all-MiniLM-L6-v2"
+        model = SentenceTransformer(model_name)
+        return {"meta": meta, "emb": emb, "index": index, "model": model}
+    except Exception:
+        return None
+
+def _similar_description_chunks(query: str, top_k: int = 5):
+    data = _load_desc_index()
+    if not data:
+        return []
+    import numpy as np
+    model = data["model"]
+    index = data["index"]
+    meta = data["meta"]
+    records = meta.get("records", [])
+    qv = model.encode([query], normalize_embeddings=True).astype("float32")
+    D, I = index.search(qv, min(top_k, len(records)))
+    out = []
+    for score, idx in zip(D[0], I[0]):
+        if int(idx) < len(records):
+            r = records[int(idx)]
+            out.append({
+                "id": r["id"],
+                "name": r["name"],
+                "chunk_id": r["chunk_id"],
+                "text": r["text"].strip(),
+                "score": float(score)
+            })
+    return out
 
 # -------------------------
 # Ollama helpers
@@ -181,6 +229,16 @@ def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> str:
         f"{brief}\n\n"
         "Answer:"
     )
+    desc_chunks = result.get("similar_description_chunks") or []
+    if desc_chunks:
+        desc_lines = "\n".join(f"- {c['text']}" for c in desc_chunks)
+        # Prepend instruction block; LLM should start output with these lines integrated.
+        prepend = (
+            "IMPORTANT: Start your answer by naturally incorporating the following recipe description snippets "
+            "(do NOT alter their facts; you may lightly merge phrasing):\n"
+            f"{desc_lines}\n\n"
+        )
+        prompt = prepend + prompt  # prompt variable assumed existing in original code
     return run_ollama(prompt)
 
 # -------------------------
@@ -193,7 +251,10 @@ def _process_query(user_query: str):
     print(f"\nProcessing query: '{user_query}'")
     # Skip LLM rewrite entirely; just use query directly
     rewritten = user_query
-    result = handle_query(rewritten, intent_top_k=1, sparql_top_k=5)
+    handle, extract_slots = _load_pipeline()
+    result = handle(user_query, intent_top_k=1, sparql_top_k=5)
+    # Add top-5 similar description chunks from vector index
+    result["similar_description_chunks"] = _similar_description_chunks(user_query, top_k=5)
     print("\nPipeline result summary:")
     print(json.dumps(result, indent=2, ensure_ascii=False))
     summary = _summarize_with_llm(user_query, result)

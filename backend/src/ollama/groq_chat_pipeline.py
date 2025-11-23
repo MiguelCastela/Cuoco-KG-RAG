@@ -21,9 +21,11 @@ except Exception:
 # -------------------------
 # Pipeline import (lazy)
 # -------------------------
-PIPELINE_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), "../NLP"))
-if PIPELINE_DIR not in sys.path:
-    sys.path.append(PIPELINE_DIR)
+PROJECT_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
+
+mod = importlib.import_module("NLP.pipeline")
 
 _handle_query = None
 _extract_slots_only = None
@@ -33,7 +35,7 @@ def _load_pipeline():
     if _handle_query is None or _extract_slots_only is None:
         print("Loading pipeline components...")
         try:
-            mod = importlib.import_module("pipeline")
+            mod = importlib.import_module("NLP.pipeline")
             _handle_query = getattr(mod, "handle_query")
             _extract_slots_only = getattr(mod, "extract_slots_only")
             print("Pipeline components loaded successfully")
@@ -41,6 +43,9 @@ def _load_pipeline():
             print(f"Failed to import pipeline: {e}")
             sys.exit(1)
     return _handle_query, _extract_slots_only
+
+from RAG.description_index import similarity_search
+
 
 # -------------------------
 # Config
@@ -118,12 +123,6 @@ def api_chat(prompt: str, model_name: str) -> str:
     client = _ensure_client()
     if client is None:
         return ""
-    url_display = "https://api.groq.com/v1/chat/completions"
-    print(f"POST {url_display} model={model_name}")
-    print("=== LLM PROMPT (truncated to 800 chars) ===")
-    print(prompt[:800] + ("..." if len(prompt) > 800 else ""))
-    print("=== END PROMPT ===")
-
     params: Dict[str, Any] = {
         "model": model_name,
         "messages": [{"role": "user", "content": prompt}],
@@ -169,75 +168,201 @@ def run_groq(prompt: str) -> str:
 # -------------------------
 # Brief construction (same)
 # -------------------------
-def _brief_result_for_llm(result: Dict[str, Any]) -> str:
+def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
+    """
+    Build a concise structured block for the LLM that now includes:
+    - original query
+    - detected language
+    - translated query
+    - intent + confidence
+    - slot summaries
+    - recipe structured data
+    """
     lines = []
+    # Core query info
+    orig = result.get("original_query") or user_query
+    detected_lang = (result.get("detected_language")
+                     or (result.get("slots") or {}).get("detected_language"))
+    translated = (result.get("translated_query")
+                  or (result.get("slots") or {}).get("translated_query"))
     intent = result.get("intent")
+    intent_conf = result.get("intent_confidence") or result.get("intent_score") \
+                  or (result.get("intent_scores") or [None])[0]
+
+    lines.append(f"original_query={orig}")
+    if detected_lang:
+        lines.append(f"detected_language={detected_lang}")
+    if translated and translated != orig:
+        lines.append(f"translated_query={translated}")
     if intent:
-        lines.append(f"intent={intent}")
+        if isinstance(intent_conf, (int, float)):
+            lines.append(f"intent={intent} confidence={intent_conf:.2f}")
+        else:
+            lines.append(f"intent={intent}")
+
+    # Slots
     slots = result.get("slots") or {}
-    recipe_names = slots.get("recipe_name") or []
-    if recipe_names and isinstance(recipe_names[0], (list, tuple)):
-        lines.append(f"slot_recipe_name={recipe_names[0][0]}")
-    cooking_time = slots.get("cooking_time")
-    if isinstance(cooking_time, int):
-        lines.append(f"slot_cooking_time={cooking_time}m")
+    for k, v in slots.items():
+        if k in {"original_query","translated_query","detected_language"}:
+            continue
+        if k == "cooking_time" and isinstance(v, int):
+            lines.append(f"slot_cooking_time={v}m")
+            continue
+        if isinstance(v, list):
+            # show top 3 items if score pairs
+            rendered = []
+            for item in v[:3]:
+                if isinstance(item, (list, tuple)) and len(item) >= 2 and isinstance(item[1], (int,float)):
+                    rendered.append(f"{item[0]}({item[1]:.2f})")
+                else:
+                    rendered.append(str(item))
+            lines.append(f"slot_{k}=" + ", ".join(rendered))
+        else:
+            lines.append(f"slot_{k}={v}")
+
+    # Recipes
     recipes = result.get("kg_results") or []
-    if recipes:
-        for r in recipes:
-            name = r.get("recipe_name") or r.get("recipe_uri")
-            minutes = r.get("minutes")
-            ingredients = r.get("ingredients") or []
-            steps = r.get("steps") or []
-            tags = r.get("tags") or []
-            lines.append(f"Recipe: {name}")
-            if minutes:
-                lines.append(f"Minutes: {minutes}")
-            if tags:
-                lines.append(f"Tags: {', '.join(tags)}")
-            if ingredients:
-                lines.append("Ingredients: " + ", ".join(ingredients))
-            if steps:
-                lines.append("Steps:")
-                for i, s in enumerate(steps, start=1):
-                    lines.append(f"{i:02d}. {s}")
+    for r in recipes:
+        name = r.get("recipe_name") or r.get("recipe_uri")
+        minutes = r.get("minutes")
+        tags = r.get("tags") or []
+        ing = r.get("ingredients") or []
+        lines.append(f"Recipe: {name}")
+        if minutes is not None:
+            lines.append(f"Minutes: {minutes}")
+        if tags:
+            lines.append(f"Tags: {', '.join(tags[:12])}")
+        if ing:
+            lines.append("Ingredients: " + ", ".join(ing[:15]))
+        steps = r.get("steps") or []
+        if steps:
+            lines.append("Steps:")
+            for i, s in enumerate(steps[:8], start=1):
+                lines.append(f"{i:02d}. {s}")
+
     return "\n".join(lines)
 
-def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> str:
-    brief = _brief_result_for_llm(result)
+
+def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> tuple[str, str]:
+    """
+    Returns (llm_response, prompt_used) with heuristic filtering of description snippets.
+    """
+    brief = _brief_result_for_llm(result, user_query)
+
+    # Heuristic filtering of description chunks
+    raw_chunks = result.get("similar_description_chunks") or []
+    import re
+    user_tokens = set(re.findall(r"\w+", user_query.lower()))
+    filtered = []
+    for c in raw_chunks:
+        text = (c.get("text") or "").strip()
+        score = float(c.get("score") or 0.0)
+        if not text:
+            continue
+        # basic length / token criteria
+        tokens = re.findall(r"\w+", text.lower())
+        if len(tokens) < 4:
+            continue
+        overlap = len(user_tokens & set(tokens))
+        # keep if score is reasonably high OR lexical overlap OR contains domain words (recipe, dish, ingredient)
+        domain_ok = any(w in text.lower() for w in ("recipe","dish","ingred","tradicional","portuguese","peanut","bacalhau","cod"))
+        if score >= 0.32 or overlap >= 1 or domain_ok:
+            filtered.append({"text": text, "score": score})
+        if len(filtered) >= 5:
+            break
+
+    desc_lines = ""
+    if filtered:
+        lines = []
+        for i, c in enumerate(filtered, start=1):
+            t = c["text"]
+            if len(t) > 240:
+                t = t[:237].rstrip() + "..."
+            lines.append(f"{i}. {t}")
+        desc_lines = "Description snippets (semantic matches):\n" + "\n".join(lines) + "\n\n"
+
     prompt = (
         "You are a bilingual PT/EN assistant.\n"
-        "ONLY use the following structured recipe output and the user query. "
-        "Do NOT invent anything. Do NOT add URLs, extra steps, or external references. "
-        "Produce a concise summary in natural language.\n\n"
+        "Use ONLY: (a) the user query, (b) the description snippets, (c) the structured recipe data.\n"
+        "Tasks:\n"
+        "1. Begin with 1–2 fluent sentences (PT first then EN) integrating relevant description snippets (do NOT invent).\n"
+        "2. Provide a concise bilingual table summarizing the retrieved recipes (PT first then EN for columns or entries).\n"
+        "3. End with a short closing line.\n"
+        "Rules: Do NOT add URLs, external sources, or steps not present. Do NOT fabricate ingredients or times.\n\n"
         f"User query: {user_query}\n\n"
+        f"{desc_lines}"
+        "Structured recipe data:\n"
         f"{brief}\n\n"
         "Answer:"
     )
-    return run_groq(prompt)
 
-# -------------------------
-# Pipeline-style printing (exactly like pipeline.py before running handle_query)
-# -------------------------
-def _print_query_info_and_slots(text: str, intent: str, conf: float, slots: Dict[str, Any]):
+    response = run_groq(prompt)
+    return response, prompt
+
+
+def api_chat(prompt: str, model_name: str) -> str:
+    """
+    Modified: remove internal prompt printing to avoid duplication.
+    Outer layer (_process_query) handles printing.
+    """
+    client = _ensure_client()
+    if client is None:
+        return ""
+    params: Dict[str, Any] = {
+        "model": model_name,
+        "messages": [{"role": "user", "content": prompt}],
+        "stream": False,
+    }
+    if _TEMP is not None:
+        params["temperature"] = _TEMP
+    if _MAX_TOK is not None:
+        params["max_tokens"] = _MAX_TOK
+    if _TOP_P is not None:
+        params["top_p"] = _TOP_P
+    if _STOP and _STOP.lower() != "none":
+        params["stop"] = _STOP
+    try:
+        completion = client.chat.completions.create(**params)
+        choices = getattr(completion, "choices", [])
+        if not choices:
+            return ""
+        return (choices[0].message.content or "").strip()
+    except Exception as e:
+        print(f"[LLM EXCEPTION] {e}")
+        return ""
+
+
+def _process_query(user_query: str):
+    user_query = user_query.strip()
+    if not user_query:
+        return
+    handle_query_fn, _ = _load_pipeline()
+    result = handle_query_fn(user_query, intent_top_k=1, sparql_top_k=5)
+
+    # Print query info (restored)
+    intent = result.get("intent") or "(unknown)"
+    intent_conf = result.get("intent_confidence") or result.get("intent_score") \
+                  or (result.get("intent_scores") or [None])[0]
+    slots = result.get("slots") or {}
     print("\n========== QUERY INFO ==========")
-    print(f"Intent: {intent} (confidence={conf:.2f})")
-    print(f"Query: {text}")
+    if isinstance(intent_conf, (int,float)):
+        print(f"Intent: {intent} (confidence={intent_conf:.2f})")
+    else:
+        print(f"Intent: {intent}")
+    print(f"Query: {user_query}")
 
     if slots:
-        if any(k in slots for k in ("original_query", "translated_query", "detected_language")):
-            print("\n=== Normalization & Translation ===")
-            if "original_query" in slots:
-                print(f"Original: {slots['original_query']}")
-            else:
-                print(f"Original: {text}")
-            if "detected_language" in slots:
-                print(f"Detected language: {slots['detected_language']}")
-            if "translated_query" in slots:
-                print(f"Translated (for intent/NER): {slots['translated_query']}")
+        print("\n=== Normalization & Translation ===")
+        orig = slots.get("original_query") or user_query
+        print(f"Original: {orig}")
+        if "detected_language" in slots:
+            print(f"Detected language: {slots['detected_language']}")
+        if "translated_query" in slots and slots["translated_query"] != orig:
+            print(f"Translated (for intent/NER): {slots['translated_query']}")
 
         print("\nDetected slots:")
         for k, v in slots.items():
-            if k in {"detected_language", "original_query", "translated_query"}:
+            if k in {"original_query","translated_query","detected_language"}:
                 continue
             if k == "cooking_time" and isinstance(v, int):
                 print(f"  - cooking_time: {v} minutes")
@@ -245,72 +370,50 @@ def _print_query_info_and_slots(text: str, intent: str, conf: float, slots: Dict
             if isinstance(v, list):
                 rendered = []
                 for item in v:
-                    if isinstance(item, (list, tuple)) and len(item) >= 2:
-                        rendered.append(f"{item[0]} ({item[1]:.1f})")
-                    elif isinstance(item, (list, tuple)) and len(item) == 1:
-                        rendered.append(str(item[0]))
+                    if isinstance(item, (list, tuple)) and len(item) >= 2 and isinstance(item[1], (int,float)):
+                        rendered.append(f"{item[0]} ({item[1]:.2f})")
                     else:
                         rendered.append(str(item))
                 print(f"  - {k}: {', '.join(rendered)}")
             else:
                 print(f"  - {k}: {v}")
 
-    print("\n========== RESULTS (Sequential Execution) ==========\n")
-    print("(Below, each SPARQL query is executed and printed one by one.)\n")
+    print("\n========== RESULTS (Sequential Execution) ==========\n(Below, each SPARQL query is executed and printed one by one.)\n")
 
-# -------------------------
-# Query processing (pipeline.py style + LLM append)
-# -------------------------
-def _process_query(user_query: str):
-    user_query = user_query.strip()
-    if not user_query:
-        return
-    if user_query.startswith("/model"):
-        print(f"Current model: {_current_model or DEFAULT_MODEL}")
-        return
-    if user_query.startswith("/env"):
-        keys = [
-            "groq_key","GROQ_KEY","groq_model","GROQ_MODEL","temperature",
-            "max_completion_tokens","top_p","reasoning_effort","stream","stop","GROQ_DEBUG"
-        ]
-        for k in keys:
-            print(f"{k}={os.environ.get(k,'<unset>')}")
-        print(f"Resolved DEFAULT_MODEL={DEFAULT_MODEL}")
-        print(f"DEBUG={DEBUG} TEMP={_TEMP} MAX_TOK={_MAX_TOK} TOP_P={_TOP_P} STREAM={_STREAM} REASONING={_REASONING}")
-        return
+    # Similarity
+    try:
+        from RAG.description_index import similarity_search
+        result["similar_description_chunks"] = similarity_search(user_query, top_k=5) or []
+    except Exception as e:
+        result["similar_description_chunks"] = []
+        print(f"(similarity_search failed: {e})")
 
-    handle_query_fn, extract_slots_fn = _load_pipeline()
-
-    # 1) Extract intent & slots (no SPARQL yet)
-    intent, conf, slots = extract_slots_fn(user_query, top_k=1)
-
-    # 2) Print identical preamble
-    _print_query_info_and_slots(user_query, intent, conf, slots)
-
-    # 3) Run full pipeline (prints SPARQL sections & recipes)
-    result = handle_query_fn(user_query, intent_top_k=1, sparql_top_k=5)
-
-    # 4) Build brief + call Groq (append after KG output)
-    summary = _summarize_with_llm(user_query, result)
-    print("POST https://api.groq.com/v1/chat/completions model=" + (_current_model or DEFAULT_MODEL))
-    # Reconstruct prompt exactly like Ollama style (already truncated logic inside api_chat)
-    brief = _brief_result_for_llm(result)
-    prompt_display = (
-        "You are a bilingual PT/EN assistant.\n"
-        "ONLY use the following structured recipe output and the user query. Do NOT invent anything. "
-        "Do NOT add URLs, extra steps, or external references. Produce a concise summary in natural language.\n\n"
-        f"User query: {user_query}\n\n{brief}\n\nAnswer:"
-    )
-    print("=== LLM PROMPT (truncated to 800 chars) ===")
-    print(prompt_display[:800] + ("..." if len(prompt_display) > 800 else ""))
-    print("=== END PROMPT ===")
-    # We already executed the request inside _summarize_with_llm (run_groq).
-    if summary:
-        print("\n=== LLM SUMMARY ===")
-        print(summary)
+    sim_snips = result["similar_description_chunks"]
+    print(f"=== SIMILARITY SNIPPETS (count={len(sim_snips)}) ===")
+    if sim_snips:
+        for i, c in enumerate(sim_snips, start=1):
+            txt = (c.get("text","") or "").strip()
+            if len(txt) > 220:
+                txt = txt[:217].rstrip() + "..."
+            score = c.get("score")
+            if isinstance(score,(int,float)):
+                print(f"{i}. ({score:.3f}) {txt}")
+            else:
+                print(f"{i}. {txt}")
     else:
-        print("\n=== LLM SUMMARY ===")
-        print("(LLM empty response)")
+        print("(none)")
+    print("=== END SIMILARITY SNIPPETS ===\n")
+
+    summary, used_prompt = _summarize_with_llm(user_query, result)
+
+    # Single prompt print
+    print(f"POST https://api.groq.com/v1/chat/completions model=" + (_current_model or DEFAULT_MODEL))
+    print("=== LLM PROMPT (truncated to 800 chars) ===")
+    print(used_prompt[:800] + ("..." if len(used_prompt) > 800 else ""))
+    print("=== END PROMPT ===")
+
+    print("\n=== LLM SUMMARY ===")
+    print(summary if summary else "(LLM empty response)")
     print("\nTurn complete.\n")
 
 # -------------------------

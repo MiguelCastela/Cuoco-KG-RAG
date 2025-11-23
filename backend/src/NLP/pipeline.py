@@ -2,19 +2,37 @@ import os
 import sys
 from typing import Dict, Any, Optional
 
+# Robust imports (avoid swallowing errors and ensure package context)
+if __package__ is None:
+    # Running as a script: add src root so "NLP.*" imports work
+    sys.path.insert(0, os.path.normpath(os.path.join(os.path.dirname(__file__), "..")))
+
 try:
-    from infer_intent import predict_intent
-    from entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link
-    import sparql_queries
-except Exception:
-    THIS_DIR = os.path.dirname(__file__)
-    SRC_ROOT = os.path.normpath(os.path.join(THIS_DIR, "..", ".."))
+    # Preferred absolute package imports
+    from NLP.infer_intent import predict_intent
+    from NLP.entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link
+    from NLP import sparql_queries
+except ImportError:
+    try:
+        # Fallback to relative (when executed via `python -m NLP.pipeline`)
+        from .infer_intent import predict_intent
+        from .entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link
+        from . import sparql_queries
+    except Exception:
+        import traceback
+        print("Failed to import pipeline dependencies. Full traceback:")
+        traceback.print_exc()
+        raise  # stop early; do not continue with undefined names
 
 BASE_DIR = os.path.dirname(__file__)
 DEFAULT_TTL = os.path.normpath(os.path.join(BASE_DIR, "../../data/curated/recipes_graph_cleaned.ttl"))
 TTL_PATH = os.environ.get("RECIPES_TTL_PATH", DEFAULT_TTL)
 
-NLP = build_spacy_pipeline(lang_priority="pt")
+# Ensure build_spacy_pipeline is defined before using
+try:
+    NLP = build_spacy_pipeline(lang_priority="pt")
+except NameError:
+    raise RuntimeError("build_spacy_pipeline is not defined in entity_extraction.py. Verify its name.")
 KG = KGIndex.from_ttl(TTL_PATH)
 
 INTENTS_NEEDING_EXTRACTION = {
