@@ -1,0 +1,262 @@
+current message:
+You are a bilingual PT/EN assistant.
+Use ONLY: (a) the user query, (b) the description snippets, (c) the structured recipe data.
+Tasks:
+1. Begin with 1–2 fluent sentences (PT first then EN) integrating relevant description snippets (do NOT invent).
+2. Provide a concise bilingual table summarizing the retrieved recipes (PT first then EN for columns or entries).
+3. End with a short closing line.
+Rules: Do NOT add URLs, external sources, or steps not present. Do NOT fabricate ingredients or times.
+
+User query: ola
+
+Description snippets (semantic matches):
+1. (0.342) this harira is a family recipe - guaranteed to be authentic!  this harira freezes very well so can be made in advance and frozen in  portions (a big time saver!) so good for oamc.
+2. (0.335) submitted to "zaar" on january 23, 2009.
+3. (0.320) from chef natascha ovando of coup des tartes bistro in phoenix, arizona.
+4. (0.320) this is a copy cat recipe of the burger made famous at oporto, an australian and new zealand restaurant of portuguese influenced foods. time does not include marinating.
+5. (0.319) submitted to " zaar " on june 17th, 2009.
+
+Structured recipe data:
+original_query=ola
+detected_language=en
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=angolan(90.00), chocolate-chip-cookies(90.00), granola-and-porridge(90.00)
+slot_cooking_time=None
+recipes with tag: angolan
+Recipe: papaya with port wine
+Minutes: 10
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, african, angolan, appetizers, course, cuisine, dietary, easy, preparation, time-to-make
+Ingredients: lime, papaya, port wine
+Steps:
+01. slice the papaya into 12 slices
+02. slice the lime into quarters
+03. arrange 3 papaya slices on 4 plates and put a lime wedge on the side of each
+04. sprinkle port wine over the to[ of each plate , or serve it on the side
+Recipe: grilled prawns with raw sauce
+Minutes: 20
+Tags: 30-minutes-or-less, 3-steps-or-less, african, angolan, course, cuisine, dietary, easy, healthy, low-calorie, low-carb, low-fat
+Ingredients: garlic cloves, green onion, ground cumin, prawns, salt, water, wine vinegar
+Steps:
+01. make the sauce by combining all the ingredients and grinding them into a paste
+02. put the prawns on the skewers and brush with sauce
+03. grill until done , about 3-4 minutes on each side
+04. serve with extra sauce on the side
+Recipe: camares piri piri  angola
+Minutes: 40
+Tags: 3-steps-or-less, 5-ingredients-or-less, 60-minutes-or-less, african, angolan, course, cuisine, easy, main-dish, main-ingredient, preparation, seafood
+Ingredients: garlic cloves, peri-peri, shrimp
+Steps:
+01. mix the peri-peri sauce with the garlic
+02. add the shrimp
+03. cover and marinade in your refrigerator for at least 30 minutes
+04. thread shrimp onto skewers
+05. cook over hot coals or under your broiler for five minutes , turning once , until the shrimp are pink and cooked through
+
+recipes with tag: chocolate-chip-cookies
+Recipe: rissani s chewy chocolate chip oatmeal cookies
+Minutes: 65
+Tags: 4-hours-or-less, chocolate-chip-cookies, cookies-and-brownies, course, desserts, drop-cookies, for-large-groups, number-of-servings, preparation, time-to-make
+Ingredients: all-purpose flour, baking soda, butter, eggs, light brown sugar, quick-cooking oats, salt, semi-sweet chocolate chips, vanilla extract, white sugar
+Steps:
+01. preheat the oven to 325 degrees f
+02. combine the flour , baking soda and salt
+03. set aside
+04. in a large bowl cream together the butter , brown sugar and white sugar until smooth and cream
+05. beat in the eggs until blended , then stir in vanilla
+06. stir in the dry ingredients until blended
+07. mix in oats and chocolate chips
+08. drop heaping spoonfuls onto an ungreased baking sheet or parchment paper to avoid sticking
+Recipe: nana s chocolate chip cookies  classic toll house cookies
+Minutes: 50
+Tags: 60-minutes-or-less, american, brown-bag, chocolate, chocolate-chip-cookies, comfort-food, cookies-and-brownies, course, cuisine, desserts, dietary, drop-cookies
+Ingredients: all-purpose flour, baking soda, eggs, granulated sugar, kosher salt, light brown sugar, pure vanilla extract, semi-sweet chocolate chips, unsalted butter, walnuts
+Steps:
+01. preheat oven to 350 degrees
+02. lightly butter two baking sheets
+03. in a medium bowl , whisk together the flour , salt , and baking soda
+04. in a large bowl , using an electric mixer , beat the butter and sugars on medium-high speed until fluffy , 2 to 3 minutes
+05. one at a time , beat in the eggs , then the vanilla
+06. reduce speed of mixer to low and gradually add the flour mixture , mixing until just combined
+07. mix in the chocolate chips and nuts , if desired , by hand
+08. drop heaping tablespoons of the dough onto the 2 prepared baking sheets , spacing them 2 inches apart
+Recipe: low carb deep dish chocolate chip cookie
+Minutes: 5
+Tags: 15-minutes-or-less, 3-steps-or-less, beginner-cook, chocolate-chip-cookies, cookies-and-brownies, course, desserts, easy, for-1-or-2, number-of-servings, preparation, snacks
+Ingredients: almond flour, coconut oil, dark chocolate chips, egg, ground flax seeds, salt, splenda granular, vanilla
+Steps:
+01. put first seven ingredients in a mug and stir with a fork until smooth
+02. pour into a four inch ramekin or leave in the mug
+03. drop chocolate chips and fold into mug
+04. if using ramekin , distribute chips evenly over top and slightly press into cookie
+05. microwave for one minute , enjoy with a cup of unsweetened almond milk -- yummy !
+Recipe: cornflake s mores cookies
+Minutes: 35
+Tags: 60-minutes-or-less, birthday, chocolate, chocolate-chip-cookies, christmas, cookies-and-brownies, course, desserts, hand-formed-cookies, holiday-event, main-ingredient, occasion
+Ingredients: baking powder, baking soda, brown sugar, corn flakes, egg, flour, granulated sugar, mini chocolate chip, mini marshmallows, salt, unsalted butter, vanilla
+Steps:
+01. preheat oven to 325 degrees
+02. cream butter and sugars for 2-3 minutes
+03. add in egg and vanilla , beat for 5 minutes
+04. on low speed , mix in flour , baking soda , baking powder and salt until just combined
+05. by hand , mix in crushed cornflakes until well combined
+06. add mini chocolate chips and marshmallow and continue to mix by hand until combined
+07. grease or line cookie sheets
+08. roll into golf ball sized balls and , one at a time , place on sheet and smash flat
+
+recipes with tag: granola-and-porridge
+Recipe: granola just too  good
+Minutes: 35
+Tags: 60-minutes-or-less, breakfast, camping, course, dietary, equipment, finger-food, fruit, gifts, grains, granola-and-porridge, lunch
+Ingredients: almonds, brown sugar, canola oil, cardamom, cinnamon, honey, natural bran, nonfat dry milk powder, nutmeg, raisins, rolled oats, salt, sesame seeds, sunflower seeds, unsweetened dried shredded coconut
+Steps:
+01. preheat oven to 300f grease 3 large baking sheets with rims
+02. in a microwave proof dish mix first 8 ingredients and cook 1 minute till sugar id dissolved
+03. take
+04. do not boil
+05. mix the remaining ingredients except the raisins , cranberries and apricots
+06. pour syrup over the oat mixture
+07. stir with a wooden spoon until syrup coats all ingredients
+08. spread granola thinly and evenly on baking sheets and bake about 15-20 min , or until lightly browned
+Recipe: baked spiced oatmeal
+Minutes: 50
+Tags: 3-steps-or-less, 60-minutes-or-less, breakfast, course, dietary, easy, grains, granola-and-porridge, main-ingredient, pasta-rice-and-grains, preparation, time-to-make
+Ingredients: apple, applesauce, baking powder, banana, brown sugar, cinnamon, egg beaters egg substitute, nutmeg, rolled oats, salt, skim milk, splenda sugar substitute, vanilla
+Steps:
+01. combine all ingredients in 2 quart casserole dish sprayed with cooking spray
+02. refrigerate overnight
+03. bake at 350 for 30 minutes
+Recipe: peaches  n  cream casserole
+Minutes: 65
+Tags: 4-hours-or-less, breakfast, brunch, casseroles, course, dietary, equipment, fruit, grains, granola-and-porridge, healthy, low-calorie
+Ingredients: almond extract, egg whites, peaches, rolled oats, skim milk, sugar, vanilla extract
+Steps:
+01. preheat oven to 350 degrees
+02. spray an 8-inch square baking pan with nonstick cooking spray
+03. in a large bowl , combine oats , peaches and sugar
+04. in another bowl , combine remaining ingredients
+05. beat with a fork or wire whisk until blended
+06. add to oat mixture , mixing well
+07. place mixture in prepared pan
+08. bake , uncovered , 50 minutes
+Recipe: go nuts granola
+Minutes: 30
+Tags: 30-minutes-or-less, breakfast, brunch, comfort-food, course, dietary, for-large-groups, gifts, grains, granola-and-porridge, lunch, main-ingredient
+Ingredients: brown sugar, butter, cinnamon, coconut, golden raisin, honey, pumpkin seeds, pure vanilla extract, raisins, roasted sunflower seeds, rolled oats, salt, sesame seeds, sliced almonds
+Steps:
+01. preheat oven to 300
+02. in a large stainless steel bowl mix gains and seeds
+03. bake mixture for 6 minutes , stir and bake an additional 6
+04. in another bowl mix coconut and almonds
+05. in a microwave-safe bowl place butter , sugar , honey , salt , and cinnamon
+06. heat till butter melts completely
+07. mix thoroughly and add vanilla
+08. whip to make thick sauce
+Recipe: apple barley pudding
+Minutes: 70
+Tags: 4-hours-or-less, 5-ingredients-or-less, apples, breakfast, course, cuisine, dietary, easy, european, fruit, grains, granola-and-porridge
+Ingredients: apples, heavy cream, lemon juice, pearl barley, sugar
+Steps:
+01. bring a kettle full of water to boil
+02. add the barley and the apples
+03. cook until both begin to soften
+04. drain and blend the mixture in a blender or sieve
+05. cook the mixture after adding the sugar and lemon and boil again
+06. allow to cool and then chill for an hour
+07. to serve , add a dollop of cream on top and maybe a dash of cinnamon
+
+
+Answer:
+
+Conversation context (previous messages):
+
+Message 1 - User query:
+receitas com pato
+
+Message 1 - Structured recipe data:
+original_query=receitas com pato
+detected_language=pt
+translated_query=recipes with duck
+intent=list_by_ingredient
+slot_ingredient=duck(100.00), boneless duck breasts(90.00), duck breast(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 1 - Assistant Response:
+As receitas de pato que encontrei trazem um toque de tradição portuguesa – “i had a zaar member ask me for this receipe, so i decided to share it with everyone. it's a portuguese speciality” – e ainda são descritas como “delizioso!!”.  
+These duck dishes combine classic flavors with elegant sauces, perfect for a special dinner or a casual meal.  
+
+| Receita (PT) | Recipe (EN) | Tempo (min) | Main Ingredients (EN) |
+|--------------|-------------|-------------|------------------------|
+| Peito de pato sem osso ao molho de vinho do Porto | Divine boneless duck breast with port wine sauce | 540 | boneless duck breasts, tawny port, balsamic vinegar, heavy cream |
+| Peito de pato defumado ao carvalho com redução de vinho do Porto | Oak smoked duck breast with port wine reduction | 30 | duck breast, dried currants, port wine, shallot |
+| Peito de pato com alho-poró e cranberry | Duck breast with leek and cranberry | 30 | duck breasts, leek, dried cranberries, red wine |
+| Pato inteiro ao vapor e assado | Steamed and roasted whole duck | 150 | whole duck, Chinese five‑spice, ginger, tangerine peel |
+| Turducken (frango dentro de pato dentro de peru) | Turducken (chicken in duck in turkey) | 660 | ducklings, whole chicken, whole turkey, herbs |
+| Pato (teal) assado ao forno | Oven‑braised teal | 60 | duck breasts, butter, mushrooms, chicken broth, wine |
+
+Bom apetite! Enjoy your cooking!
+
+Message 2 - User query:
+receitas com melão
+
+Message 2 - Structured recipe data:
+original_query=receitas com melão
+detected_language=pt
+translated_query=recipes with melon
+intent=list_by_ingredient
+slot_ingredient=melon(100.00), bitter melons(90.00), melon liqueur(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 2 - Assistant Response:
+Como sugerem os trechos sobre “pastel com o diabo dentro” e outras especialidades portuguesas, o melão pode aparecer tanto em preparações doces quanto salgadas, trazendo frescor e leveza à mesa. As these Portuguese food references indicate, melon works well in both sweet and savory dishes, adding freshness and lightness.  
+
+| Receita / Recipe | Ingrediente principal / Main ingredient | Tempo / Time (min) |
+|------------------|------------------------------------------|--------------------|
+| Watermelon gazpacho | melão (melancia) | 70 |
+| Melon papaya batido | melão (melancia) | 10 |
+| Watermelon water | melão (melancia) | 25 |
+| Tyler Florence’s watermelon gazpacho | melão (melancia) | 20 |
+| Salada de melão, frutas vermelhas e pera com xarope de limão, mel e hortelã | melão (melão cantaloupe) | 60 |
+| No‑fry karela crispies (bitter melon) | melão amargo | 55 |
+| Celtic six (coquetel) | licor de melão (midori) | 3 |
+| June bug (coquetel) | licor de melão (midori) | 5 |
+| Midori cosmopolitan (coquetel) | licor de melão (midori) | 2 |
+| Twilight zone (coquetel) | licor de melão (melão liqueur) | 5 |
+| Alligator (coquetel) | licor de melão (midori) | 2 |
+
+Bom apetite e aproveite as receitas! Enjoy cooking and savor the flavors!
+
+Message 3 - User query:
+receitas com manteiga
+
+Message 3 - Structured recipe data:
+original_query=receitas com manteiga
+detected_language=pt
+translated_query=recipes with butter
+intent=list_by_ingredient
+slot_ingredient=butter(100.00), butter lettuce(90.00), butter-nut flavoring(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 3 - Assistant Response:
+Manteiga é um ingrediente versátil que aparece em várias receitas, inclusive em uma **especialidade portuguesa**. Butter is a versatile ingredient featured in many **muy deliciosa!** dishes.
+
+| Receita (PT) | Recipe (EN) | Tempo (min) | Time (min) | Tags (PT) | Tags (EN) |
+|--------------|-------------|-------------|------------|-----------|-----------|
+| Torta de Chocolate Chips Ahoy | Chips Ahoy Chocolate Pie | 40 | 40 | 5-ingredientes-ou-menos, 60-minutos-ou-menos, sobremesas, fácil, tortas | 5-ingredients-or-less, 60-minutes-or-less, desserts, easy, pies |
+| Cobertura Astoria | Astoria Frosting | 20 | 20 | 30-minutos-ou-menos, recheios e coberturas, bolos, sobremesas, baixo teor de proteína | 30-minutes-or-less, cake-fillings-and-frostings, cakes, desserts, low-protein |
+| Bacalhau Picante ao Verde‑Port | Spicy Cod Greenport | 15 | 15 | 15-minutos-ou-menos, iniciante, peixe, prato principal, fácil | 15-minutes-or-less, beginner-cook, fish, main-dish, easy |
+| Soufflé de Blintz | Blintz Soufflé | 60 | 60 | 60-minutos-ou-menos, café da manhã, panquecas, acompanhamento | 60-minutes-or-less, breakfast, pancakes-and-waffles, side-dish |
+| Hambúrguer Vegano de Abóbora com Quinoa | Roasted Butternut Squash Quinoa Veggie Burger | 130 | 130 | até 4‑horas, grãos, prato principal, vegetariano, legumes | up to 4-hours, grains, main-dish, vegetarian, vegetables |
+| Bolo de Noz com Cerejas Marasquino | Vanilla Butternut Pound Cake with Maraschino Cherries | 65 | 65 | até 4‑horas, bolos, sobremesas | up to 4-hours, cakes, desserts |
+
+Bom apetite! Enjoy your meal!

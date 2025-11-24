@@ -88,6 +88,75 @@ if isinstance(_STREAM_FLAG, str):
 _groq_client = None
 _current_model = None
 
+# NEW: store full conversation (turns) for context injection
+_conversation_history: list[dict[str, str]] = []  # {"query":..., "structured":..., "response":..., "prompt":...}
+CONTEXT_WINDOW = 3
+
+def _extract_query_metadata(block: str) -> str:
+    """
+    Keep only the high-level structured metadata lines from a structured block:
+    original_query=, detected_language=, translated_query=, intent=, slot_*
+    Stop before any recipe group listings or steps.
+    """
+    lines = []
+    for line in (block or "").splitlines():
+        if line.startswith(("original_query=",
+                            "detected_language=",
+                            "translated_query=",
+                            "intent=",
+                            "slot_")):
+            lines.append(line)
+            continue
+        # stop when detailed recipe grouping starts
+        if line.startswith(("recipes with ", "Recipe:", "Steps:", "Answer:")):
+            break
+    return "\n".join(lines)
+
+def _build_context_annotation(prev_turns: list[dict[str, str]]) -> str:
+    """
+    Previous messages (up to CONTEXT_WINDOW):
+    Message 1 = most recent, increasing numbers go further back.
+    Each shows: User query, metadata-only Structured recipe data, Assistant Response.
+    """
+    if not prev_turns:
+        return ""
+    subset = prev_turns[-CONTEXT_WINDOW:][::-1]  # reverse so newest first
+    out = ["Conversation context (previous messages):"]
+    for i, t in enumerate(subset, start=1):
+        user_q = (t.get("query") or "").strip()
+        structured_full = (t.get("structured") or "")
+        meta_only = _extract_query_metadata(structured_full).strip()
+        resp = (t.get("response") or "").strip()
+        out.append(f"Message {i} - User query:\n{user_q}")
+        out.append(f"Message {i} - Structured recipe data:\n{meta_only}")
+        out.append(f"\nMessage {i} - Assistant Response:\n{resp}")
+    return "\n\n".join(out)
+
+def _write_context_file(current_full_prompt: str, structured_block: str):
+    """
+    Write current full prompt FIRST, then previous messages.
+    Order:
+    current message:
+    <full current prompt>
+
+    Conversation context (previous messages):
+    ...
+    """
+    try:
+        prev = _build_context_annotation(_conversation_history[:-1])
+        # Remove any duplicated annotation prefix from current_full_prompt
+        if prev and current_full_prompt.startswith(prev):
+            current_full_prompt = current_full_prompt[len(prev):].lstrip("\n")
+        context_path = os.path.join(os.path.dirname(__file__), "context.txt")
+        with open(context_path, "w", encoding="utf-8") as f:
+            f.write("current message:\n")
+            f.write(current_full_prompt.rstrip() + "\n\n")
+            if prev:
+                f.write(prev.rstrip() + "\n")
+    except Exception as e:
+        if DEBUG:
+            print(f"[context write error] {e}")
+
 def _ensure_client():
     global _groq_client
     if _groq_client is None:
@@ -150,41 +219,67 @@ def api_chat(prompt: str, model_name: str) -> str:
 
 _current_model = None
 
-def run_groq(prompt: str) -> str:
-    global _current_model
+def run_groq(user_query: str, base_prompt: str, structured_block: str) -> tuple[str, str]:
+    """
+    Send ONLY the current prompt to Groq (no previous context).
+    """
+    global _current_model, _conversation_history
     if _current_model is None:
         _current_model = DEFAULT_MODEL
-    resp = api_chat(prompt, _current_model)
-    if resp:
-        return resp
-    # Fallback: list models once
-    models = _list_models()
-    if models and _current_model not in models:
-        print(f"Requested model '{_current_model}' not available; using '{models[0]}' instead")
-        _current_model = models[0]
-        resp = api_chat(prompt, _current_model)
-    return resp
+    client = _ensure_client()
+    if client is None:
+        return "", base_prompt
 
-# -------------------------
-# Brief construction (same)
-# -------------------------
+    current_full_prompt = base_prompt  # no annotation added
+
+    params: Dict[str, Any] = {
+        "model": _current_model,
+        "messages": [{"role": "user", "content": current_full_prompt}],
+        "stream": False,
+    }
+    if _TEMP is not None: params["temperature"] = _TEMP
+    if _MAX_TOK is not None: params["max_tokens"] = _MAX_TOK
+    if _TOP_P is not None: params["top_p"] = _TOP_P
+    if _STOP and _STOP.lower() != "none": params["stop"] = _STOP
+
+    def _invoke(p):
+        try:
+            completion = client.chat.completions.create(**p)
+            ch = getattr(completion, "choices", [])
+            if not ch: return ""
+            return (ch[0].message.content or "").strip()
+        except Exception as e:
+            print(f"[LLM EXCEPTION] {e}")
+            return ""
+
+    resp = _invoke(params)
+    _conversation_history.append({
+        "query": user_query,
+        "structured": structured_block,
+        "response": resp,
+        "prompt": current_full_prompt
+    })
+
+    _write_context_file(current_full_prompt, structured_block)
+    return resp, current_full_prompt
+
 def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
     """
-    Build a concise structured block for the LLM that now includes:
-    - original query
-    - detected language
-    - translated query
-    - intent + confidence
-    - slot summaries
-    - recipe structured data
+    Build structured block for the LLM.
+    Now groups recipes under per-slot headers instead of listing slot headers at the top.
+    Grouping heuristic:
+      - ingredient slots: recipe appears under an ingredient if that ingredient string is contained
+        (case-insensitive) in any of its ingredient entries.
+      - tag slots: recipe appears under a tag if tag (case-insensitive) matches any recipe tag.
+      - recipe_name slots: recipe appears if its name contains that string.
+      - cooking_time slot: recipes with minutes <= cooking_time.
+    A recipe will only be printed once per group type; duplicates across different groups are allowed.
     """
     lines = []
-    # Core query info
     orig = result.get("original_query") or user_query
-    detected_lang = (result.get("detected_language")
-                     or (result.get("slots") or {}).get("detected_language"))
-    translated = (result.get("translated_query")
-                  or (result.get("slots") or {}).get("translated_query"))
+    slots = result.get("slots") or {}
+    detected_lang = slots.get("detected_language") or result.get("detected_language")
+    translated = slots.get("translated_query") or result.get("translated_query")
     intent = result.get("intent")
     intent_conf = result.get("intent_confidence") or result.get("intent_score") \
                   or (result.get("intent_scores") or [None])[0]
@@ -200,8 +295,7 @@ def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
         else:
             lines.append(f"intent={intent}")
 
-    # Slots
-    slots = result.get("slots") or {}
+    # Slot summaries (keep original compact representation)
     for k, v in slots.items():
         if k in {"original_query","translated_query","detected_language"}:
             continue
@@ -209,7 +303,6 @@ def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
             lines.append(f"slot_cooking_time={v}m")
             continue
         if isinstance(v, list):
-            # show top 3 items if score pairs
             rendered = []
             for item in v[:3]:
                 if isinstance(item, (list, tuple)) and len(item) >= 2 and isinstance(item[1], (int,float)):
@@ -220,9 +313,9 @@ def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
         else:
             lines.append(f"slot_{k}={v}")
 
-    # Recipes
     recipes = result.get("kg_results") or []
-    for r in recipes:
+
+    def _print_recipe(r):
         name = r.get("recipe_name") or r.get("recipe_uri")
         minutes = r.get("minutes")
         tags = r.get("tags") or []
@@ -240,48 +333,82 @@ def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
             for i, s in enumerate(steps[:8], start=1):
                 lines.append(f"{i:02d}. {s}")
 
+    # Group by ingredient slot
+    ing_list = slots.get("ingredient") or []
+    if ing_list:
+        lines.append("")  # spacer
+        for ing_slot in ing_list:
+            ing_name = ing_slot[0] if isinstance(ing_slot, (list, tuple)) else str(ing_slot)
+            group = [r for r in recipes if any(ing_name.lower() in (ri.lower()) for ri in (r.get("ingredients") or []))]
+            if group:
+                lines.append(f"recipes with ingredient: {ing_name}")
+                for r in group:
+                    _print_recipe(r)
+                lines.append("")  # spacer after group
+
+    # Group by tag slot
+    tag_list = slots.get("tag") or []
+    if tag_list:
+        for tag_slot in tag_list:
+            tag_name = tag_slot[0] if isinstance(tag_slot, (list, tuple)) else str(tag_slot)
+            group = [r for r in recipes if any(tag_name.lower() == t.lower() for t in (r.get("tags") or []))]
+            if group:
+                lines.append(f"recipes with tag: {tag_name}")
+                for r in group:
+                    _print_recipe(r)
+                lines.append("")
+
+    # Group by recipe_name slot
+    name_list = slots.get("recipe_name") or []
+    if name_list:
+        for name_slot in name_list:
+            nm = name_slot[0] if isinstance(name_slot, (list, tuple)) else str(name_slot)
+            group = [r for r in recipes if nm.lower() in (r.get("recipe_name","").lower())]
+            if group:
+                lines.append(f"recipes with name: {nm}")
+                for r in group:
+                    _print_recipe(r)
+                lines.append("")
+
+    # Group by cooking_time slot
+    ct = slots.get("cooking_time")
+    if isinstance(ct, int):
+        group = [r for r in recipes if isinstance(r.get("minutes"), int) and r["minutes"] <= ct]
+        if group:
+            lines.append(f"recipes with cooking_time: <= {ct} minutes")
+            for r in group:
+                _print_recipe(r)
+            lines.append("")
+
+    # Fallback: if no groups matched, list all recipes once
+    if not ing_list and not tag_list and not name_list and not isinstance(ct, int):
+        if recipes:
+            lines.append("")
+            for r in recipes:
+                _print_recipe(r)
+
     return "\n".join(lines)
 
 
 def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> tuple[str, str]:
     """
-    Returns (llm_response, prompt_used) with heuristic filtering of description snippets.
+    Build prompt; return (llm_response, full_prompt_sent).
     """
-    brief = _brief_result_for_llm(result, user_query)
-
-    # Heuristic filtering of description chunks
-    raw_chunks = result.get("similar_description_chunks") or []
-    import re
-    user_tokens = set(re.findall(r"\w+", user_query.lower()))
-    filtered = []
-    for c in raw_chunks:
-        text = (c.get("text") or "").strip()
-        score = float(c.get("score") or 0.0)
-        if not text:
-            continue
-        # basic length / token criteria
-        tokens = re.findall(r"\w+", text.lower())
-        if len(tokens) < 4:
-            continue
-        overlap = len(user_tokens & set(tokens))
-        # keep if score is reasonably high OR lexical overlap OR contains domain words (recipe, dish, ingredient)
-        domain_ok = any(w in text.lower() for w in ("recipe","dish","ingred","tradicional","portuguese","peanut","bacalhau","cod"))
-        if score >= 0.32 or overlap >= 1 or domain_ok:
-            filtered.append({"text": text, "score": score})
-        if len(filtered) >= 5:
-            break
-
+    brief = _brief_result_for_llm(result, user_query)  # structured block
+    sim_snips = result.get("similar_description_chunks") or []
     desc_lines = ""
-    if filtered:
+    if sim_snips:
         lines = []
-        for i, c in enumerate(filtered, start=1):
-            t = c["text"]
-            if len(t) > 240:
-                t = t[:237].rstrip() + "..."
-            lines.append(f"{i}. {t}")
+        for i, c in enumerate(sim_snips[:5], start=1):
+            txt = (c.get("text") or "").strip()
+            score = c.get("score")
+            try: score_str = f"{float(score):.3f}"
+            except: score_str = "NA"
+            if len(txt) > 220: txt = txt[:217].rstrip() + "..."
+            lines.append(f"{i}. ({score_str}) {txt}")
         desc_lines = "Description snippets (semantic matches):\n" + "\n".join(lines) + "\n\n"
 
-    prompt = (
+    base_prompt = (
         "You are a bilingual PT/EN assistant.\n"
         "Use ONLY: (a) the user query, (b) the description snippets, (c) the structured recipe data.\n"
         "Tasks:\n"
@@ -296,9 +423,8 @@ def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> tuple[str, s
         "Answer:"
     )
 
-    response = run_groq(prompt)
-    return response, prompt
-
+    response, full_prompt_sent = run_groq(user_query, base_prompt, brief)
+    return response, full_prompt_sent
 
 def api_chat(prompt: str, model_name: str) -> str:
     """
@@ -406,8 +532,9 @@ def _process_query(user_query: str):
 
     summary, used_prompt = _summarize_with_llm(user_query, result)
 
-    # Single prompt print
     print(f"POST https://api.groq.com/v1/chat/completions model=" + (_current_model or DEFAULT_MODEL))
+    if len(_conversation_history) >= 1:
+        print("current message:")
     print("=== LLM PROMPT (truncated to 800 chars) ===")
     print(used_prompt[:800] + ("..." if len(used_prompt) > 800 else ""))
     print("=== END PROMPT ===")
