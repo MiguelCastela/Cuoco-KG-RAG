@@ -1,13 +1,22 @@
 import TriangleBackground from "./components/TriangleBackground.jsx"
+import RoundedInput from "./components/InputBar.jsx"
+import WelcomeMessage from "./components/WelcomeMessage.jsx"
+
+import cuoco from "./assets/cuoco.svg"
 
 export default function Page() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <TriangleBackground />
-      <div className="relative z-10 text-center p-8">
-        <h1 className="text-4xl font-bold mb-4">Triangle Background</h1>
-        <p className="text-lg opacity-80">Watch the triangles gradually change colors</p>
-      </div>
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+            <img
+              src={cuoco}
+              alt="Cuoco"
+              style={{ marginTop: "-10vh", width: "200px", height: "200px" }}
+            />
+          <WelcomeMessage className="mt-6 mb-4" />
+          <RoundedInput placeholder="Ask Cuoco" />
+        </div>
     </div>
   )
 }
