@@ -506,10 +506,19 @@ def _process_query(user_query: str):
 
     print("\n========== RESULTS (Sequential Execution) ==========\n(Below, each SPARQL query is executed and printed one by one.)\n")
 
-    # Similarity
+    # Similarity (augment the query with slots for better retrieval)
+    slotq = []
+    ing = [s[0] if isinstance(s,(list,tuple)) else str(s) for s in (slots.get("ingredient") or [])][:3]
+    tg  = [s[0] if isinstance(s,(list,tuple)) else str(s) for s in (slots.get("tag") or [])][:3]
+    nm  = [s[0] if isinstance(s,(list,tuple)) else str(s) for s in (slots.get("recipe_name") or [])][:2]
+    if ing: slotq.append("ingredients: " + ", ".join(ing))
+    if tg:  slotq.append("tags: " + ", ".join(tg))
+    if nm:  slotq.append("names: " + ", ".join(nm))
+    sim_query = f"{user_query} | " + " | ".join(slotq) if slotq else user_query
+
     try:
         from RAG.description_index import similarity_search
-        result["similar_description_chunks"] = similarity_search(user_query, top_k=5) or []
+        result["similar_description_chunks"] = similarity_search(sim_query, top_k=5) or []
     except Exception as e:
         result["similar_description_chunks"] = []
         print(f"(similarity_search failed: {e})")
@@ -529,6 +538,19 @@ def _process_query(user_query: str):
     else:
         print("(none)")
     print("=== END SIMILARITY SNIPPETS ===\n")
+
+    # Filter weak/duplicate hits for display
+    seen = set()
+    filtered = []
+    for c in result["similar_description_chunks"]:
+        if isinstance(c.get("score"), (int,float)) and c["score"] < 0.35:
+            continue
+        key = (c.get("id"), c.get("name"))
+        if key in seen:
+            continue
+        seen.add(key)
+        filtered.append(c)
+    result["similar_description_chunks"] = filtered[:5]
 
     summary, used_prompt = _summarize_with_llm(user_query, result)
 
