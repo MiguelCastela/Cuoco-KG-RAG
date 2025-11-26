@@ -15,7 +15,7 @@ export default function Page() {
               style={{ marginTop: "-10vh", width: "200px", height: "200px" }}
             />
           <WelcomeMessage className="mt-6 mb-4" />
-          <RoundedInput placeholder="Ask Cuoco" />
+          <RoundedInput placeholder="Ask Cuoco!" />
         </div>
     </div>
   )
