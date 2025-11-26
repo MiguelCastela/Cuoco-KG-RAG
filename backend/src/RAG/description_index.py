@@ -10,7 +10,6 @@ META_PATH = os.path.join(INDEX_DIR, "desc_meta.json")
 EMB_PATH = os.path.join(INDEX_DIR, "embeddings.npy")
 FAISS_PATH = os.path.join(INDEX_DIR, "faiss.index")
 
-# Use a stronger multilingual retrieval model
 MODEL_NAME = os.environ.get("DESC_EMBED_MODEL", "intfloat/multilingual-e5-base")
 _USE_E5 = "e5" in MODEL_NAME.lower()
 
@@ -28,13 +27,11 @@ def _is_low_info(text: str) -> bool:
     t = (text or "").strip()
     if len(t) < 20:
         return True
-    # very low alpha ratio or boilerplate markers
     alpha = sum(ch.isalpha() for ch in t)
     if alpha / max(1, len(t)) < 0.45:
         return True
     if _BP_RE.search(t):
         return True
-    # too few tokens
     if len(re.findall(r'\w+', t)) < 6:
         return True
     return False
@@ -53,24 +50,11 @@ def _read_rows(csv_path: str) -> List[Dict[str, str]]:
                 out.append({"id": rid, "name": name, "description": desc})
     return out
 
-def _chunk(desc: str, max_len: int = 240) -> List[str]:
-    parts = []
-    cur = []
-    for seg in desc.replace("\n", " ").split("."):
-        seg = seg.strip()
-        if not seg:
-            continue
-        if sum(len(x) for x in cur) + len(seg) + 1 <= max_len:
-            cur.append(seg)
-        else:
-            if cur:
-                parts.append(". ".join(cur) + ".")
-            cur = [seg]
-    if cur:
-        parts.append(". ".join(cur) + ".")
-    # filter low-information chunks
-    parts = [p for p in parts if not _is_low_info(p)]
-    return parts or ([] if _is_low_info(desc) else [desc])
+# CHANGED: one chunk per description (full description) if not low-info
+def _chunk(desc: str) -> List[str]:
+    if _is_low_info(desc):
+        return []
+    return [desc.strip()]
 
 def build_index(csv_path: str = DATA_CSV):
     try:
@@ -94,7 +78,6 @@ def build_index(csv_path: str = DATA_CSV):
 
     texts = [c["text"] for c in chunks]
     model = SentenceTransformer(MODEL_NAME)
-    # E5 expects "passage:" prefix for corpus items
     enc_inp = [f"passage: {t}" if _USE_E5 else t for t in texts]
     emb = model.encode(enc_inp, batch_size=64, show_progress_bar=False, normalize_embeddings=True)
 
@@ -144,7 +127,6 @@ def similarity_search(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
     data = _load_index()
     if not data:
         return []
-    import numpy as np
     model = data["model"]
     index = data["index"]
     records = data["records"]
@@ -152,21 +134,35 @@ def similarity_search(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
 
     q_text = f"query: {query}" if use_e5 else query
     qv = model.encode([q_text], normalize_embeddings=True).astype("float32")
-    D, I = index.search(qv, min(top_k, len(records)))
-    out = []
+
+    # Fetch more than needed to allow dedup by chunk_id, then trim to top_k
+    search_k = min(max(top_k * 5, top_k), len(records))
+    D, I = index.search(qv, search_k)
+
+    out: List[Dict[str, Any]] = []
+    seen: set[str] = set()
+    MIN_SCORE = 0.4  # adjust as needed
+    top_score = float(D[0][0]) if len(D[0]) else -1.0
     for score, idx in zip(D[0], I[0]):
-        if 0 <= int(idx) < len(records):
-            rec = records[int(idx)]
-            # skip any leftover low-info results defensively
-            if _is_low_info(rec["text"]):
-                continue
-            out.append({
-                "id": rec["id"],
-                "name": rec["name"],
-                "chunk_id": rec["chunk_id"],
-                "text": rec["text"].strip(),
-                "score": float(score)
-            })
+        i = int(idx)
+        if i < 0 or i >= len(records):
+            continue
+        rec = records[i]
+        cid = rec.get("chunk_id")
+        if cid in seen:
+            continue
+        if score < MIN_SCORE:
+            continue
+        seen.add(cid)
+        out.append({
+            "id": rec["id"],
+            "name": rec["name"],
+            "chunk_id": rec["chunk_id"],
+            "text": rec["text"].strip(),
+            "score": float(score),
+        })
+        if len(out) >= top_k:
+            break
     return out
 
 def best_description_for_names(names: List[str], top_per_name: int = 1) -> Dict[str, List[str]]:
@@ -195,7 +191,8 @@ def _augment_with_descriptions(result: Dict[str, Any], user_query: str):
             flat.append(str(item))
     flat = [x for x in flat if x]
     result["descriptions_by_name"] = best_description_for_names(flat, 1) if best_description_for_names else {}
-    result["similar_description_chunks"] = similarity_search(user_query, top_k=5)
+    # Keep only top-3 (dedup happens inside similarity_search)
+    result["similar_description_chunks"] = similarity_search(user_query, top_k=3)
 
 if __name__ == "__main__":
     build_index()

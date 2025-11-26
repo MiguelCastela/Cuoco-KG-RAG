@@ -59,7 +59,7 @@ except ValueError:
 GROQ_API_KEY = (os.environ.get("groq_key") or os.environ.get("GROQ_KEY") or "").strip().strip('"').strip("'")
 DEFAULT_MODEL = (os.environ.get("groq_model") or os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b").strip().strip('"').strip("'")
 _TEMP = os.environ.get("temperature") or os.environ.get("GROQ_TEMPERATURE")
-_MAX_TOK = os.environ.get("max_completion_tokens") or os.environ.get("GROQ_MAX_COMPLETION_TOKENS")
+_MAX_TOK = os.environ.get("max_tokens") or os.environ.get("MAX_TOKENS")
 _TOP_P = os.environ.get("top_p") or os.environ.get("GROQ_TOP_P")
 _REASONING = os.environ.get("reasoning_effort") or os.environ.get("GROQ_REASONING_EFFORT")
 _STREAM_FLAG = os.environ.get("stream") or os.environ.get("GROQ_STREAM")
@@ -221,45 +221,25 @@ _current_model = None
 
 def run_groq(user_query: str, base_prompt: str, structured_block: str) -> tuple[str, str]:
     """
-    Send ONLY the current prompt to Groq (no previous context).
+    Send the prompt to Groq, including a compact summary of the last 3 turns.
+    Records the turn and writes context.txt.
     """
     global _current_model, _conversation_history
     if _current_model is None:
         _current_model = DEFAULT_MODEL
-    client = _ensure_client()
-    if client is None:
-        return "", base_prompt
 
-    current_full_prompt = base_prompt  # no annotation added
+    # Inject previous turn summaries
+    prev_context = _build_context_annotation(_conversation_history)
+    current_full_prompt = (prev_context + "\n\n" + base_prompt) if prev_context else base_prompt
 
-    params: Dict[str, Any] = {
-        "model": _current_model,
-        "messages": [{"role": "user", "content": current_full_prompt}],
-        "stream": False,
-    }
-    if _TEMP is not None: params["temperature"] = _TEMP
-    if _MAX_TOK is not None: params["max_tokens"] = _MAX_TOK
-    if _TOP_P is not None: params["top_p"] = _TOP_P
-    if _STOP and _STOP.lower() != "none": params["stop"] = _STOP
+    resp = api_chat(current_full_prompt, _current_model)
 
-    def _invoke(p):
-        try:
-            completion = client.chat.completions.create(**p)
-            ch = getattr(completion, "choices", [])
-            if not ch: return ""
-            return (ch[0].message.content or "").strip()
-        except Exception as e:
-            print(f"[LLM EXCEPTION] {e}")
-            return ""
-
-    resp = _invoke(params)
     _conversation_history.append({
         "query": user_query,
         "structured": structured_block,
         "response": resp,
         "prompt": current_full_prompt
     })
-
     _write_context_file(current_full_prompt, structured_block)
     return resp, current_full_prompt
 
@@ -391,31 +371,41 @@ def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
 
 
 def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> tuple[str, str]:
-    """
-    Build prompt; return (llm_response, full_prompt_sent).
-    """
-    brief = _brief_result_for_llm(result, user_query)  # structured block
-    sim_snips = result.get("similar_description_chunks") or []
+    brief = _brief_result_for_llm(result, user_query)
+    sim_snips = (result.get("similar_description_chunks") or [])[:3]
     desc_lines = ""
     if sim_snips:
         lines = []
-        for i, c in enumerate(sim_snips[:5], start=1):
+        for i, c in enumerate(sim_snips, start=1):
             txt = (c.get("text") or "").strip()
             score = c.get("score")
-            try: score_str = f"{float(score):.3f}"
-            except: score_str = "NA"
-            if len(txt) > 220: txt = txt[:217].rstrip() + "..."
+            score_str = f"{float(score):.3f}" if isinstance(score,(int,float)) else "NA"
             lines.append(f"{i}. ({score_str}) {txt}")
         desc_lines = "Description snippets (semantic matches):\n" + "\n".join(lines) + "\n\n"
 
     base_prompt = (
         "You are a bilingual PT/EN assistant.\n"
-        "Use ONLY: (a) the user query, (b) the description snippets, (c) the structured recipe data.\n"
-        "Tasks:\n"
-        "1. Begin with 1–2 fluent sentences (PT first then EN) integrating relevant description snippets (do NOT invent).\n"
-        "2. Provide a concise bilingual table summarizing the retrieved recipes (PT first then EN for columns or entries).\n"
-        "3. End with a short closing line.\n"
-        "Rules: Do NOT add URLs, external sources, or steps not present. Do NOT fabricate ingredients or times.\n\n"
+        "Available context:\n"
+        "- Current user query.\n"
+        "- Up to the last 3 messages: prior prompts, structured SPARQL summaries, and previous assistant responses (use only if clearly relevant).\n"
+        "- Description snippets (may contain noise; ignore generic or off‑topic content such as posting notes or dates).\n"
+        "- Structured recipe data extracted from the KG.\n\n"
+        "Decision policy:\n"
+        "1) If the user asks about previous messages (e.g., “o que perguntei na última query”, “what did I ask last time?”), answer ONLY using the Conversation context block. "
+        "If that info is not available, say you cannot access it and provide ONE example query the user can try.\n"
+        "2) If the query is off‑topic, unclear, or nonsense, do NOT produce recipes. Ask for clarification briefly OR provide ONE example query to trigger the correct intent/SPARQL.\n"
+        "3) Otherwise, answer using the structured recipe data; use description snippets cautiously and only when clearly relevant. Prefer structured data over snippets.\n\n"
+        "Formatting and coverage:\n"
+        "- Start with 1–2 concise sentences (PT first, then EN).\n"
+        "- Be modular: if there are multiple detected ingredients/tags/names (e.g., melon; bitter melon; melon liqueur), create a separate section for EACH detected item and list its corresponding recipes under that section. Do NOT merge everything into one group.\n"
+        "- In each section, list ALL recipes returned for that item (name required; include time and key tags if helpful).\n"
+        "- Tables are optional: use a table only if it improves clarity; otherwise bullets are fine.\n"
+        "- If the requested info is missing or insufficient, say so and provide ONE example user query, e.g.:\n"
+        "  • receitas com [ingrediente]\n"
+        "  • receitas com tag [tag]\n"
+        "  • receitas em até [min] minutos\n"
+        "  • procurar receita [nome]\n"
+        "- Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.\n\n"
         f"User query: {user_query}\n\n"
         f"{desc_lines}"
         "Structured recipe data:\n"
@@ -506,7 +496,8 @@ def _process_query(user_query: str):
 
     print("\n========== RESULTS (Sequential Execution) ==========\n(Below, each SPARQL query is executed and printed one by one.)\n")
 
-    # Similarity (augment the query with slots for better retrieval)
+    # Similarity query augmentation
+    slots = result.get("slots") or {}
     slotq = []
     ing = [s[0] if isinstance(s,(list,tuple)) else str(s) for s in (slots.get("ingredient") or [])][:3]
     tg  = [s[0] if isinstance(s,(list,tuple)) else str(s) for s in (slots.get("tag") or [])][:3]
@@ -518,13 +509,15 @@ def _process_query(user_query: str):
 
     try:
         from RAG.description_index import similarity_search
-        result["similar_description_chunks"] = similarity_search(sim_query, top_k=5) or []
+        # Request only top-3; retrieval already dedups by chunk_id
+        result["similar_description_chunks"] = similarity_search(sim_query, top_k=3) or []
     except Exception as e:
         result["similar_description_chunks"] = []
         print(f"(similarity_search failed: {e})")
 
-    sim_snips = result["similar_description_chunks"]
-    print(f"=== SIMILARITY SNIPPETS (count={len(sim_snips)}) ===")
+    # Console display: filtered top-3 (already deduped in RAG.similarity_search)
+    sim_snips = (result.get("similar_description_chunks") or [])[:3]
+    print("=== SIMILARITY SNIPPETS (top 3) ===")
     if sim_snips:
         for i, c in enumerate(sim_snips, start=1):
             txt = (c.get("text","") or "").strip()
@@ -538,19 +531,6 @@ def _process_query(user_query: str):
     else:
         print("(none)")
     print("=== END SIMILARITY SNIPPETS ===\n")
-
-    # Filter weak/duplicate hits for display
-    seen = set()
-    filtered = []
-    for c in result["similar_description_chunks"]:
-        if isinstance(c.get("score"), (int,float)) and c["score"] < 0.35:
-            continue
-        key = (c.get("id"), c.get("name"))
-        if key in seen:
-            continue
-        seen.add(key)
-        filtered.append(c)
-    result["similar_description_chunks"] = filtered[:5]
 
     summary, used_prompt = _summarize_with_llm(user_query, result)
 

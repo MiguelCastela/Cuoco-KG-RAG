@@ -1,20 +1,34 @@
 current message:
 You are a bilingual PT/EN assistant.
-Use ONLY: (a) the user query, (b) the description snippets, (c) the structured recipe data.
-Tasks:
-1. Begin with 1–2 fluent sentences (PT first then EN) integrating relevant description snippets (do NOT invent).
-2. Provide a concise bilingual table summarizing the retrieved recipes (PT first then EN for columns or entries).
-3. End with a short closing line.
-Rules: Do NOT add URLs, external sources, or steps not present. Do NOT fabricate ingredients or times.
+Available context:
+- Current user query.
+- Up to the last 3 messages: prior prompts, structured SPARQL summaries, and previous assistant responses (use only if clearly relevant).
+- Description snippets (may contain noise; ignore generic or off‑topic content such as posting notes or dates).
+- Structured recipe data extracted from the KG.
+
+Decision policy:
+1) If the user asks about previous messages (e.g., “o que perguntei na última query”, “what did I ask last time?”), answer ONLY using the Conversation context block. If that info is not available, say you cannot access it and provide ONE example query the user can try.
+2) If the query is off‑topic, unclear, or nonsense, do NOT produce recipes. Ask for clarification briefly OR provide ONE example query to trigger the correct intent/SPARQL.
+3) Otherwise, answer using the structured recipe data; use description snippets cautiously and only when clearly relevant. Prefer structured data over snippets.
+
+Formatting and coverage:
+- Start with 1–2 concise sentences (PT first, then EN).
+- Be modular: if there are multiple detected ingredients/tags/names (e.g., melon; bitter melon; melon liqueur), create a separate section for EACH detected item and list its corresponding recipes under that section. Do NOT merge everything into one group.
+- In each section, list ALL recipes returned for that item (name required; include time and key tags if helpful).
+- Tables are optional: use a table only if it improves clarity; otherwise bullets are fine.
+- If the requested info is missing or insufficient, say so and provide ONE example user query, e.g.:
+  • receitas com [ingrediente]
+  • receitas com tag [tag]
+  • receitas em até [min] minutos
+  • procurar receita [nome]
+- Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
 
 User query: receitas com melão
 
 Description snippets (semantic matches):
 1. (0.536) it's a very strong flavor, so if you make this and aren't yet familiar with it, you've been warned!  ;o)  i haven't yet tried it, but i'm looking around for various bitter melon recipes (aka bitter gourd).
-2. (0.478) this receipe is more known in the northern part of portugal, (which is where i come from) i hope you all enjoy it as much as we portuguese do. p. s. i always like to add in lemon grind and some orange gives it a great...
+2. (0.478) this receipe is more known in the northern part of portugal, (which is where i come from) i hope you all enjoy it as much as we portuguese do. p. s. i always like to add in lemon grind and some orange gives it a great flavour.
 3. (0.449) found in family circle magazine. what really drew my attention to this recipe was the fact it did not use sour cream and had very basic ingredients.
-4. (0.446) this is one of the typical refreshing desserts of the middle east. you can easily substitute crushed melon or strawberries or your favorite fruit.
-5. (0.442) i love the sweet and tart flavors in this refreshing slushy treat. orange flesh melon is my favorite melon, if you can't find this tasty treat, you could substitute with a galla melon or honey dew melon.
 
 Structured recipe data:
 original_query=receitas com melão
@@ -187,35 +201,3 @@ Steps:
 
 Answer:
 
-Conversation context (previous messages):
-
-Message 1 - User query:
-receitas com pão
-
-Message 1 - Structured recipe data:
-original_query=receitas com pão
-detected_language=pt
-translated_query=recipes with bread
-intent=list_by_ingredient
-slot_ingredient=bread(100.00), bread bowls(90.00), bread improver(90.00)
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 1 - Assistant Response:
-Esta seleção traz opções que vão desde um sanduíche rápido até pães artesanais, incluindo “um maravilhoso quick bread” que combina bem com quase tudo e “um clássico quick bread” que fica com cobertura crocante e miolo macio. These recipes showcase the versatility of bread, whether it’s used as a base, a bowl, or enhanced with a bread improver.  
-
-**Tabela de receitas (PT / EN)**  
-
-| Receita (Recipe) | Tempo (min) | Ingrediente principal (Main ingredient) | Tags |
-|------------------|-------------|------------------------------------------|------|
-| Sanduíche de manteiga de amendoim e mortadela (Peanut butter and bologna sandwich) | 5 | pão (bread) | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, american, kid‑friendly, lunch |
-| Bacalhau picante com migalhas (Spicy cod greenport) | 15 | migalhas de pão (breadcrumbs) | 15‑minutes‑or‑less, beginner‑cook, fish, main‑dish |
-| Frango ao molho de chutney e rum (Chutney rum chicken) | 65 | migalhas de pão (breadcrumbs) | 4‑hours‑or‑less, chicken, main‑dish, romantic |
-| Drumsticks assados ao forno (Oven baked drumsticks) | 75 | migalhas de pão (breadcrumbs) | 4‑hours‑or‑less, chicken, kid‑friendly, lunch |
-| Casserole de café da manhã com pão (Easy breakfast egg casserole) | 55 | pão branco (white bread) | 60‑minutes‑or‑less, breakfast, casserole, easy |
-| Sopa cremosa de queijo em tigela de sourdough (Actual Panera bread recipe for hearty cheese soup in a sourdough) | 45 | tigela de pão (bread bowls) | 60‑minutes‑or‑less, copycat, soup, served‑hot |
-| Pão integral de fermento natural (King Arthur’s 100 % whole wheat sandwich bread) | 225 | melhorador de pão (bread improver) | 4‑hours‑or‑less, breads, healthy, for‑large‑groups |
-
-Bom apetite! Enjoy your cooking!

@@ -14,3 +14,4 @@ models/
 **/__pycache__/
 *.pyc
 .cache/
+*.ttl.pkl

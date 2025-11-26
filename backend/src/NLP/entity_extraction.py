@@ -256,6 +256,42 @@ class KGIndex:
                 adj_score = min(100.0, adj_score + PT_PREF_BOOST)
             results.append((orig_label, adj_score))
         return results
+    
+import os, pickle
+
+def load_kg_cached(ttl_path: str, cache_path: str = None):
+    if cache_path is None:
+        cache_path = ttl_path + ".pkl"
+
+    ttl_mtime = os.path.getmtime(ttl_path)
+
+    # Try to load cache
+    if os.path.exists(cache_path):
+        try:
+            with open(cache_path, "rb") as f:
+                data = pickle.load(f)
+
+            if data.get("_ttl_mtime") == ttl_mtime:
+                print("✅ Loaded KG from cache")
+                return data["kg"]
+
+        except Exception as e:
+            print("⚠️ Cache invalid, rebuilding:", e)
+
+    # Rebuild KG
+    print("♻️ Rebuilding KG from TTL...")
+    kg = KGIndex.from_ttl(ttl_path)
+
+    # Save cache
+    with open(cache_path, "wb") as f:
+        pickle.dump({
+            "kg": kg,
+            "_ttl_mtime": ttl_mtime
+        }, f)
+
+    print("✅ KG rebuilt and cached")
+    return kg
+
 
 
 # 4. NLP CANDIDATES
