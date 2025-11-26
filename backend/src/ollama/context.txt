@@ -25,11 +25,6 @@ Formatting and coverage:
 
 User query: receitas com melão
 
-Description snippets (semantic matches):
-1. (0.536) it's a very strong flavor, so if you make this and aren't yet familiar with it, you've been warned!  ;o)  i haven't yet tried it, but i'm looking around for various bitter melon recipes (aka bitter gourd).
-2. (0.478) this receipe is more known in the northern part of portugal, (which is where i come from) i hope you all enjoy it as much as we portuguese do. p. s. i always like to add in lemon grind and some orange gives it a great flavour.
-3. (0.449) found in family circle magazine. what really drew my attention to this recipe was the fact it did not use sour cream and had very basic ingredients.
-
 Structured recipe data:
 original_query=receitas com melão
 detected_language=pt
@@ -201,3 +196,56 @@ Steps:
 
 Answer:
 
+Conversation context (previous messages):
+
+Message 1 - User query:
+receitas de melão, desculpa enganei-me antes
+
+Message 1 - Structured recipe data:
+original_query=receitas de melão, desculpa enganei-me antes
+detected_language=pt
+translated_query=Melon recipes, sorry I was wrong before
+intent=find_recipe
+slot_ingredient=
+slot_recipe_name=melon papaya batido(80.00)
+slot_tag=
+slot_cooking_time=None
+
+
+Message 1 - Assistant Response:
+**PT:** Aqui está a receita que corresponde à sua busca por melão.  
+**EN:** Here is the recipe that matches your request for melon.
+
+**Melon Papaya Batido**  
+- **Tempo:** 10 minutos  
+- **Tags:** 15‑minutes-or-less, beginner‑cook, beverages, Caribbean, Central‑American, comfort‑food, Cuban, easy, equipment  
+- **Ingredientes:** suco de limão fresco, gelo, mamão, açúcar, leite condensado, melancia (para decorar)  
+- **Modo de preparo:**  
+  1. No liquidificador, combine todos os ingredientes, exceto a melancia para a guarnição.  
+  2. Bata até ficar homogêneo.  
+  3. Prove e ajuste a doçura com açúcar ou limão, se necessário.  
+  4. Sirva em um copo alto e decore com uma fatia de melancia.
+
+Message 2 - User query:
+receitas de pênis
+
+Message 2 - Structured recipe data:
+original_query=receitas de pênis
+detected_language=pt
+translated_query=penis recipes
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 2 - Assistant Response:
+Desculpe, não encontrei receitas com a tag **pênis** no momento.  
+Sorry, I couldn’t find any recipes with the “penis” tag right now.
+
+Você pode tentar consultas como, por exemplo:  
+• **receitas com [ingrediente]**  
+• **receitas com tag [tag]** (ex.: “receitas com tag sobremesa”)  
+• **receitas em até [min] minutos**  
+• **procurar receita [nome]**.
