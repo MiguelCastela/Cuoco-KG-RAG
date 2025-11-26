@@ -23,56 +23,14 @@ Formatting and coverage:
   • procurar receita [nome]
 - Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
 
-User query: da me os passos do Celtic Six
+User query: receitas com melão
 
 Description snippets (semantic matches):
-1. (0.439) in ireland, this dish is known as champ. it has many variations -- you might try it with cabbage, soft garlic, leeks, parsley, chives, peas or even dulse -- but it is always served with melted butter.
-2. (0.436) potatoes, macaroni and cheese. what more could you ask for?.
-3. (0.436) i found this recipe in the march 2005 issue of the bbc good food magazine. it is part of irish cook kevin dundon's suggested st patrick's day dinner menu. he serves this pork loin with colcannon and cabbage.
+1. (0.536) it's a very strong flavor, so if you make this and aren't yet familiar with it, you've been warned!  ;o)  i haven't yet tried it, but i'm looking around for various bitter melon recipes (aka bitter gourd).
+2. (0.478) this receipe is more known in the northern part of portugal, (which is where i come from) i hope you all enjoy it as much as we portuguese do. p. s. i always like to add in lemon grind and some orange gives it a great flavour.
+3. (0.449) found in family circle magazine. what really drew my attention to this recipe was the fact it did not use sour cream and had very basic ingredients.
 
 Structured recipe data:
-original_query=da me os passos do Celtic Six
-detected_language=pt
-translated_query=Give me the steps of the Celtic Six
-intent=find_recipe
-slot_ingredient=
-slot_recipe_name=celtic six(95.00), fill me up with garlic cheese loaf(85.50)
-slot_tag=
-slot_cooking_time=None
-recipes with name: celtic six
-Recipe: celtic six
-Minutes: 3
-Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
-Ingredients: gin, lemonade, lime juice, midori melon liqueur, triple sec, vodka, white rum, white tequila
-Steps:
-01. mix all ingredients except lemonade in a shaker with ice
-02. mix well and pour in a sling glass filled with ice
-03. add lemonade and garnish with melon slices , lime slices and a cherry
-
-recipes with name: fill me up with garlic cheese loaf
-Recipe: fill me up with garlic cheese loaf
-Minutes: 60
-Tags: 60-minutes-or-less, course, dietary, lunch, preparation, sandwiches, time-to-make
-Ingredients: artichoke hearts, butter, cheddar cheese, french bread, fresh parsley, garlic cloves, lemon pepper, monterey jack cheese, parmesan cheese, parsley flakes, sesame seeds, sour cream, tomatoes
-Steps:
-01. preheat the oven to 350f
-02. cut the bread into halves lengthwise
-03. remove the bread centers , leaving the bread shells
-04. tear the bread centers into chunks
-05. melt the butter in a skillet
-06. add the garlic and sesame seeds
-07. saute until golden brown
-08. add the bread chunks
-
-
-Answer:
-
-Conversation context (previous messages):
-
-Message 1 - User query:
-receitas com melão
-
-Message 1 - Structured recipe data:
 original_query=receitas com melão
 detected_language=pt
 translated_query=recipes with melon
@@ -82,41 +40,164 @@ slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
+recipes with ingredient: melon
+Recipe: watermelon gazpacho
+Minutes: 70
+Tags: 4-hours-or-less, course, dietary, equipment, fruit, healthy, healthy-2, low-calorie, low-carb, low-cholesterol, low-fat, low-in-something
+Ingredients: apples, chili powder, cider vinegar, dried basil, green bell pepper, onion, pepper, salt, watermelon
+Steps:
+01. in a blender , puree the watermelon
+02. pour into a large mixing bowl
+03. stir in remaining ingredients
+04. refrigerate , covered at least 1 hour to blend flavors
+05. this recipe serves four but can easily be doubled
+Recipe: melon papaya batido
+Minutes: 10
+Tags: 15-minutes-or-less, beginner-cook, beverages, caribbean, central-american, comfort-food, course, cuban, cuisine, dietary, easy, equipment
+Ingredients: fresh lime juice, ice, papaya, sugar, sweetened condensed milk, watermelon
+Steps:
+01. in blender , combine all ingredients except watermelon garnish
+02. process until smooth
+03. taste for sweetness , adding sugar or lime juice as desired
+04. pour mixture into tall glass and garnish with watermelon wedge
+Recipe: watermelon water
+Minutes: 25
+Tags: 30-minutes-or-less, beverages, citrus, course, cuisine, dietary, fruit, healthy, healthy-2, kid-friendly, low-calorie, low-carb
+Ingredients: honey, ice cube, lime, lime juice, mint leaf, water, watermelon
+Steps:
+01. process half of your melon cubes with 2 vup of water
+02. strain into a pitcher
+03. repeat with second half of melon and cup of water , strain into pitcher
+04. stir in lime juice and honey
+05. fill glasses with ice , and then pour in your watermelon juice
+06. garnish with lime slices and mint leaves
+Recipe: tyler florence s watermelon gazpacho
+Minutes: 20
+Tags: 30-minutes-or-less, beverages, cocktails, course, dietary, fruit, healthy-2, low-calorie, low-carb, low-cholesterol, low-in-something, low-protein
+Ingredients: cucumber, extra virgin olive oil, feta cheese, fresh dill, red onions, red wine vinegar, salt & freshly ground black pepper, serrano chili, tomatoes, watermelon
+Steps:
+01. puree tomatoes , watermelon , and chili
+02. add vinegar and olive oil
+03. pulse
+04. fold in onion , cucumber , and dill
+05. sprinkle on salt and pepper to taste
+06. pour into shot glasses or small bowls
+07. garnish with extra dill and feta
+08. enjoy at room temperature
+Recipe: melon  berry  and pear salad with cayenne lemon mint syrup
+Minutes: 60
+Tags: 60-minutes-or-less, berries, blueberries, course, dietary, equipment, fruit, healthy, healthy-2, low-calorie, low-cholesterol, low-fat
+Ingredients: cantaloupe, cayenne pepper, fresh blackberries, fresh blueberries, fresh ground black pepper, fresh lemon juice, fresh strawberries, honey, honeydew melon, lemon rind, of fresh mint, pears, sugar, water
+Steps:
+01. to make syrup: combine the first 5 syrup ingredients in a small saucepan
+02. bring to a boil
+03. cook 3 minutes or until mixture is slightly syrupy
+04. remove pan from heat
+05. stir in 1 / 4 cup mint and lemon rind
+06. let stand 30 minutes
+07. strain syrup through a sieve into a bowl
+08. throw away solids
+Recipe: no fry karela crispies  bitter melon
+Minutes: 55
+Tags: 5-ingredients-or-less, 60-minutes-or-less, asian, course, cuisine, dietary, easy, fruit, indian, lunch, main-ingredient, melons
+Ingredients: bitter melons, oil, red chili powder, salt, turmeric
+Steps:
+01. preheat the oven to about 375f
+02. wash the bitter melon and slice them using a mandolin slicer into thin round slices
+03. mix with salt , turmeric and chilli powder and marinate for about 1 / 2 an hour
+04. squeeze excess moisture out
+05. spread foil on a baking tray and grease it with about a tbsp oil
+06. toss the bitter melon slices with 2 tbsp oil and spread them on the baking tray
+07. bake for about 5-7 mins and then broil it for 7 minutes depending on the type of your oven , the broiling might be a few mins more or less
+08. crispy karela -- without frying !
+Recipe: celtic six
+Minutes: 3
+Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
+Ingredients: gin, lemonade, lime juice, midori melon liqueur, triple sec, vodka, white rum, white tequila
+Steps:
+01. mix all ingredients except lemonade in a shaker with ice
+02. mix well and pour in a sling glass filled with ice
+03. add lemonade and garnish with melon slices , lime slices and a cherry
+Recipe: june bug  cocktail
+Minutes: 5
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beginner-cook, beverages, cocktails, course, easy, for-1-or-2, number-of-servings, preparation, time-to-make
+Ingredients: banana liqueur, coconut rum, midori melon liqueur, pineapple juice, prepared sweet-and-sour mix
+Steps:
+01. mix well and pour over ice
+02. enjoy !
+Recipe: midori cosmopolitan
+Minutes: 2
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, dinner-party, easy, for-1-or-2, number-of-servings, occasion
+Ingredients: citrus-infused vodka, midori melon liqueur, raspberries, white cranberry juice
+Steps:
+01. shake with ice and pour into martini glass
+02. garnish with raspberries
+Recipe: twilight zone
+Minutes: 5
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, american, beverages, cocktails, course, cuisine, dietary, dinner-party, easy, equipment
+Ingredients: bacardi light rum, blue curacao, coconut cream, ice, melon liqueur
+Steps:
+01. blend all ingredients together until smooth , pour into glass and float the blue curacao over the top
+Recipe: alligator
+Minutes: 2
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, citrus, cocktails, course, cuisine, dietary, dinner-party, easy, for-1-or-2
+Ingredients: ice, midori melon liqueur, orange juice
+Steps:
+01. fill glass to halfway with ice
+02. add the midori and orange juice and stir
 
-Message 1 - Assistant Response:
-**PT:** Aqui estão as receitas que utilizam melão, melão amargo ou licor de melão.  
-**EN:** Below are the recipes that include melon, bitter melon, or melon liqueur.  
+recipes with ingredient: bitter melons
+Recipe: no fry karela crispies  bitter melon
+Minutes: 55
+Tags: 5-ingredients-or-less, 60-minutes-or-less, asian, course, cuisine, dietary, easy, fruit, indian, lunch, main-ingredient, melons
+Ingredients: bitter melons, oil, red chili powder, salt, turmeric
+Steps:
+01. preheat the oven to about 375f
+02. wash the bitter melon and slice them using a mandolin slicer into thin round slices
+03. mix with salt , turmeric and chilli powder and marinate for about 1 / 2 an hour
+04. squeeze excess moisture out
+05. spread foil on a baking tray and grease it with about a tbsp oil
+06. toss the bitter melon slices with 2 tbsp oil and spread them on the baking tray
+07. bake for about 5-7 mins and then broil it for 7 minutes depending on the type of your oven , the broiling might be a few mins more or less
+08. crispy karela -- without frying !
 
----
+recipes with ingredient: melon liqueur
+Recipe: celtic six
+Minutes: 3
+Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
+Ingredients: gin, lemonade, lime juice, midori melon liqueur, triple sec, vodka, white rum, white tequila
+Steps:
+01. mix all ingredients except lemonade in a shaker with ice
+02. mix well and pour in a sling glass filled with ice
+03. add lemonade and garnish with melon slices , lime slices and a cherry
+Recipe: june bug  cocktail
+Minutes: 5
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beginner-cook, beverages, cocktails, course, easy, for-1-or-2, number-of-servings, preparation, time-to-make
+Ingredients: banana liqueur, coconut rum, midori melon liqueur, pineapple juice, prepared sweet-and-sour mix
+Steps:
+01. mix well and pour over ice
+02. enjoy !
+Recipe: midori cosmopolitan
+Minutes: 2
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, dinner-party, easy, for-1-or-2, number-of-servings, occasion
+Ingredients: citrus-infused vodka, midori melon liqueur, raspberries, white cranberry juice
+Steps:
+01. shake with ice and pour into martini glass
+02. garnish with raspberries
+Recipe: twilight zone
+Minutes: 5
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, american, beverages, cocktails, course, cuisine, dietary, dinner-party, easy, equipment
+Ingredients: bacardi light rum, blue curacao, coconut cream, ice, melon liqueur
+Steps:
+01. blend all ingredients together until smooth , pour into glass and float the blue curacao over the top
+Recipe: alligator
+Minutes: 2
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, citrus, cocktails, course, cuisine, dietary, dinner-party, easy, for-1-or-2
+Ingredients: ice, midori melon liqueur, orange juice
+Steps:
+01. fill glass to halfway with ice
+02. add the midori and orange juice and stir
 
-### 🍈 Melão (inclui melancia, melão cantaloupe, melão honeydew)  
-| Receita | Tempo (min) | Tags principais |
-|---|---|---|
-| Watermelon Gazpacho | 70 | 4‑hours‑or‑less, healthy, low‑calorie, fruit |
-| Melon Papaya Batido | 10 | 15‑minutes‑or‑less, beginner‑cook, beverages, Caribbean |
-| Watermelon Water | 25 | 30‑minutes‑or‑less, beverages, kid‑friendly, low‑calorie |
-| Tyler Florence’s Watermelon Gazpacho | 20 | 30‑minutes‑or‑less, beverages, low‑calorie, fruit |
-| Melon, Berry and Pear Salad with Cayenne Lemon Mint Syrup | 60 | 60‑minutes‑or‑less, healthy, fruit, low‑calorie |
 
----
+Answer:
 
-### 🍃 Melão Amargo (Bitter Melon)  
-| Receita | Tempo (min) | Tags principais |
-|---|---|---|
-| No‑Fry Karela Crispies (Bitter Melon) | 55 | 5‑ingredients‑or‑less, Asian, easy, Indian, main‑ingredient |
-
----
-
-### 🍸 Licor de Melão (Midori ou similar)  
-| Receita | Tempo (min) | Tags principais |
-|---|---|---|
-| Celtic Six | 3 | 15‑minutes‑or‑less, 3‑steps‑or‑less, cocktails |
-| June Bug Cocktail | 5 | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, cocktails |
-| Midori Cosmopolitan | 2 | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, cocktails |
-| Twilight Zone | 5 | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, cocktails |
-| Alligator | 2 | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, cocktails |
-
----
-
-**PT:** Caso precise de mais detalhes (ingredientes completos, modo de preparo ou filtros por tempo), basta solicitar.  
-**EN:** If you need full ingredient lists, step‑by‑step instructions, or want to filter by cooking time, just let me know.

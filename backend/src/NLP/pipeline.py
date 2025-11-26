@@ -10,7 +10,7 @@ if __package__ is None:
 try:
     # Preferred absolute package imports
     from NLP.infer_intent import predict_intent
-    from NLP.entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link
+    from NLP.entity_extraction import build_spacy_pipeline, KGIndex, extract_and_link, load_kg_cached
     from NLP import sparql_queries
 except ImportError:
     try:
@@ -33,7 +33,7 @@ try:
     NLP = build_spacy_pipeline(lang_priority="pt")
 except NameError:
     raise RuntimeError("build_spacy_pipeline is not defined in entity_extraction.py. Verify its name.")
-KG = KGIndex.from_ttl(TTL_PATH)
+KG = load_kg_cached(TTL_PATH)
 
 INTENTS_NEEDING_EXTRACTION = {
     "find_recipe",

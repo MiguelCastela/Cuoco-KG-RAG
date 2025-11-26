@@ -6,13 +6,14 @@ Usage:
 
 import os
 import sys
+import time
 
 # Support both package and direct script execution
 try:
-    from .entity_extraction import extract_and_link 
+    from .entity_extraction import extract_and_link, build_spacy_pipeline, load_kg_cached
 except Exception:
     sys.path.append(os.path.dirname(__file__))
-    from entity_extraction import extract_and_link  
+    from entity_extraction import extract_and_link, build_spacy_pipeline, load_kg_cached
 
 
 def main():
@@ -26,8 +27,26 @@ def main():
     default_b = os.path.normpath(os.path.join(base_dir, "../../data/curated/example.ttl"))
     ttl_path = default_a if os.path.exists(default_a) else default_b
 
-    result = extract_and_link(query, ttl_path, lang_priority="pt")
-    print("Query:", query)
+    # ---------------------------------------------------------
+    # TEST: measure KG load time
+    # ---------------------------------------------------------
+    t0 = time.time()
+    kg = load_kg_cached(ttl_path)
+    print(f"⏱️ KG load time: {time.time() - t0:.3f} sec")
+
+    # spaCy load timing too (for curiosity)
+    t1 = time.time()
+    nlp = build_spacy_pipeline("pt")
+    print(f"⏱️ spaCy load time: {time.time() - t1:.3f} sec")
+
+    intent = "find_recipe"  # or "list_by_ingredient" / "list_by_tag" / "retrieve_ingredients"
+
+    # ---------------------------------------------------------
+    # Run extraction
+    # ---------------------------------------------------------
+    result = extract_and_link(query, kg, nlp, intent)
+
+    print("\nQuery:", query)
     print("Linked slots:")
     print(result)
 
