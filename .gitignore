@@ -17,3 +17,5 @@ models/
 *.ttl.pkl
 
 *.env
+
+context.txt
