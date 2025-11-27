@@ -23,91 +23,45 @@ Formatting and coverage:
   • procurar receita [nome]
 - Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
 
-User query: receita de pau
-
-Description snippets (semantic matches):
-1. (0.549) my grandmother used to make the best milk gravy!  she would serve it over chicken fried steak and mashed potatoes. unfortunatley, i never got her original recipe.
-2. (0.524) veronica karlan, my parents' friend, is a lovely hungarian woman who graciously sent me her recipe when i told her i like to cook!  i was salivating when she was describing this dish!  serve with dumplings, mashed potatoes or orzo.
-3. (0.513) this recipe is from scandinavian feasts by beatrice ojakangas. everyone in my family loves it.
+User query: ashjdasd
 
 Structured recipe data:
-original_query=receita de pau
-detected_language=pt
-translated_query=wood recipe
-intent=find_recipe
+original_query=ashjdasd
+detected_language=en
+intent=list_by_tag
 slot_ingredient=
-slot_recipe_name=milk gravy  paula deen(90.00), family recipe from supermodel heidi klum for sauerkraut soup(85.50)
+slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
-recipes with name: milk gravy  paula deen
-Recipe: milk gravy  paula deen
-Minutes: 20
-Tags: 30-minutes-or-less, american, comfort-food, condiments-etc, course, cuisine, dietary, healthy-2, low-calorie, low-carb, low-cholesterol, low-in-something
-Ingredients: all-purpose flour, black pepper, salt, vegetable oil, whole milk
-Steps:
-01. ~
-02. if you don't have that , no need to worry , you can use vegetable oil or vegetable shortening
-03. heat 1-2 tablespoons oil in a skillet over medium heat
-04. whisk in flour , whisking constantly for about 1 minute
-05. slowly add milk , whisking constantly
-06. stir in pepper and salt and continue cooking
-07. whisk constantly for about 10 minutes , or until thickened
-
-recipes with name: family recipe from supermodel heidi klum for sauerkraut soup
-Recipe: family recipe from supermodel heidi klum for sauerkraut soup
-Minutes: 10
-Tags: 15-minutes-or-less, appetizers, beginner-cook, brunch, comfort-food, course, cuisine, diabetic, dietary, dinner-party, easy, egg-free
-Ingredients: ground beef, ground pork, heavy cream, heinz chili sauce, olive oil, salt and pepper, sauerkraut, sliced mushrooms, sweet gherkins, vegetable broth, white onions
-Steps:
-01. saut ground beef and pork and onions with olive oil in a soup pot until brown
-02. add sauerkraut and mushrooms and pickles
-03. stir together with the meat
-04. add entire bottle of sauce or ketchup and the vegetable broth
-05. simmer for 45 minutes , stirring occasionally
-06. add salt and pepper to taste
-07. add heavy cream and cook for 1 more minute , then serve
-
 
 Answer:
 
 Conversation context (previous messages):
 
 Message 1 - User query:
-receitas com amendoim
+oçw
 
 Message 1 - Structured recipe data:
-original_query=receitas com amendoim
+original_query=oçw
 detected_language=pt
-translated_query=Peanut recipes
-intent=list_by_ingredient
-slot_ingredient=low-fat peanut butter(85.50), m&m's peanut chocolate candy(85.50), miniature peanut butter cups(85.50)
+intent=list_by_tag
+slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
 
 Message 1 - Assistant Response:
-**Aqui estão as receitas que usam amendoim, separadas por cada tipo de ingrediente encontrado.**  
-**Here are the peanut‑based recipes, grouped by the specific ingredient.**  
+Não entendi sua solicitação. Por favor, reformule a pergunta ou use um dos exemplos abaixo para buscar receitas.
 
----
+- **PT:** receitas com [ingrediente]  
+- **EN:** recipes with [ingredient]  
 
-### low‑fat peanut butter  
-- **Low Fat Peanut Sauce** – 8 min  
-  - *Tags:* 15‑minutes‑or‑less, asian, condiments‑etc, savory‑sauces, nuts  
-  - *Principais ingredientes:* low‑fat peanut butter, soy sauce, garlic, ginger, scallions, cornstarch, cayenne, hot water, fresh basil  
+- **PT:** receitas com tag [tag]  
+- **EN:** recipes with tag [tag]  
 
-### m&m's peanut chocolate candy  
-- **Peanut M M Brownies** – 40 min  
-  - *Tags:* 60‑minutes‑or‑less, american, cookies‑and‑brownies, desserts, easy, for‑large‑groups, midwestern  
-  - *Principais ingredientes:* brownie mix, eggs, m&m's peanut chocolate candy, oil, peanut butter, water  
+- **PT:** receitas em até [min] minutos  
+- **EN:** recipes ready in up to [min] minutes  
 
-### miniature peanut butter cups  
-- **Brownie Cups** – 30 min  
-  - *Tags:* 30‑minutes‑or‑less, 5‑ingredients‑or‑less, bar‑cookies, brownies, canadian, chocolate, desserts, easy, dietary  
-  - *Principais ingredientes:* brownie mix, eggs, miniature peanut butter cups, vegetable oil  
-
-Se precisar de mais opções, experimente consultas como:  
-- “receitas com amendoim”  
-- “receitas com manteiga de amendoim”  
-- “sobremesas com m&m’s de amendoim”.
+- **PT:** procurar receita [nome]  
+- **EN:** find recipe [name]
