@@ -23,176 +23,361 @@ Formatting and coverage:
   • procurar receita [nome]
 - Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
 
-User query: receitas com melão
+User query: receitas com manteiga de amendoim
+
+Description snippets (semantic matches):
+1. (0.500) i got this recipe from the www. foodallergy. org website. i never made it but am saving it here to come back to later. it is milk, egg, peanut, treenut, and soy free.
+2. (0.485) i came across this recipe from an old cooking light magazine and boy it is a nice twist on a standard biscotti. they state that since peanut butter is used in place of butter the proteins and b vitamins are greatly increased.
+3. (0.474) recipe posted by request. you can also add bagel chips if you like.
 
 Structured recipe data:
-original_query=receitas com melão
+original_query=receitas com manteiga de amendoim
 detected_language=pt
-translated_query=recipes with melon
+translated_query=recipes with peanut butter
 intent=list_by_ingredient
-slot_ingredient=melon(100.00), bitter melons(90.00), melon liqueur(90.00)
+slot_ingredient=peanut butter(100.00), peanut butter chips(95.00), low-fat peanut butter(90.00)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
-recipes with ingredient: melon
-Recipe: watermelon gazpacho
-Minutes: 70
-Tags: 4-hours-or-less, course, dietary, equipment, fruit, healthy, healthy-2, low-calorie, low-carb, low-cholesterol, low-fat, low-in-something
-Ingredients: apples, chili powder, cider vinegar, dried basil, green bell pepper, onion, pepper, salt, watermelon
+recipes with ingredient: peanut butter
+Recipe: peanut butter and bologna sandwich
+Minutes: 5
+Tags: 15-minutes-or-less, 5-ingredients-or-less, american, course, cuisine, dietary, easy, kid-friendly, lunch, north-american, preparation, sandwiches
+Ingredients: bologna, bread, mustard, peanut butter
 Steps:
-01. in a blender , puree the watermelon
-02. pour into a large mixing bowl
-03. stir in remaining ingredients
-04. refrigerate , covered at least 1 hour to blend flavors
-05. this recipe serves four but can easily be doubled
-Recipe: melon papaya batido
+01. put 1 tb of peanut butter on each slice of bread
+02. add bologna to one slice of bread
+03. squirt on as much mustard as you desire
+04. top with second slice of bread
+05. enjoy !
+Recipe: grilled cheese special
 Minutes: 10
-Tags: 15-minutes-or-less, beginner-cook, beverages, caribbean, central-american, comfort-food, course, cuban, cuisine, dietary, easy, equipment
-Ingredients: fresh lime juice, ice, papaya, sugar, sweetened condensed milk, watermelon
+Tags: 15-minutes-or-less, course, dietary, lunch, preparation, sandwiches, time-to-make
+Ingredients: apple, butter, cheddar cheese, peanut butter, sandwich bread
 Steps:
-01. in blender , combine all ingredients except watermelon garnish
-02. process until smooth
-03. taste for sweetness , adding sugar or lime juice as desired
-04. pour mixture into tall glass and garnish with watermelon wedge
-Recipe: watermelon water
-Minutes: 25
-Tags: 30-minutes-or-less, beverages, citrus, course, cuisine, dietary, fruit, healthy, healthy-2, kid-friendly, low-calorie, low-carb
-Ingredients: honey, ice cube, lime, lime juice, mint leaf, water, watermelon
+01. layer peanut butter , apples , and cheese on one slice of bread
+02. top with second slice of bread
+03. butter outside of sandwich and place in frying pan or on griddle
+04. turn the sandwich when bottom side is golden brown
+05. brown other side of sandwich
+06. enjoy !
+Recipe: pb   h  ultimate quickie sandwich
+Minutes: 5
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beginner-cook, breakfast, brunch, comfort-food, course, dietary, easy, for-1-or-2, inexpensive
+Ingredients: chunky peanut butter, cinnamon raisin bread, honey
 Steps:
-01. process half of your melon cubes with 2 vup of water
-02. strain into a pitcher
-03. repeat with second half of melon and cup of water , strain into pitcher
-04. stir in lime juice and honey
-05. fill glasses with ice , and then pour in your watermelon juice
-06. garnish with lime slices and mint leaves
-Recipe: tyler florence s watermelon gazpacho
-Minutes: 20
-Tags: 30-minutes-or-less, beverages, cocktails, course, dietary, fruit, healthy-2, low-calorie, low-carb, low-cholesterol, low-in-something, low-protein
-Ingredients: cucumber, extra virgin olive oil, feta cheese, fresh dill, red onions, red wine vinegar, salt & freshly ground black pepper, serrano chili, tomatoes, watermelon
+01. spread peanut butter in one slice of bread
+02. drizzle honey on top of peanut butter
+03. top with the other slice of bread and enjoy !
+Recipe: crock pot thai chicken thighs
+Minutes: 365
+Tags: 3-steps-or-less, asian, beginner-cook, chicken, chicken-thighs-legs, course, crock-pot-slow-cooker, cuisine, dietary, easy, equipment, inexpensive
+Ingredients: boneless skinless chicken thighs, cilantro salsa, ginger, lime juice, peanut butter, soy sauce
 Steps:
-01. puree tomatoes , watermelon , and chili
-02. add vinegar and olive oil
-03. pulse
-04. fold in onion , cucumber , and dill
-05. sprinkle on salt and pepper to taste
-06. pour into shot glasses or small bowls
-07. garnish with extra dill and feta
-08. enjoy at room temperature
-Recipe: melon  berry  and pear salad with cayenne lemon mint syrup
+01. put all ingredients in crock pot on low for 6-8 hours
+02. garnish with cilantro , scallions , and peanuts
+03. serve with jasmine rice made with half coconut milk and half water
+Recipe: breakfast muffin
+Minutes: 10
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, breakfast, course, dietary, easy, healthy, healthy-2, kid-friendly, low-cholesterol, low-in-something
+Ingredients: bananas, english muffins, honey, peanut butter
+Steps:
+01. preheat grill spread the peanut butter than honey on the crumpets or muffins
+02. top with sliced bananas
+03. place on oven tray and place under grill until honey start to bubble or sizzle
+Recipe: chocolate peanut butter chip cookies
 Minutes: 60
-Tags: 60-minutes-or-less, berries, blueberries, course, dietary, equipment, fruit, healthy, healthy-2, low-calorie, low-cholesterol, low-fat
-Ingredients: cantaloupe, cayenne pepper, fresh blackberries, fresh blueberries, fresh ground black pepper, fresh lemon juice, fresh strawberries, honey, honeydew melon, lemon rind, of fresh mint, pears, sugar, water
+Tags: 60-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
+Ingredients: baking cocoa, baking soda, eggs, flour, granulated sugar, light brown sugar, margarine, peanut butter chips, salt, shortening, vanilla, walnuts
 Steps:
-01. to make syrup: combine the first 5 syrup ingredients in a small saucepan
-02. bring to a boil
-03. cook 3 minutes or until mixture is slightly syrupy
-04. remove pan from heat
-05. stir in 1 / 4 cup mint and lemon rind
-06. let stand 30 minutes
-07. strain syrup through a sieve into a bowl
-08. throw away solids
-Recipe: no fry karela crispies  bitter melon
-Minutes: 55
-Tags: 5-ingredients-or-less, 60-minutes-or-less, asian, course, cuisine, dietary, easy, fruit, indian, lunch, main-ingredient, melons
-Ingredients: bitter melons, oil, red chili powder, salt, turmeric
+01. preheat oven to 350 degrees
+02. mix granulated sugar , brown sugar , margarine , shortening , vanilla and eggs in large bowl
+03. stir in flour , cocoa , baking soda and salt
+04. stir in peanut butter chips and nuts
+05. drop dough by rounded tablespoonfuls about 2" apart on ungreased baking sheets
+06. bake 11-12 minutes minutes or until set
+07. cool slightly on sheets
+08. remove from cookie sheets and finish cooling on wire racks
+Recipe: quick peanut butter bon bons
+Minutes: 20
+Tags: 30-minutes-or-less, cookies-and-brownies, course, cuisine, desserts, dietary, drop-cookies, easy, fruit, hand-formed-cookies, kid-friendly, low-in-something
+Ingredients: brown sugar, evaporated milk, peanut butter, peanut butter chips, quick-cooking oatmeal, sugar, vanilla
 Steps:
-01. preheat the oven to about 375f
-02. wash the bitter melon and slice them using a mandolin slicer into thin round slices
-03. mix with salt , turmeric and chilli powder and marinate for about 1 / 2 an hour
-04. squeeze excess moisture out
-05. spread foil on a baking tray and grease it with about a tbsp oil
-06. toss the bitter melon slices with 2 tbsp oil and spread them on the baking tray
-07. bake for about 5-7 mins and then broil it for 7 minutes depending on the type of your oven , the broiling might be a few mins more or less
-08. crispy karela -- without frying !
-Recipe: celtic six
-Minutes: 3
-Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
-Ingredients: gin, lemonade, lime juice, midori melon liqueur, triple sec, vodka, white rum, white tequila
+01. in a large mixing bowl , combine oats , peanut butter chips , peanut butter , and vanilla
+02. in a small saucepan , combine and stir sugars and evaporated milk
+03. bring to a rolling boil
+04. boil 1 minute
+05. pour over oatmeal mixture and stir well
+06. form mixture into balls and place on waxed paper to cool
+07. keep in a covered container
+08. makes about 36
+Recipe: chubby bunnies
+Minutes: 15
+Tags: 15-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
+Ingredients: baking soda, brown sugar, chocolate chips, cocoa, eggs, flour, margarine, peanut butter chips, vanilla, water
 Steps:
-01. mix all ingredients except lemonade in a shaker with ice
-02. mix well and pour in a sling glass filled with ice
-03. add lemonade and garnish with melon slices , lime slices and a cherry
-Recipe: june bug  cocktail
-Minutes: 5
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beginner-cook, beverages, cocktails, course, easy, for-1-or-2, number-of-servings, preparation, time-to-make
-Ingredients: banana liqueur, coconut rum, midori melon liqueur, pineapple juice, prepared sweet-and-sour mix
+01. preheat oven to 375f
+02. in a large bowl cream margarine and brown sugar
+03. add vanilla , water and eggs and beat
+04. in another bowl mix together flour , cocoa and soda and add to creamed mixture
+05. stir in chips
+06. drop by spoonfuls onto greased cookie sheets
+07. bake 7-9 minutes
+Recipe: peanut butter s mores bars   gift in a jar
+Minutes: 10
+Tags: 15-minutes-or-less, 3-steps-or-less, american, bar-cookies, chocolate, christmas, condiments-etc, cookies-and-brownies, cooking-mixes, course, cuisine, desserts
+Ingredients: brown sugar, graham crackers, milk chocolate chips, mini marshmallows, peanut butter chips
 Steps:
-01. mix well and pour over ice
-02. enjoy !
-Recipe: midori cosmopolitan
-Minutes: 2
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, dinner-party, easy, for-1-or-2, number-of-servings, occasion
-Ingredients: citrus-infused vodka, midori melon liqueur, raspberries, white cranberry juice
+01. layer each ingredient in the above order in a canning jar
+02. the graham crackers need to be crushed into crumbs before layering on top
+03. a food processor works great but so does a zip top bag and a heavy object to smash or rollover the bag
+04. free aggression therapy ! lol
+05. attach these instructions to jar: empty contents of jar into a bowl adding 1 / 2 cup room temp butter and 1 teaspoon vanilla
+06. mix well and gently pat into a greased 9x9 or 8x8 pan
+07. bake at 350 for 15 minutes
+08. makes 9 to 12 bars
+Recipe: coconut brownie bars
+Minutes: 45
+Tags: 60-minutes-or-less, bar-cookies, brownies, chocolate, cookies-and-brownies, course, desserts, main-ingredient, preparation, time-to-make
+Ingredients: brownie mix, butter, coconut flakes, eagle brand condensed milk, peanut butter chips, pecans, semi-sweet chocolate chips
 Steps:
-01. shake with ice and pour into martini glass
-02. garnish with raspberries
-Recipe: twilight zone
-Minutes: 5
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, american, beverages, cocktails, course, cuisine, dietary, dinner-party, easy, equipment
-Ingredients: bacardi light rum, blue curacao, coconut cream, ice, melon liqueur
+01. combine brownie mix and butter using pastry wisk or fork until crumbly
+02. pour into 9x12 baking dish sprayed lightly with pam
+03. pat lightly
+04. sprinkle chocolate chips , peanut butter chips , coconut and pecans in that order evenly over brownie mixture
+05. pour eagle brand milk over the top evenly
+06. bake at 350 for 25 minutes or until coconut is golden brown
+07. cool before cutting into squares
+Recipe: low fat peanut sauce
+Minutes: 8
+Tags: 15-minutes-or-less, asian, condiments-etc, course, cuisine, dietary, fruit, main-ingredient, nuts, preparation, sauces, savory-sauces
+Ingredients: cayenne, cornstarch, fresh basil, garlic, ginger, hot water, low-fat peanut butter, scallions, soy sauce
 Steps:
-01. blend all ingredients together until smooth , pour into glass and float the blue curacao over the top
-Recipe: alligator
-Minutes: 2
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, citrus, cocktails, course, cuisine, dietary, dinner-party, easy, for-1-or-2
-Ingredients: ice, midori melon liqueur, orange juice
-Steps:
-01. fill glass to halfway with ice
-02. add the midori and orange juice and stir
+01. mix peanut butter with hot water in a small bowl until smooth
+02. add spices , soy sauce and cornstarch and whisk to remove any lumps
+03. steam-fry veggies of choice , and add the peanut sauce when stirfry is half done
+04. bring to a boil , then reduce to a simmer until veggies are done and the sauce thickens
+05. serve !
 
-recipes with ingredient: bitter melons
-Recipe: no fry karela crispies  bitter melon
-Minutes: 55
-Tags: 5-ingredients-or-less, 60-minutes-or-less, asian, course, cuisine, dietary, easy, fruit, indian, lunch, main-ingredient, melons
-Ingredients: bitter melons, oil, red chili powder, salt, turmeric
+recipes with ingredient: peanut butter chips
+Recipe: chocolate peanut butter chip cookies
+Minutes: 60
+Tags: 60-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
+Ingredients: baking cocoa, baking soda, eggs, flour, granulated sugar, light brown sugar, margarine, peanut butter chips, salt, shortening, vanilla, walnuts
 Steps:
-01. preheat the oven to about 375f
-02. wash the bitter melon and slice them using a mandolin slicer into thin round slices
-03. mix with salt , turmeric and chilli powder and marinate for about 1 / 2 an hour
-04. squeeze excess moisture out
-05. spread foil on a baking tray and grease it with about a tbsp oil
-06. toss the bitter melon slices with 2 tbsp oil and spread them on the baking tray
-07. bake for about 5-7 mins and then broil it for 7 minutes depending on the type of your oven , the broiling might be a few mins more or less
-08. crispy karela -- without frying !
+01. preheat oven to 350 degrees
+02. mix granulated sugar , brown sugar , margarine , shortening , vanilla and eggs in large bowl
+03. stir in flour , cocoa , baking soda and salt
+04. stir in peanut butter chips and nuts
+05. drop dough by rounded tablespoonfuls about 2" apart on ungreased baking sheets
+06. bake 11-12 minutes minutes or until set
+07. cool slightly on sheets
+08. remove from cookie sheets and finish cooling on wire racks
+Recipe: quick peanut butter bon bons
+Minutes: 20
+Tags: 30-minutes-or-less, cookies-and-brownies, course, cuisine, desserts, dietary, drop-cookies, easy, fruit, hand-formed-cookies, kid-friendly, low-in-something
+Ingredients: brown sugar, evaporated milk, peanut butter, peanut butter chips, quick-cooking oatmeal, sugar, vanilla
+Steps:
+01. in a large mixing bowl , combine oats , peanut butter chips , peanut butter , and vanilla
+02. in a small saucepan , combine and stir sugars and evaporated milk
+03. bring to a rolling boil
+04. boil 1 minute
+05. pour over oatmeal mixture and stir well
+06. form mixture into balls and place on waxed paper to cool
+07. keep in a covered container
+08. makes about 36
+Recipe: chubby bunnies
+Minutes: 15
+Tags: 15-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
+Ingredients: baking soda, brown sugar, chocolate chips, cocoa, eggs, flour, margarine, peanut butter chips, vanilla, water
+Steps:
+01. preheat oven to 375f
+02. in a large bowl cream margarine and brown sugar
+03. add vanilla , water and eggs and beat
+04. in another bowl mix together flour , cocoa and soda and add to creamed mixture
+05. stir in chips
+06. drop by spoonfuls onto greased cookie sheets
+07. bake 7-9 minutes
+Recipe: peanut butter s mores bars   gift in a jar
+Minutes: 10
+Tags: 15-minutes-or-less, 3-steps-or-less, american, bar-cookies, chocolate, christmas, condiments-etc, cookies-and-brownies, cooking-mixes, course, cuisine, desserts
+Ingredients: brown sugar, graham crackers, milk chocolate chips, mini marshmallows, peanut butter chips
+Steps:
+01. layer each ingredient in the above order in a canning jar
+02. the graham crackers need to be crushed into crumbs before layering on top
+03. a food processor works great but so does a zip top bag and a heavy object to smash or rollover the bag
+04. free aggression therapy ! lol
+05. attach these instructions to jar: empty contents of jar into a bowl adding 1 / 2 cup room temp butter and 1 teaspoon vanilla
+06. mix well and gently pat into a greased 9x9 or 8x8 pan
+07. bake at 350 for 15 minutes
+08. makes 9 to 12 bars
+Recipe: coconut brownie bars
+Minutes: 45
+Tags: 60-minutes-or-less, bar-cookies, brownies, chocolate, cookies-and-brownies, course, desserts, main-ingredient, preparation, time-to-make
+Ingredients: brownie mix, butter, coconut flakes, eagle brand condensed milk, peanut butter chips, pecans, semi-sweet chocolate chips
+Steps:
+01. combine brownie mix and butter using pastry wisk or fork until crumbly
+02. pour into 9x12 baking dish sprayed lightly with pam
+03. pat lightly
+04. sprinkle chocolate chips , peanut butter chips , coconut and pecans in that order evenly over brownie mixture
+05. pour eagle brand milk over the top evenly
+06. bake at 350 for 25 minutes or until coconut is golden brown
+07. cool before cutting into squares
 
-recipes with ingredient: melon liqueur
-Recipe: celtic six
-Minutes: 3
-Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
-Ingredients: gin, lemonade, lime juice, midori melon liqueur, triple sec, vodka, white rum, white tequila
+recipes with ingredient: low-fat peanut butter
+Recipe: low fat peanut sauce
+Minutes: 8
+Tags: 15-minutes-or-less, asian, condiments-etc, course, cuisine, dietary, fruit, main-ingredient, nuts, preparation, sauces, savory-sauces
+Ingredients: cayenne, cornstarch, fresh basil, garlic, ginger, hot water, low-fat peanut butter, scallions, soy sauce
 Steps:
-01. mix all ingredients except lemonade in a shaker with ice
-02. mix well and pour in a sling glass filled with ice
-03. add lemonade and garnish with melon slices , lime slices and a cherry
-Recipe: june bug  cocktail
-Minutes: 5
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beginner-cook, beverages, cocktails, course, easy, for-1-or-2, number-of-servings, preparation, time-to-make
-Ingredients: banana liqueur, coconut rum, midori melon liqueur, pineapple juice, prepared sweet-and-sour mix
-Steps:
-01. mix well and pour over ice
-02. enjoy !
-Recipe: midori cosmopolitan
-Minutes: 2
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, dinner-party, easy, for-1-or-2, number-of-servings, occasion
-Ingredients: citrus-infused vodka, midori melon liqueur, raspberries, white cranberry juice
-Steps:
-01. shake with ice and pour into martini glass
-02. garnish with raspberries
-Recipe: twilight zone
-Minutes: 5
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, american, beverages, cocktails, course, cuisine, dietary, dinner-party, easy, equipment
-Ingredients: bacardi light rum, blue curacao, coconut cream, ice, melon liqueur
-Steps:
-01. blend all ingredients together until smooth , pour into glass and float the blue curacao over the top
-Recipe: alligator
-Minutes: 2
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, citrus, cocktails, course, cuisine, dietary, dinner-party, easy, for-1-or-2
-Ingredients: ice, midori melon liqueur, orange juice
-Steps:
-01. fill glass to halfway with ice
-02. add the midori and orange juice and stir
+01. mix peanut butter with hot water in a small bowl until smooth
+02. add spices , soy sauce and cornstarch and whisk to remove any lumps
+03. steam-fry veggies of choice , and add the peanut sauce when stirfry is half done
+04. bring to a boil , then reduce to a simmer until veggies are done and the sauce thickens
+05. serve !
 
 
 Answer:
 
+Conversation context (previous messages):
+
+Message 1 - User query:
+Receitas com amendoim
+
+Message 1 - Structured recipe data:
+original_query=Receitas com amendoim
+detected_language=pt
+translated_query=Peanut recipes
+intent=list_by_ingredient
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 1 - Assistant Response:
+**Desculpe, não encontrei receitas específicas para “amendoim” nos dados disponíveis.**  
+**Sorry, I couldn’t find recipes specifically with “peanut” in the current data.**
+
+Você pode tentar consultas mais específicas, como:  
+- **receitas com amendoim** (para amendoim inteiro)  
+- **receitas com manteiga de amendoim** (peanut butter)  
+- **receitas com tag dessert** (se quiser sobremesas que costumam levar amendoim)  
+
+Feel free to re‑ask with one of the example queries above!
+
+Message 2 - User query:
+Receitas com manteiga de amendoim
+
+Message 2 - Structured recipe data:
+original_query=Receitas com manteiga de amendoim
+detected_language=pt
+translated_query=Peanut butter recipes
+intent=list_by_ingredient
+slot_ingredient=peanut butter chips(90.00), peanut butter(90.00), butter(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 2 - Assistant Response:
+**Aqui estão as receitas que contêm manteiga de amendoim (ou variações) encontradas no nosso banco de dados.**  
+**Below are the recipes that include peanut butter (or its variants) from our database.**
+
+---
+
+### 🥜 **Manteiga de amendoim – *peanut butter chips***
+| Receita | Tempo | Principais tags |
+|---|---|---|
+| Chocolate Peanut Butter Chip Cookies | 60 min | 60‑minutes‑or‑less, cookies‑and‑brownies, desserts, drop‑cookies |
+| Quick Peanut Butter Bon Bons | 20 min | 30‑minutes‑or‑less, easy, kid‑friendly, drop‑cookies |
+| Chubby Bunnies | 15 min | 15‑minutes‑or‑less, cookies‑and‑brownies, desserts |
+| Peanut Butter S’mores Bars (gift in a jar) | 10 min | 15‑minutes‑or‑less, 3‑steps‑or‑less, bar‑cookies, chocolate |
+| Coconut Brownie Bars | 45 min | 60‑minutes‑or‑less, bar‑cookies, brownies, chocolate |
+
+---
+
+### 🥜 **Manteiga de amendoim – *peanut butter* (pasta)**
+| Receita | Tempo | Principais tags |
+|---|---|---|
+| Chocolate Peanut Butter Chip Cookies | 60 min | 60‑minutes‑or‑less, cookies‑and‑brownies, desserts |
+| Quick Peanut Butter Bon Bons | 20 min | 30‑minutes‑or‑less, easy, kid‑friendly |
+| Chubby Bunnies | 15 min | 15‑minutes‑or‑less, cookies‑and‑brownies |
+| Peanut Butter S’mores Bars (gift in a jar) | 10 min | 15‑minutes‑or‑less, 3‑steps‑or‑less, bar‑cookies |
+| Coconut Brownie Bars | 45 min | 60‑minutes‑or‑less, brownies, chocolate |
+| Peanut Butter and Bologna Sandwich | 5 min | 5‑ingredients‑or‑less, easy, kid‑friendly, lunch |
+| Grilled Cheese Special | 10 min | 15‑minutes‑or‑less, sandwiches, lunch |
+| PB & H Ultimate Quickie Sandwich | 5 min | 3‑steps‑or‑less, breakfast, easy |
+| Crock‑Pot Thai Chicken Thighs | 365 min | 3‑steps‑or‑less, asian, crock‑pot |
+| Breakfast Muffin | 10 min | 15‑minutes‑or‑less, breakfast, healthy |
+
+---
+
+### 🧈 **Manteiga – *butter***
+| Receita | Tempo | Principais tags |
+|---|---|---|
+| Chocolate Peanut Butter Chip Cookies | 60 min | 60‑minutes‑or‑less, cookies‑and‑brownies |
+| Quick Peanut Butter Bon Bons | 20 min | 30‑minutes‑or‑less, easy |
+| Chubby Bunnies | 15 min | 15‑minutes‑or‑less, desserts |
+| Peanut Butter S’mores Bars (gift in a jar) | 10 min | 15‑minutes‑or‑less, bar‑cookies |
+| Coconut Brownie Bars | 45 min | 60‑minutes‑or‑less, brownies |
+| Peanut Butter and Bologna Sandwich | 5 min | 5‑ingredients‑or‑less, lunch |
+| Grilled Cheese Special | 10 min | 15‑minutes‑or‑less, sandwiches |
+| PB & H Ultimate Quickie Sandwich | 5 min | 3‑steps‑or‑less, breakfast |
+| Crock‑Pot Thai Chicken Thighs | 365 min | 3‑steps‑or‑less, asian |
+| Breakfast Muffin | 10 min | 15‑minutes‑or‑less, breakfast |
+
+---
+
+Se precisar filtrar por tempo de preparo, tipo de prato ou outra restrição, basta informar!  
+
+If you’d like to narrow the list by cooking time, meal type, or any other filter, just let me know!
+
+Message 3 - User query:
+Receitas com manteiga de amendoim
+
+Message 3 - Structured recipe data:
+original_query=Receitas com manteiga de amendoim
+detected_language=pt
+translated_query=Peanut butter recipes
+intent=list_by_ingredient
+slot_ingredient=peanut butter chips(90.00), peanut butter(90.00), butter(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 3 - Assistant Response:
+**Aqui estão receitas que usam manteiga de amendoim (peanut butter) ou suas variações, como “peanut butter chips”.**  
+**Below are recipes that contain peanut butter or peanut‑butter chips.**
+
+---
+
+### 🥜 Manteiga de amendoim – *peanut butter chips*
+- **Chocolate Peanut Butter Chip Cookies** – 60 min  
+  *Tags:* 60‑minutes‑or‑less, cookies‑and‑brownies, desserts, drop‑cookies, preparation
+- **Quick Peanut Butter Bon Bons** – 20 min  
+  *Tags:* 30‑minutes‑or‑less, cookies‑and‑brownies, desserts, easy, kid‑friendly, low‑in‑something
+- **Chubby Bunnies** – 15 min  
+  *Tags:* 15‑minutes‑or‑less, cookies‑and‑brownies, desserts, drop‑cookies
+- **Peanut Butter S’mores Bars (gift in a jar)** – 10 min  
+  *Tags:* 15‑minutes‑or‑less, 3‑steps‑or‑less, american, bar‑cookies, chocolate, christmas, desserts
+- **Coconut Brownie Bars** – 45 min  
+  *Tags:* 60‑minutes‑or‑less, bar‑cookies, brownies, chocolate, desserts
+
+### 🥜 Manteiga de amendoim – *peanut butter* (pasta de amendoim)
+- **Quick Peanut Butter Bon Bons** – 20 min  
+  *Tags:* 30‑minutes‑or‑less, cookies‑and‑brownies, desserts, easy, kid‑friendly, low‑in‑something
+- **Peanut Butter and Bologna Sandwich** – 5 min  
+  *Tags:* 15‑minutes‑or‑less, 5‑ingredients‑or‑less, american, easy, kid‑friendly, lunch
+- **Grilled Cheese Special** – 10 min  
+  *Tags:* 15‑minutes‑or‑less, lunch, sandwiches
+- **PB & H Ultimate Quickie Sandwich** – 5 min  
+  *Tags:* 15‑minutes‑or‑less, 3‑steps‑or‑less, breakfast, easy, inexpensive
+- **Crock‑Pot Thai Chicken Thighs** – 365 min  
+  *Tags:* 3‑steps‑or‑less, asian, chicken, crock‑pot, easy
+- **Breakfast Muffin** – 10 min  
+  *Tags:* 15‑minutes‑or‑less, breakfast, easy, healthy, kid‑friendly
+
+Essas são todas as receitas que o nosso banco de dados encontrou contendo manteiga de amendoim ou seus chips. Boa cozinha!

@@ -7,14 +7,14 @@ import { Delaunay } from "d3-delaunay"
 const COLORS = ["#fbe7ca", "#f6ddc4", "#F2D4C0"]
 
 export default function TriangleBackground({
-  minDistance = 150,
+  minDistance = 120,
   maxPoints = 300,
   edgeSpacing = 150,
   transitionDuration = 2000, // ms for color transition
   minInterval = 2000, // minimum ms between color changes
   maxInterval = 5000, // maximum ms between color changes
   driftAmount = 18, // maximum drift distance in pixels
-  driftSpeed = 0.005, // speed of drift animation
+  driftSpeed = 0.002, // speed of drift animation
 }) {
   const [size, setSize] = useState(null)
   const [points, setPoints] = useState([])
