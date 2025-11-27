@@ -16,4 +16,15 @@ models/
 .cache/
 *.ttl.pkl
 
+#frontend
+node_modules/
+.dist/
+dist/
+.vite/
+.DS_Store
+.env
+package-lock.json
+package.json
+
+
 *.env

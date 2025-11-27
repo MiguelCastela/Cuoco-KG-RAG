@@ -23,91 +23,247 @@ Formatting and coverage:
   • procurar receita [nome]
 - Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
 
-User query: receita de pau
+User query: receitas com amendoim
 
 Description snippets (semantic matches):
-1. (0.549) my grandmother used to make the best milk gravy!  she would serve it over chicken fried steak and mashed potatoes. unfortunatley, i never got her original recipe.
-2. (0.524) veronica karlan, my parents' friend, is a lovely hungarian woman who graciously sent me her recipe when i told her i like to cook!  i was salivating when she was describing this dish!  serve with dumplings, mashed potatoes or orzo.
-3. (0.513) this recipe is from scandinavian feasts by beatrice ojakangas. everyone in my family loves it.
+1. (0.481) how can you go wrong with peanut butter and chocolate? my mom got this recipe from the church we went to when i was a kid. brings back lots of memory's.
+2. (0.475) i came across this recipe from an old cooking light magazine and boy it is a nice twist on a standard biscotti. they state that since peanut butter is used in place of butter the proteins and b vitamins are greatly increased.
+3. (0.472) red hot candies give these patriotic treats that special something. spicy and chewy! you can buy the m&m's at http://shop. mms. com or at m&m's world in las vegas, orlando or new york.
 
 Structured recipe data:
-original_query=receita de pau
-detected_language=pt
-translated_query=wood recipe
-intent=find_recipe
-slot_ingredient=
-slot_recipe_name=milk gravy  paula deen(90.00), family recipe from supermodel heidi klum for sauerkraut soup(85.50)
-slot_tag=
-slot_cooking_time=None
-recipes with name: milk gravy  paula deen
-Recipe: milk gravy  paula deen
-Minutes: 20
-Tags: 30-minutes-or-less, american, comfort-food, condiments-etc, course, cuisine, dietary, healthy-2, low-calorie, low-carb, low-cholesterol, low-in-something
-Ingredients: all-purpose flour, black pepper, salt, vegetable oil, whole milk
-Steps:
-01. ~
-02. if you don't have that , no need to worry , you can use vegetable oil or vegetable shortening
-03. heat 1-2 tablespoons oil in a skillet over medium heat
-04. whisk in flour , whisking constantly for about 1 minute
-05. slowly add milk , whisking constantly
-06. stir in pepper and salt and continue cooking
-07. whisk constantly for about 10 minutes , or until thickened
-
-recipes with name: family recipe from supermodel heidi klum for sauerkraut soup
-Recipe: family recipe from supermodel heidi klum for sauerkraut soup
-Minutes: 10
-Tags: 15-minutes-or-less, appetizers, beginner-cook, brunch, comfort-food, course, cuisine, diabetic, dietary, dinner-party, easy, egg-free
-Ingredients: ground beef, ground pork, heavy cream, heinz chili sauce, olive oil, salt and pepper, sauerkraut, sliced mushrooms, sweet gherkins, vegetable broth, white onions
-Steps:
-01. saut ground beef and pork and onions with olive oil in a soup pot until brown
-02. add sauerkraut and mushrooms and pickles
-03. stir together with the meat
-04. add entire bottle of sauce or ketchup and the vegetable broth
-05. simmer for 45 minutes , stirring occasionally
-06. add salt and pepper to taste
-07. add heavy cream and cook for 1 more minute , then serve
-
-
-Answer:
-
-Conversation context (previous messages):
-
-Message 1 - User query:
-receitas com amendoim
-
-Message 1 - Structured recipe data:
 original_query=receitas com amendoim
 detected_language=pt
 translated_query=Peanut recipes
 intent=list_by_ingredient
-slot_ingredient=low-fat peanut butter(85.50), m&m's peanut chocolate candy(85.50), miniature peanut butter cups(85.50)
+slot_ingredient=low-fat peanut butter(85.50), m&m's peanut chocolate candy(85.50), miniature peanut butter cups(85.50), yam(72.00), jam(72.00), ham(72.00)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
+recipes with ingredient: low-fat peanut butter
+Recipe: low fat peanut sauce
+Minutes: 8
+Tags: 15-minutes-or-less, asian, condiments-etc, course, cuisine, dietary, fruit, main-ingredient, nuts, preparation, sauces, savory-sauces
+Ingredients: cayenne, cornstarch, fresh basil, garlic, ginger, hot water, low-fat peanut butter, scallions, soy sauce
+Steps:
+01. mix peanut butter with hot water in a small bowl until smooth
+02. add spices , soy sauce and cornstarch and whisk to remove any lumps
+03. steam-fry veggies of choice , and add the peanut sauce when stirfry is half done
+04. bring to a boil , then reduce to a simmer until veggies are done and the sauce thickens
+05. serve !
 
-Message 1 - Assistant Response:
-**Aqui estão as receitas que usam amendoim, separadas por cada tipo de ingrediente encontrado.**  
-**Here are the peanut‑based recipes, grouped by the specific ingredient.**  
+recipes with ingredient: m&m's peanut chocolate candy
+Recipe: peanut m m brownies
+Minutes: 40
+Tags: 60-minutes-or-less, american, cookies-and-brownies, course, cuisine, desserts, easy, for-large-groups, midwestern, north-american, number-of-servings, preparation
+Ingredients: brownie mix, eggs, m&m's peanut chocolate candy, oil, peanut butter, water
+Steps:
+01. oven 350f - combine brownie mix , eggs , oil , water , peanut butter , and 1 cup m&m's till well mixed
+02. spread into 9x13 prepared pan and top with crushed peanut m&ms
+03. bake 27-30 minutes , and cool completely !
+04. cut into squares - should get 24 smallish squares - with 1 square per person as a serving
 
----
+recipes with ingredient: miniature peanut butter cups
+Recipe: brownie cup s
+Minutes: 30
+Tags: 30-minutes-or-less, 5-ingredients-or-less, bar-cookies, brownies, canadian, chocolate, cookies-and-brownies, course, cuisine, desserts, dietary, easy
+Ingredients: brownie mix, eggs, miniature peanut butter cups, vegetable oil
+Steps:
+01. preheat oven to 350 degrees
+02. combine the brownie mix with the oil and egg
+03. fill lined cupcake tins to 2 / 3's full
+04. balke for 10 minutes and press one peanut butter cup into each cup cake until flush with the top
+05. bake for 15 minutes more and test for doneness
+06. remove and cool on a wire rack
+07. top with cream cheese frosting or german chocolate frosting if desired
 
-### low‑fat peanut butter  
-- **Low Fat Peanut Sauce** – 8 min  
-  - *Tags:* 15‑minutes‑or‑less, asian, condiments‑etc, savory‑sauces, nuts  
-  - *Principais ingredientes:* low‑fat peanut butter, soy sauce, garlic, ginger, scallions, cornstarch, cayenne, hot water, fresh basil  
+recipes with ingredient: yam
+Recipe: quick can candied yams
+Minutes: 40
+Tags: 5-ingredients-or-less, 60-minutes-or-less, american, beginner-cook, course, cuisine, dietary, easy, healthy, healthy-2, inexpensive, low-cholesterol
+Ingredients: brown sugar, butter, cinnamon, nutmeg, yams
+Steps:
+01. pour can of yams in a casserole
+02. drain and save 1 / 2 cup of liquid and pour back into yams
+03. sprinkle yams with brown sugar , cinnamon , nutmeg and mix well
+04. pat butter on top
+05. place in preheated 350 oven for 30-35 minutes
+Recipe: home fried yams
+Minutes: 50
+Tags: 5-ingredients-or-less, 60-minutes-or-less, course, dietary, easy, preparation, side-dishes, time-to-make
+Ingredients: butter, salt, sugar, water, yams
+Steps:
+01. cut yams into 1" thick slices
+02. combine water and salt , soak yam slices for 30 minutes
+03. remove from water and drain and pat dry
+04. melt butter in large skillet , add yams , brown quickly on both sides
+05. sprinkle with sugar , stir gently to coat both sides
+06. cover , reduce heat to low , simmer 15-20 minutes or until fork tender
+Recipe: spiced yam mash
+Minutes: 30
+Tags: 30-minutes-or-less, appetizers, beginner-cook, comfort-food, course, dietary, dinner-party, dips, easy, egg-free, equipment, fall
+Ingredients: brown sugar, coconut milk, cooking oil, curry paste, garlic clove, ginger, yams
+Steps:
+01. bring pot of water to boil , and cook yams until just tender
+02. pour into strainer and let them sit so all the water drains off
+03. while the pot is still hot , put the curry paste and oil into the bottom and heat gently until the paste becomes fragrant
+04. add ginger , garlic and coconut milk , and stir together over low heat for 2-5 minutes , infusing coconut milk with flavors
+05. do not let coconut milk bubble or boil
+06. add yams and brown sugar to the pot , and mash with a potato masher or a hand-held mixing wand until smooth and well blended
+07. yam mash should be same consistency as mashed potatoes
+08. add more coconut milk if needed
+Recipe: candied yams
+Minutes: 35
+Tags: 5-ingredients-or-less, 60-minutes-or-less, dietary, easy, healthy, healthy-2, low-cholesterol, low-fat, low-in-something, low-protein, low-sodium, main-ingredient
+Ingredients: brown sugar, butter, cinnamon, yams
+Steps:
+01. drain two cans of yams and put in a large casserole dish
+02. crumble brown sugar over the top and then sprinkle with cinnamon
+03. slice butter thinly and place on top
+04. bake at 350 for 30 to 45 minutes until bubbly
+Recipe: garlic coconut mashed yams  sweet potatoes
+Minutes: 25
+Tags: 30-minutes-or-less, 3-steps-or-less, american, beginner-cook, caribbean, central-american, coconut, course, cuisine, dietary, dinner-party, easy
+Ingredients: allspice, coconut milk, dried thyme, garlic cloves, garnet yams, olive oil, sea salt, white pepper
+Steps:
+01. heat oil in small saute pan over medium heat
+02. add the garlic and thyme and saute until the garlic is golden
+03. remove from heat
+04. slice the yams into 2-inch cubes
+05. bring 2 quarts of water to a boil
+06. add the yams and boil for 15 minutes or until the yams are soft
+07. drain in a strainer and then return to pot
+08. add sauteed garlic and remaining ingredients
 
-### m&m's peanut chocolate candy  
-- **Peanut M M Brownies** – 40 min  
-  - *Tags:* 60‑minutes‑or‑less, american, cookies‑and‑brownies, desserts, easy, for‑large‑groups, midwestern  
-  - *Principais ingredientes:* brownie mix, eggs, m&m's peanut chocolate candy, oil, peanut butter, water  
+recipes with ingredient: jam
+Recipe: blue cheese crescent spirals
+Minutes: 35
+Tags: 60-minutes-or-less, american, appetizers, cheese, christmas, course, cuisine, easy, eggs-dairy, finger-food, fruit, heirloom-historical
+Ingredients: blue cheese, butter, ground red pepper, pecans, pillsbury refrigerated crescent dinner rolls, plum jam
+Steps:
+01. heat oven to 375f spray cookie sheet with nonstick cooking spray
+02. remove dough from can
+03. do not unroll
+04. cut rolled dough into 12 slices
+05. place on sprayed cookie sheet
+06. brush top of each slice with butter
+07. sprinkle each with 1 teaspoon blue cheese and 1 teaspoon pecans
+08. bake at 375f for 12 to 15 minutes or until golden brown
+Recipe: apricot cheesecake
+Minutes: 380
+Tags: cheese, cheesecake, course, desserts, eggs-dairy, equipment, for-large-groups, fruit, holiday-event, main-ingredient, number-of-servings, occasion
+Ingredients: apricot halves, apricot jam, apricot nectar, butter, butter cookies, cream cheese, eggs, sugar, vanilla extract
+Steps:
+01. preheat oven to 325
+02. combine cookie crumbs and melted butter and press evenly on the bottom and 2" up the sides of a 9" springform pan
+03. bake 8-10 minutes or'til golden brown and set aside
+04. drain apricot halves reserving 3 tablespoons of the syrup
+05. coarsely chop the apricots and set aside
+06. in a large bowl beat the cream cheese , sugar , reserved apricot syrup and vanilla with a mixer'til combined
+07. add eggs all at once beating on low speed just'til combined
+08. stir in chopped apricots
+Recipe: italian thumbprint cookies
+Minutes: 40
+Tags: 60-minutes-or-less, christmas, cookies-and-brownies, course, desserts, for-large-groups, hand-formed-cookies, holiday-event, number-of-servings, occasion, preparation, time-to-make
+Ingredients: almond extract, egg whites, egg yolks, flour, hershey chocolate kiss, jam, maraschino cherry, margarine, salt, sugar, vanilla extract, walnuts
+Steps:
+01. cream together margarine and sugar
+02. add salt , lightly beaten egg yolks , vanilla , and almond extract , and mix thoroughly
+03. gradually add flour and stir until well blended
+04. roll dough into one inch balls
+05. beat egg whites until frothy
+06. dip dough balls into egg whites and roll in chopped nuts
+07. place on cookie sheet about two inches apart and press a deep thrumbprint into each center
+08. bake at 350 degrees 10-12 minutes
+Recipe: crispy waffles
+Minutes: 45
+Tags: 60-minutes-or-less, breakfast, course, pancakes-and-waffles, preparation, time-to-make
+Ingredients: all-purpose flour, baking powder, egg, fruit jam, splenda granular, vanilla extract, water, whipped topping
+Steps:
+01. first preheat your waffle maker
+02. it's important that it gets really hot
+03. next , separate the egg and beat egg whites until stiff , but not dry
+04. in a separate bowl , place the egg yolk , flour , baking powder and sugar
+05. mix to combine
+06. add the vanilla extract and enough water to make a batter a little thicker than the consistency of heavy cream
+07. add the egg whites and with large , delicate strokes incorporate into the batter
+08. spray the waffle maker with non stick cooking spray before the first batch
+Recipe: swiss roll
+Minutes: 40
+Tags: 60-minutes-or-less, cakes, course, cuisine, desserts, dietary, european, healthy, preparation, time-to-make
+Ingredients: baking powder, caster sugar, eggs, fat, jam, plain flour, salt
+Steps:
+01. heat the oven to 220c / gas mark 7
+02. grease and line a swiss roll tin 20 x 30cm
+03. whisk the eggs and sugar together in a bowl over a pan of hot water , taking care that the base does not touch the water
+04. whisk for 10-15 minutes until thick and creamy
+05. remove from the pan and whisk until cold
+06. sift the baking powder with the flour and salt , and fold in lightly
+07. pour into the prepared tin and bake for 10 minutes
+08. meanwhile , if using jam , warm
 
-### miniature peanut butter cups  
-- **Brownie Cups** – 30 min  
-  - *Tags:* 30‑minutes‑or‑less, 5‑ingredients‑or‑less, bar‑cookies, brownies, canadian, chocolate, desserts, easy, dietary  
-  - *Principais ingredientes:* brownie mix, eggs, miniature peanut butter cups, vegetable oil  
+recipes with ingredient: ham
+Recipe: hot muffaletta sandwich
+Minutes: 30
+Tags: 30-minutes-or-less, course, lunch, main-dish, one-dish-meal, preparation, sandwiches, time-to-make
+Ingredients: capers, dried oregano, dry salami, extra virgin olive oil, french rolls, garlic cloves, olive oil, pickled peppers, pimento stuffed olive, provolone cheese, red onions, red wine vinegar, roasted red pepper, tomatoes, westphalian ham
+Steps:
+01. open the rolls and pull out a bit of their fluffy insides
+02. sprinkle each cut side with olive oil and vinegar , then with garlic , capers and oregano
+03. layer one side of each roll with red pepper , pickled peppers , onion , olives , tomato , salami , ham and finally the cheese
+04. replace roll tops , close up tightly and press together well to help seal
+05. heat a heavy nonstick skillet over medium-high heat and lightly brush the outside of each roll with olive oil
+06. place 2 sandwiches at a time in the hot pan
+07. press the sandwiches with a wide spatula several times , turning once or twice , until the bread is crisp and the cheese is melted
+08. the sandwiches also can be pressed by placing a heavy skillet on top during grilling
+Recipe: willa s pizza loaf
+Minutes: 55
+Tags: 60-minutes-or-less, course, easy, main-dish, one-dish-meal, preparation, time-to-make
+Ingredients: black olives, button mushroom, cooked ham, crushed red pepper flakes, italian bread, marinara sauce, mozzarella cheese, pineapple chunks, sharp cheddar cheese, sweet italian sausage links
+Steps:
+01. preheat the broiler
+02. split the bread in half lengthwise
+03. spread the marinara sauce evenly on the 2 halves of the bread
+04. place the 2 halves on a baking sheet
+05. brown the sausage
+06. drain well
+07. evenly scatter the sausage , ham , mozzarella , and cheddar on the 2 halves of bread
+08. top with olives , mushrooms , and pineapple chunks
+Recipe: lentil and split pea soup
+Minutes: 80
+Tags: 3-steps-or-less, 4-hours-or-less, bacon, beans, course, dietary, easy, ham, lentils, main-ingredient, meat, pork
+Ingredients: bacon, bay leaf, carrot, celery & leaves, dried thyme, dry red wine, garlic, leek, lentils, low sodium chicken broth, onion, potato, smoked ham hock, split peas
+Steps:
+01. saute bacon in large saucepan over medium-high heat until fat is rendered , about 4 minutes
+02. remove bacon
+03. drain off all but 1 tblsps of fat
+04. add onion , carrot , leek and garlic and saute until light brown , about 10 minutes
+05. add broth , lentils , split peas , potato , ham hock , celery , thyme and bay leaf
+06. bring to boil
+07. reduce heat and simmer until lentils and split peas are tender , about 45 minutes
+08. stir in red wine and simmer 5 minutes longer
+Recipe: delightful papaya salad
+Minutes: 15
+Tags: 15-minutes-or-less, 3-steps-or-less, course, dietary, easy, preparation, salads, time-to-make
+Ingredients: champagne vinegar, lemon extract, of fresh mint, orange, zest of, papaya, salt and pepper, shallot, tomatoes, watercress
+Steps:
+01. whisk together the oil , vinegar , salt , pepper and zest
+02. taste and add more of whatever it needs
+03. add everything else in bowl and toss
+Recipe: rhonda s  iranian rice
+Minutes: 90
+Tags: 4-hours-or-less, course, cuisine, dietary, easy, european, healthy, low-in-something, low-sodium, main-dish, one-dish-meal, preparation
+Ingredients: green beans, hamburger, oil, onion, pam cooking spray, red pepper, rice, salt, tomato paste, turmeric
+Steps:
+01. brown onions and green beans in skillet
+02. brown hamburger and drain
+03. boil 3-quart pan of water for rice
+04. add rice and cook 10 minutes
+05. drain rice and rinse with lukewarm water
+06. meanwhile , add meat to vegetables with tomato paste and spices
+07. simmer till thick
+08. in tall pan , pour oil in bottom of pan
 
-Se precisar de mais opções, experimente consultas como:  
-- “receitas com amendoim”  
-- “receitas com manteiga de amendoim”  
-- “sobremesas com m&m’s de amendoim”.
+
+Answer:
+
