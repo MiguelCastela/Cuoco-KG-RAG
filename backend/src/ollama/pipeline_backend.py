@@ -284,7 +284,7 @@ def _brief_result_for_llm(result: Dict[str, Any], user_query: str) -> str:
             continue
         if isinstance(v, list):
             rendered = []
-            for item in v[:3]:
+            for item in v:
                 if isinstance(item, (list, tuple)) and len(item) >= 2 and isinstance(item[1], (int,float)):
                     rendered.append(f"{item[0]}({item[1]:.2f})")
                 else:

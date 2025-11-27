@@ -1,5 +1,3 @@
-// Updated App.jsx with LLMMarkdownViewer replacing message container
-
 "use client"
 
 import { useState } from "react"
@@ -8,14 +6,13 @@ import { motion, AnimatePresence } from "framer-motion"
 import TriangleBackground from "./components/TriangleBackground.jsx"
 import RoundedInput from "./components/InputBar.jsx"
 import WelcomeMessage from "./components/WelcomeMessage.jsx"
-import LLMMarkdownViewer from "./components/ChatViewer.jsx"
 
 import cuoco from "./assets/cuoco.svg"
 
 export default function Page() {
   const [query, setQuery] = useState("")
-  const [chatHistory, setChatHistory] = useState([])
-  const [uiState, setUiState] = useState("initial")
+  const [chatHistory, setChatHistory] = useState([]) // stores conversation
+  const [uiState, setUiState] = useState("initial") // "initial" | "loading" | "chat"
 
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
@@ -25,6 +22,8 @@ export default function Page() {
 
   const sendQuery = async () => {
     if (!query.trim()) return
+
+    // switch to loading state
     setUiState("loading")
 
     try {
@@ -39,31 +38,35 @@ export default function Page() {
       const data = await res.json()
       const backendResponse = data.response || "No response from backend"
 
-      setChatHistory((prev) => [
-        ...prev,
-        { role: "user", text: query },
-        { role: "bot", text: backendResponse },
-      ])
+      // update chat history
+      setChatHistory((prev) => [...prev, { role: "user", text: query }, { role: "bot", text: backendResponse }])
 
+      // switch to chat state
       setUiState("chat")
     } catch (err) {
       console.error("Error:", err)
-      setChatHistory((prev) => [
-        ...prev,
-        { role: "user", text: query },
-        { role: "bot", text: "An error occurred." },
-      ])
+      setChatHistory((prev) => [...prev, { role: "user", text: query }, { role: "bot", text: "An error occurred." }])
       setUiState("chat")
     }
 
-    setQuery("")
+    setQuery("") // clear input
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative">
       <TriangleBackground />
 
-      <div className="flex flex-col items-center justify-center h-screen w-full relative">
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          width: "100%",
+          position: "relative",
+        }}
+      >
         <AnimatePresence exitBeforeEnter>
           {uiState === "initial" && (
             <motion.div
@@ -72,15 +75,16 @@ export default function Page() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col items-center"
+              style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
             >
               <img
                 src={cuoco || "/placeholder.svg"}
                 alt="Cuoco"
                 style={{ marginTop: "-10vh", width: "200px", height: "200px" }}
               />
-              <WelcomeMessage className="mt-6 mb-4" />
-
+              <div style={{ width: "auto" }}>
+                <WelcomeMessage className="mt-6 mb-4" />
+              </div>
               <div style={{ width: "1000px", maxWidth: "90vw" }}>
                 <RoundedInput
                   placeholder="Ask Cuoco!"
@@ -99,7 +103,7 @@ export default function Page() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="text-center text-2xl text-gray-600"
+              style={{ textAlign: "center", fontSize: "24px", color: "#555" }}
             >
               Processing your query...
             </motion.div>
@@ -112,12 +116,24 @@ export default function Page() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="w-full flex flex-col items-center"
+              style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
             >
-              <div className="mb-5 w-3/5 max-h-[50vh] overflow-y-auto">
+              <div style={{ marginBottom: "20px", width: "60%", maxHeight: "50vh", overflowY: "auto" }}>
                 {chatHistory.map((msg, i) => (
-                  <div key={i} className="my-2 w-full flex justify-center">
-                    <LLMMarkdownViewer text={msg.text} />
+                  <div
+                    key={i}
+                    style={{
+                      margin: "10px 0",
+                      alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
+                      background: msg.role === "user" ? "#ffe0dc" : "#fff",
+                      padding: "12px 20px",
+                      borderRadius: "20px",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                      fontSize: "18px",
+                      lineHeight: "1.4",
+                    }}
+                  >
+                    {msg.text}
                   </div>
                 ))}
               </div>
