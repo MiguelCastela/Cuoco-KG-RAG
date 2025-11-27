@@ -243,141 +243,56 @@ Answer:
 Conversation context (previous messages):
 
 Message 1 - User query:
-Receitas com amendoim
+receitas com manteiga de amendoim
 
 Message 1 - Structured recipe data:
-original_query=Receitas com amendoim
+original_query=receitas com manteiga de amendoim
 detected_language=pt
-translated_query=Peanut recipes
+translated_query=recipes with peanut butter
 intent=list_by_ingredient
-slot_ingredient=
+slot_ingredient=peanut butter(100.00), peanut butter chips(95.00), low-fat peanut butter(90.00)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
 
 Message 1 - Assistant Response:
-**Desculpe, não encontrei receitas específicas para “amendoim” nos dados disponíveis.**  
-**Sorry, I couldn’t find recipes specifically with “peanut” in the current data.**
-
-Você pode tentar consultas mais específicas, como:  
-- **receitas com amendoim** (para amendoim inteiro)  
-- **receitas com manteiga de amendoim** (peanut butter)  
-- **receitas com tag dessert** (se quiser sobremesas que costumam levar amendoim)  
-
-Feel free to re‑ask with one of the example queries above!
-
-Message 2 - User query:
-Receitas com manteiga de amendoim
-
-Message 2 - Structured recipe data:
-original_query=Receitas com manteiga de amendoim
-detected_language=pt
-translated_query=Peanut butter recipes
-intent=list_by_ingredient
-slot_ingredient=peanut butter chips(90.00), peanut butter(90.00), butter(90.00)
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 2 - Assistant Response:
-**Aqui estão as receitas que contêm manteiga de amendoim (ou variações) encontradas no nosso banco de dados.**  
-**Below are the recipes that include peanut butter (or its variants) from our database.**
+**PT:** Aqui estão as receitas que contêm manteiga de amendoim ou variações dela.  
+**EN:** Below are the recipes that include peanut butter or its variants.
 
 ---
 
-### 🥜 **Manteiga de amendoim – *peanut butter chips***
-| Receita | Tempo | Principais tags |
-|---|---|---|
-| Chocolate Peanut Butter Chip Cookies | 60 min | 60‑minutes‑or‑less, cookies‑and‑brownies, desserts, drop‑cookies |
-| Quick Peanut Butter Bon Bons | 20 min | 30‑minutes‑or‑less, easy, kid‑friendly, drop‑cookies |
-| Chubby Bunnies | 15 min | 15‑minutes‑or‑less, cookies‑and‑brownies, desserts |
-| Peanut Butter S’mores Bars (gift in a jar) | 10 min | 15‑minutes‑or‑less, 3‑steps‑or‑less, bar‑cookies, chocolate |
-| Coconut Brownie Bars | 45 min | 60‑minutes‑or‑less, bar‑cookies, brownies, chocolate |
+### 🥜 Manteiga de amendoim (peanut butter)
+
+| Receita | Tempo (min) | Tags principais |
+|--------|-------------|-----------------|
+| Peanut butter and bologna sandwich | 5 | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, american, kid‑friendly, lunch |
+| Grilled cheese special | 10 | 15‑minutes‑or‑less, lunch, sandwiches, time‑to‑make |
+| PB H ultimate quickie sandwich | 5 | 15‑minutes‑or‑less, 3‑steps‑or‑less, breakfast, easy |
+| Crock‑pot Thai chicken thighs | 365 | asian, crock‑pot‑slow‑cooker, chicken, easy |
+| Breakfast muffin | 10 | 15‑minutes‑or‑less, breakfast, healthy, kid‑friendly |
+| Quick peanut butter bon‑bons | 20 | 30‑minutes‑or‑less, desserts, kid‑friendly, low‑in‑something |
 
 ---
 
-### 🥜 **Manteiga de amendoim – *peanut butter* (pasta)**
-| Receita | Tempo | Principais tags |
-|---|---|---|
-| Chocolate Peanut Butter Chip Cookies | 60 min | 60‑minutes‑or‑less, cookies‑and‑brownies, desserts |
-| Quick Peanut Butter Bon Bons | 20 min | 30‑minutes‑or‑less, easy, kid‑friendly |
-| Chubby Bunnies | 15 min | 15‑minutes‑or‑less, cookies‑and‑brownies |
-| Peanut Butter S’mores Bars (gift in a jar) | 10 min | 15‑minutes‑or‑less, 3‑steps‑or‑less, bar‑cookies |
-| Coconut Brownie Bars | 45 min | 60‑minutes‑or‑less, brownies, chocolate |
-| Peanut Butter and Bologna Sandwich | 5 min | 5‑ingredients‑or‑less, easy, kid‑friendly, lunch |
-| Grilled Cheese Special | 10 min | 15‑minutes‑or‑less, sandwiches, lunch |
-| PB & H Ultimate Quickie Sandwich | 5 min | 3‑steps‑or‑less, breakfast, easy |
-| Crock‑Pot Thai Chicken Thighs | 365 min | 3‑steps‑or‑less, asian, crock‑pot |
-| Breakfast Muffin | 10 min | 15‑minutes‑or‑less, breakfast, healthy |
+### 🍪 Manteiga de amendoim em gotas (peanut butter chips)
+
+| Receita | Tempo (min) | Tags principais |
+|--------|-------------|-----------------|
+| Chocolate peanut butter chip cookies | 60 | 60‑minutes‑or‑less, cookies‑and‑brownies, desserts |
+| Quick peanut butter bon‑bons | 20 | 30‑minutes‑or‑less, desserts, kid‑friendly |
+| Chubby bunnies | 15 | 15‑minutes‑or‑less, cookies‑and‑brownies, desserts |
+| Peanut butter s’mores bars (gift in a jar) | 10 | 15‑minutes‑or‑less, bar‑cookies, desserts, christmas |
+| Coconut brownie bars | 45 | 60‑minutes‑or‑less, brownies, desserts |
 
 ---
 
-### 🧈 **Manteiga – *butter***
-| Receita | Tempo | Principais tags |
-|---|---|---|
-| Chocolate Peanut Butter Chip Cookies | 60 min | 60‑minutes‑or‑less, cookies‑and‑brownies |
-| Quick Peanut Butter Bon Bons | 20 min | 30‑minutes‑or‑less, easy |
-| Chubby Bunnies | 15 min | 15‑minutes‑or‑less, desserts |
-| Peanut Butter S’mores Bars (gift in a jar) | 10 min | 15‑minutes‑or‑less, bar‑cookies |
-| Coconut Brownie Bars | 45 min | 60‑minutes‑or‑less, brownies |
-| Peanut Butter and Bologna Sandwich | 5 min | 5‑ingredients‑or‑less, lunch |
-| Grilled Cheese Special | 10 min | 15‑minutes‑or‑less, sandwiches |
-| PB & H Ultimate Quickie Sandwich | 5 min | 3‑steps‑or‑less, breakfast |
-| Crock‑Pot Thai Chicken Thighs | 365 min | 3‑steps‑or‑less, asian |
-| Breakfast Muffin | 10 min | 15‑minutes‑or‑less, breakfast |
+### 🥣 Manteiga de amendoim light (low‑fat peanut butter)
+
+| Receita | Tempo (min) | Tags principais |
+|--------|-------------|-----------------|
+| Low‑fat peanut sauce | 8 | 15‑minutes‑or‑less, asian, sauces, dietary |
 
 ---
 
-Se precisar filtrar por tempo de preparo, tipo de prato ou outra restrição, basta informar!  
-
-If you’d like to narrow the list by cooking time, meal type, or any other filter, just let me know!
-
-Message 3 - User query:
-Receitas com manteiga de amendoim
-
-Message 3 - Structured recipe data:
-original_query=Receitas com manteiga de amendoim
-detected_language=pt
-translated_query=Peanut butter recipes
-intent=list_by_ingredient
-slot_ingredient=peanut butter chips(90.00), peanut butter(90.00), butter(90.00)
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 3 - Assistant Response:
-**Aqui estão receitas que usam manteiga de amendoim (peanut butter) ou suas variações, como “peanut butter chips”.**  
-**Below are recipes that contain peanut butter or peanut‑butter chips.**
-
----
-
-### 🥜 Manteiga de amendoim – *peanut butter chips*
-- **Chocolate Peanut Butter Chip Cookies** – 60 min  
-  *Tags:* 60‑minutes‑or‑less, cookies‑and‑brownies, desserts, drop‑cookies, preparation
-- **Quick Peanut Butter Bon Bons** – 20 min  
-  *Tags:* 30‑minutes‑or‑less, cookies‑and‑brownies, desserts, easy, kid‑friendly, low‑in‑something
-- **Chubby Bunnies** – 15 min  
-  *Tags:* 15‑minutes‑or‑less, cookies‑and‑brownies, desserts, drop‑cookies
-- **Peanut Butter S’mores Bars (gift in a jar)** – 10 min  
-  *Tags:* 15‑minutes‑or‑less, 3‑steps‑or‑less, american, bar‑cookies, chocolate, christmas, desserts
-- **Coconut Brownie Bars** – 45 min  
-  *Tags:* 60‑minutes‑or‑less, bar‑cookies, brownies, chocolate, desserts
-
-### 🥜 Manteiga de amendoim – *peanut butter* (pasta de amendoim)
-- **Quick Peanut Butter Bon Bons** – 20 min  
-  *Tags:* 30‑minutes‑or‑less, cookies‑and‑brownies, desserts, easy, kid‑friendly, low‑in‑something
-- **Peanut Butter and Bologna Sandwich** – 5 min  
-  *Tags:* 15‑minutes‑or‑less, 5‑ingredients‑or‑less, american, easy, kid‑friendly, lunch
-- **Grilled Cheese Special** – 10 min  
-  *Tags:* 15‑minutes‑or‑less, lunch, sandwiches
-- **PB & H Ultimate Quickie Sandwich** – 5 min  
-  *Tags:* 15‑minutes‑or‑less, 3‑steps‑or‑less, breakfast, easy, inexpensive
-- **Crock‑Pot Thai Chicken Thighs** – 365 min  
-  *Tags:* 3‑steps‑or‑less, asian, chicken, crock‑pot, easy
-- **Breakfast Muffin** – 10 min  
-  *Tags:* 15‑minutes‑or‑less, breakfast, easy, healthy, kid‑friendly
-
-Essas são todas as receitas que o nosso banco de dados encontrou contendo manteiga de amendoim ou seus chips. Boa cozinha!
+Se precisar de mais detalhes (ingredientes completos, modo de preparo) ou quiser filtrar por tempo ou tipo de prato, basta pedir!

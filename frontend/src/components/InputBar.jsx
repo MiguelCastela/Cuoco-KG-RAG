@@ -12,7 +12,7 @@ const RoundedInput = ({ placeholder, value, onChange, onKeyDown }) => {
         padding: "16px 24px",
         outline: "none",
         fontSize: "24px",
-        width: "50%",
+        width: "100%",
         transition: "border-color 0.2s",
       }}
       onFocus={(e) => (e.target.style.borderColor = "#ff9990")}
