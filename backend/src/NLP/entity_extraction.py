@@ -42,7 +42,7 @@ EX = Namespace("http://example.org/recipes#")
 
 THRESHOLDS = {
     "recipe_name": 75,   
-    "ingredient": 80,    
+    "ingredient": 70,    
     "tag": 90,           
 }
 # If candidate contains explicit Portuguese features, boost preference
