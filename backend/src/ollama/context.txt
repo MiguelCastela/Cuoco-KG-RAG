@@ -23,219 +23,49 @@ Formatting and coverage:
   • procurar receita [nome]
 - Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
 
-User query: receitas com manteiga de amendoim
+User query: receita de pau
 
 Description snippets (semantic matches):
-1. (0.500) i got this recipe from the www. foodallergy. org website. i never made it but am saving it here to come back to later. it is milk, egg, peanut, treenut, and soy free.
-2. (0.485) i came across this recipe from an old cooking light magazine and boy it is a nice twist on a standard biscotti. they state that since peanut butter is used in place of butter the proteins and b vitamins are greatly increased.
-3. (0.474) recipe posted by request. you can also add bagel chips if you like.
+1. (0.549) my grandmother used to make the best milk gravy!  she would serve it over chicken fried steak and mashed potatoes. unfortunatley, i never got her original recipe.
+2. (0.524) veronica karlan, my parents' friend, is a lovely hungarian woman who graciously sent me her recipe when i told her i like to cook!  i was salivating when she was describing this dish!  serve with dumplings, mashed potatoes or orzo.
+3. (0.513) this recipe is from scandinavian feasts by beatrice ojakangas. everyone in my family loves it.
 
 Structured recipe data:
-original_query=receitas com manteiga de amendoim
+original_query=receita de pau
 detected_language=pt
-translated_query=recipes with peanut butter
-intent=list_by_ingredient
-slot_ingredient=peanut butter(100.00), peanut butter chips(95.00), low-fat peanut butter(90.00)
-slot_recipe_name=
+translated_query=wood recipe
+intent=find_recipe
+slot_ingredient=
+slot_recipe_name=milk gravy  paula deen(90.00), family recipe from supermodel heidi klum for sauerkraut soup(85.50)
 slot_tag=
 slot_cooking_time=None
-
-recipes with ingredient: peanut butter
-Recipe: peanut butter and bologna sandwich
-Minutes: 5
-Tags: 15-minutes-or-less, 5-ingredients-or-less, american, course, cuisine, dietary, easy, kid-friendly, lunch, north-american, preparation, sandwiches
-Ingredients: bologna, bread, mustard, peanut butter
-Steps:
-01. put 1 tb of peanut butter on each slice of bread
-02. add bologna to one slice of bread
-03. squirt on as much mustard as you desire
-04. top with second slice of bread
-05. enjoy !
-Recipe: grilled cheese special
-Minutes: 10
-Tags: 15-minutes-or-less, course, dietary, lunch, preparation, sandwiches, time-to-make
-Ingredients: apple, butter, cheddar cheese, peanut butter, sandwich bread
-Steps:
-01. layer peanut butter , apples , and cheese on one slice of bread
-02. top with second slice of bread
-03. butter outside of sandwich and place in frying pan or on griddle
-04. turn the sandwich when bottom side is golden brown
-05. brown other side of sandwich
-06. enjoy !
-Recipe: pb   h  ultimate quickie sandwich
-Minutes: 5
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beginner-cook, breakfast, brunch, comfort-food, course, dietary, easy, for-1-or-2, inexpensive
-Ingredients: chunky peanut butter, cinnamon raisin bread, honey
-Steps:
-01. spread peanut butter in one slice of bread
-02. drizzle honey on top of peanut butter
-03. top with the other slice of bread and enjoy !
-Recipe: crock pot thai chicken thighs
-Minutes: 365
-Tags: 3-steps-or-less, asian, beginner-cook, chicken, chicken-thighs-legs, course, crock-pot-slow-cooker, cuisine, dietary, easy, equipment, inexpensive
-Ingredients: boneless skinless chicken thighs, cilantro salsa, ginger, lime juice, peanut butter, soy sauce
-Steps:
-01. put all ingredients in crock pot on low for 6-8 hours
-02. garnish with cilantro , scallions , and peanuts
-03. serve with jasmine rice made with half coconut milk and half water
-Recipe: breakfast muffin
-Minutes: 10
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, breakfast, course, dietary, easy, healthy, healthy-2, kid-friendly, low-cholesterol, low-in-something
-Ingredients: bananas, english muffins, honey, peanut butter
-Steps:
-01. preheat grill spread the peanut butter than honey on the crumpets or muffins
-02. top with sliced bananas
-03. place on oven tray and place under grill until honey start to bubble or sizzle
-Recipe: chocolate peanut butter chip cookies
-Minutes: 60
-Tags: 60-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
-Ingredients: baking cocoa, baking soda, eggs, flour, granulated sugar, light brown sugar, margarine, peanut butter chips, salt, shortening, vanilla, walnuts
-Steps:
-01. preheat oven to 350 degrees
-02. mix granulated sugar , brown sugar , margarine , shortening , vanilla and eggs in large bowl
-03. stir in flour , cocoa , baking soda and salt
-04. stir in peanut butter chips and nuts
-05. drop dough by rounded tablespoonfuls about 2" apart on ungreased baking sheets
-06. bake 11-12 minutes minutes or until set
-07. cool slightly on sheets
-08. remove from cookie sheets and finish cooling on wire racks
-Recipe: quick peanut butter bon bons
+recipes with name: milk gravy  paula deen
+Recipe: milk gravy  paula deen
 Minutes: 20
-Tags: 30-minutes-or-less, cookies-and-brownies, course, cuisine, desserts, dietary, drop-cookies, easy, fruit, hand-formed-cookies, kid-friendly, low-in-something
-Ingredients: brown sugar, evaporated milk, peanut butter, peanut butter chips, quick-cooking oatmeal, sugar, vanilla
+Tags: 30-minutes-or-less, american, comfort-food, condiments-etc, course, cuisine, dietary, healthy-2, low-calorie, low-carb, low-cholesterol, low-in-something
+Ingredients: all-purpose flour, black pepper, salt, vegetable oil, whole milk
 Steps:
-01. in a large mixing bowl , combine oats , peanut butter chips , peanut butter , and vanilla
-02. in a small saucepan , combine and stir sugars and evaporated milk
-03. bring to a rolling boil
-04. boil 1 minute
-05. pour over oatmeal mixture and stir well
-06. form mixture into balls and place on waxed paper to cool
-07. keep in a covered container
-08. makes about 36
-Recipe: chubby bunnies
-Minutes: 15
-Tags: 15-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
-Ingredients: baking soda, brown sugar, chocolate chips, cocoa, eggs, flour, margarine, peanut butter chips, vanilla, water
-Steps:
-01. preheat oven to 375f
-02. in a large bowl cream margarine and brown sugar
-03. add vanilla , water and eggs and beat
-04. in another bowl mix together flour , cocoa and soda and add to creamed mixture
-05. stir in chips
-06. drop by spoonfuls onto greased cookie sheets
-07. bake 7-9 minutes
-Recipe: peanut butter s mores bars   gift in a jar
-Minutes: 10
-Tags: 15-minutes-or-less, 3-steps-or-less, american, bar-cookies, chocolate, christmas, condiments-etc, cookies-and-brownies, cooking-mixes, course, cuisine, desserts
-Ingredients: brown sugar, graham crackers, milk chocolate chips, mini marshmallows, peanut butter chips
-Steps:
-01. layer each ingredient in the above order in a canning jar
-02. the graham crackers need to be crushed into crumbs before layering on top
-03. a food processor works great but so does a zip top bag and a heavy object to smash or rollover the bag
-04. free aggression therapy ! lol
-05. attach these instructions to jar: empty contents of jar into a bowl adding 1 / 2 cup room temp butter and 1 teaspoon vanilla
-06. mix well and gently pat into a greased 9x9 or 8x8 pan
-07. bake at 350 for 15 minutes
-08. makes 9 to 12 bars
-Recipe: coconut brownie bars
-Minutes: 45
-Tags: 60-minutes-or-less, bar-cookies, brownies, chocolate, cookies-and-brownies, course, desserts, main-ingredient, preparation, time-to-make
-Ingredients: brownie mix, butter, coconut flakes, eagle brand condensed milk, peanut butter chips, pecans, semi-sweet chocolate chips
-Steps:
-01. combine brownie mix and butter using pastry wisk or fork until crumbly
-02. pour into 9x12 baking dish sprayed lightly with pam
-03. pat lightly
-04. sprinkle chocolate chips , peanut butter chips , coconut and pecans in that order evenly over brownie mixture
-05. pour eagle brand milk over the top evenly
-06. bake at 350 for 25 minutes or until coconut is golden brown
-07. cool before cutting into squares
-Recipe: low fat peanut sauce
-Minutes: 8
-Tags: 15-minutes-or-less, asian, condiments-etc, course, cuisine, dietary, fruit, main-ingredient, nuts, preparation, sauces, savory-sauces
-Ingredients: cayenne, cornstarch, fresh basil, garlic, ginger, hot water, low-fat peanut butter, scallions, soy sauce
-Steps:
-01. mix peanut butter with hot water in a small bowl until smooth
-02. add spices , soy sauce and cornstarch and whisk to remove any lumps
-03. steam-fry veggies of choice , and add the peanut sauce when stirfry is half done
-04. bring to a boil , then reduce to a simmer until veggies are done and the sauce thickens
-05. serve !
+01. ~
+02. if you don't have that , no need to worry , you can use vegetable oil or vegetable shortening
+03. heat 1-2 tablespoons oil in a skillet over medium heat
+04. whisk in flour , whisking constantly for about 1 minute
+05. slowly add milk , whisking constantly
+06. stir in pepper and salt and continue cooking
+07. whisk constantly for about 10 minutes , or until thickened
 
-recipes with ingredient: peanut butter chips
-Recipe: chocolate peanut butter chip cookies
-Minutes: 60
-Tags: 60-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
-Ingredients: baking cocoa, baking soda, eggs, flour, granulated sugar, light brown sugar, margarine, peanut butter chips, salt, shortening, vanilla, walnuts
-Steps:
-01. preheat oven to 350 degrees
-02. mix granulated sugar , brown sugar , margarine , shortening , vanilla and eggs in large bowl
-03. stir in flour , cocoa , baking soda and salt
-04. stir in peanut butter chips and nuts
-05. drop dough by rounded tablespoonfuls about 2" apart on ungreased baking sheets
-06. bake 11-12 minutes minutes or until set
-07. cool slightly on sheets
-08. remove from cookie sheets and finish cooling on wire racks
-Recipe: quick peanut butter bon bons
-Minutes: 20
-Tags: 30-minutes-or-less, cookies-and-brownies, course, cuisine, desserts, dietary, drop-cookies, easy, fruit, hand-formed-cookies, kid-friendly, low-in-something
-Ingredients: brown sugar, evaporated milk, peanut butter, peanut butter chips, quick-cooking oatmeal, sugar, vanilla
-Steps:
-01. in a large mixing bowl , combine oats , peanut butter chips , peanut butter , and vanilla
-02. in a small saucepan , combine and stir sugars and evaporated milk
-03. bring to a rolling boil
-04. boil 1 minute
-05. pour over oatmeal mixture and stir well
-06. form mixture into balls and place on waxed paper to cool
-07. keep in a covered container
-08. makes about 36
-Recipe: chubby bunnies
-Minutes: 15
-Tags: 15-minutes-or-less, cookies-and-brownies, course, desserts, drop-cookies, preparation, time-to-make
-Ingredients: baking soda, brown sugar, chocolate chips, cocoa, eggs, flour, margarine, peanut butter chips, vanilla, water
-Steps:
-01. preheat oven to 375f
-02. in a large bowl cream margarine and brown sugar
-03. add vanilla , water and eggs and beat
-04. in another bowl mix together flour , cocoa and soda and add to creamed mixture
-05. stir in chips
-06. drop by spoonfuls onto greased cookie sheets
-07. bake 7-9 minutes
-Recipe: peanut butter s mores bars   gift in a jar
+recipes with name: family recipe from supermodel heidi klum for sauerkraut soup
+Recipe: family recipe from supermodel heidi klum for sauerkraut soup
 Minutes: 10
-Tags: 15-minutes-or-less, 3-steps-or-less, american, bar-cookies, chocolate, christmas, condiments-etc, cookies-and-brownies, cooking-mixes, course, cuisine, desserts
-Ingredients: brown sugar, graham crackers, milk chocolate chips, mini marshmallows, peanut butter chips
+Tags: 15-minutes-or-less, appetizers, beginner-cook, brunch, comfort-food, course, cuisine, diabetic, dietary, dinner-party, easy, egg-free
+Ingredients: ground beef, ground pork, heavy cream, heinz chili sauce, olive oil, salt and pepper, sauerkraut, sliced mushrooms, sweet gherkins, vegetable broth, white onions
 Steps:
-01. layer each ingredient in the above order in a canning jar
-02. the graham crackers need to be crushed into crumbs before layering on top
-03. a food processor works great but so does a zip top bag and a heavy object to smash or rollover the bag
-04. free aggression therapy ! lol
-05. attach these instructions to jar: empty contents of jar into a bowl adding 1 / 2 cup room temp butter and 1 teaspoon vanilla
-06. mix well and gently pat into a greased 9x9 or 8x8 pan
-07. bake at 350 for 15 minutes
-08. makes 9 to 12 bars
-Recipe: coconut brownie bars
-Minutes: 45
-Tags: 60-minutes-or-less, bar-cookies, brownies, chocolate, cookies-and-brownies, course, desserts, main-ingredient, preparation, time-to-make
-Ingredients: brownie mix, butter, coconut flakes, eagle brand condensed milk, peanut butter chips, pecans, semi-sweet chocolate chips
-Steps:
-01. combine brownie mix and butter using pastry wisk or fork until crumbly
-02. pour into 9x12 baking dish sprayed lightly with pam
-03. pat lightly
-04. sprinkle chocolate chips , peanut butter chips , coconut and pecans in that order evenly over brownie mixture
-05. pour eagle brand milk over the top evenly
-06. bake at 350 for 25 minutes or until coconut is golden brown
-07. cool before cutting into squares
-
-recipes with ingredient: low-fat peanut butter
-Recipe: low fat peanut sauce
-Minutes: 8
-Tags: 15-minutes-or-less, asian, condiments-etc, course, cuisine, dietary, fruit, main-ingredient, nuts, preparation, sauces, savory-sauces
-Ingredients: cayenne, cornstarch, fresh basil, garlic, ginger, hot water, low-fat peanut butter, scallions, soy sauce
-Steps:
-01. mix peanut butter with hot water in a small bowl until smooth
-02. add spices , soy sauce and cornstarch and whisk to remove any lumps
-03. steam-fry veggies of choice , and add the peanut sauce when stirfry is half done
-04. bring to a boil , then reduce to a simmer until veggies are done and the sauce thickens
-05. serve !
+01. saut ground beef and pork and onions with olive oil in a soup pot until brown
+02. add sauerkraut and mushrooms and pickles
+03. stir together with the meat
+04. add entire bottle of sauce or ketchup and the vegetable broth
+05. simmer for 45 minutes , stirring occasionally
+06. add salt and pepper to taste
+07. add heavy cream and cook for 1 more minute , then serve
 
 
 Answer:
@@ -243,56 +73,41 @@ Answer:
 Conversation context (previous messages):
 
 Message 1 - User query:
-receitas com manteiga de amendoim
+receitas com amendoim
 
 Message 1 - Structured recipe data:
-original_query=receitas com manteiga de amendoim
+original_query=receitas com amendoim
 detected_language=pt
-translated_query=recipes with peanut butter
+translated_query=Peanut recipes
 intent=list_by_ingredient
-slot_ingredient=peanut butter(100.00), peanut butter chips(95.00), low-fat peanut butter(90.00)
+slot_ingredient=low-fat peanut butter(85.50), m&m's peanut chocolate candy(85.50), miniature peanut butter cups(85.50)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
 
 Message 1 - Assistant Response:
-**PT:** Aqui estão as receitas que contêm manteiga de amendoim ou variações dela.  
-**EN:** Below are the recipes that include peanut butter or its variants.
+**Aqui estão as receitas que usam amendoim, separadas por cada tipo de ingrediente encontrado.**  
+**Here are the peanut‑based recipes, grouped by the specific ingredient.**  
 
 ---
 
-### 🥜 Manteiga de amendoim (peanut butter)
+### low‑fat peanut butter  
+- **Low Fat Peanut Sauce** – 8 min  
+  - *Tags:* 15‑minutes‑or‑less, asian, condiments‑etc, savory‑sauces, nuts  
+  - *Principais ingredientes:* low‑fat peanut butter, soy sauce, garlic, ginger, scallions, cornstarch, cayenne, hot water, fresh basil  
 
-| Receita | Tempo (min) | Tags principais |
-|--------|-------------|-----------------|
-| Peanut butter and bologna sandwich | 5 | 15‑minutes‑or‑less, 5‑ingredients‑or‑less, american, kid‑friendly, lunch |
-| Grilled cheese special | 10 | 15‑minutes‑or‑less, lunch, sandwiches, time‑to‑make |
-| PB H ultimate quickie sandwich | 5 | 15‑minutes‑or‑less, 3‑steps‑or‑less, breakfast, easy |
-| Crock‑pot Thai chicken thighs | 365 | asian, crock‑pot‑slow‑cooker, chicken, easy |
-| Breakfast muffin | 10 | 15‑minutes‑or‑less, breakfast, healthy, kid‑friendly |
-| Quick peanut butter bon‑bons | 20 | 30‑minutes‑or‑less, desserts, kid‑friendly, low‑in‑something |
+### m&m's peanut chocolate candy  
+- **Peanut M M Brownies** – 40 min  
+  - *Tags:* 60‑minutes‑or‑less, american, cookies‑and‑brownies, desserts, easy, for‑large‑groups, midwestern  
+  - *Principais ingredientes:* brownie mix, eggs, m&m's peanut chocolate candy, oil, peanut butter, water  
 
----
+### miniature peanut butter cups  
+- **Brownie Cups** – 30 min  
+  - *Tags:* 30‑minutes‑or‑less, 5‑ingredients‑or‑less, bar‑cookies, brownies, canadian, chocolate, desserts, easy, dietary  
+  - *Principais ingredientes:* brownie mix, eggs, miniature peanut butter cups, vegetable oil  
 
-### 🍪 Manteiga de amendoim em gotas (peanut butter chips)
-
-| Receita | Tempo (min) | Tags principais |
-|--------|-------------|-----------------|
-| Chocolate peanut butter chip cookies | 60 | 60‑minutes‑or‑less, cookies‑and‑brownies, desserts |
-| Quick peanut butter bon‑bons | 20 | 30‑minutes‑or‑less, desserts, kid‑friendly |
-| Chubby bunnies | 15 | 15‑minutes‑or‑less, cookies‑and‑brownies, desserts |
-| Peanut butter s’mores bars (gift in a jar) | 10 | 15‑minutes‑or‑less, bar‑cookies, desserts, christmas |
-| Coconut brownie bars | 45 | 60‑minutes‑or‑less, brownies, desserts |
-
----
-
-### 🥣 Manteiga de amendoim light (low‑fat peanut butter)
-
-| Receita | Tempo (min) | Tags principais |
-|--------|-------------|-----------------|
-| Low‑fat peanut sauce | 8 | 15‑minutes‑or‑less, asian, sauces, dietary |
-
----
-
-Se precisar de mais detalhes (ingredientes completos, modo de preparo) ou quiser filtrar por tempo ou tipo de prato, basta pedir!
+Se precisar de mais opções, experimente consultas como:  
+- “receitas com amendoim”  
+- “receitas com manteiga de amendoim”  
+- “sobremesas com m&m’s de amendoim”.

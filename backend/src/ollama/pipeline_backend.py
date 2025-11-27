@@ -469,6 +469,41 @@ def _process_query(user_query: str) -> str:
         or (result.get("intent_scores") or [None])[0]
     )
     slots = result.get("slots") or {}
+    print("\n========== QUERY INFO ==========")
+    if isinstance(intent_conf, (int,float)):
+        print(f"Intent: {intent} (confidence={intent_conf:.2f})")
+    else:
+        print(f"Intent: {intent}")
+    print(f"Query: {user_query}")
+
+    if slots:
+        print("\n=== Normalization & Translation ===")
+        orig = slots.get("original_query") or user_query
+        print(f"Original: {orig}")
+        if "detected_language" in slots:
+            print(f"Detected language: {slots['detected_language']}")
+        if "translated_query" in slots and slots["translated_query"] != orig:
+            print(f"Translated (for intent/NER): {slots['translated_query']}")
+
+        print("\nDetected slots:")
+        for k, v in slots.items():
+            if k in {"original_query","translated_query","detected_language"}:
+                continue
+            if k == "cooking_time" and isinstance(v, int):
+                print(f"  - cooking_time: {v} minutes")
+                continue
+            if isinstance(v, list):
+                rendered = []
+                for item in v:
+                    if isinstance(item, (list, tuple)) and len(item) >= 2 and isinstance(item[1], (int,float)):
+                        rendered.append(f"{item[0]} ({item[1]:.2f})")
+                    else:
+                        rendered.append(str(item))
+                print(f"  - {k}: {', '.join(rendered)}")
+            else:
+                print(f"  - {k}: {v}")
+
+    print("\n========== RESULTS (Sequential Execution) ==========\n(Below, each SPARQL query is executed and printed one by one.)\n")
 
     # Build similarity search query
     slotq = []
@@ -490,12 +525,41 @@ def _process_query(user_query: str) -> str:
         from RAG.description_index import similarity_search
         sim_chunks = similarity_search(sim_query, top_k=3) or []
         result["similar_description_chunks"] = sim_chunks
-    except Exception:
-        pass
+    except Exception as e:
+        result["similar_description_chunks"] = []
+        print(f"(similarity_search failed: {e})")
 
-    # === LLM CALL ===
+    # Console display: filtered top-3 (already deduped in RAG.similarity_search)
+    sim_snips = (result.get("similar_description_chunks") or [])[:3]
+    print("=== SIMILARITY SNIPPETS (top 3) ===")
+    if sim_snips:
+        for i, c in enumerate(sim_snips, start=1):
+            txt = (c.get("text","") or "").strip()
+            if len(txt) > 220:
+                txt = txt[:217].rstrip() + "..."
+            score = c.get("score")
+            if isinstance(score,(int,float)):
+                print(f"{i}. ({score:.3f}) {txt}")
+            else:
+                print(f"{i}. {txt}")
+    else:
+        print("(none)")
+    print("=== END SIMILARITY SNIPPETS ===\n")
+
     summary, used_prompt = _summarize_with_llm(user_query, result)
 
+    print(f"POST https://api.groq.com/v1/chat/completions model=" + (_current_model or DEFAULT_MODEL))
+    if len(_conversation_history) >= 1:
+        print("current message:")
+    print("=== LLM PROMPT (truncated to 800 chars) ===")
+    print(used_prompt[:800] + ("..." if len(used_prompt) > 800 else ""))
+    print("=== END PROMPT ===")
+
+    print("\n=== LLM SUMMARY ===")
+    print(summary if summary else "(LLM empty response)")
+    print("\nTurn complete.\n")
+    
+    
     # Return ONLY the Groq-generated text, nothing else
     return summary
 

@@ -14,7 +14,7 @@ export default function TriangleBackground({
   minInterval = 2000, // minimum ms between color changes
   maxInterval = 5000, // maximum ms between color changes
   driftAmount = 18, // maximum drift distance in pixels
-  driftSpeed = 0.002, // speed of drift animation
+  driftSpeed = 0.005, // speed of drift animation
 }) {
   const [size, setSize] = useState(null)
   const [points, setPoints] = useState([])
