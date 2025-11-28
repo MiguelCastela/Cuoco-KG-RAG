@@ -1,25 +1,57 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 import TriangleBackground from "./components/TriangleBackground.jsx"
 import RoundedInput from "./components/InputBar.jsx"
 import WelcomeMessage from "./components/WelcomeMessage.jsx"
 import LLMMarkdownViewer from "./components/ChatViewer.jsx"
+import CornerText from "./components/CornerText.jsx"
+import LanguageSelector from "./components/LanguageSelector.jsx"
+
 import circleCuoco from "./assets/circle_cuoco.png"
+
 
 export default function Page() {
   const [query, setQuery] = useState("")
   const [chatHistory, setChatHistory] = useState([]) // stores conversation
   const [uiState, setUiState] = useState("initial") // "initial" | "loading" | "chat"
+  const [lang, setLang] = useState(() => {
+    try {
+      const stored = typeof window !== 'undefined' ? window.localStorage.getItem('cuoco_lang') : null
+      if (stored === 'en' || stored === 'pt') return stored
+    } catch {}
+    return 'en'
+  })
 
+  // Listen for changes from other tabs/windows
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'cuoco_lang') {
+        const v = e.newValue
+        if (v === 'en' || v === 'pt') setLang(v)
+      }
+    }
+    window.addEventListener('storage', handler)
+    return () => window.removeEventListener('storage', handler)
+  }, [])
+
+  // Persist language to localStorage
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('cuoco_lang', lang)
+    } catch {}
+  }, [lang])
+
+  // Handle Enter key to send query
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
       await sendQuery()
     }
   }
 
+  // Send query to backend
   const sendQuery = async () => {
     if (!query.trim()) return
 
@@ -52,21 +84,36 @@ export default function Page() {
     setQuery("") // clear input
   }
 
-  /*          
-  style={{ position: "fixed", top: -200, left: -256, width: 900, height: 900, zIndex: 10, rotate: "-20deg" }}
-  */
 
   return (
     <div className="min-h-screen flex items-center justify-center relative">
-    <motion.img
-      src={circleCuoco}
-      alt="Cuoco circle"
-      style={{ position: "fixed", top: -200, left: -256, width: 900, height: 900, zIndex: 10, rotate: "-20deg" }}
-      initial={{ opacity: 0, y: -24 }}
-      animate={{ opacity: 1, y: [ -24, 6, 0 ] }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-/>
+      {/* Floating Cuoco circle image */}
+      <motion.img
+        src={circleCuoco}
+        alt="Cuoco circle"
+        style={{ position: "fixed", top: -200, left: -256, width: 900, height: 900, zIndex: 10, rotate: "-20deg" }}
+        initial={{ opacity: 0, y: -24 }}
+        animate={{ opacity: 1, y: [ -24, 6, 0 ] }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      />
+
+      {/* Background triangles */}
       <TriangleBackground />
+
+      {/* Language selector*/}
+      <motion.div
+        style={{ position: 'fixed', top: 16, right: 16, zIndex: 12 }}
+        initial={{ opacity: 0, y: -24 }}
+        animate={{ opacity: 1, y: [ -24, 6, 0 ] }}
+        transition={{ delay: 0.15, duration: 0.7, ease: "easeOut" }}
+      >
+        <LanguageSelector lang={lang} onChange={setLang} />
+      </motion.div>
+
+      {/* Corner Text */}
+      <div style={{ position: "fixed", left: 120, bottom: 100, zIndex: 11, pointerEvents: "none" }}>
+        <CornerText lang={lang} align="left" gapPx={4} />
+      </div>
 
       <div
         style={{
@@ -90,11 +137,11 @@ export default function Page() {
               style={{ display: "flex", flexDirection: "column", alignItems: "center", top:"20%" , left: "47%", position: "absolute" }}
             >
               <div style={{ width: "auto" }}>
-                <WelcomeMessage className="mt-6 mb-4" />
+                <WelcomeMessage className="mt-6 mb-4" lang={lang} />
               </div>
               <div style={{ width: "850px", maxWidth: "90vw" }}>
                 <RoundedInput
-                  placeholder="Ask Cuoco!"
+                  placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -153,7 +200,7 @@ export default function Page() {
               <div style={{ position: "fixed", left: 0, right: 0, bottom: 20, display: "flex", justifyContent: "center" }}>
                 <div style={{ width: "1000px", maxWidth: "90vw" }}>
                   <RoundedInput
-                    placeholder="Ask Cuoco!"
+                    placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleKeyDown}
