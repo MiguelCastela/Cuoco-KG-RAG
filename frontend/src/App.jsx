@@ -7,8 +7,7 @@ import TriangleBackground from "./components/TriangleBackground.jsx"
 import RoundedInput from "./components/InputBar.jsx"
 import WelcomeMessage from "./components/WelcomeMessage.jsx"
 import LLMMarkdownViewer from "./components/ChatViewer.jsx"
-
-import cuoco from "./assets/cuoco.svg"
+import circleCuoco from "./assets/circle_cuoco.png"
 
 export default function Page() {
   const [query, setQuery] = useState("")
@@ -53,8 +52,20 @@ export default function Page() {
     setQuery("") // clear input
   }
 
+  /*          
+  style={{ position: "fixed", top: -200, left: -256, width: 900, height: 900, zIndex: 10, rotate: "-20deg" }}
+  */
+
   return (
     <div className="min-h-screen flex items-center justify-center relative">
+    <motion.img
+      src={circleCuoco}
+      alt="Cuoco circle"
+      style={{ position: "fixed", top: -200, left: -256, width: 900, height: 900, zIndex: 10, rotate: "-20deg" }}
+      initial={{ opacity: 0, y: -24 }}
+      animate={{ opacity: 1, y: [ -24, 6, 0 ] }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+/>
       <TriangleBackground />
 
       <div
@@ -72,16 +83,16 @@ export default function Page() {
           {uiState === "initial" && (
             <motion.div
               key="initial"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: -24 }}
+              animate={{ opacity: 1, y: [ -24, 6, 0 ] }}
+              transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
               exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.5 }}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", top:"20%" , left: "47%", position: "absolute" }}
             >
               <div style={{ width: "auto" }}>
                 <WelcomeMessage className="mt-6 mb-4" />
               </div>
-              <div style={{ width: "1000px", maxWidth: "90vw" }}>
+              <div style={{ width: "850px", maxWidth: "90vw" }}>
                 <RoundedInput
                   placeholder="Ask Cuoco!"
                   value={query}

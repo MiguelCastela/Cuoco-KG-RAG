@@ -15,8 +15,8 @@ const RoundedInput = ({ placeholder, value, onChange, onKeyDown }) => {
         width: "100%",
         transition: "border-color 0.2s",
       }}
-      onFocus={(e) => (e.target.style.borderColor = "#d3d3d3ff")}
-      onBlur={(e) => (e.target.style.borderColor = "#d3d3d3ff")}
+      onFocus={(e) => (e.target.style.borderColor = "#a1a1a1ff")}
+      onBlur={(e) => (e.target.style.borderColor = "#c0c0c0ff")}
     />
   );
 };
