@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import TriangleBackground from "./components/TriangleBackground.jsx"
 import RoundedInput from "./components/InputBar.jsx"
 import WelcomeMessage from "./components/WelcomeMessage.jsx"
+import LLMMarkdownViewer from "./components/ChatViewer.jsx"
 
 import cuoco from "./assets/cuoco.svg"
 
@@ -120,31 +121,38 @@ export default function Page() {
             >
               <div style={{ marginBottom: "20px", width: "60%", maxHeight: "50vh", overflowY: "auto" }}>
                 {chatHistory.map((msg, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      margin: "10px 0",
-                      alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-                      background: msg.role === "user" ? "#ffe0dc" : "#fff",
-                      padding: "12px 20px",
-                      borderRadius: "20px",
-                      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                      fontSize: "18px",
-                      lineHeight: "1.4",
-                    }}
-                  >
-                    {msg.text}
-                  </div>
+                  msg.role === "bot" ? (
+                    <LLMMarkdownViewer key={i} text={msg.text} widthPx={1000} />
+                  ) : (
+                    <div
+                      key={i}
+                      style={{
+                        margin: "10px 0",
+                        alignSelf: "flex-end",
+                        background: "#ffe0dc",
+                        padding: "12px 20px",
+                        borderRadius: "20px",
+                        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                        fontSize: "18px",
+                        lineHeight: "1.4",
+                      }}
+                    >
+                      {msg.text}
+                    </div>
+                  )
                 ))}
               </div>
 
-              <div style={{ width: "900px", maxWidth: "90vw" }}>
-                <RoundedInput
-                  placeholder="Ask Cuoco!"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
+              {/* Bottom input bar for initial state */}
+              <div style={{ position: "fixed", left: 0, right: 0, bottom: 20, display: "flex", justifyContent: "center" }}>
+                <div style={{ width: "1000px", maxWidth: "90vw" }}>
+                  <RoundedInput
+                    placeholder="Ask Cuoco!"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                </div>
               </div>
             </motion.div>
           )}

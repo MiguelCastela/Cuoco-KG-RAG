@@ -34,3 +34,9 @@ main { display: grid; grid-template-rows: 1fr auto; }
 .composer button:disabled { opacity: 0.6; cursor: not-allowed; }
 
 footer { padding: 8px 16px; color: var(--muted); border-top: 1px solid #1e293b; }
+
+/* Markdown table styling for ChatViewer */
+.prose table { width: 100%; border-collapse: collapse; margin: 16px 0; border: 1px solid #000; background: transparent; }
+.prose thead th { background: transparent; color: #000; font-weight: 700; }
+.prose th, .prose td { border: 1px solid #000; padding: 8px 12px; text-align: left; background: transparent; }
+.prose hr { border: 0; border-top: 1px solid #000; margin: 24px 0; }

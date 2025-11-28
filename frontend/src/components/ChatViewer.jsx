@@ -1,18 +1,20 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { motion } from "framer-motion";
 
 // LLMMarkdownViewer displays markdown text centered inside a transparent container
-export default function LLMMarkdownViewer({ text }) {
+export default function LLMMarkdownViewer({ text, color = "#000", fontSizePx = 20 }) {
   return (
     <div className="w-full flex justify-center">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="prose prose-neutral dark:prose-invert max-w-2xl text-center bg-transparent"
+        className="prose text-center bg-transparent w-full"
+        style={{ width: "100%", color, fontSize: `${fontSizePx}px`, lineHeight: 1.5 }}
       >
-        <ReactMarkdown>{text}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{text}</ReactMarkdown>
       </motion.div>
     </div>
   );
