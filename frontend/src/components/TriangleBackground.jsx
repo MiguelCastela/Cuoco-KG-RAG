@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import PoissonDiskSampling from "poisson-disk-sampling"
 import { Delaunay } from "d3-delaunay"
 
-const COLORS = ["#fbe7ca", "#f6ddc4", "#F2D4C0"]
+const COLORS = [" #ebebeb", "#f1f1f1", "#fefefe"]
 
 export default function TriangleBackground({
   minDistance = 120,

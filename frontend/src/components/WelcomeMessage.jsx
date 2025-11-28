@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import cuoco from "../assets/cuoco.svg";
 
 const defaultPhrases = [
   "What are we cooking today?",
@@ -40,11 +41,21 @@ export default function WelcomeMessage({ phrases = defaultPhrases, className = "
   }, [phrases]);
 
   return (
-    <p
-      className={`text-center font-semibold ${className}`}
-      style={{ color, fontSize: `${fontSize}px`, lineHeight: 1.2 }}
-    >
-      {phrase}
-    </p>
+    <div className={className} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0px' }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '10px' }}>
+        <span style={{ fontWeight: 800, fontSize: '56px', color: '#000' }}>CuocoGPT</span>
+        <img
+          src={cuoco}
+          alt="Cuoco"
+          style={{ width: '300px', height: '300px', display: 'inline-block', transform: 'translateY(62px)' }}
+        />
+      </div>
+      <p
+        className={`text-center font-semibold`}
+        style={{ color, fontSize: `${fontSize}px`, lineHeight: 1.2, transform: 'translateY(-30px)' }}
+      >
+        {phrase}
+      </p>
+    </div>
   );
 }

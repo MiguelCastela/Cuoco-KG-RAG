@@ -78,11 +78,6 @@ export default function Page() {
               transition={{ duration: 0.5 }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
             >
-              <img
-                src={cuoco || "/placeholder.svg"}
-                alt="Cuoco"
-                style={{ marginTop: "-10vh", width: "200px", height: "200px" }}
-              />
               <div style={{ width: "auto" }}>
                 <WelcomeMessage className="mt-6 mb-4" />
               </div>
