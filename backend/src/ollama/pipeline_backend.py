@@ -59,7 +59,7 @@ except ValueError:
 GROQ_API_KEY = (os.environ.get("groq_key") or os.environ.get("GROQ_KEY") or "").strip().strip('"').strip("'")
 DEFAULT_MODEL = (os.environ.get("groq_model") or os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b").strip().strip('"').strip("'")
 _TEMP = os.environ.get("temperature") or os.environ.get("GROQ_TEMPERATURE")
-_MAX_TOK = os.environ.get("max_tokens") or os.environ.get("MAX_TOKENS")
+_MAX_TOK = os.environ.get("max_completion_tokens") or os.environ.get("max_completion_tokens")
 _TOP_P = os.environ.get("top_p") or os.environ.get("GROQ_TOP_P")
 _REASONING = os.environ.get("reasoning_effort") or os.environ.get("GROQ_REASONING_EFFORT")
 _STREAM_FLAG = os.environ.get("stream") or os.environ.get("GROQ_STREAM")
@@ -201,7 +201,7 @@ def api_chat(prompt: str, model_name: str) -> str:
         params["temperature"] = _TEMP
     if _MAX_TOK is not None:
         # map to correct field name
-        params["max_tokens"] = _MAX_TOK
+        params["max_completion_tokens"] = _MAX_TOK
     if _TOP_P is not None:
         params["top_p"] = _TOP_P
     if _STOP and _STOP.lower() != "none":
@@ -384,34 +384,36 @@ def _summarize_with_llm(user_query: str, result: Dict[str, Any]) -> tuple[str, s
         desc_lines = "Description snippets (semantic matches):\n" + "\n".join(lines) + "\n\n"
 
     base_prompt = (
-        "You are a bilingual PT/EN assistant.\n"
+        "You are a bilingual PT/EN assistant. You should answer in the original query's language, this includes translating the Tags, Recipe Names, Steps and Ingredients aswell. Only translate words that you know are translatable and not untranslatable.\n"
         "Available context:\n"
         "- Current user query.\n"
         "- Up to the last 3 messages: prior prompts, structured SPARQL summaries, and previous assistant responses (use only if clearly relevant).\n"
         "- Description snippets (may contain noise; ignore generic or off‑topic content such as posting notes or dates).\n"
         "- Structured recipe data extracted from the KG.\n\n"
         "Decision policy:\n"
-        "1) If the user asks about previous messages (e.g., “o que perguntei na última query”, “what did I ask last time?”), answer ONLY using the Conversation context block. "
+        "1) If the query is off‑topic, unclear, or nonsense, do NOT produce recipes. Ask for clarification briefly OR provide ONE example query to trigger the correct intent/SPARQL.\n"
+        "2) If the user asks about previous messages (e.g., “o que perguntei na última query”, “what did I ask last time?”), answer ONLY using the Conversation context block. "
         "If that info is not available, say you cannot access it and provide ONE example query the user can try.\n"
-        "2) If the query is off‑topic, unclear, or nonsense, do NOT produce recipes. Ask for clarification briefly OR provide ONE example query to trigger the correct intent/SPARQL.\n"
-        "3) Otherwise, answer using the structured recipe data; use description snippets cautiously and only when clearly relevant. Prefer structured data over snippets.\n\n"
+        "3) Otherwise, answer using only the structured recipe data; use description snippets cautiously and only when clearly relevant. Only print tags that you think are not overly vague, do this conservatly and prefer keeping as many tags as possible that fit that criteria, always keep specific nutrition-based tags. Prefer structured data over snippets..\n\n"
         "Formatting and coverage:\n"
-        "- Start with 1–2 concise sentences (PT first, then EN).\n"
+        "- Start with 1–2 concise sentences in the original query's language.\n"
         "- Be modular: if there are multiple detected ingredients/tags/names (e.g., melon; bitter melon; melon liqueur), create a separate section for EACH detected item and list its corresponding recipes under that section. Do NOT merge everything into one group.\n"
         "- In each section, list ALL recipes returned for that item (name required; include time and key tags if helpful).\n"
         "- Tables are optional: use a table only if it improves clarity; otherwise bullets are fine.\n"
         "- If the requested info is missing or insufficient, say so and provide ONE example user query, e.g.:\n"
-        "  • receitas com [ingrediente]\n"
-        "  • receitas com tag [tag]\n"
+        "  • receitas com [ingredient you know works in the KG using the Conversation context block, if not any use a common ingredient]\n"
+        "  • receitas com tag [ingredient you know works in the KG using the Conversation context block, if not any use a common tag like easy etc]\n"
         "  • receitas em até [min] minutos\n"
-        "  • procurar receita [nome]\n"
-        "- Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.\n\n"
+        "  • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]\n"
+        " - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.\n"
         f"User query: {user_query}\n\n"
         f"{desc_lines}"
         "Structured recipe data:\n"
         f"{brief}\n\n"
         "Answer:"
     )
+
+
 
     response, full_prompt_sent = run_groq(user_query, base_prompt, brief)
     return response, full_prompt_sent
@@ -432,7 +434,7 @@ def api_chat(prompt: str, model_name: str) -> str:
     if _TEMP is not None:
         params["temperature"] = _TEMP
     if _MAX_TOK is not None:
-        params["max_tokens"] = _MAX_TOK
+        params["max_completion_tokens"] = _MAX_TOK
     if _TOP_P is not None:
         params["top_p"] = _TOP_P
     if _STOP and _STOP.lower() != "none":

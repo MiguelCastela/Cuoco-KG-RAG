@@ -1,5 +1,5 @@
 current message:
-You are a bilingual PT/EN assistant.
+You are a bilingual PT/EN assistant. You should answer in the original query's language, this includes translating the Tags, Recipe Names, Steps and Ingredients aswell. Only translate words that you know are translatable and not untranslatable.
 Available context:
 - Current user query.
 - Up to the last 3 messages: prior prompts, structured SPARQL summaries, and previous assistant responses (use only if clearly relevant).
@@ -7,134 +7,282 @@ Available context:
 - Structured recipe data extracted from the KG.
 
 Decision policy:
-1) If the user asks about previous messages (e.g., “o que perguntei na última query”, “what did I ask last time?”), answer ONLY using the Conversation context block. If that info is not available, say you cannot access it and provide ONE example query the user can try.
-2) If the query is off‑topic, unclear, or nonsense, do NOT produce recipes. Ask for clarification briefly OR provide ONE example query to trigger the correct intent/SPARQL.
-3) Otherwise, answer using the structured recipe data; use description snippets cautiously and only when clearly relevant. Prefer structured data over snippets.
+1) If the query is off‑topic, unclear, or nonsense, do NOT produce recipes. Ask for clarification briefly OR provide ONE example query to trigger the correct intent/SPARQL.
+2) If the user asks about previous messages (e.g., “o que perguntei na última query”, “what did I ask last time?”), answer ONLY using the Conversation context block. If that info is not available, say you cannot access it and provide ONE example query the user can try.
+3) Otherwise, answer using only the structured recipe data; use description snippets cautiously and only when clearly relevant. Only print tags that you think are not overly vague, do this conservatly and prefer keeping as many tags as possible that fit that criteria, always keep specific nutrition-based tags. Prefer structured data over snippets..
 
 Formatting and coverage:
-- Start with 1–2 concise sentences (PT first, then EN).
+- Start with 1–2 concise sentences in the original query's language.
 - Be modular: if there are multiple detected ingredients/tags/names (e.g., melon; bitter melon; melon liqueur), create a separate section for EACH detected item and list its corresponding recipes under that section. Do NOT merge everything into one group.
 - In each section, list ALL recipes returned for that item (name required; include time and key tags if helpful).
 - Tables are optional: use a table only if it improves clarity; otherwise bullets are fine.
 - If the requested info is missing or insufficient, say so and provide ONE example user query, e.g.:
-  • receitas com [ingrediente]
-  • receitas com tag [tag]
+  • receitas com [ingredient you know works in the KG using the Conversation context block, if not any use a common ingredient]
+  • receitas com tag [ingredient you know works in the KG using the Conversation context block, if not any use a common tag like easy etc]
   • receitas em até [min] minutos
-  • procurar receita [nome]
-- Minimize invention: do not fabricate ingredients, steps, times, tags, or external sources.
-
-User query: gostei
+  • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
+ - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
+User query: receitas com ovo
 
 Description snippets (semantic matches):
-1. (0.459) *** please read the review for recommendations to make this thicker. *** goiabada is a popular dessert throughout the portuguese-speaking countries of the world, dating back to the colonial days in brazil.
-2. (0.455) from gourmet.
-3. (0.441) gourmet |  august 2004.
+1. (0.546) this is a recipe i made a few years ago. it's so yummy. it's from recettes du quebec.
+2. (0.535) individual soft baked eggs with cheese -.
+3. (0.523) i was hungry today and i just happened to have all of these ingredients on hand. feel free to substitute cheese and pita or even the veggies. this does not need to be specific.
 
 Structured recipe data:
-original_query=gostei
-detected_language=en
-intent=list_by_tag
-slot_ingredient=
+original_query=receitas com ovo
+detected_language=pt
+translated_query=recipes with egg
+intent=list_by_ingredient
+slot_ingredient=egg(100.00), provolone cheese(90.00), broad egg noodle(90.00), cooked egg noodles(90.00)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+
+recipes with ingredient: egg
+Recipe: frozen custard
+Minutes: 260
+Tags: course, desserts, dietary, eggs, eggs-dairy, frozen-desserts, kid-friendly, low-in-something, low-sodium, main-ingredient, preparation, time-to-make
+Ingredients: eggs, honey, milk, salt, sugar, vanilla extract, whipping cream
+Steps:
+01. in medium saucepan , beat together eggs , milk , sugar , honey and salt
+02. cook over low heat , stirring constantly , until mixture is thick enough to coat metal spoon and reaches at least 160 degrees
+03. cool quickly by setting pan in ice or cold water and stirring for few minutes
+04. cover and refrigerate until thoroughly chilled , at least 1 hour
+05. when ready to freeze , pour chilled custard , whipping cream and vanilla into 1-gallon ice cream freezer can
+06. freeze according to manufacturer's directions using 6 parts ice to 1 part rock salt
+07. transfer to freezer containers and freeze until firm
+Recipe: romi s delicious korean kimchi fried rice
+Minutes: 35
+Tags: 60-minutes-or-less, asian, course, cuisine, dietary, dinner-party, equipment, healthy, korean, low-calorie, low-cholesterol, low-in-something
+Ingredients: cooked rice, corn oil, eggs, fish cake, green onions, napa cabbage, pork loin, sesame seeds, soy sauce, sugar
+Steps:
+01. heat wok / stir-fry pan
+02. whisk the 2 eggs with a little bit of oil and add to wok
+03. working with a wooden spatula , separate into small pieces
+04. remove from wok and set aside
+05. cut pork into small thin strips
+06. season with soy sauce and sugar
+07. add a little oil to the wok and stir-fry pork until cooked through
+08. remove from wok and set aside
+Recipe: sweet   sour cabbage rolls
+Minutes: 210
+Tags: 4-hours-or-less, beef, course, equipment, for-large-groups, ground-beef, main-dish, main-ingredient, meat, number-of-servings, oamc-freezer-make-ahead, occasion
+Ingredients: black pepper, boiling water, celery salt, chili sauce, eggs, grape jelly, green cabbage, ketchup, lean ground beef, onions, salt, unsalted cracker
+Steps:
+01. core the cabbages and place into large pot
+02. pour boiling water over the cabbage and let stand until the leaves start to get soft enough to bend and can be easily pulled from th heads
+03. you may need to pull off some of the outer leaves , then return the cabbage head to the pot to soften the middle ones
+04. drain leaves well in a colander
+05. this leaf peeling process takes some time , but you want to get enough intact leaves to make 28 cabbage rolls
+06. preheat oven to 350f
+07. combine meat with seasonings , ketchup , eggs , and crushed crackers , mixing by hand just until combined- don't overwork
+08. using a 1 / 4 cup measure , scoop up a scant 1 / 4 cupful of the meat mixture , then use hands to form the meat into an oblong shape- about 3" long
+Recipe: blintz souffle
+Minutes: 60
+Tags: 60-minutes-or-less, breakfast, course, pancakes-and-waffles, preparation, side-dishes, time-to-make
+Ingredients: blintzes, butter, eggs, orange juice, salt, sour cream, sugar, vanilla
+Steps:
+01. melt butter in 9x13 casserole
+02. put the 12 blintzes in the buttered casserole to cover bottom
+03. mix all ingredients together and pour over the blintzes
+04. bake at 350 for 45 minutes to 1 hour
+Recipe: cakes with nuts from chile  torta de mil hojas
+Minutes: 60
+Tags: 60-minutes-or-less, breads, brown-bag, chilean, coffee-cakes, course, cuisine, dietary, eggs-dairy, gifts, inexpensive, main-ingredient
+Ingredients: all-purpose flour, baking powder, brandy, butter, egg yolks, milk, sweetened condensed milk, walnuts, water
+Steps:
+01. preheat oven to 350 degrees f
+02. mix together the flour and baking powder
+03. set aside
+04. in a large bowl , beat the butter until creamy
+05. blend in the egg yolks , one at a time
+06. beat in the flour mixture alternately with the milk
+07. the dough will be stiff like a cookie dough
+08. divide the dough into 10 pieces and shape into balls
+Recipe: broiled monte cristo sandwich
+Minutes: 25
+Tags: 30-minutes-or-less, course, dietary, for-1-or-2, lunch, number-of-servings, preparation, sandwiches, time-to-make
+Ingredients: bread, butter, eggs, ham, mayonnaise, milk, nutmeg, parsley, provolone cheese, turkey, vegetable oil, water
+Steps:
+01. assemble 2 sandwiches , each filled with 2 slices of the turkey and 2 slices of the ham
+02. beat eggs with water in a shallow bowl
+03. in a frying pan , heat oil and butter
+04. dip both sides of one sandwich in eggs
+05. fry both sides of the sandwich until golden brown
+06. repeat with remaining sandwiches
+07. place sandwiches in a baking dish
+08. in a saucepan , combine cheese , milk , mayonnaise , and nutmeg
+Recipe: freezer chicken tetrazzini
+Minutes: 200
+Tags: 4-hours-or-less, chicken, course, dietary, equipment, freezer, main-dish, main-ingredient, meat, number-of-servings, oamc-freezer-make-ahead, one-dish-meal
+Ingredients: all-purpose flour, bay leaf, black olives, broad egg noodles, butter, celery, chicken stock, dried tarragon, dried thyme leaves, dry sherry, dry white wine, fresh breadcrumb, garlic cloves, green pepper, hot pepper sauce
+Steps:
+01. preheat oven to 375 and use a 13 x 9 inch baking dish
+02. oven poached chicken: place chicken in roasting pan on rack
+03. in a large glass measuring cup , combine chicken stock , wine , bay leaf , tarragon and thyme
+04. pour over chicken
+05. cover pan tightly with foil
+06. bake for 2 hours or until meat thermometer inserted in thickest part of thigh reads 185f cool chicken in broth
+07. remove cooled chicken from broth , reserving broth
+08. remove all meat from carcass , keeping chicken in large strips
+Recipe: my cabbage and noodles
+Minutes: 35
+Tags: 60-minutes-or-less, comfort-food, course, cuisine, dietary, european, german, healthy, healthy-2, inexpensive, low-calorie, low-cholesterol
+Ingredients: black pepper, broad egg noodle, butter, cabbage, caraway seed, cider vinegar, hot water, oil, onion, salt, sugar
+Steps:
+01. for the noodles
+02. while preparing the cabbage cook noodels according to package directions and when drained , cut crosswise with a knife to get 1-2 inch sized pieces
+03. or break noodles into pieces before cooking
+04. for cabbage
+05. have all ingredients ready before you start cooking the cabbage
+06. heat oil over medium high heat in a wide pot that will hold cabbage and noodles
+07. add sugar and let caramelize without stirring until golden to light brown
+08. immediately add onion and butter and stir until soft , 30-60 seconds
+Recipe: dilly ground beef stroganoff
+Minutes: 30
+Tags: 30-minutes-or-less, beef, beginner-cook, comfort-food, course, dietary, easy, equipment, ground-beef, inexpensive, main-dish, main-ingredient
+Ingredients: broad egg noodles, canola oil, cream of mushroom soup, dried dill weed, fresh ground black pepper, frozen mixed vegetables, ground nutmeg, lean ground beef, low-fat sour cream, salt, sliced mushrooms, worcestershire sauce
+Steps:
+01. measure out frozen vegetables and set aside on kitchen counter
+02. bring a large saucepan of salted water to a boil
+03. add noodles and cook according to package directions , about 6 minutes
+04. drain well when done
+05. meanwhile , heat oil in a large wide saucepan over medium-high heat
+06. add meat and mushrooms
+07. stir in worcestershire sauce , dillweed , salt , pepper and nutmeg
+08. stir often with a fork to keep meat crumbly until it is no longer pink , about 5 minutes
+Recipe: chuck wagon skillet
+Minutes: 45
+Tags: 60-minutes-or-less, course, dietary, low-carb, low-in-something, main-dish, one-dish-meal, preparation, time-to-make
+Ingredients: 95% lean ground beef, black olives, celery, cooked egg noodles, mild cheddar cheese, stewed tomatoes, water
+Steps:
+01. brown hamburger & season to taste - drain off any fat
+02. layer the following ingredients to make 2 different layers -
+03. 1 cup of egg noodles per layer , 1 / 2 of the sliced celery , 1 / 2 of the cubed cheese , 1 / 2 of the black olives per layer
+04. top the layers with the stewed tomatoes , and add the 1 / 4 cup water
+05. turn heat to medium unti casserole comes to a steam , then lower heat to low , cover pan and cook for 30 minutes
+
+recipes with ingredient: provolone cheese
+Recipe: hot muffaletta sandwich
+Minutes: 30
+Tags: 30-minutes-or-less, course, lunch, main-dish, one-dish-meal, preparation, sandwiches, time-to-make
+Ingredients: capers, dried oregano, dry salami, extra virgin olive oil, french rolls, garlic cloves, olive oil, pickled peppers, pimento stuffed olive, provolone cheese, red onions, red wine vinegar, roasted red pepper, tomatoes, westphalian ham
+Steps:
+01. open the rolls and pull out a bit of their fluffy insides
+02. sprinkle each cut side with olive oil and vinegar , then with garlic , capers and oregano
+03. layer one side of each roll with red pepper , pickled peppers , onion , olives , tomato , salami , ham and finally the cheese
+04. replace roll tops , close up tightly and press together well to help seal
+05. heat a heavy nonstick skillet over medium-high heat and lightly brush the outside of each roll with olive oil
+06. place 2 sandwiches at a time in the hot pan
+07. press the sandwiches with a wide spatula several times , turning once or twice , until the bread is crisp and the cheese is melted
+08. the sandwiches also can be pressed by placing a heavy skillet on top during grilling
+Recipe: italian pizza soup
+Minutes: 30
+Tags: 30-minutes-or-less, cheese, course, cuisine, dietary, eggs-dairy, equipment, european, healthy, healthy-2, italian, low-calorie
+Ingredients: chicken broth, crushed tomatoes, dried basil, dried oregano, garlic, green pepper, olive oil, onion, parmesan cheese, pepperoni, provolone cheese, rice
+Steps:
+01. heat olive oil in a large saucepan
+02. saute the onion and green pepper until softened
+03. stir in the garlic and cook for a minute
+04. add the oregano , basil , rice , tomatoes and broth , and bring to a boil
+05. turn down heat and place cover on saucepan
+06. simmer for 20 minutes or until rice is tender
+07. stir in the pepperoni , and sprinkle with the cheese
+08. continue cooking for another minute or two
+Recipe: broiled monte cristo sandwich
+Minutes: 25
+Tags: 30-minutes-or-less, course, dietary, for-1-or-2, lunch, number-of-servings, preparation, sandwiches, time-to-make
+Ingredients: bread, butter, eggs, ham, mayonnaise, milk, nutmeg, parsley, provolone cheese, turkey, vegetable oil, water
+Steps:
+01. assemble 2 sandwiches , each filled with 2 slices of the turkey and 2 slices of the ham
+02. beat eggs with water in a shallow bowl
+03. in a frying pan , heat oil and butter
+04. dip both sides of one sandwich in eggs
+05. fry both sides of the sandwich until golden brown
+06. repeat with remaining sandwiches
+07. place sandwiches in a baking dish
+08. in a saucepan , combine cheese , milk , mayonnaise , and nutmeg
+Recipe: pesto cheese blossom  paula deen
+Minutes: 80
+Tags: 4-hours-or-less, appetizers, brunch, cheese, course, dietary, eggs-dairy, for-large-groups, holiday-event, main-ingredient, number-of-servings, occasion
+Ingredients: cream cheese, extra virgin olive oil, fresh basil leaf, fresh ground pepper, fresh parsley leaves, garlic cloves, pine nuts, pistachios, provolone cheese, salt, sun-dried tomatoes packed in oil
+Steps:
+01. line a medium bowl with plastic wrap , leaving enough overhang to cover the top
+02. reserving 3 slices of provolone , line the bottom and sides of the bowl with remaining provolone , overlapping slices
+03. for the cream cheese layer , process the cream cheese , pistachios , and 1 garlic clove in a food processor until blended
+04. scrape the mixture into a bowl and set aside
+05. for the pesto layer , process the basil , parsley , pine nuts and the remaining garlic clove in the food processor until blended
+06. dissolve the salt and pepper in the olive oil and mix well
+07. with the machine running , add the oil in a fine stream
+08. scrape this mixture into a second bowl and set aside
+Recipe: jan s monte cristo crescents
+Minutes: 90
+Tags: 4-hours-or-less, 5-ingredients-or-less, american, appetizers, course, cuisine, dietary, dinner-party, easy, equipment, for-large-groups, high-calcium
+Ingredients: deli turkey, pecans, prepared mustard, provolone cheese, strawberry jam
+Steps:
+01. preheat oven to 375 deg
+02. use recipe for crescent dough 35267
+03. prepare dough in a flat rectangular sheet
+04. place turkey with mustard on first
+05. place cheese on next
+06. cover with thin layer of jam
+07. sprinkle pecans evenly
+08. roll up fairly tightly and cut into about 1 / 2" slices
+
+recipes with ingredient: broad egg noodle
+Recipe: freezer chicken tetrazzini
+Minutes: 200
+Tags: 4-hours-or-less, chicken, course, dietary, equipment, freezer, main-dish, main-ingredient, meat, number-of-servings, oamc-freezer-make-ahead, one-dish-meal
+Ingredients: all-purpose flour, bay leaf, black olives, broad egg noodles, butter, celery, chicken stock, dried tarragon, dried thyme leaves, dry sherry, dry white wine, fresh breadcrumb, garlic cloves, green pepper, hot pepper sauce
+Steps:
+01. preheat oven to 375 and use a 13 x 9 inch baking dish
+02. oven poached chicken: place chicken in roasting pan on rack
+03. in a large glass measuring cup , combine chicken stock , wine , bay leaf , tarragon and thyme
+04. pour over chicken
+05. cover pan tightly with foil
+06. bake for 2 hours or until meat thermometer inserted in thickest part of thigh reads 185f cool chicken in broth
+07. remove cooled chicken from broth , reserving broth
+08. remove all meat from carcass , keeping chicken in large strips
+Recipe: my cabbage and noodles
+Minutes: 35
+Tags: 60-minutes-or-less, comfort-food, course, cuisine, dietary, european, german, healthy, healthy-2, inexpensive, low-calorie, low-cholesterol
+Ingredients: black pepper, broad egg noodle, butter, cabbage, caraway seed, cider vinegar, hot water, oil, onion, salt, sugar
+Steps:
+01. for the noodles
+02. while preparing the cabbage cook noodels according to package directions and when drained , cut crosswise with a knife to get 1-2 inch sized pieces
+03. or break noodles into pieces before cooking
+04. for cabbage
+05. have all ingredients ready before you start cooking the cabbage
+06. heat oil over medium high heat in a wide pot that will hold cabbage and noodles
+07. add sugar and let caramelize without stirring until golden to light brown
+08. immediately add onion and butter and stir until soft , 30-60 seconds
+Recipe: dilly ground beef stroganoff
+Minutes: 30
+Tags: 30-minutes-or-less, beef, beginner-cook, comfort-food, course, dietary, easy, equipment, ground-beef, inexpensive, main-dish, main-ingredient
+Ingredients: broad egg noodles, canola oil, cream of mushroom soup, dried dill weed, fresh ground black pepper, frozen mixed vegetables, ground nutmeg, lean ground beef, low-fat sour cream, salt, sliced mushrooms, worcestershire sauce
+Steps:
+01. measure out frozen vegetables and set aside on kitchen counter
+02. bring a large saucepan of salted water to a boil
+03. add noodles and cook according to package directions , about 6 minutes
+04. drain well when done
+05. meanwhile , heat oil in a large wide saucepan over medium-high heat
+06. add meat and mushrooms
+07. stir in worcestershire sauce , dillweed , salt , pepper and nutmeg
+08. stir often with a fork to keep meat crumbly until it is no longer pink , about 5 minutes
+
+recipes with ingredient: cooked egg noodles
+Recipe: chuck wagon skillet
+Minutes: 45
+Tags: 60-minutes-or-less, course, dietary, low-carb, low-in-something, main-dish, one-dish-meal, preparation, time-to-make
+Ingredients: 95% lean ground beef, black olives, celery, cooked egg noodles, mild cheddar cheese, stewed tomatoes, water
+Steps:
+01. brown hamburger & season to taste - drain off any fat
+02. layer the following ingredients to make 2 different layers -
+03. 1 cup of egg noodles per layer , 1 / 2 of the sliced celery , 1 / 2 of the cubed cheese , 1 / 2 of the black olives per layer
+04. top the layers with the stewed tomatoes , and add the 1 / 4 cup water
+05. turn heat to medium unti casserole comes to a steam , then lower heat to low , cover pan and cook for 30 minutes
+
 
 Answer:
 
-Conversation context (previous messages):
-
-Message 1 - User query:
-receitas com tomate
-
-Message 1 - Structured recipe data:
-original_query=receitas com tomate
-detected_language=pt
-translated_query=recipes with tomato
-intent=list_by_ingredient
-slot_ingredient=campbell's condensed tomato soup(90.00), campbell's tomato soup(90.00), canned stewed tomatoes(90.00), tomatoes(85.71)
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 1 - Assistant Response:
-**PT:** Aqui estão as receitas que contêm os ingredientes de tomate que você pediu.  
-**EN:** Here are the recipes that include the tomato‑based ingredients you requested.
-
----
-
-### 1️⃣ Camp­bell’s Condensed Tomato Soup  
-- **Campbell’s Beefy Pasta Skillet** – 25 min  
-  *Tags:* 30‑minutes‑or‑less, 3‑steps‑or‑less, beef, beginner‑cook, easy, kid‑friendly, main‑dish  
-
-### 2️⃣ Camp­bell’s Tomato Soup  
-- **Crock‑Pot Salsa Chicken** – 125 min  
-  *Tags:* 4‑hours‑or‑less, beginner‑cook, chicken, crock‑pot, healthy, easy  
-
-### 3️⃣ Canned Stewed Tomatoes  
-- **Easy Cabbage Soup** – 45 min  
-  *Tags:* 3‑steps‑or‑less, 60‑minutes‑or‑less, dietary, low‑calorie, easy, for‑large‑groups  
-
-### 4️⃣ Tomatoes (fresh)  
-- **Easy Cabbage Soup** – 45 min *(same as above, also uses fresh tomatoes)*  
-- **Green Goddess Taco Salad** – 30 min  
-  *Tags:* 30‑minutes‑or‑less, beef, kid‑friendly, easy, main‑dish  
-- **Cauliflower Provençal** – 25 min  
-  *Tags:* 30‑minutes‑or‑less, brunch, side‑dish, easy, vegetarian‑friendly  
-- **Shrimp and Crab Gazpacho** – 20 min  
-  *Tags:* 30‑minutes‑or‑less, seafood, low‑calorie, healthy, easy  
-- **Auntie’s Vegetable Casserole** – 130 min  
-  *Tags:* 3‑steps‑or‑less, 4‑hours‑or‑less, casserole, easy, vegetarian  
-- **Rustic Vegetable Baguette with Smashed Avocado** – 18 min  
-  *Tags:* 30‑minutes‑or‑less, 5‑ingredients‑or‑less, sandwich, easy, lunch  
-
----
-
-**PT:** Caso queira mais opções ou filtrar por tempo de preparo, basta dizer, por exemplo, “receitas com tomate em até 30 minutos”.  
-**EN:** If you’d like more options or want to filter by cooking time, just say, for example, “recipes with tomato under 30 minutes”.
-
-Message 2 - User query:
-ayo
-
-Message 2 - Structured recipe data:
-original_query=ayo
-detected_language=en
-intent=list_by_tag
-slot_ingredient=
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 2 - Assistant Response:
-**PT:** Não consegui entender o que você gostaria de buscar.  
-**EN:** I couldn’t understand what you’d like to look for.  
-
-Por favor, tente uma consulta mais específica, por exemplo:  
-- “receitas com **frango**”  
-- “receitas com tag **rápido‑e‑fácil**”  
-- “receitas em até **30 minutos**”  
-- “procurar receita **Bolo de Cenoura**”.
-
-Message 3 - User query:
-ayo
-
-Message 3 - Structured recipe data:
-original_query=ayo
-detected_language=en
-intent=list_by_tag
-slot_ingredient=
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 3 - Assistant Response:
-**PT:** Não entendi o que você gostaria de buscar.  
-**EN:** I didn’t understand what you’d like to look for.  
-
-Por favor, informe um ingrediente, uma tag, um nome de receita ou um tempo de preparo, por exemplo:  
-- “receitas com **frango**”  
-- “receitas com tag **rápido‑e‑fácil**”  
-- “receitas em até **30 minutos**”  
-- “procurar receita **Bolo de Cenoura**”.
