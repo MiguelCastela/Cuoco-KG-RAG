@@ -543,12 +543,12 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
     nlp_primary = nlp if getattr(nlp, "lang", None) == lang else build_spacy_pipeline(lang)
     candidates_primary = extract_candidates(text, nlp_primary)
 
-    if intent in {"list_by_ingredient","list_by_tag"}:
-        # Fallback when noun_chunks are empty or fully filtered
-        if not candidates_primary.get("candidate_chunks"):
-            candidates_primary["candidate_chunks"] = _fallback_tokens_from_text(text, lang, other)
+    bag_intents = {"list_by_ingredient","list_by_tag"}
+    # Always create linked_primary first
+    linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
 
-        linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
+    # For bag-mode intents skip secondary pass
+    if intent in bag_intents:
         return {
             "ingredient": linked_primary.get("ingredient", []),
             "recipe_name": linked_primary.get("recipe_name", []),
@@ -559,7 +559,7 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
             "translated_query": translate_between(text, lang, other),
         }
 
-    # Otherwise keep the dual-pass behavior
+    # Dual-pass for other intents
     translated_text = translate_between(text, lang, other)
     nlp_secondary = build_spacy_pipeline(other)
     candidates_secondary = extract_candidates(translated_text, nlp_secondary)

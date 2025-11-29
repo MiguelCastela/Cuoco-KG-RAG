@@ -449,6 +449,19 @@ def api_chat(prompt: str, model_name: str) -> str:
         print(f"[LLM EXCEPTION] {e}")
         return ""
 
+def clear_conversation_context() -> None:
+    """
+    Clears the in-memory conversation history used for prompt context injection.
+    """
+    global _conversation_history
+    _conversation_history.clear()
+    # Optionally truncate context file
+    try:
+        context_path = os.path.join(os.path.dirname(__file__), "context.txt")
+        with open(context_path, "w", encoding="utf-8") as f:
+            f.write("")
+    except Exception:
+        pass
 
 def _process_query(user_query: str) -> str:
     """
@@ -456,6 +469,9 @@ def _process_query(user_query: str) -> str:
     All logic preserved internally, but output is simplified.
     """
     user_query = user_query.strip()
+    if user_query.lower() == "clear":
+        clear_conversation_context()
+        return "Context cleared."
     if not user_query:
         return "Sua consulta está vazia. Por favor escreva algo."
 
@@ -586,8 +602,15 @@ def main():
     try:
         while True:
             q = input("you> ").strip()
-            if not q or q.lower() in {"/exit","exit","quit"}:
+            if not q:
+                continue
+            low = q.lower()
+            if low in {"/exit","exit","quit"}:
                 break
+            if low == "clear":
+                clear_conversation_context()
+                print("[context cleared]")
+                continue
             _process_query(q)
     except (KeyboardInterrupt, EOFError):
         pass
