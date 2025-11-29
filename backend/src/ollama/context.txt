@@ -22,24 +22,36 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: receitas com ovo
+User query: recipes with sugar
 
 Description snippets (semantic matches):
-1. (0.546) this is a recipe i made a few years ago. it's so yummy. it's from recettes du quebec.
-2. (0.535) individual soft baked eggs with cheese -.
-3. (0.523) i was hungry today and i just happened to have all of these ingredients on hand. feel free to substitute cheese and pita or even the veggies. this does not need to be specific.
+1. (0.653) this recipe appeared about 30 years ago in family circle magazine: cinnamon-sugar.
+2. (0.651) diane gave my sister the recipe and she passed it along to me!  (diane made it w/ fresh corn!)  this is the exact recipe i recieved; however, i reduce the amt of sugar called for as i find fresh corn pretty sweet.
+3. (0.649) make this and you'll love it and you'll never know it's low sugar by the taste.
 
 Structured recipe data:
-original_query=receitas com ovo
-detected_language=pt
-translated_query=recipes with egg
+original_query=recipes with sugar
+detected_language=en
+translated_query=receitas com açúcar
 intent=list_by_ingredient
-slot_ingredient=egg(100.00), provolone cheese(90.00), broad egg noodle(90.00), cooked egg noodles(90.00)
+slot_ingredient=sugar(100.00), coarse sugar(90.00), date sugar(90.00)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
-recipes with ingredient: egg
+recipes with ingredient: sugar
+Recipe: strawberry raspberry jam
+Minutes: 25
+Tags: 30-minutes-or-less, american, berries, brunch, canning, condiments-etc, course, cuisine, dietary, fruit, gifts, jams-and-preserves
+Ingredients: brown sugar, frozen raspberries, frozen strawberries, liquid pectin, sugar, water
+Steps:
+01. you will also need 6 jelly or jam jars , boiled or washed in hot soapy water , then rinsed in hot water smash the raspberries and strawberries and place them in a large sauce pot with the water
+02. bring to a simmer over medium-high heat then add the sugars
+03. turn heat to high and bring to a rolling boil , stirring often
+04. quickly stir in the pectin and let boil for 1 minute , stirring constantly
+05. remove from the heat and ladle into the jars to about 1 / 2-inch from the top
+06. place the lids on tight and turn the jars upside-down for 15 minutes then turn them right side up
+07. the jam will last for about 6 months in a cool , dark pantry and about 1 year in the refrigerator
 Recipe: frozen custard
 Minutes: 260
 Tags: course, desserts, dietary, eggs, eggs-dairy, frozen-desserts, kid-friendly, low-in-something, low-sodium, main-ingredient, preparation, time-to-make
@@ -52,6 +64,31 @@ Steps:
 05. when ready to freeze , pour chilled custard , whipping cream and vanilla into 1-gallon ice cream freezer can
 06. freeze according to manufacturer's directions using 6 parts ice to 1 part rock salt
 07. transfer to freezer containers and freeze until firm
+Recipe: astoria frosting
+Minutes: 20
+Tags: 30-minutes-or-less, cake-fillings-and-frostings, cakes, course, desserts, dietary, kid-friendly, low-in-something, low-protein, preparation, time-to-make
+Ingredients: butter, flour, milk, salt, sugar, vanilla extract
+Steps:
+01. in a small saucepan , mix milk , flour and salt until smooth
+02. place over low heat and cook , stirring constantly until thickened
+03. remove from heat and cool
+04. cream butter and sugar until very light and fluffy , about 5 minutes
+05. gradually beat in cooled flour mixture until smooth
+06. beat in vanilla
+07. frosts one cake
+Recipe: georgia chicken with peach sauce
+Minutes: 60
+Tags: 60-minutes-or-less, american, canadian, chicken, chicken-breasts, chicken-thighs-legs, course, cuisine, dietary, dinner-party, egg-free, equipment
+Ingredients: brown sugar, dried basil leaves, flour, fresh ginger, garlic, nutmeg, olive oil, orange juice, peaches, salt and pepper, skinless chicken breasts, vinegar
+Steps:
+01. dredge chicken in seasoned flour , shake off and lay on wire rack to dry , abot 10 minutes
+02. heat oil in deep sided saute pan , until it is quite hot
+03. cook chicken , turning to brown evenly , about 3-5 minutes
+04. remove chicken to paper towel to drain
+05. there should be 1 tbsp of oil in pan , if not , add a little more
+06. reduce heat to medium and whisk reserved peach and orange juices until smooth
+07. stir in remaining ingredients , bring to a boil , cook 3 minutes
+08. add chicken to pan , cover and continue to cook until chicken is longer pick in center , about 25 minutes
 Recipe: romi s delicious korean kimchi fried rice
 Minutes: 35
 Tags: 60-minutes-or-less, asian, course, cuisine, dietary, dinner-party, equipment, healthy, korean, low-calorie, low-cholesterol, low-in-something
@@ -65,224 +102,216 @@ Steps:
 06. season with soy sauce and sugar
 07. add a little oil to the wok and stir-fry pork until cooked through
 08. remove from wok and set aside
-Recipe: sweet   sour cabbage rolls
-Minutes: 210
-Tags: 4-hours-or-less, beef, course, equipment, for-large-groups, ground-beef, main-dish, main-ingredient, meat, number-of-servings, oamc-freezer-make-ahead, occasion
-Ingredients: black pepper, boiling water, celery salt, chili sauce, eggs, grape jelly, green cabbage, ketchup, lean ground beef, onions, salt, unsalted cracker
+Recipe: norwegian crowns
+Minutes: 48
+Tags: 60-minutes-or-less, christmas, cookies-and-brownies, course, cuisine, desserts, dietary, eggs-dairy, european, hand-formed-cookies, holiday-event, main-ingredient
+Ingredients: butter, coarse sugar, egg white, egg yolks, flour, salt, sugar
 Steps:
-01. core the cabbages and place into large pot
-02. pour boiling water over the cabbage and let stand until the leaves start to get soft enough to bend and can be easily pulled from th heads
-03. you may need to pull off some of the outer leaves , then return the cabbage head to the pot to soften the middle ones
-04. drain leaves well in a colander
-05. this leaf peeling process takes some time , but you want to get enough intact leaves to make 28 cabbage rolls
-06. preheat oven to 350f
-07. combine meat with seasonings , ketchup , eggs , and crushed crackers , mixing by hand just until combined- don't overwork
-08. using a 1 / 4 cup measure , scoop up a scant 1 / 4 cupful of the meat mixture , then use hands to form the meat into an oblong shape- about 3" long
-Recipe: blintz souffle
-Minutes: 60
-Tags: 60-minutes-or-less, breakfast, course, pancakes-and-waffles, preparation, side-dishes, time-to-make
-Ingredients: blintzes, butter, eggs, orange juice, salt, sour cream, sugar, vanilla
+01. preheat oven to 400 degrees f
+02. press the hard cooked egg yolks through a sieve , into a mixing bowl
+03. add the sugar , salt and uncooked egg yolks , and beat thoroughly with mixer
+04. add the butter and flour alternately in small amounts , mixing in after each addition
+05. cover and chill until stiff
+06. roll the dough into ropes 1 / 4 inch in diameter and 5 inches long
+07. form rings by crossing the ends and pressing slightly
+08. dip , first into egg white , and then into the sugar , and place on cookie sheets with some space between them
+Recipe: yummy banana  oat bars
+Minutes: 40
+Tags: 60-minutes-or-less, breakfast, course, dietary, easy, healthy, low-in-something, low-sodium, preparation, time-to-make, vegan, vegetarian
+Ingredients: bananas, date sugar, old fashioned oats, raisins, shredded coconut, unsweetened applesauce, walnuts
 Steps:
-01. melt butter in 9x13 casserole
-02. put the 12 blintzes in the buttered casserole to cover bottom
-03. mix all ingredients together and pour over the blintzes
-04. bake at 350 for 45 minutes to 1 hour
-Recipe: cakes with nuts from chile  torta de mil hojas
-Minutes: 60
-Tags: 60-minutes-or-less, breads, brown-bag, chilean, coffee-cakes, course, cuisine, dietary, eggs-dairy, gifts, inexpensive, main-ingredient
-Ingredients: all-purpose flour, baking powder, brandy, butter, egg yolks, milk, sweetened condensed milk, walnuts, water
-Steps:
-01. preheat oven to 350 degrees f
-02. mix together the flour and baking powder
-03. set aside
-04. in a large bowl , beat the butter until creamy
-05. blend in the egg yolks , one at a time
-06. beat in the flour mixture alternately with the milk
-07. the dough will be stiff like a cookie dough
-08. divide the dough into 10 pieces and shape into balls
-Recipe: broiled monte cristo sandwich
-Minutes: 25
-Tags: 30-minutes-or-less, course, dietary, for-1-or-2, lunch, number-of-servings, preparation, sandwiches, time-to-make
-Ingredients: bread, butter, eggs, ham, mayonnaise, milk, nutmeg, parsley, provolone cheese, turkey, vegetable oil, water
-Steps:
-01. assemble 2 sandwiches , each filled with 2 slices of the turkey and 2 slices of the ham
-02. beat eggs with water in a shallow bowl
-03. in a frying pan , heat oil and butter
-04. dip both sides of one sandwich in eggs
-05. fry both sides of the sandwich until golden brown
-06. repeat with remaining sandwiches
-07. place sandwiches in a baking dish
-08. in a saucepan , combine cheese , milk , mayonnaise , and nutmeg
-Recipe: freezer chicken tetrazzini
-Minutes: 200
-Tags: 4-hours-or-less, chicken, course, dietary, equipment, freezer, main-dish, main-ingredient, meat, number-of-servings, oamc-freezer-make-ahead, one-dish-meal
-Ingredients: all-purpose flour, bay leaf, black olives, broad egg noodles, butter, celery, chicken stock, dried tarragon, dried thyme leaves, dry sherry, dry white wine, fresh breadcrumb, garlic cloves, green pepper, hot pepper sauce
-Steps:
-01. preheat oven to 375 and use a 13 x 9 inch baking dish
-02. oven poached chicken: place chicken in roasting pan on rack
-03. in a large glass measuring cup , combine chicken stock , wine , bay leaf , tarragon and thyme
-04. pour over chicken
-05. cover pan tightly with foil
-06. bake for 2 hours or until meat thermometer inserted in thickest part of thigh reads 185f cool chicken in broth
-07. remove cooled chicken from broth , reserving broth
-08. remove all meat from carcass , keeping chicken in large strips
-Recipe: my cabbage and noodles
-Minutes: 35
-Tags: 60-minutes-or-less, comfort-food, course, cuisine, dietary, european, german, healthy, healthy-2, inexpensive, low-calorie, low-cholesterol
-Ingredients: black pepper, broad egg noodle, butter, cabbage, caraway seed, cider vinegar, hot water, oil, onion, salt, sugar
-Steps:
-01. for the noodles
-02. while preparing the cabbage cook noodels according to package directions and when drained , cut crosswise with a knife to get 1-2 inch sized pieces
-03. or break noodles into pieces before cooking
-04. for cabbage
-05. have all ingredients ready before you start cooking the cabbage
-06. heat oil over medium high heat in a wide pot that will hold cabbage and noodles
-07. add sugar and let caramelize without stirring until golden to light brown
-08. immediately add onion and butter and stir until soft , 30-60 seconds
-Recipe: dilly ground beef stroganoff
-Minutes: 30
-Tags: 30-minutes-or-less, beef, beginner-cook, comfort-food, course, dietary, easy, equipment, ground-beef, inexpensive, main-dish, main-ingredient
-Ingredients: broad egg noodles, canola oil, cream of mushroom soup, dried dill weed, fresh ground black pepper, frozen mixed vegetables, ground nutmeg, lean ground beef, low-fat sour cream, salt, sliced mushrooms, worcestershire sauce
-Steps:
-01. measure out frozen vegetables and set aside on kitchen counter
-02. bring a large saucepan of salted water to a boil
-03. add noodles and cook according to package directions , about 6 minutes
-04. drain well when done
-05. meanwhile , heat oil in a large wide saucepan over medium-high heat
-06. add meat and mushrooms
-07. stir in worcestershire sauce , dillweed , salt , pepper and nutmeg
-08. stir often with a fork to keep meat crumbly until it is no longer pink , about 5 minutes
-Recipe: chuck wagon skillet
-Minutes: 45
-Tags: 60-minutes-or-less, course, dietary, low-carb, low-in-something, main-dish, one-dish-meal, preparation, time-to-make
-Ingredients: 95% lean ground beef, black olives, celery, cooked egg noodles, mild cheddar cheese, stewed tomatoes, water
-Steps:
-01. brown hamburger & season to taste - drain off any fat
-02. layer the following ingredients to make 2 different layers -
-03. 1 cup of egg noodles per layer , 1 / 2 of the sliced celery , 1 / 2 of the cubed cheese , 1 / 2 of the black olives per layer
-04. top the layers with the stewed tomatoes , and add the 1 / 4 cup water
-05. turn heat to medium unti casserole comes to a steam , then lower heat to low , cover pan and cook for 30 minutes
+01. preheat oven to 350f
+02. mix ingredients together in a large bowl
+03. press dough in a 9x9-inch baking pan and bake for 30 minutes
+04. cool on wire rack
+05. when cool , slice into squares or bars and serve
 
-recipes with ingredient: provolone cheese
-Recipe: hot muffaletta sandwich
-Minutes: 30
-Tags: 30-minutes-or-less, course, lunch, main-dish, one-dish-meal, preparation, sandwiches, time-to-make
-Ingredients: capers, dried oregano, dry salami, extra virgin olive oil, french rolls, garlic cloves, olive oil, pickled peppers, pimento stuffed olive, provolone cheese, red onions, red wine vinegar, roasted red pepper, tomatoes, westphalian ham
+recipes with ingredient: coarse sugar
+Recipe: norwegian crowns
+Minutes: 48
+Tags: 60-minutes-or-less, christmas, cookies-and-brownies, course, cuisine, desserts, dietary, eggs-dairy, european, hand-formed-cookies, holiday-event, main-ingredient
+Ingredients: butter, coarse sugar, egg white, egg yolks, flour, salt, sugar
 Steps:
-01. open the rolls and pull out a bit of their fluffy insides
-02. sprinkle each cut side with olive oil and vinegar , then with garlic , capers and oregano
-03. layer one side of each roll with red pepper , pickled peppers , onion , olives , tomato , salami , ham and finally the cheese
-04. replace roll tops , close up tightly and press together well to help seal
-05. heat a heavy nonstick skillet over medium-high heat and lightly brush the outside of each roll with olive oil
-06. place 2 sandwiches at a time in the hot pan
-07. press the sandwiches with a wide spatula several times , turning once or twice , until the bread is crisp and the cheese is melted
-08. the sandwiches also can be pressed by placing a heavy skillet on top during grilling
-Recipe: italian pizza soup
-Minutes: 30
-Tags: 30-minutes-or-less, cheese, course, cuisine, dietary, eggs-dairy, equipment, european, healthy, healthy-2, italian, low-calorie
-Ingredients: chicken broth, crushed tomatoes, dried basil, dried oregano, garlic, green pepper, olive oil, onion, parmesan cheese, pepperoni, provolone cheese, rice
-Steps:
-01. heat olive oil in a large saucepan
-02. saute the onion and green pepper until softened
-03. stir in the garlic and cook for a minute
-04. add the oregano , basil , rice , tomatoes and broth , and bring to a boil
-05. turn down heat and place cover on saucepan
-06. simmer for 20 minutes or until rice is tender
-07. stir in the pepperoni , and sprinkle with the cheese
-08. continue cooking for another minute or two
-Recipe: broiled monte cristo sandwich
-Minutes: 25
-Tags: 30-minutes-or-less, course, dietary, for-1-or-2, lunch, number-of-servings, preparation, sandwiches, time-to-make
-Ingredients: bread, butter, eggs, ham, mayonnaise, milk, nutmeg, parsley, provolone cheese, turkey, vegetable oil, water
-Steps:
-01. assemble 2 sandwiches , each filled with 2 slices of the turkey and 2 slices of the ham
-02. beat eggs with water in a shallow bowl
-03. in a frying pan , heat oil and butter
-04. dip both sides of one sandwich in eggs
-05. fry both sides of the sandwich until golden brown
-06. repeat with remaining sandwiches
-07. place sandwiches in a baking dish
-08. in a saucepan , combine cheese , milk , mayonnaise , and nutmeg
-Recipe: pesto cheese blossom  paula deen
-Minutes: 80
-Tags: 4-hours-or-less, appetizers, brunch, cheese, course, dietary, eggs-dairy, for-large-groups, holiday-event, main-ingredient, number-of-servings, occasion
-Ingredients: cream cheese, extra virgin olive oil, fresh basil leaf, fresh ground pepper, fresh parsley leaves, garlic cloves, pine nuts, pistachios, provolone cheese, salt, sun-dried tomatoes packed in oil
-Steps:
-01. line a medium bowl with plastic wrap , leaving enough overhang to cover the top
-02. reserving 3 slices of provolone , line the bottom and sides of the bowl with remaining provolone , overlapping slices
-03. for the cream cheese layer , process the cream cheese , pistachios , and 1 garlic clove in a food processor until blended
-04. scrape the mixture into a bowl and set aside
-05. for the pesto layer , process the basil , parsley , pine nuts and the remaining garlic clove in the food processor until blended
-06. dissolve the salt and pepper in the olive oil and mix well
-07. with the machine running , add the oil in a fine stream
-08. scrape this mixture into a second bowl and set aside
-Recipe: jan s monte cristo crescents
-Minutes: 90
-Tags: 4-hours-or-less, 5-ingredients-or-less, american, appetizers, course, cuisine, dietary, dinner-party, easy, equipment, for-large-groups, high-calcium
-Ingredients: deli turkey, pecans, prepared mustard, provolone cheese, strawberry jam
-Steps:
-01. preheat oven to 375 deg
-02. use recipe for crescent dough 35267
-03. prepare dough in a flat rectangular sheet
-04. place turkey with mustard on first
-05. place cheese on next
-06. cover with thin layer of jam
-07. sprinkle pecans evenly
-08. roll up fairly tightly and cut into about 1 / 2" slices
+01. preheat oven to 400 degrees f
+02. press the hard cooked egg yolks through a sieve , into a mixing bowl
+03. add the sugar , salt and uncooked egg yolks , and beat thoroughly with mixer
+04. add the butter and flour alternately in small amounts , mixing in after each addition
+05. cover and chill until stiff
+06. roll the dough into ropes 1 / 4 inch in diameter and 5 inches long
+07. form rings by crossing the ends and pressing slightly
+08. dip , first into egg white , and then into the sugar , and place on cookie sheets with some space between them
 
-recipes with ingredient: broad egg noodle
-Recipe: freezer chicken tetrazzini
-Minutes: 200
-Tags: 4-hours-or-less, chicken, course, dietary, equipment, freezer, main-dish, main-ingredient, meat, number-of-servings, oamc-freezer-make-ahead, one-dish-meal
-Ingredients: all-purpose flour, bay leaf, black olives, broad egg noodles, butter, celery, chicken stock, dried tarragon, dried thyme leaves, dry sherry, dry white wine, fresh breadcrumb, garlic cloves, green pepper, hot pepper sauce
+recipes with ingredient: date sugar
+Recipe: yummy banana  oat bars
+Minutes: 40
+Tags: 60-minutes-or-less, breakfast, course, dietary, easy, healthy, low-in-something, low-sodium, preparation, time-to-make, vegan, vegetarian
+Ingredients: bananas, date sugar, old fashioned oats, raisins, shredded coconut, unsweetened applesauce, walnuts
 Steps:
-01. preheat oven to 375 and use a 13 x 9 inch baking dish
-02. oven poached chicken: place chicken in roasting pan on rack
-03. in a large glass measuring cup , combine chicken stock , wine , bay leaf , tarragon and thyme
-04. pour over chicken
-05. cover pan tightly with foil
-06. bake for 2 hours or until meat thermometer inserted in thickest part of thigh reads 185f cool chicken in broth
-07. remove cooled chicken from broth , reserving broth
-08. remove all meat from carcass , keeping chicken in large strips
-Recipe: my cabbage and noodles
-Minutes: 35
-Tags: 60-minutes-or-less, comfort-food, course, cuisine, dietary, european, german, healthy, healthy-2, inexpensive, low-calorie, low-cholesterol
-Ingredients: black pepper, broad egg noodle, butter, cabbage, caraway seed, cider vinegar, hot water, oil, onion, salt, sugar
-Steps:
-01. for the noodles
-02. while preparing the cabbage cook noodels according to package directions and when drained , cut crosswise with a knife to get 1-2 inch sized pieces
-03. or break noodles into pieces before cooking
-04. for cabbage
-05. have all ingredients ready before you start cooking the cabbage
-06. heat oil over medium high heat in a wide pot that will hold cabbage and noodles
-07. add sugar and let caramelize without stirring until golden to light brown
-08. immediately add onion and butter and stir until soft , 30-60 seconds
-Recipe: dilly ground beef stroganoff
-Minutes: 30
-Tags: 30-minutes-or-less, beef, beginner-cook, comfort-food, course, dietary, easy, equipment, ground-beef, inexpensive, main-dish, main-ingredient
-Ingredients: broad egg noodles, canola oil, cream of mushroom soup, dried dill weed, fresh ground black pepper, frozen mixed vegetables, ground nutmeg, lean ground beef, low-fat sour cream, salt, sliced mushrooms, worcestershire sauce
-Steps:
-01. measure out frozen vegetables and set aside on kitchen counter
-02. bring a large saucepan of salted water to a boil
-03. add noodles and cook according to package directions , about 6 minutes
-04. drain well when done
-05. meanwhile , heat oil in a large wide saucepan over medium-high heat
-06. add meat and mushrooms
-07. stir in worcestershire sauce , dillweed , salt , pepper and nutmeg
-08. stir often with a fork to keep meat crumbly until it is no longer pink , about 5 minutes
-
-recipes with ingredient: cooked egg noodles
-Recipe: chuck wagon skillet
-Minutes: 45
-Tags: 60-minutes-or-less, course, dietary, low-carb, low-in-something, main-dish, one-dish-meal, preparation, time-to-make
-Ingredients: 95% lean ground beef, black olives, celery, cooked egg noodles, mild cheddar cheese, stewed tomatoes, water
-Steps:
-01. brown hamburger & season to taste - drain off any fat
-02. layer the following ingredients to make 2 different layers -
-03. 1 cup of egg noodles per layer , 1 / 2 of the sliced celery , 1 / 2 of the cubed cheese , 1 / 2 of the black olives per layer
-04. top the layers with the stewed tomatoes , and add the 1 / 4 cup water
-05. turn heat to medium unti casserole comes to a steam , then lower heat to low , cover pan and cook for 30 minutes
+01. preheat oven to 350f
+02. mix ingredients together in a large bowl
+03. press dough in a 9x9-inch baking pan and bake for 30 minutes
+04. cool on wire rack
+05. when cool , slice into squares or bars and serve
 
 
 Answer:
 
+Conversation context (previous messages):
+
+Message 1 - User query:
+receitas com açucar
+
+Message 1 - Structured recipe data:
+original_query=receitas com açucar
+detected_language=pt
+translated_query=sugar recipes
+intent=list_by_ingredient
+slot_ingredient=sugar(100.00), coarse sugar(90.00), date sugar(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 1 - Assistant Response:
+**Aqui estão as receitas que utilizam açúcar, açúcar grosso ou açúcar de tâmara.**  
+
+---
+
+## 🍬 Açúcar  
+
+| Receita | Tempo | Tags principais | Ingredientes com açúcar | Passos resumidos |
+|---|---|---|---|---|
+| **Geleia de Morango e Framboesa** | 25 min | até 30 min, americano, frutas vermelhas, brunch, conservas, condimentos, prato, culinária, dietético, fruta, presentes, geleias e conservas | açúcar mascavo, **açúcar**, framboesas congeladas, morangos congelados, pectina líquida, água | 1️⃣ Amassar frutas com água e levar ao fogo médio‑alto. 2️⃣ Quando ferver, acrescentar os açúcares. 3️⃣ Voltar ao fogo alto até ferver vigorosamente, mexendo. 4️⃣ Incorporar a pectina e ferver 1 min. 5️⃣ Retirar do fogo, encher potes, fechar e virar de cabeça para baixo 15 min. 6️⃣ Guardar 6 meses na despensa ou 1 ano na geladeira. |
+| **Creme Congelado** | 260 min | prato, sobremesas, dietético, ovos, ovos‑laticínios, sobremesas congeladas, amigável para crianças, baixo‑em‑algo, baixo‑sódio, ingrediente‑principal, preparação, tempo‑de‑preparo | **açúcar**, ovos, mel, leite, sal, extrato de baunilha, creme de bater | 1️⃣ Bater ovos, leite, **açúcar**, mel e sal. 2️⃣ Cozinhar em fogo baixo, mexendo, até a mistura engrossar e atingir ≥ 71 °C. 3️⃣ Resfriar rapidamente em banho‑de‑gelo. 4️⃣ Refrigerar ≥ 1 h. 5️⃣ Na sorveteira, congelar a mistura com creme e baunilha. 6️⃣ Seguir instruções da máquina (6 partes de gelo : 1 parte de sal grosso). 7️⃣ Transferir para recipientes e congelar até firmar. |
+| **Glacê Astoria** | 20 min | até 30 min, recheios‑e‑coberturas‑de‑bolo, bolos, prato, sobremesas, dietético, amigável para crianças, baixo‑em‑algo, baixo‑proteína, preparação, tempo‑de‑preparo | **açúcar**, manteiga, farinha, leite, sal, extrato de baunilha | 1️⃣ Misturar leite, farinha e sal em panela pequena até ficar liso. 2️⃣ Cozinhar em fogo baixo, mexendo, até engrossar; deixar esfriar. 3️⃣ Bater manteiga e **açúcar** 5 min até ficar bem leve. 4️⃣ Incorporar a mistura de farinha fria, bater até ficar lisa. 5️⃣ Acrescentar a baunilha e usar para cobrir o bolo. |
+| **Frango da Geórgia com Molho de Pêssego** | 60 min | até 60 min, americano, canadense, frango, peitos de frango, coxas‑e‑pernas de frango, prato, culinária, dietético, jantar‑de‑festa, sem‑ovo, equipamento | açúcar mascavo, frango sem pele, farinha, manjericão seco, gengibre, alho, noz‑moscada, azeite, suco de laranja, pêssegos, vinagre, sal e pimenta | 1️⃣ Empanar o frango na farinha temperada e deixar descansar 10 min. 2️⃣ Aquecer óleo e dourar o frango 3‑5 min; escorrer. 3️⃣ Na mesma panela, misturar sucos de pêssego e laranja, açúcar mascavo e demais temperos; ferver 3 min. 4️⃣ Voltar o frango, tampar e cozinhar até estar bem passado (~25 min). |
+| **Arroz Frito Coreano com Kimchi** | 35 min | até 60 min, asiático, prato, culinária, dietético, jantar‑de‑festa, equipamento, saudável, coreano, baixo‑caloria, baixo‑colesterol, baixo‑em‑algo | **açúcar**, arroz cozido, óleo de milho, ovos, bolinho de peixe, cebolinha, repolho napa, lombo de porco, sementes de gergelim, molho de soja | 1️⃣ Aquecer wok; bater os ovos com um pouco de óleo e despejar, mexendo até ficarem em pedaços pequenos; reservar. 2️⃣ Cortar o porco em tiras finas, temperar com molho de soja e **açúcar**, fritar até cozido; reservar. 3️⃣ Refogar arroz, kimchi, legumes e carne; devolver os ovos, misturar bem e servir. |
+
+---
+
+## 🍚 Açúcar Grosso  
+
+| Receita | Tempo | Tags principais | Ingredientes com açúcar grosso | Passos resumidos |
+|---|---|---|---|---|
+| **Coroas Norueguesas** | 48 min | até 60 min, Natal, biscoitos‑e‑brownies, prato, culinária, sobremesas, dietético, ovos‑laticínios, europeu, biscoitos‑formados‑à‑mão, evento‑festivo, ingrediente‑principal | **açúcar grosso**, manteiga, claras, gemas, farinha, sal, **açúcar** | 1️⃣ Preaquecer forno a 204 °C. 2️⃣ Peneirar as gemas cozidas, bater com **açúcar**, sal e gemas cruas. 3️⃣ Alternar manteiga e farinha, misturando após cada adição. 4️⃣ Cobrir e refrigerar até firmar. 5️⃣ Formar cordões, torcer em anéis, passar em clara e depois em **açúcar**. 6️⃣ Assar até dourar. |
+
+---
+
+## 🍯 Açúcar de Tâmara  
+
+| Receita | Tempo | Tags principais | Ingredientes com açúcar de tâmara | Passos resumidos |
+|---|---|---|---|---|
+| **Barrinhas de Banana e Aveia** | 40 min | até 60 min, café da manhã, prato, dietético, fácil, saudável, baixo‑em‑algo, baixo‑sódio, preparação, tempo‑de‑preparo, vegano, vegetariano | **açúcar de tâmara**, bananas, aveia em flocos, passas, coco ralado, purê de maçã sem açúcar, nozes | 1️⃣ Preaquecer forno a 177 °C. 2️⃣ Misturar todos os ingredientes numa tigela grande. 3️⃣ Pressionar a massa em forma 9×9 pol. 4️⃣ Assar 30 min. 5️⃣ Resfriar sobre grade, cortar em quadrados ou barras e servir. |
+
+---
+
+## Outros resultados encontrados  
+
+Nenhuma outra receita contendo **açúcar**, **açúcar grosso** ou **açúcar de tâmara** foi encontrada no conjunto de dados atual.  
+
+---  
+
+*Precisa de mais detalhes sobre alguma receita ou quer sugestões com outro ingrediente?*
+
+Message 2 - User query:
+recipes with sugar
+
+Message 2 - Structured recipe data:
+original_query=recipes with sugar
+detected_language=en
+translated_query=receitas com açúcar
+intent=list_by_ingredient
+slot_ingredient=sugar(100.00), coarse sugar(90.00), date sugar(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 2 - Assistant Response:
+Here are the recipes that contain the sugars you asked about.
+
+---
+
+## 🍬 Sugar  
+| Recipe | Time | Key Tags | Main Ingredients (with sugar) | Brief Steps |
+|---|---|---|---|---|
+| **Strawberry Raspberry Jam** | 25 min | 30‑minutes‑or‑less, American, berries, brunch, canning, condiments, course, cuisine, dietary, fruit, gifts, jams‑and‑preserves | brown sugar, frozen raspberries, frozen strawberries, liquid pectin, **sugar**, water | 1️⃣ Smash berries with water in a pot; 2️⃣ Simmer, add sugars; 3️⃣ Bring to a rolling boil, stir; 4️⃣ Stir in pectin, boil 1 min; 5️⃣ Remove from heat, ladle into sterilized jars; 6️⃣ Seal and invert 15 min; 7️⃣ Store up to 6 months pantry or 1 year fridge. |
+| **Frozen Custard** | 260 min | desserts, dietary, eggs, eggs‑dairy, frozen‑desserts, kid‑friendly, low‑in‑something, low‑sodium, main‑ingredient, preparation, time‑to‑make | eggs, honey, milk, salt, **sugar**, vanilla extract, whipping cream | 1️⃣ Beat eggs, milk, **sugar**, honey, salt; 2️⃣ Cook low, stirring until thick (≥ 160 °F); 3️⃣ Ice‑bath cool; 4️⃣ Chill ≥ 1 h; 5️⃣ Freeze with cream & vanilla in ice‑cream maker; 6️⃣ Follow maker’s instructions (6 parts ice : 1 part rock salt); 7️⃣ Transfer to containers and freeze solid. |
+| **Astoria Frosting** | 20 min | 30‑minutes‑or‑less, cake‑fillings‑and‑frostings, cakes, desserts, dietary, kid‑friendly, low‑in‑something, low‑protein, preparation, time‑to‑make | butter, flour, milk, salt, **sugar**, vanilla extract | 1️⃣ Mix milk, flour, salt; heat until thick; 2️⃣ Cool; 3️⃣ Cream butter & **sugar** 5 min; 4️⃣ Beat in cooled flour mixture; 5️⃣ Add vanilla; 6️⃣ Use to frost a cake. |
+| **Georgia Chicken with Peach Sauce** | 60 min | 60‑minutes‑or‑less, American, Canadian, chicken, chicken‑breasts, chicken‑thighs‑legs, dietary, dinner‑party, egg‑free, equipment | brown **sugar**, dried basil, flour, fresh ginger, garlic, nutmeg, olive oil, orange juice, peaches, salt & pepper, skinless chicken breasts, vinegar | 1️⃣ Dredge chicken in seasoned flour, rest 10 min; 2️⃣ Heat oil, brown chicken 3‑5 min; 3️⃣ Drain; 4️⃣ Whisk peach & orange juices, add remaining sauce ingredients, boil 3 min; 5️⃣ Return chicken, cover, cook until done (~25 min). |
+| **Korean Kimchi Fried Rice** | 35 min | 60‑minutes‑or‑less, Asian, Korean, healthy, low‑calorie, low‑cholesterol, low‑in‑something, dinner‑party, equipment, dietary | cooked rice, corn oil, eggs, fish cake, green onions, napa cabbage, pork loin, sesame seeds, soy sauce, **sugar** | 1️⃣ Scramble eggs in wok, set aside; 2️⃣ Stir‑fry pork seasoned with soy sauce & **sugar**; 3️⃣ Add rice, veggies, fish cake, sesame seeds; 4️⃣ Return eggs, mix well; 5️⃣ Serve hot. |
+
+---
+
+## 🍚 Coarse Sugar  
+| Recipe | Time | Key Tags | Main Ingredients (with coarse sugar) | Brief Steps |
+|---|---|---|---|---|
+| **Norwegian Crowns** | 48 min | 60‑minutes‑or‑less, Christmas, cookies‑and‑brownies, desserts, dietary, eggs‑dairy, European, hand‑formed‑cookies, holiday‑event, main‑ingredient | butter, **coarse sugar**, egg white, egg yolks, flour, salt, **sugar** | 1️⃣ Preheat oven 400 °F; 2️⃣ Sieve egg yolks, beat with **sugar**, salt, yolks; 3️⃣ Alternate butter & flour, mix; 4️⃣ Chill dough; 5️⃣ Roll into ropes, form rings; 6️⃣ Dip in egg white then **sugar**; 7️⃣ Bake until golden. |
+
+---
+
+## 🍯 Date Sugar  
+| Recipe | Time | Key Tags | Main Ingredients (with date sugar) | Brief Steps |
+|---|---|---|---|---|
+| **Yummy Banana Oat Bars** | 40 min | 60‑minutes‑or‑less, breakfast, easy, healthy, low‑in‑something, low‑sodium, preparation, time‑to‑make, vegan, vegetarian, dietary | bananas, **date sugar**, old‑fashioned oats, raisins, shredded coconut, unsweetened applesauce, walnuts | 1️⃣ Preheat oven 350 °F; 2️⃣ Mix all ingredients; 3️⃣ Press into 9×9‑in pan; 4️⃣ Bake 30 min; 5️⃣ Cool on rack, slice into bars. |
+
+---
+
+## Other results found
+No additional recipes containing sugar, coarse sugar, or date sugar were found in the current data set.  
+
+---  
+
+*Feel free to ask for more details on any recipe, or request recipes with other ingredients or cooking times!*
+
+Message 3 - User query:
+receitas com açucar
+
+Message 3 - Structured recipe data:
+original_query=receitas com açucar
+detected_language=pt
+translated_query=sugar recipes
+intent=list_by_ingredient
+slot_ingredient=sugar(100.00), coarse sugar(90.00), date sugar(90.00)
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 3 - Assistant Response:
+**Receitas que utilizam açúcar**
+
+---
+
+### Açúcar  
+| Receita | Tempo | Tags (traduzidas) | Ingredientes (traduzidos) | Passos resumidos |
+|---|---|---|---|---|
+| **Geleia de Morango e Framboesa** | 25 min | 30 minutos ou menos, americano, frutas vermelhas, brunch, conserva, condimentos‑etc, prato, cozinha, dietético, fruta, presentes, geleias e conservas | açúcar mascavo, framboesas congeladas, morangos congelados, pectina líquida, **açúcar**, água | 1. Preparar 6 potes de geleia; amassar frutas e colocar na panela com água. 2. Levar ao fogo médio‑alto, acrescentar os açúcares. 3. Ferver em fogo alto, mexendo. 4. Incorporar a pectina, ferver 1 min. 5. Retirar do fogo, encher os potes. 6. Tampar, virar de cabeça para baixo 15 min, depois endireitar. 7. Guardar 6 meses em despensa ou 1 ano na geladeira. |
+| **Creme Congelado** | 260 min | prato, sobremesas, dietético, ovos, ovos‑laticínios, sobremesas congeladas, amigável para crianças, baixo‑em‑algo, baixo‑sódio, ingrediente‑principal, preparação, tempo‑de‑preparo | ovos, mel, leite, sal, **açúcar**, extrato de baunilha, creme de bater | 1. Bater ovos, leite, **açúcar**, mel e sal. 2. Cozinhar em fogo baixo, mexendo, até engrossar e atingir ≥ 71 °C. 3. Resfriar rapidamente em banho‑de‑gelo. 4. Refrigerar ≥ 1 h. 5. Na hora de congelar, colocar a mistura, o creme de bater e a baunilha na sorveteira. 6. Congelar conforme instruções (6 partes de gelo : 1 parte de sal grosso). 7. Transferir para recipientes e congelar até firmar. |
+| **Glacê Astoria** | 20 min | 30 minutos ou menos, coberturas‑e‑recheios‑de‑bolo, bolos, prato, sobremesas, dietético, amigável para crianças, baixo‑em‑algo, baixo‑em‑proteína, preparação, tempo‑de‑preparo | manteiga, farinha, leite, sal, **açúcar**, extrato de baunilha | 1. Misturar leite, farinha e sal em panela pequena até ficar liso. 2. Cozinhar em fogo baixo, mexendo, até engrossar. 3. Resfriar. 4. Bater manteiga e **açúcar** até ficar muito leve (≈ 5 min). 5. Incorporar a mistura de farinha fria até ficar lisa. 6. Acrescentar a baunilha. 7. Usar para cobrir um bolo. |
+| **Frango da Geórgia com Molho de Pêssego** | 60 min | até 60 min, americano, canadense, frango, peitos de frango, coxas‑e‑pernas de frango, prato, cozinha, dietético, jantar‑de‑festa, sem‑ovo, equipamento | **açúcar** mascavo, folhas de manjericão seco, farinha, gengibre fresco, alho, noz‑moscada, azeite de oliva, suco de laranja, pêssegos, sal e pimenta, peitos de frango sem pele, vinagre | 1. Empanar o frango na farinha temperada, deixar secar 10 min. 2. Aquecer óleo até ficar bem quente. 3. Dourar o frango 3‑5 min, virar. 4. Escorrer em papel toalha. 5. Garantir 1 c.s. de óleo na panela; acrescentar se necessário. 6. Reduzir fogo, bater sucos de pêssego e laranja. 7. Acrescentar demais ingredientes, ferver 3 min. 8. Voltar o frango, tampar e cozinhar até estar bem passado (≈ 25 min). |
+| **Arroz Frito Coreano com Kimchi** | 35 min | até 60 min, asiático, prato, cozinha, dietético, jantar‑de‑festa, equipamento, saudável, coreano, baixo‑caloria, baixo‑colesterol, baixo‑em‑algo | arroz cozido, óleo de milho, ovos, bolinho de peixe, cebolinhas, repolho napa, lombo de porco, sementes de gergelim, molho de soja, **açúcar** | 1. Aquecer wok ou frigideira. 2. Bater 2 ovos com um pouco de óleo e despejar no wok. 3. Mexer com espátula de madeira, quebrando em pedaços pequenos. 4. Retirar e reservar. 5. Cortar o porco em tiras finas. 6. Temperar com molho de soja e **açúcar**. 7. Fritar o porco até cozinhar; retirar e reservar. |
+| **Coroas Norueguesas** | 48 min | até 60 min, Natal, biscoitos‑e‑brownies, prato, cozinha, sobremesas, dietético, ovos‑laticínios, europeu, biscoitos‑moldados‑à‑mão, evento‑festivo, ingrediente‑principal | manteiga, **açúcar** grosso, clara de ovo, gemas de ovo, farinha, sal, **açúcar** | 1. Preaquecer forno a 204 °C. 2. Passar as gemas cozidas firmes por peneira. 3. Acrescentar **açúcar**, sal e gemas cruas; bater bem. 4. Alternar manteiga e farinha, misturando após cada adição. 5. Cobrir e refrigerar até ficar firme. 6. Formar cordões (≈ 0,6 cm × 12,5 cm) e anéis. 7. Passar na clara de ovo e depois no **açúcar**, colocar em assadeiras. |
+| **Barrinhas de Banana e Aveia** | 40 min | até 60 min, café da manhã, prato, dietético, fácil, saudável, baixo‑em‑algo, baixo‑sódio, preparação, tempo‑de‑preparo, vegano, vegetariano | bananas, **açúcar** de tâmara, aveia em flocos, passas, coco ralado sem açúcar, purê de maçã sem açúcar, nozes | 1. Preaquecer forno a 177 °C. 2. Misturar tudo numa tigela grande. 3. Pressionar a massa em forma quadrada (23 cm) e assar 30 min. 4. Resfriar sobre grade. 5. Cortar em quadrados ou barras e servir. |
+
+---
+
+### Açúcar Grosso  
+* **Coroas Norueguesas** – 48 min (mesma receita acima, onde o açúcar grosso é um dos ingredientes principais).  
+
+---
+
+### Açúcar de Tâmara  
+* **Barrinhas de Banana e Aveia** – 40 min (mesma receita acima, usando açúcar de tâmara).  
+
+---
+
+## Outros resultados encontrados
+Nenhuma outra receita contendo **açúcar**, **açúcar grosso** ou **açúcar de tâmara** foi encontrada além das listadas nas seções acima.  
+
+---  
+
+*Se precisar de mais sugestões, experimente perguntar:*  
+- “receitas com mel”  
+- “receitas em até 30 minutos”  
+- “receitas de sobremesa vegana”.

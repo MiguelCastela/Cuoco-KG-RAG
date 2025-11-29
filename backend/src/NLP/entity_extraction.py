@@ -39,6 +39,13 @@ warnings.filterwarnings("ignore", message="Language pt package default expects m
 
 EX = Namespace("http://example.org/recipes#")
 
+STOPWORDS = {
+    "en": {"with","of","the","a","an","and","or","for","to","in","on","at","by",
+           "recipe","recipes"},  # added
+    "pt": {"com","de","do","da","das","dos","e","ou","para","em","no","na","nos","nas",
+           "receita","receitas"},  # added
+}
+DOMAIN_NOISE = {"recipe","recipes","receita","receitas","ingredientes","ingredients"}
 
 THRESHOLDS = {
     "recipe_name": 75,   
@@ -56,6 +63,73 @@ TIME_PATTERNS = [
     re.compile(r"\b(?P<h>\d{1,2})\s*h\s*(?P<m>\d{1,2})\s*m?\b", re.I),
     re.compile(r"\b(?P<h>\d{1,2}):(?P<m>\d{1,2})\b"),
 ]
+
+def content_tokens(chunks, lang, translate_to: Optional[str] = None, bag_mode: bool = False, original_text: Optional[str] = None):
+    """
+    Normalize query chunks into canonical token order.
+    Steps:
+      1. Translate each chunk (if translate_to is specified)
+      2. Remove stopwords
+      3. Sort tokens alphabetically for canonical order
+
+    When bag_mode=True:
+      - Bag all tokens from: original chunks, per-chunk translations, AND full original_text + its translation.
+    """
+    stop = STOPWORDS.get(lang, set())
+    if not chunks and not original_text:
+        return []
+
+    if not bag_mode:
+        keep = []
+        for chunk in chunks or []:
+            text = chunk
+            # Step 1: translate first
+            if translate_to and translate_to != lang:
+                text = translate_between(text, lang, translate_to)
+
+            # Step 2: lowercase & tokenize
+            words = re.findall(r"\b\w+\b", text.lower())
+
+            # Step 3: remove stopwords
+            words = [w for w in words if w not in stop and w not in DOMAIN_NOISE]
+
+            if words:
+                # Step 4: canonical token order
+                words = sorted(words)
+                keep.append(" ".join(words))
+        return keep
+
+    # bag mode
+    bag = {}
+    def add_tokens(txt: str, lang_for_stop: str):
+        if not txt:
+            return
+        local_stop = STOPWORDS.get(lang_for_stop, set())
+        for w in re.findall(r"\b\w+\b", txt.lower()):
+            if w in local_stop or w in DOMAIN_NOISE:
+                continue
+            key = strip_accents(w)
+            # prefer PT-accented form
+            if key not in bag or (has_portuguese_chars(w) and not has_portuguese_chars(bag[key])):
+                bag[key] = w
+
+    # 1) Original chunks (no per-chunk translation)
+    for c in chunks or []:
+        add_tokens(c, lang)
+
+    # 2) Full original_text + single full-text translation
+    if original_text:
+        add_tokens(original_text, lang)
+        if translate_to and translate_to != lang:
+            try:
+                full_t = translate_between(original_text, lang, translate_to)
+                # use stopwords of target language on translated text
+                add_tokens(full_t, translate_to)
+            except Exception:
+                pass
+
+    # Canonical order by accent-stripped key
+    return [bag[k] for k in sorted(bag.keys())]
 
 def detect_language(text: str) -> str:
     """
@@ -321,8 +395,7 @@ def extract_candidates(text: str, nlp):
     noun_chunks.extend([q for q in quoted])
 
     # Filter generic words
-    blacklist = {"ingredientes", "ingredients", "recipe", "receita", "receitas", "com", "para", "a"}
-    noun_chunks = [c for c in noun_chunks if c.lower() not in blacklist]
+    noun_chunks = [c for c in noun_chunks if c.lower()]
 
     # Deduplicate preserving order
     seen = set()
@@ -338,85 +411,82 @@ def extract_candidates(text: str, nlp):
 
 # 5. LINKING (intent-aware, PT-first)
 def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) -> Dict[str, Any]:
-    chunks: List[str] = candidates["candidate_chunks"]
-    # Only keep cooking_time if intent is list_by_time
-    cooking_time_raw = candidates["cooking_time"] if intent == "list_by_time" else None
+    # detect from chunks, fallback to unknown text
+    candidate_text = candidates.get("doc").text if candidates.get("doc") is not None else " ".join(candidates.get("candidate_chunks", []))
+    lang = detect_language(" ".join(candidates.get("candidate_chunks", [])) or candidate_text)
+    if lang not in {"pt","en"}:
+        lang = "pt" if has_portuguese_chars(candidate_text) else "en"
+    other_lang = "en" if lang == "pt" else "pt"
+
+    bag_mode = intent in {"list_by_ingredient","list_by_tag"}
+    chunks = content_tokens(
+        candidates.get("candidate_chunks", []),
+        lang,
+        translate_to=other_lang,
+        bag_mode=bag_mode,
+        original_text=candidate_text,  # NEW: always include full text and its translation
+    )
+
+    cooking_time_raw = candidates.get("cooking_time") if intent == "list_by_time" else None
     out = {"ingredient": [], "recipe_name": [], "tag": [], "cooking_time": cooking_time_raw}
 
-    # Heuristic: detect whether the user text is Portuguese (presence of pt chars or PT tokens)
     text_join = " ".join(chunks).lower() if chunks else ""
     prefer_pt = has_portuguese_chars(text_join)
 
-    # If intent is time-related explicitly, only extract cooking time using regex patterns
     if intent == "list_by_time":
-        # Only use explicitly parsed time from the user's text.
-        # Do NOT infer minutes from KG labels/tags to avoid accidental defaults (e.g., 30).
-        if cooking_time_raw is not None:
-            out["cooking_time"] = cooking_time_raw
-        else:
-            out["cooking_time"] = None
+        out["cooking_time"] = cooking_time_raw
         return out
 
     if intent == "list_by_ingredient":
-        for c in chunks:
-            matches = kg.search("ingredients", c, limit=3, score_cutoff=THRESHOLDS["ingredient"], prefer_pt=prefer_pt)
+        for tok in chunks:
+            matches = kg.search("ingredients", tok, limit=3,
+                                score_cutoff=THRESHOLDS["ingredient"],
+                                prefer_pt=prefer_pt)
             out["ingredient"].extend(matches)
         return out
 
     if intent == "list_by_tag":
-        # Tag domain filtering: only search tags
-        # Dynamic lowering of threshold for time-related generic phrases to allow fuzzy match to time tags.
-        lowered = any(strip_accents(c).startswith(x) or x in strip_accents(c) for x in ["tempo", "rapido", "rapida", "rapidas", "pouco tempo"] for c in chunks)
-        tag_cutoff = 70 if lowered else THRESHOLDS["tag"]
-        for c in chunks:
-            matches = kg.search("tags", c, limit=3, score_cutoff=tag_cutoff, prefer_pt=prefer_pt)
+        tag_cutoff = THRESHOLDS["tag"]
+        for tok in chunks:
+            matches = kg.search("tags", tok, limit=3,
+                                score_cutoff=tag_cutoff,
+                                prefer_pt=prefer_pt)
             out["tag"].extend(matches)
-        # Add synonym expansions (synthetic high-score tags) for time expressions
         out["tag"].extend(_expand_time_tag_synonyms(chunks))
         return out
 
-    if intent in {"find_recipe", "retrieve_ingredients", "get_prep_time"}:
-        # Try to match best recipe name from longest chunks
+    # Recipe-oriented intents keep multiword structure (use original chunk processing)
+    if not bag_mode:
+        # chunks already multi-token joined per original logic
         for c in sorted(chunks, key=len, reverse=True):
-            matches = kg.search("recipes", c, limit=1, score_cutoff=THRESHOLDS["recipe_name"], prefer_pt=prefer_pt)
+            matches = kg.search("recipes", c, limit=1,
+                                score_cutoff=THRESHOLDS["recipe_name"],
+                                prefer_pt=prefer_pt)
             if matches:
                 out["recipe_name"].append(matches[0])
                 break
         return out
 
-    # fallback: attempt recipe matching
-    for c in sorted(chunks, key=len, reverse=True):
-        matches = kg.search("recipes", c, limit=1, score_cutoff=THRESHOLDS["recipe_name"], prefer_pt=prefer_pt)
+    # If bag_mode but recipe intent (fallback): attempt longest combined token string
+    if bag_mode and intent in {"find_recipe","retrieve_ingredients","get_prep_time"}:
+        combined = " ".join(chunks)
+        matches = kg.search("recipes", combined, limit=1,
+                            score_cutoff=THRESHOLDS["recipe_name"],
+                            prefer_pt=prefer_pt)
         if matches:
             out["recipe_name"].append(matches[0])
-            break
+        return out
+
+    # fallback
     return out
 
 
 # 6. MASTER FUNCTION (compatible with your pipeline)
 # Minimal accent/spelling normalization (fast) for frequent Portuguese misspellings
-_PT_FIX = {
-    "acorda": "açorda",
-    "faceis": "fáceis",
-    "facil": "fácil",
-    "facilmente": "facilmente",
-    "quejo": "queijo",
-    "bras": "brás",
-    "braz": "brás",
-}
 
 # Protected culinary terms we prefer not to be mistranslated
 _PROTECTED_PT_TERMS = {"açorda", "bacalhau", "brás", "braz"}
 
-def _restore_accents_pt(text: str) -> str:
-    def repl(m):
-        w = m.group(0)
-        lw = w.lower()
-        fixed = _PT_FIX.get(lw)
-        if not fixed:
-            return w
-        return fixed if w.islower() else fixed.capitalize()
-    return re.sub(r"\b\w+\b", repl, text)
 
 def _protect_terms(original: str, translated: str) -> str:
     """
@@ -444,8 +514,6 @@ def translate_between(text: str, src_lang: str, tgt_lang: str) -> str:
     if src_lang not in {"pt", "en"} or tgt_lang not in {"pt", "en"}:
         return text
     prep = text
-    if src_lang == "pt":
-        prep = _restore_accents_pt(prep)
     translated = _argos_translate.translate(prep, src_lang, tgt_lang)
     if src_lang == "pt":
         translated = _protect_terms(prep, translated)
@@ -467,47 +535,41 @@ def _merge_scored_lists(a, b):
 
 #pipeline-compatible function
 def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
-    """
-    Detect language (PT/EN), run the pipeline on original and translated queries,
-    and return the highest-confidence matches across both.
-    """
-    # 1) Detect language (PT/EN only)
     lang = detect_language(text)
     if lang not in {"pt", "en"}:
         lang = "pt" if has_portuguese_chars(text) else "en"
     other = "en" if lang == "pt" else "pt"
 
-    # 2) Ensure spaCy pipelines for both languages
     nlp_primary = nlp if getattr(nlp, "lang", None) == lang else build_spacy_pipeline(lang)
-    nlp_secondary = build_spacy_pipeline(other)
-
-    # 3) Extract candidates on original
     candidates_primary = extract_candidates(text, nlp_primary)
 
-    # Removed automatic intent override; intent remains as predicted.
-    linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
+    if intent in {"list_by_ingredient","list_by_tag"}:
+        # Fallback when noun_chunks are empty or fully filtered
+        if not candidates_primary.get("candidate_chunks"):
+            candidates_primary["candidate_chunks"] = _fallback_tokens_from_text(text, lang, other)
 
-    # 4) Translate and run second pass
+        linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
+        return {
+            "ingredient": linked_primary.get("ingredient", []),
+            "recipe_name": linked_primary.get("recipe_name", []),
+            "tag": linked_primary.get("tag", []),
+            "cooking_time": linked_primary.get("cooking_time") if intent == "list_by_time" else None,
+            "detected_language": lang,
+            "original_query": text,
+            "translated_query": translate_between(text, lang, other),
+        }
+
+    # Otherwise keep the dual-pass behavior
     translated_text = translate_between(text, lang, other)
+    nlp_secondary = build_spacy_pipeline(other)
     candidates_secondary = extract_candidates(translated_text, nlp_secondary)
     linked_secondary = link_candidates_to_kg(candidates_secondary, kg, intent=intent)
 
-    # 5) Merge results by highest confidence
     merged = {
-        "ingredient": _merge_scored_lists(
-            linked_primary.get("ingredient", []),
-            linked_secondary.get("ingredient", []),
-        ),
-        "recipe_name": _merge_scored_lists(
-            linked_primary.get("recipe_name", []),
-            linked_secondary.get("recipe_name", []),
-        ),
-        "tag": _merge_scored_lists(
-            linked_primary.get("tag", []),
-            linked_secondary.get("tag", []),
-        ),
+        "ingredient": _merge_scored_lists(linked_primary.get("ingredient", []), linked_secondary.get("ingredient", [])),
+        "recipe_name": _merge_scored_lists(linked_primary.get("recipe_name", []), linked_secondary.get("recipe_name", [])),
+        "tag": _merge_scored_lists(linked_primary.get("tag", []), linked_secondary.get("tag", [])),
         "cooking_time": linked_primary.get("cooking_time") or linked_secondary.get("cooking_time") if intent == "list_by_time" else None,
-        # Optional extras (safe to ignore downstream)
         "detected_language": lang,
         "original_query": text,
         "translated_query": translated_text,
@@ -537,3 +599,23 @@ def _expand_time_tag_synonyms(chunks: List[str]) -> List[tuple[str, float]]:
             for tag in _TIME_TAG_SYNONYMS[key]:
                 out.append((tag, 96.0))  # high confidence synthetic match
     return out
+
+def _fallback_tokens_from_text(text: str, lang: str, other_lang: str) -> List[str]:
+    stop = STOPWORDS.get(lang, set())
+    bag = {}
+    def add(txt: str):
+        for w in re.findall(r"\b\w+\b", txt.lower()):
+            if w in stop or w in DOMAIN_NOISE:
+                continue
+            key = strip_accents(w)
+            # prefer PT-accented form
+            if key not in bag or (has_portuguese_chars(w) and not has_portuguese_chars(bag[key])):
+                bag[key] = w
+    add(text)
+    try:
+        t = translate_between(text, lang, other_lang)
+        add(t)
+    except Exception:
+        pass
+    return [bag[k] for k in sorted(bag.keys())]
+
