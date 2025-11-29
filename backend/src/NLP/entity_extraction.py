@@ -48,12 +48,12 @@ STOPWORDS = {
 DOMAIN_NOISE = {"recipe","recipes","receita","receitas","ingredientes","ingredients"}
 
 THRESHOLDS = {
-    "recipe_name": 75,   
+    "recipe_name": 70,   
     "ingredient": 85,    
     "tag": 90,           
 }
 # If candidate contains explicit Portuguese features, boost preference
-PT_PREF_BOOST = 5 
+PT_PREF_BOOST = 1
 
 
 # 1. COOKING TIME REGEX
@@ -410,6 +410,12 @@ def extract_candidates(text: str, nlp):
 
 
 # 5. LINKING (intent-aware, PT-first)
+def _token_contains(a: str, b: str) -> bool:
+    # accent-insensitive containment
+    sa = strip_accents(a)
+    sb = strip_accents(b)
+    return sb in sa or sa in sb
+
 def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) -> Dict[str, Any]:
     # detect from chunks, fallback to unknown text
     candidate_text = candidates.get("doc").text if candidates.get("doc") is not None else " ".join(candidates.get("candidate_chunks", []))
@@ -455,26 +461,38 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
         out["tag"].extend(_expand_time_tag_synonyms(chunks))
         return out
 
-    # Recipe-oriented intents keep multiword structure (use original chunk processing)
-    if not bag_mode:
-        # chunks already multi-token joined per original logic
-        for c in sorted(chunks, key=len, reverse=True):
-            matches = kg.search("recipes", c, limit=1,
-                                score_cutoff=THRESHOLDS["recipe_name"],
-                                prefer_pt=prefer_pt)
-            if matches:
-                out["recipe_name"].append(matches[0])
-                break
-        return out
+    # Recipe-oriented intents: try exact/containment before fuzzy
+    if intent in {"find_recipe", "retrieve_ingredients"}:
+        # 1) Build candidate phrases: original ordered chunks + full text
+        candidate_phrases: list[str] = []
+        # use original noun chunks (preserve order and spacing)
+        candidate_phrases.extend(candidates.get("candidate_chunks", []))
+        # add full original text (better recall)
+        full_text = candidates.get("doc").text if candidates.get("doc") is not None else " ".join(candidates.get("candidate_chunks", []))
+        if full_text:
+            candidate_phrases.append(full_text)
 
-    # If bag_mode but recipe intent (fallback): attempt longest combined token string
-    if bag_mode and intent in {"find_recipe","retrieve_ingredients","get_prep_time"}:
-        combined = " ".join(chunks)
-        matches = kg.search("recipes", combined, limit=1,
-                            score_cutoff=THRESHOLDS["recipe_name"],
-                            prefer_pt=prefer_pt)
-        if matches:
-            out["recipe_name"].append(matches[0])
+        # 2) Exact/containment matches over KG recipe labels
+        primary: list[tuple[str, float]] = []
+        for phrase in sorted(set(candidate_phrases), key=len, reverse=True):
+            for label in kg.recipes:
+                if _token_contains(label, phrase):
+                    primary.append((label, 100.0))
+            if primary:
+                break  # prefer longest phrase exact/containment
+
+        if primary:
+            out["recipe_name"] = primary
+            return out
+
+        # 3) Fuzzy fallback using the longest normalized phrase
+        longest = max(candidate_phrases, key=len) if candidate_phrases else ""
+        if longest:
+            matches = kg.search("recipes", longest,
+                                limit=3,
+                                score_cutoff=max(THRESHOLDS["recipe_name"], 75),
+                                prefer_pt=prefer_pt)
+            out["recipe_name"].extend(matches)
         return out
 
     # fallback
@@ -485,7 +503,7 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
 # Minimal accent/spelling normalization (fast) for frequent Portuguese misspellings
 
 # Protected culinary terms we prefer not to be mistranslated
-_PROTECTED_PT_TERMS = {"açorda", "bacalhau", "brás", "braz"}
+_PROTECTED_PT_TERMS = {"açorda", "brás", "braz"}
 
 
 def _protect_terms(original: str, translated: str) -> str:

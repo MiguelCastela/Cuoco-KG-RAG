@@ -22,462 +22,452 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: quantas receitas tens no historico
+User query: e de bifes de frango?
 
 Description snippets (semantic matches):
-1. (0.462) from portuguesecooking. com.
-2. (0.448) for those of you foodies who would tell me this isn't pure portuguese, please save your breath i already know this, but it is the name given it by people who request it.
-3. (0.436) as is often the case with angolan food, you can find versions of this recipe throughout the former portuguese empire.
+1. (0.464) delizioso!!.
+2. (0.416) adapted from "food of spain and portugal".
 
 Structured recipe data:
-original_query=quantas receitas tens no historico
+original_query=e de bifes de frango?
 detected_language=pt
-translated_query=How many recipes do you have in history?
-intent=list_by_tag
+translated_query=And chicken steaks?
+intent=list_by_time
 slot_ingredient=
 slot_recipe_name=
-slot_tag=sourdough(90.00), ecuadorean(90.00), indonesian(90.00), chowders(90.00)
+slot_tag=
 slot_cooking_time=None
-recipes with tag: sourdough
-Recipe: easy texas sourdough rolls
-Minutes: 30
-Tags: 30-minutes-or-less, breads, course, dietary, easy, for-large-groups, high-calcium, high-in-something, low-cholesterol, low-in-something, number-of-servings, preparation
-Ingredients: bacon drippings, baking powder, baking soda, buttermilk, flour, oil, salt, warm water, white sugar, yeast
-Steps:
-01. in very large bowl , add water and sprinkle yeast over the top
-02. allow to set about 5 minutes until mixture is bubbly
-03. add sugar , oil , buttermilk
-04. mix well
-05. add 3 cups flour , salt , soda , and baking powder
-06. mix well
-07. then add rest of flour
-08. mixture will be thin
-Recipe: amish friendship starter
-Minutes: 14405
-Tags: 1-day-or-more, 5-ingredients-or-less, american, amish-mennonite, breads, course, cuisine, dietary, easy, gifts, healthy, low-cholesterol
-Ingredients: flour, milk, sugar
-Steps:
-01. day 1: in a large glass or plastic bowl , combine 1 cup sugar , 1 cup flour , and 1 cup milk
-02. stir with a wooden spoon
-03. cover loosely with a clean cloth dish towel
-04. keep at room temperature
-05. day 2: using a wooden spoon , stir once a day
-06. day 3: using a wooden spoon , stir once a day
-07. day 4: using a wooden spoon , stir once a day
-08. day 5: add 1 cup sugar , 1 cup flour , and 1 cup milk
 
-recipes with tag: ecuadorean
-Recipe: morocho de leche  or spiced hot milk with corn
-Minutes: 95
-Tags: 4-hours-or-less, beverages, breakfast, corn, course, cuisine, dietary, ecuadorean, eggs-dairy, equipment, granola-and-porridge, kid-friendly
-Ingredients: cinnamon, cloves, dried cracked corn, fresh lemon rind, milk, orange rind, raisins, sugar, vanilla extract
+Recipe: tex mex chicken stack
+Minutes: 35
+Tags: 60-minutes-or-less, appetizers, cheese, chicken, course, dietary, eggs-dairy, equipment, lunch, main-ingredient, meat, oven
+Ingredients: barbecue sauce, cheese, cooked chicken, cumin, flour tortillas, green onion, onions, taco seasoning, water
 Steps:
-01. carefully wash the morocho and soak overnight in at least twice as much water as there is corn
-02. drain the morocho and cook in a little water in a pressure cooker for 15 minutes
-03. in a large saucepan place milk , citrus rinds and clove and bring to a boil
-04. by this time the milk should be perfumed by the spices
-05. add morocho and cook at low heat for an hour
-06. finally , mix in sugar and vanilla
-07. serve hot
-Recipe: camarones guayaquil
-Minutes: 135
-Tags: 4-hours-or-less, 5-ingredients-or-less, appetizers, course, cuisine, dietary, easy, ecuadorean, healthy, low-fat, low-in-something, low-saturated-fat
-Ingredients: fresh ginger, honey, large shrimp, rum
-Steps:
-01. mix the rum , honey and ginger together and pour over the shrimp
-02. marinate for two hours
-03. thread shrimps onto skewers so they remain flat and grill over hot coals turning and brushing with the remaining marinade until just done
-04. you can also saute the shrimps in a saute pan over medium high heat , pouring some of the marinade over the cooking shrimp
-Recipe: shrimp rice
-Minutes: 140
-Tags: 4-hours-or-less, course, cuisine, ecuadorean, equipment, main-dish, main-ingredient, preparation, seafood, shellfish, shrimp, south-american
-Ingredients: achiote powder, bell pepper, butter, canola oil, cumin, garlic cloves, parsley, raw shrimp, red onion, salt and pepper, tomatoes, uncooked rice, white wine
-Steps:
-01. marinate the shrimp with salt , pepper , 1 tsp of cumin , and the crushed garlic , let rest for an hour
-02. bring water to boil in a large pot , add the shrimp and boil for about 2 minutes
-03. remove the shrimp from the water and reserve 3 cups of the water they cooked in to prepare the rice
-04. remove the shells and tails from the shrimp
-05. leave the tails on a few of the shrimp that will be used as a garnish
-06. chop the shrimp that are not being used for the garnish
-07. heat the oil in a large saucepan or pot , add the minced garlic , cook for about 2-3 minutes on medium heat
-08. add the rice to the garlic and oil , mix well until the rice is coated with oil
-Recipe: pollo en salsa de mani
+01. preheat oven to 350 degrees
+02. fry onions in a frying pan until tender crisp
+03. add rest of the ingredients for chicken mixture and simmer until heated through
+04. lay 1 tortilla on a lightly greased baking sheet
+05. cover tortilla with half the chicken mixture and then half the cheese
+06. top with the second tortilla then repeat the chicken and cheese layers
+07. cover with the last tortilla
+08. top with reserved sauce and cheese
+Recipe: georgia chicken with peach sauce
 Minutes: 60
-Tags: 3-steps-or-less, 60-minutes-or-less, chicken, chicken-breasts, cuisine, dietary, easy, ecuadorean, low-carb, low-in-something, low-sodium, main-ingredient
-Ingredients: fresh coriander, garlic cloves, onion, peanut butter, skinless chicken breasts, sweet red pepper, tomato paste, tomatoes
+Tags: 60-minutes-or-less, american, canadian, chicken, chicken-breasts, chicken-thighs-legs, course, cuisine, dietary, dinner-party, egg-free, equipment
+Ingredients: brown sugar, dried basil leaves, flour, fresh ginger, garlic, nutmeg, olive oil, orange juice, peaches, salt and pepper, skinless chicken breasts, vinegar
 Steps:
-01. oil salt and pepper season the chicken breasts with salt and pepper , fry them in oil for a few minutes on both sides , until pale brown
-02. in a separate frying pan , fry the onion , sweet pepper and garlic , adding the fresh tomatoes , tomato paste , coriander and the peanut butter
-03. add the chicken to the sauce , cover , and let cook completely until it is tender , 30 minutes at low to medium heat
-04. stir occasionally
-05. serve with arroz con leche de coco
-Recipe: oven baked sweet plantains
-Minutes: 20
-Tags: 30-minutes-or-less, 5-ingredients-or-less, appetizers, argentine, bananas, beginner-cook, brazilian, caribbean, central-american, chilean, colombian, costa-rican
-Ingredients: cooking spray, plantains
+01. dredge chicken in seasoned flour , shake off and lay on wire rack to dry , abot 10 minutes
+02. heat oil in deep sided saute pan , until it is quite hot
+03. cook chicken , turning to brown evenly , about 3-5 minutes
+04. remove chicken to paper towel to drain
+05. there should be 1 tbsp of oil in pan , if not , add a little more
+06. reduce heat to medium and whisk reserved peach and orange juices until smooth
+07. stir in remaining ingredients , bring to a boil , cook 3 minutes
+08. add chicken to pan , cover and continue to cook until chicken is longer pick in center , about 25 minutes
+Recipe: chutney rum chicken
+Minutes: 65
+Tags: 4-hours-or-less, chicken, chicken-breasts, course, dietary, main-dish, main-ingredient, meat, occasion, poultry, preparation, romantic
+Ingredients: black pepper, boneless skinless chicken breast halves, breadcrumbs, chutney, parmesan cheese, parsley, salt, sliced almonds, unsalted butter, white rum
 Steps:
-01. preheat oven to 450f
-02. coat a nonstick cookie sheet with cooking spray
-03. cut the ends off of the plantains and peel
-04. cut each plantain on the diagonal into 1 / 2 inch slices
-05. arrange in single layer and coat tops with cooking spray
-06. bake , turning occasionally , for 10-15 minutes , until plantains are golden brown and very tender
-
-recipes with tag: indonesian
-Recipe: eggplant stew so great  you ll clean your plate
-Minutes: 70
-Tags: 4-hours-or-less, asian, course, cuisine, dietary, dinner-party, equipment, indonesian, main-dish, main-ingredient, occasion, preparation
-Ingredients: black pepper, canola oil, eggplant, garlic, ground nutmeg, salt, shallots, sweet soy sauce, water, white vinegar
+01. preheat oven to 325f
+02. place 1 tsp chutney in the center of each pounded chicken breast and roll up , folding in the edges as you roll , pinching edges closed
+03. place rum in a bowl
+04. in another bowl combine bread crumbs , cheese , parsley , and salt and pepper to taste
+05. dip each chicken roll first into the rum , then into the crumb mixture to coat
+06. melt butter in a skillet and saute chicken rolls in the butter just to brown lightly , but not cook all the way
+07. place browned rolls into a greased baking dish and drizzle with any of the remaining rum around the edges
+08. seal tightly with foil and bake for 30-35 minutes or until chicken is cooked through
+Recipe: oven baked drumsticks
+Minutes: 75
+Tags: 4-hours-or-less, chicken, chicken-thighs-legs, course, dietary, easy, equipment, holiday-event, kid-friendly, lunch, main-ingredient, meat
+Ingredients: butter, chicken drumsticks, dijon mustard, dried oregano, fresh parsley, fresh white breadcrumbs, onion powder, parmesan cheese, pepper, salt, sweet hungarian paprika
 Steps:
-01. heat 2 tbsps
-02. of oil in a wide skillet on medium flame
-03. add the eggplant slices to the hot oil
-04. lightly saute the eggplant until it is light brownish in colour
-05. remove from flame and drain on clean kitchen paper towels
-06. keep aside
-07. add the remaining oil to the skillet
-08. toss in the shallots and garlic
-Recipe: laurel s mango chutney
-Minutes: 105
-Tags: 3-steps-or-less, 4-hours-or-less, asian, brunch, chutneys, condiments-etc, course, cuisine, dietary, dinner-party, easy, fruit
-Ingredients: cider vinegar, garlic, jalapenos, mangoes, mustard seeds, onions, raisins, salt, sugar
-Steps:
-01. combine sugar and vinegar in a heavy pot and bring to boil
-02. add remaining ingredients and cook over medium heat till thickened , about 1 hour 15 minutes , stirring occasionally
-03. cool and freeze in containers of your choice
-04. i use 1 pint containers
-Recipe: coconut shrimp with sweet soy and chili dipping sauce
-Minutes: 30
-Tags: 30-minutes-or-less, appetizers, asian, course, cuisine, dietary, dinner-party, indonesian, low-in-something, low-sodium, main-ingredient, occasion
-Ingredients: cornstarch, dried red chili pepper, egg whites, fresh ginger, fresh lime juice, garlic clove, ketchup, peanut oil, shrimp, sugar, unsweetened dried shredded coconut
-Steps:
-01. wash and dry the shrimp on paper towels
-02. put cornstarch , egg whites and coconut into three separate bowls
-03. dip shrimp into the cornstarch
-04. shake off the excess
-05. dip into the egg white
-06. dip into the coconut , pressing into the shrimp
-07. heat oil and fry the shrimp until golden brown
-08. after frying , they can be kep warm in a preheated oven at 300 degrees for up toe 30 minutes
-Recipe: risoles  indonesian style of rissole
-Minutes: 60
-Tags: 60-minutes-or-less, appetizers, asian, course, cuisine, dips, indonesian, preparation, time-to-make
-Ingredients: all-purpose flour, beef bouillon cube, breadcrumbs, carrots, celery, egg, flour, garlic cloves, milk, minced beef, onion, pepper, potatoes, salt, spring onion
-Steps:
-01. make the wrapper: take a bowl then combine the flour , salt and egg
-02. gradually add the milk whisk them to make a smooth texture
-03. when it's done , heat up non-stick pan
-04. take about 2 tablespoons of the mixture , pour to the pan and make it thin
-05. cook it with low heat
-06. when the edge of the skin is dry and you can peel off easily , it means it is cooked
-07. set aside
-08. make the filling: heat up the wok , then saut the onion and garlic until fragrant
-Recipe: the best indonesian peanut sauce
-Minutes: 20
-Tags: 30-minutes-or-less, appetizers, asian, beginner-cook, condiments-etc, course, cuisine, dietary, dips, easy, indonesian, inexpensive
-Ingredients: creamy peanut butter, dark brown sugar, fresh lime juice, garlic clove, light coconut milk, low sodium soy sauce, peanut oil, red pepper flakes, shallot, water
-Steps:
-01. heat oil in saucepan over medium-low heat
-02. saute shallot in oil 2 minutes , or until beginning to soften
-03. add garlic and red pepper flakes , and saute 1 minute
-04. whisk in peanut butter , coconut milk , soy sauce , brown sugar , and 1 / 2 cup water until smooth and bring to a boil
-05. simmer about 5 minutes
-06. stir in lime juice
-07. this can be served hot or at room temperature
-08. enjoy !
-
-recipes with tag: chowders
-Recipe: river s copper river chowder
-Minutes: 480
-Tags: 1-day-or-more, american, chowders, comfort-food, corn, course, cuisine, dietary, dinner-party, egg-free, equipment, fish
-Ingredients: bacon, basil, bay leaves, butter, carrots, celery, copper river salmon, corn kernels, dill, fish bones, fish stock, fresh ground black pepper, half-and-half, herbes de provence, lavender
-Steps:
-01. first , make salmon stock: cut up the salmon trim and split it between two large stockpots , unless you have a stockpot large enough to hold everything
-02. cover with water
-03. skim scum as it appears
-04. simmer just until the salmon meat is cooked , then take out the trim and pick all the meat off the bones
-05. reserve the meat and refrigerate
-06. put the bones , fins , and tails back into one of the stockpots
-07. cook on low for an hour or two , skimming off scum
-08. take out the rest of the salmon trim
-Recipe: delicious corn chowder
-Minutes: 55
-Tags: 60-minutes-or-less, american, chowders, corn, course, cuisine, dietary, main-ingredient, north-american, preparation, soups-stews, time-to-make
-Ingredients: carrot, celery, corn kernels, green onions, ground sage, light miso, olive oil, potatoes, red bell peppers, water, white onions
-Steps:
-01. heat oil in soup pot
-02. add onions , celery , carrot and pepper
-03. saute until the veggies begin to soften
-04. add the potatoes and sage
-05. mix the ingredients well and saute another 3 minutes
-06. add water and bring to a boil
-07. cover and simmer over medium-low heat for 10-15 minutes , or until potatoes are tender but not mushy
-08. remove 1 / 2 cup liquid from the pot and dissolve miso in it
-Recipe: cauliflower ham chowder
+01. preheat oven to 350f
+02. butter 2 large baking sheets
+03. combine breadcrumbs , parmesan , parsley , onion powder , paprika , oregano , salt and pepper in large bowl and stir to blend
+04. melt butter in small saucepan over medium-low heat
+05. remove saucepan from heat
+06. add mustard and whisk to blend
+07. brush drumsticks generously with butter mixture and roll in breadcrumb mixture , coating completely
+08. arrange drumsticks on prepared baking sheets
+Recipe: healthy and easy chicken and biscuits casserole
 Minutes: 40
-Tags: 60-minutes-or-less, american, beginner-cook, cauliflower, chowders, comfort-food, course, cuisine, dietary, easy, equipment, fall
-Ingredients: cauliflower florets, chicken bouillon granule, cooked ham, flour, milk, onion, potatoes, water
+Tags: 60-minutes-or-less, beginner-cook, casseroles, chicken, chicken-breasts, course, cuisine, easy, equipment, main-dish, main-ingredient, meat
+Ingredients: celery seed, chicken breasts, dried parsley, dried thyme leaves, frozen broccoli carrots cauliflower mix, low-fat cream of celery soup, low-fat cream of potato soup, paprika, pepper, refrigerated reduced-fat buttermilk biscuits, savory, skim milk
 Steps:
-01. in a large saucepan , simmer potatoes , water , onion and bouillon , covered , for 10 minutes
-02. then , add cauliflower and cook until tender
-03. stir in 2 1 / 2 cups milk , ham and any seasonings of choice , if desired
-04. bring to boiling point
-05. blend 1 / 2 cup milk with flour and stir into hot mixture
-06. cook until thickened
-07. serve , and enjoy !
-Recipe: mimi s cafe corn chowder
-Minutes: 60
-Tags: 60-minutes-or-less, chowders, corn, course, dietary, fall, inexpensive, low-calorie, low-in-something, low-protein, main-ingredient, occasion
-Ingredients: butter, celery, flour, frozen corn kernels, half-and-half cream, hot water, onions, potatoes, salt, sugar, white pepper
+01. blend soups and milk in large skillet on low heat
+02. add herbs and spices and mix well
+03. add cooked cut up chicken and frozen vegetables
+04. heat to warm vegetables and chicken
+05. put in large ovenproof dish and bake in 400 degree oven for 15 minute
+06. take chicken dish out of oven and stir well
+07. cut up biscuits into fourths and top chicken with biscuts
+08. bake another 15 minute until biscuits are browned
+Recipe: bacon   chicken liver pate
+Minutes: 180
+Tags: 4-hours-or-less, appetizers, bacon, chicken, chicken-livers, course, dietary, finger-food, lunch, main-ingredient, meat, pork
+Ingredients: back bacon, butter, button mushrooms, chicken liver, double cream, dry sherry, garlic, lemon juice, onions, parsley, thyme
 Steps:
-01. melt butter in large saucepan
-02. once melted add celery and onion and saute for 5 minutes
-03. add water , potatoes , corn , sugar , salt and pepper , making sure water covers everything , adding more if not covered completely
-04. cover and simmer until potatoes are tender , usually about 30 minutes
-05. whisk flour into 1 cup of the half and half and then stir into soup
-06. add remaining half and half and simmer until soup is thickened to a creamy consistency
-07. season to taste with additional salt and pepper if wanted
-08. if the chowder is too thick , add some milk , if it is too thin , simmer for 5-10 minutes more
-Recipe: creamy corn potato ham chowder  crock pot
-Minutes: 560
-Tags: 3-steps-or-less, chowders, corn, course, crock-pot-slow-cooker, dietary, easy, equipment, ham, main-ingredient, meat, pork
-Ingredients: butter, celery, chicken bouillon cubes, evaporated milk, ham, onions, pepper, potatoes, salt, water, whole kernel corn
+01. melt the butter in a large pan
+02. add the bacon , garlic and onion and cook gently for 3 minutes
+03. stir in the chicken livers and cook for 5 minutes
+04. season liberally with salt and pepper
+05. stir in the herbs and mushrooms
+06. add the sherry and cook until the liquid has evaporated
+07. cool , then work in an electric blender until smooth
+08. stir in the cream and lemon juice
+Recipe: rumaki
+Minutes: 400
+Tags: appetizers, asian, bacon, chicken, chicken-livers, course, cuisine, dietary, equipment, finger-food, japanese, low-carb
+Ingredients: bacon, brown sugar, chicken liver, cooking oil, dry sherry, fresh ginger, garlic, sliced water chestnuts, soy sauce, toasted sesame oil, toothpicks
 Steps:
-01. in slow cooker place the potatoes , onions , ham , celery , corn , butter or margarine and salt and pepper
-02. add water to cover and add two bouillon cubes
-03. cook on low setting for 8 - 9 hours
-04. stir in the evaporated milk , and continue to cook for 30 more minutes
-
+01. mix together the soy , sherry , 3 t of brown sugar , garlic , ginger , and oils in a resealable plastic bag
+02. add chicken livers and mix gently
+03. refrigerate 6 hours or overnight
+04. preheat broiler or over grill to high
+05. drain marinade from chicken livers , reserving 1 / 4 cup
+06. chop larger chicken livers in half or thirds
+07. cut each bacon slice into 2 pieces
+08. place 1 slice of water chestnut on top of each 1 / 2 piece of bacon
+Recipe: chopped chicken liver
+Minutes: 25
+Tags: 30-minutes-or-less, appetizers, chicken, chicken-livers, comfort-food, course, cuisine, dietary, dinner-party, equipment, european, jewish-ashkenazi
+Ingredients: cayenne pepper, chicken livers, extra large eggs, fat, fresh ground pepper, fresh parsley leaves, fresh thyme leaves, kosher salt, madeira wine, yellow onions
+Steps:
+01. drain and pat the livers dry saute them in 2 batches in 2 tablespoons of rendered fat over med-high heat
+02. turning once , for about 5 minutes , or until just barley pink inside
+03. transfer them to a large bowl
+04. don't overcook or livers will be dry
+05. in the same pan , saute the onions in 3 tablespoons of chicken fat over med-high heat for about 10 minutes or until browned
+06. add the madeira and deglaze the pan , scraping the sides for about 15 seconds
+07. pour into the bowl with livers
+08. add the eggs , parsley , thyme , salt , black pepper , cayenne and remaining chicken fat to the bowl
+Recipe: chicken livers w caramelized onion and madeira
+Minutes: 32
+Tags: 60-minutes-or-less, american, brunch, chicken, chicken-livers, comfort-food, course, cuisine, dietary, equipment, low-calorie, low-carb
+Ingredients: chicken livers, cooking oil, fresh ground black pepper, fresh parsley, hard-boiled egg, madeira wine, onions, salt, sugar
+Steps:
+01. in a frying pan , heat 2 tablespoons of the oil over moderate heat
+02. add the onions , 1 / 2 tsp salt , 1 / 8 tsp pepper and sugar
+03. cook , stirring frequently , until the onions are well browned , about 15 minutes
+04. remove the onions from the pan and put on a serving platter or individual plates and keep warm
+05. in the same frying pan , heat the remaining 1 tablespoon of oil over moderately high heat
+06. season the chicken livers with the remaining salt & pepper
+07. put the livers in the pan , in two batches if necessary , and cook for 2 minutes
+08. turn and cook until browned , about 2 minutes longer
+Recipe: portuguese piri piri chicken livers
+Minutes: 20
+Tags: 30-minutes-or-less, chicken, chicken-livers, course, cuisine, european, inexpensive, main-dish, main-ingredient, meat, portuguese, poultry
+Ingredients: bay leaf, chicken liver, garlic cloves, ground birds eye peppers, ground black pepper, ground cloves, ground cumin, ground paprika, olive oil, onion, table salt, white wine
+Steps:
+01. saute the chopped onion and crushed garlic in olive oil in a large pan
+02. add all ingredients except the wine & chicken livers
+03. add chicken livers and fry over medium heat until browned
+04. add the white wine and simmer on gentle heat until done
+05. serve with rice or bread
+Recipe: black and white chile
+Minutes: 90
+Tags: 4-hours-or-less, chicken, chili, course, dietary, main-dish, main-ingredient, meat, poultry, preparation, time-to-make, whole-chicken
+Ingredients: bell pepper, black pepper, cumin, dried black beans, dried navy beans, dried oregano, flour, fresh cilantro, fryer chicken, garlic, green chilies, olive oil, red pepper flakes, salt, yellow onions
+Steps:
+01. rinse and drain the beans in separate pots , cover the beans with about an inch of cold water and bring to a boil
+02. cover the boiling pots and remove from the heat
+03. allow them to soak off heat , for 2 hours
+04. put the chicken pieces in a stock pot and cover with about 2 inches of cold water , bring to a boil then simmer for about an hour
+05. remove the chicken and allow to cool , bone it and chop to about 1 / 4 inch
+06. drain each of the bean pots and add your new chicken stock to each to cover the beans by at least 1 inch
+07. if theres not enough stock , add water
+08. bring the beans to a boil , then reduce to a simmer and cook until each is just getting tender
+Recipe: chardonnay chicken   wild mushroom stew
+Minutes: 95
+Tags: 4-hours-or-less, american, chicken, course, cuisine, dinner-party, equipment, main-dish, main-ingredient, meat, mushrooms, north-american
+Ingredients: boiling water, boneless chicken breasts, cayenne pepper, chardonnay wine, cornstarch, cremini mushroom, dijon mustard, dried porcini mushrooms, dried tarragon, fresh parsley, heavy cream, instant rice, lemon juice, olive oil, pepper
+Steps:
+01. in a dutch oven or stockpot , heat 1 / 2 tablespoon olive oil over med-high heat
+02. saut chicken with dijon mustard , 1 / 4 teaspoon salt , and 1 / 8 teaspoon pepper , until golden brown
+03. in a small bowl , soak dried porcinis in boiling water until soft
+04. remove chicken to a plate
+05. pour in the wine and bring to a boil , scraping up any bits of chicken left in the pan
+06. return the chicken and add the stock , 1 / 4 teaspoon each tarragon , salt , and pepper
+07. cover pan , and let simmer over med-low heat until chicken is tender
+08. remove the porcini from their soaking liquid , and squeeze them out over the bowl to remove excess liquid
+Recipe: erin s orange roasted chicken
+Minutes: 70
+Tags: 4-hours-or-less, beginner-cook, chicken, comfort-food, course, dietary, easy, equipment, fall, fruit, heirloom-historical, holiday-event
+Ingredients: butter, garlic cloves, orange, orange juice, roasting chickens, salt and pepper
+Steps:
+01. clean chicken and pat dry
+02. rub skin with half of 1 orange
+03. stuff cavity of chicken with 2 orange halves , garlic cloves and the butter
+04. roast at 350f for 22 minutes for each pound
+05. make sauce by adding orange juice to the pan drippings and reducing by half
+Recipe: the lady s chicken noodle soup   paula deen
+Minutes: 85
+Tags: 4-hours-or-less, bisques-cream-soups, chicken, comfort-food, course, cuisine, diabetic, dietary, easy, european, italian, main-ingredient
+Ingredients: bay leaves, broiler-fryer chickens, carrots, celery, chicken bouillon cubes, cooking sherry, egg noodles, french bread, fresh ground black pepper, fresh rosemary leaves, garlic cloves, heavy cream, italian seasoning, kosher salt, lemon pepper seasoning
+Steps:
+01. for the stock:
+02. add all ingredients to a soup pot
+03. cook until chicken is tender , about 35-45 minutes
+04. remove chicken from pot and set aside to cool
+05. remove and discard bay leaves and onion
+06. you should have approximately 3 quarts of stock
+07. when chicken is cool enough to touch , pick bones clean , discarding bone , skin and cartilage
+08. set chicken aside
+Recipe: chicken   chile pepper stew
+Minutes: 170
+Tags: 4-hours-or-less, american, chicken, course, cuisine, dietary, dinner-party, equipment, fall, healthy-2, low-calorie, low-carb
+Ingredients: bay leaves, black pepper, carrots, cayenne pepper, celery, chilies, evaporated milk, fresh dill, fresh parsley, garlic cloves, ground cumin, hard-boiled eggs, lime juice, new potatoes, onion
+Steps:
+01. in a large stockpot , bring the chicken , onion , carrots , celery , dill , parsley , bay , peppercorns , cayenne pepper , salt , and water to a boil
+02. decrease heat to low and simmer until the chicken is tender
+03. remove chicken from pot and set aside to cool
+04. let stock continue to simmer for another 15 minutes , then strain into a clean stockpot and set aside
+05. using two forks , shred the chicken
+06. in a small mixing bowl , combine the orange juice and lime juice
+07. break the chiles into pieces and soak in the juice mixture for 20 minutes
+08. transfer to a blender and blend until smooth
+Recipe: grilled steak
+Minutes: 25
+Tags: 30-minutes-or-less, american, barbecue, beef, course, cuisine, dietary, easy, equipment, grilling, main-dish, main-ingredient
+Ingredients: black pepper, brown sugar, crushed pineapple, crystallized ginger, garlic, onions, port wine, steak, teriyaki sauce
+Steps:
+01. place all ingredients except for steak in storage bag and give a shake to mix marinade
+02. add steak and marinade 6-8 hours or even overnight
+03. remove steak from marinade
+04. bring steak to room temperature
+05. place marinade in a small saucepan add 2 tablespoons port and simmer 5-10 minutes
+06. grill steak on a medium high heat for 4-6 minutes each side
+07. let steak sit for 10 minutes before slicing and serve along with the hot sauce
+Recipe: filet mignon marinated
+Minutes: 210
+Tags: 4-hours-or-less, barbecue, beef, course, dietary, equipment, grilling, main-dish, main-ingredient, meat, preparation, steaks
+Ingredients: beef tenderloin steaks, dried oregano, garlic powder, lemon pepper seasoning, olive oil, seasoning salt
+Steps:
+01. combine first 5 ingredients in a large shallow container
+02. add steaks
+03. cover and marinate 3 hours in refrigerater turning occasionally
+04. remove steaks from marinade
+05. grill over hot coals 5 to 7 minutes on each side or until desired doneness
+Recipe: tournedos au poivre et champignons filet au poivre w mushrooms
+Minutes: 80
+Tags: 4-hours-or-less, beef, course, cuisine, dinner-party, european, french, main-dish, main-ingredient, meat, mushrooms, occasion
+Ingredients: butter, cognac, filet mignon, mushroom, parsley, peppercorn, salt, whipping cream
+Steps:
+01. mash peppercorns with a mallet or the back of a heavy pan
+02. press each side of the fillets into the cracked peppercorns and let the beef stand about an hour to absorb the flavor
+03. heat the butter and add the beef and sear about 8 minutes per side for rare , 10 for medium , 12 for well done
+04. remove the steaks to a platter and allow to rest
+05. add cognac to the pan and heat for just a few seconds and then set ablaze
+06. option 1: boil the liquid about a minute then stir in additional butter , salt and cream
+07. bring to a boil , reduce heat , add mushrooms and saute till mushrooms are soft
+08. pour over fillets and sprinkle with parsley
+Recipe: filet mignon with mushrooms and creamy madeira sauce
+Minutes: 40
+Tags: 60-minutes-or-less, beef, christmas, course, dietary, dinner-party, easy, eggs-dairy, equipment, holiday-event, low-carb, low-in-something
+Ingredients: beef broth, butter, cayenne pepper, filet mignon steaks, fresh garlic, fresh thyme, madeira wine, oil, salt and pepper, shallot, whipping cream, white button mushrooms
+Steps:
+01. in a large skillet melt 3 tablespoons butter with 1 tablespoon oil
+02. add in the sliced fresh mushrooms and saute until they release their liquid and are tender
+03. add in 1 / 4 cup shallots and garlic
+04. saute for about 3 minutes
+05. stir in fresh thyme and season with salt and pepper
+06. transfer to a bowl
+07. add in another 2 tablespoons butter with 1 tablespoon oil to the same skillet over medium-high heat
+08. season the steaks with salt and pepper , then add to skillet and cook until desired doneness
+Recipe: minute steak gyros  greek
+Minutes: 30
+Tags: 30-minutes-or-less, beef, beginner-cook, cuisine, easy, european, greek, main-ingredient, meat, preparation, steaks, time-to-make
+Ingredients: coriander, dill, dried oregano, dry oregano, feta cheese, garlic clove, garlic powder, ground allspice, minute steaks, olive oil, onions, pepper, pita bread, red wine vinegar, salt
+Steps:
+01. combine first 5 ingredients or use your favorate greek seasoning
+02. separate the steaks , pat dry , and season liberally with greek seasoning
+03. restack and let sit in refrigerator for 20-30 minutes
+04. combine the stuff for the veggies in a bowl and let sit until ready to serve
+05. in a non-stick pan , with a tiny bit of oil , fry the steaks in small stacks of 4-6 steaks per stack until brown
+06. remove and set aside
+07. when all meat is cooked , slice the stacks into 1" segments
+08. brush the pita with olive oil and warm on a griddle or fry pan
+Recipe: saturday steak
+Minutes: 2890
+Tags: 1-day-or-more, 5-ingredients-or-less, australian, beef, beginner-cook, comfort-food, course, cuisine, dietary, dinner-party, easy, main-dish
+Ingredients: flour, onions, rump steak, tomato sauce, tomatoes
+Steps:
+01. put your rump steak in one layer , in a baking tray or casserole dish
+02. choose one that the meat "just" fits in , without overlapping
+03. sprinkle over salt and pepper , thinly sliced onion , sliced tomatoes , and tomato sauce
+04. sprinkle over plain flour , and cover the meat with cold water
+05. the amount depends on the size of your pan , but the meat and flour should be covered
+06. cover with lid or alfoil , i use a cookie tray :)
+07. put in a very slow oven and leave for about 2 hours
+08. the flour should have turned into the best gravy by then , if , after an hour , there are still bits of flour showing , give them a little whisk with a fork
+Recipe: cooking light beef broccoli lo mein
+Minutes: 25
+Tags: 30-minutes-or-less, asian, beef, chicken, comfort-food, course, cuisine, dinner-party, main-dish, main-ingredient, meat, occasion
+Ingredients: broccoli, brown sugar, chili paste with garlic, cooked spaghetti, dark sesame oil, flank steak, fresh ginger, garlic cloves, low sodium soy sauce, onions, oyster sauce, peanut oil
+Steps:
+01. combine pasta and sesame oil , tossing well to coat
+02. heat peanut oil in a large nonstick skillet over medium-high heat
+03. add the ginger and garlic
+04. saut 30 seconds
+05. add broccoli and onion
+06. saut 3 minutes
+07. add steak
+08. saut 5 minutes or until done
+Recipe: steak oscar  for 2
+Minutes: 40
+Tags: 60-minutes-or-less, american, asparagus, beef, beginner-cook, course, crab, cuisine, dietary, dinner-party, easy, european
+Ingredients: asparagus, bearnaise sauce mix, butter, crabmeat, filet mignon, whole milk
+Steps:
+01. salt and pepper raw steaks before grilling
+02. broil 10 - 12 minutes on one side , then 8 - 9 minutes on other side
+03. simmer 1 / 2 stick butter with crabmeat on low heat until warm
+04. prepare knorr's bernaise sauce with one whole stick of butter and using whole milk only , by following directions on package
+05. put asparagus and some water into microwave for 2 - 2 1 / 2 minutes
+06. to serve: crabmeat over steak
+07. asparagus over crabmeat
+08. cover with bernaise sauce
 
 Answer:
 
 Conversation context (previous messages):
 
 Message 1 - User query:
-receitas com pão
+da receita de lombo no forno
 
 Message 1 - Structured recipe data:
-original_query=receitas com pão
+original_query=da receita de lombo no forno
 detected_language=pt
-translated_query=recipes with bread
-intent=list_by_ingredient
-slot_ingredient=bread(100.00), bread bowls(90.00), bread improver(90.00)
-slot_recipe_name=
+translated_query=from the loin recipe in the oven
+intent=find_recipe
+slot_ingredient=
+slot_recipe_name=verdure al forno(100.00), baked  cod   bacalhau no forno(100.00), ovos no forno com queijo  individual baked eggs with cheese(100.00), oven baked drumsticks(85.50), hearty oven stew(85.50), soup mix in a jar(85.50)
 slot_tag=
 slot_cooking_time=None
 
 
 Message 1 - Assistant Response:
-Aqui estão as receitas que utilizam **pão** (ou variações dele) como ingrediente.
+Desculpe, não encontrei nenhuma receita de **lombo no forno** no nosso repositório.
+
+**Sugestão de consulta:**  
+*“receitas de lombo assado”*  
 
 ---
 
-## 🍞 Pão
+### Outros resultados encontrados
 
-| Receita | Tempo | Tags principais |
-|---|---|---|
-| **Sanduíche de manteiga de amendoim e bologna** | 5 min | 15 minutos ou menos, até 5 ingredientes, americano, prato, cozinha, dietético, fácil, para crianças, almoço, norte‑americano, preparação, sanduíches |
-| **Bacalhau picante ao estilo Greenport** | 15 min | 15 minutos ou menos, cozinheiro iniciante, bacalhau, prato, dietético, fácil, peixe, prato principal, ingrediente principal, preparação, peixe de água salgada, frutos do mar |
-| **Frango ao chutney com rum** | 65 min | até 4 horas, frango, peito de frango, prato, dietético, prato principal, ingrediente principal, carne, ocasião, aves, preparação, romântico |
-| **Coxas de frango assadas ao forno** | 75 min | até 4 horas, frango, coxa e perna de frango, prato, dietético, fácil, equipamento, evento festivo, para crianças, almoço, ingrediente principal, carne |
-| **Caçarola de café da manhã com ovos** | 55 min | até 60 min, cozinheiro iniciante, café da manhã, brunch, caçarolas, queijo, conforto, prato, dietético, fácil, ovos, ovos‑lácteos |
-
-### Detalhes das receitas
-
-#### Sanduíche de manteiga de amendoim e bologna  
-**Ingredientes:** bologna, pão, mostarda, manteiga de amendoim.  
-**Passos:**  
-1. Passe 1 colher de sopa de manteiga de amendoim em cada fatia de pão.  
-2. Coloque o bologna sobre uma das fatias.  
-3. Regue com a quantidade desejada de mostarda.  
-4. Feche com a segunda fatia de pão.  
-5. Aproveite!
-
-#### Bacalhau picante ao estilo Greenport  
-**Ingredientes:** migalhas de pão, manteiga, filés de bacalhau, mostarda Dijon, suco de limão, pimenta, sal, molho Worcestershire.  
-**Passos:**  
-1. Polvilhe as migalhas de pão no fundo de uma assadeira rasa untada.  
-2. Disponha o bacalhau sobre as migalhas.  
-3. Misture os demais ingredientes e despeje sobre o peixe.  
-4. Asse, descoberto, a 230 °C por 10 minutos por polegada de espessura do peixe, regando várias vezes.  
-5. Decore com salsa fresca, se desejar.
-
-#### Frango ao chutney com rum  
-**Ingredientes:** pimenta preta, peitos de frango sem osso e sem pele, migalhas de pão, chutney, queijo parmesão, salsa, sal, amêndoas laminadas, manteiga sem sal, rum branco.  
-**Passos:**  
-1. Preaqueça o forno a 163 °C.  
-2. Coloque 1 café de chá de chutney no centro de cada peito de frango amassado e enrole, selando as bordas.  
-3. Reserve o rum em uma tigela.  
-4. Em outra tigela, misture migalhas de pão, queijo, salsa, sal e pimenta a gosto.  
-5. Mergulhe cada rolinho de frango primeiro no rum, depois na mistura de migalhas, cobrindo bem.  
-6. Derreta a manteiga em uma frigideira e doure levemente os rolinhos (não cozinhe totalmente).  
-7. Transfira os rolinhos dourados para um refratário untado e regue com o rum restante ao redor.  
-8. Tampe bem com papel alumínio e asse por 30‑35 minutos, até o frango estar cozido.
-
-#### Coxas de frango assadas ao forno  
-**Ingredientes:** manteiga, coxas de frango, mostarda Dijon, orégano seco, salsa fresca, migalhas de pão branco, cebola em pó, queijo parmesão, pimenta, sal, páprica húngara doce.  
-**Passos:**  
-1. Preaqueça o forno a 177 °C.  
-2. Unte duas assadeiras grandes com manteiga.  
-3. Misture as migalhas, o parmesão, a salsa, a cebola em pó, a páprica, o orégano, o sal e a pimenta em uma tigela grande.  
-4. Derreta a manteiga em uma panela pequena em fogo médio‑baixo e retire do fogo.  
-5. Acrescente a mostarda e bata até incorporar.  
-6. Pincele as coxas generosamente com a mistura de manteiga e, em seguida, passe-as na mistura de migalhas, cobrindo completamente.  
-7. Distribua as coxas nas assadeiras preparadas.
-
-#### Caçarola de café da manhã com ovos  
-**Ingredientes:** linguiça de porco em pedaços, queijo cheddar, ovos, leite, pimenta, sal, pão branco.  
-**Passos:**  
-1. Aqueça o forno a 177 °C.  
-2. Unte uma forma de 33 × 23 cm.  
-3. Distribua o pão no fundo da forma e polvilhe a linguiça e o queijo por cima.  
-4. Bata os ovos, o leite, o sal e a pimenta com um batedor.  
-5. Despeje a mistura sobre o pão.  
-6. Asse por 40‑45 minutos, até que os ovos estejam firmes no centro e levemente dourados.
-
----
-
-## 🥖 Tigela de pão (bread bowls)
-
-| Receita | Tempo | Tags principais |
-|---|---|---|
-| **Sopa cremosa de queijo ao estilo Panera (pão sourdough)** | 45 min | até 60 min, cópia, prato, jantar, ocasião, preparação, apresentação, servido quente, sopas e ensopados, tempo de preparo |
-
-**Ingredientes:** farinha de trigo, tigelas de pão, manteiga, cenoura, pimenta caiena, aipo, caldo de frango, presunto cozido, amido de milho, pimentão verde, mostarda em pó, leite, cogumelos variados, cebola, páprica.  
-**Passos:**  
-1. Em uma panela grande e pesada, derreta a manteiga ou margarina.  
-2. Acrescente os legumes picados e refogue.  
-3. Adicione o presunto (ou bacon) e cozinhe até os legumes ficarem levemente macios.  
-4. Polvilhe a farinha e mexa.  
-5. Misture o amido de milho e continue mexendo.  
-6. Junte o caldo e mexa até engrossar levemente.
-
----
-
-## 🍞 Melhorador de pão (bread improver)
-
-| Receita | Tempo | Tags principais |
-|---|---|---|
-| **Pão integral de sanduíche “King Arthur’s 100% Whole Wheat”** | 225 min | até 4 horas, pães, prato, dietético, para grandes grupos, grãos, saudável, saudável‑2, baixo colesterol, baixo em algo, almoço, ingrediente principal |
-
-**Ingredientes:** melhorador de pão, mel, fermento instantâneo, azeite, farinha de trigo integral orgânica, sal, sementes de girassol, nozes, água.  
-**Passos:**  
-1. Combine todos os ingredientes e misture até formar uma massa desgrenhada.  
-2. Deixe a massa descansar, coberta, por 20 minutos; depois sove até ficar razoavelmente lisa.  
-3. Deixe a massa crescer, coberta, de 1 a 2 horas, até quase dobrar de volume.  
-4. Desinfle delicadamente, modele em forma de tronco e coloque em uma forma de pão levemente untada (aprox. 21 × 11 cm).  
-5. Cubra com filme plástico levemente untado ou tampa de prova e deixe crescer por cerca de 1 hora, até que a massa sobressaia 2,5 cm acima da borda.  
-6. Asse em forno pré‑aquecido a 177 °C por 45 minutos, cobrindo levemente com papel alumínio nos últimos 20 minutos.
-
----
-
-## Outros resultados encontrados
-Nenhum outro resultado relevante foi encontrado para o ingrediente **pão** além das receitas listadas acima.
+- **Verdure al forno** – 60 min; tags: até 60 min, queijo, fácil, europeu, italiano, low‑carb.  
+- **Bacalhau no forno (baked cod)** – 80 min; tags: até 4 h, jantar, saudável, low‑calorie, low‑carb, low‑colesterol.  
+- **Ovos no forno com queijo** – 20 min; tags: até 30 min, café da manhã, queijo, fácil, europeu.  
+- **Oven baked drumsticks** – 75 min; tags: até 4 h, frango, fácil, kid‑friendly, almoço.  
+- **Hearty oven stew** – 120 min; tags: até 4 h, carne‑bovina, prato‑principal, fácil.  
+- **Soup mix in a jar** – 10 min; tags: até 15 min, low‑calorie, low‑carb, saudável, presente.
 
 Message 2 - User query:
-receitas com almondegas
+encontra a receita Bacalhau no forno (baked cod)
 
 Message 2 - Structured recipe data:
-original_query=receitas com almondegas
+original_query=encontra a receita Bacalhau no forno (baked cod)
 detected_language=pt
-translated_query=recipes with meatballs
-intent=list_by_ingredient
-slot_ingredient=meatballs(100.00), frozen meatballs(90.00), meat(90.00)
-slot_recipe_name=
+translated_query=Find the recipe Cod in the oven (baked cod)
+intent=find_recipe
+slot_ingredient=
+slot_recipe_name=bacalhau  salt cod  with chickpeas(100.00), salt cod  bacalhau  bacalao  morue  baccal  stew(100.00), bacalhau  gomes de s  cod   potato cape verd(100.00), baked  cod   bacalhau no forno(100.00), bacalhau a bras(100.00), portuguese bacalhau  brs  salt cod and potatoes(100.00), bacalhau a algarvia   golden codfish with potatoes(100.00), the recipe  moonshine(100.00)
 slot_tag=
 slot_cooking_time=None
 
 
 Message 2 - Assistant Response:
-Aqui estão várias receitas que utilizam **almôndegas** (ou almôndegas congeladas) como ingrediente principal.
+**Bacalhau no forno (baked cod)**  
+
+- **Tempo de preparo:** 80 min  
+- **Tags principais:** até 4 horas, prato, cozinha, dietético, jantar, fácil, europeu, saudável, baixo‑calórico, baixo‑carboidrato, baixo‑colesterol  
+
+### Ingredientes
+- Folha de louro  
+- Filés de bacalhau (cod fish)  
+- Salsa fresca  
+- Dentes de alho  
+- Azeite de oliva  
+- Cebolas  
+- Batatinhas novas (tiny new potatoes)  
+- Tomates  
+- Vinho branco  
+
+### Modo de preparo
+1. Depois de demolhar o bacalhau, retire‑o da água e seque bem com um pano de cozinha.  
+2. Descasque as cebolas e corte‑as em meias‑luas; descasque o alho e pique‑o.  
+3. Retire a pele dos tomates em água quente, descasque‑os e corte‑os em rodelas.  
+4. Em um refratário retangular coloque metade do azeite e metade do vinho branco.  
+5. Distribua as cebolas, o alho, os tomates, a folha de louro e as batatinhas sobre o azeite/vinho.  
+6. Disponha os filés de bacalhau por cima de tudo e regue com o restante do vinho e do azeite.  
+7. Regue o bacalhau continuamente com o azeite restante para que não resseque.  
+8. Leve ao forno pré‑aquecido a **190 °C (380 °F)** por cerca de **1 hora**, ou até que as batatas estejam macias.
 
 ---
 
-## 🍝 Almôndegas (meatballs)
+### Outros resultados encontrados
+- **Bacalhau com grão‑de‑bico** – 2910 min, tags: 1‑dia‑ou‑mais, brunch, peixe, português.  
+- **Ensopado de bacalhau (salt cod stew)** – 2340 min, tags: 1‑dia‑ou‑mais, sem glúten, sem lactose, baixo‑teor de ovos.  
+- **Bacalhau Gomes de S (cod & potato – Cape Verde)** – 50 min, tags: até 60 min, africano, fácil, saudável.  
+- **Bacalhau à Brás** – 75 min, tags: baixo‑calórico, baixo‑carboidrato, baixo‑sódio.  
+- **Portuguese bacalhau BRS (bacalhau com batatas)** – 75 min, tags: alto teor de proteína, baixo‑gordura.  
+- **Bacalhau à Algarvia (golden codfish with potatoes)** – 70 min, tags: alto teor de proteína, baixo‑saturado.  
+- **Moonshine (bebida)** – 10 min, tags: até 15 min, 5‑ingredientes‑ou‑menos, bebida.
 
-| Receita | Tempo | Tags principais |
-|---|---|---|
-| **Almôndegas Agridoce na Panela Lenta de Karin Calloway** | 495 min | até 3 passos, asiático, carne bovina, panela lenta, fácil, para crianças, prato principal |
-| **Sanduíches de Almôndegas com Queijo ao estilo Filadélfia** | 30 min | até 30 min, conforto, almoço, sanduíches, novidade |
-| **Ragout de Almôndegas** | 250 min | carne bovina, canadense, prato principal, norte‑americano |
-| **Almôndegas Grelhadas com Abacaxi** | 23 min | até 30 min, até 3 passos, até 5 ingredientes, aperitivos, carne bovina, fácil |
-| **Almôndegas Bêbadas com Instruções para Panela Lenta** | 55 min | até 3 passos, até 5 ingredientes, até 60 min, aperitivos, panela lenta, fácil, evento festivo |
-| **Almôndegas Agridoce Super Fáceis** | 310 min | até 3 passos, até 5 ingredientes, prato principal, fácil, evento festivo |
+Message 3 - User query:
+encontra a receita de bacalhau com grão-de-bico
 
-### Detalhes das receitas
+Message 3 - Structured recipe data:
+original_query=encontra a receita de bacalhau com grão-de-bico
+detected_language=pt
+translated_query=finds the recipe for cod with chickpeas
+intent=find_recipe
+slot_ingredient=
+slot_recipe_name=bacalhau  salt cod  with chickpeas(100.00), salt cod  bacalhau  bacalao  morue  baccal  stew(100.00), bacalhau  gomes de s  cod   potato cape verd(100.00), baked  cod   bacalhau no forno(100.00), bacalhau a bras(100.00), portuguese bacalhau  brs  salt cod and potatoes(100.00), bacalhau a algarvia   golden codfish with potatoes(100.00), the recipe  moonshine(100.00)
+slot_tag=
+slot_cooking_time=None
 
-#### Almôndas Agridoce na Panela Lenta de Karin Calloway  
-**Ingredientes:** pimenta preta, açúcar mascavo, vinagre de maçã, abacaxi triturado, flocos de pimenta vermelha, **almôndegas**, cebola, sal, extrato de tomate, água.  
-**Passos:**  
-1. Combine todos os ingredientes numa panela lenta de 4 qtros ou maior.  
-2. Tampe e cozinhe em fogo baixo por 8 h, mexendo 1‑2 vezes.  
-3. Sirva sobre arroz branco ou macarrão de ovo; acompanhe com ervilhas ou vagens salteadas.
 
-#### Sanduíches de Almôndegas com Queijo ao estilo Filadélfia  
-**Ingredientes:** queijo processado, alho em pó, pimentão verde, pimenta moída, pães tipo hoagie, ketchup, **almôndegas**, azeite, cebola, queijo provolone.  
-**Passos:**  
-1. Aqueça o azeite em uma frigideira média.  
-2. Refogue pimentão e cebola 3 min, temperando com alho e pimenta.  
-3. Acrescente as almôndegas e cozinhe 13‑14 min, tampado.  
-4. Misture o queijo processado, deixe derreter, e monte nos pães com provolone e ketchup.
-
-#### Ragout de Almôndegas  
-**Ingredientes:** caldo de frango, canela, cravo, água fria, mostarda em pó, farinha, **almôndegas congeladas**, gengibre, noz‑moscada.  
-**Passos:**  
-1. Coloque as almôndegas na panela lenta.  
-2. Misture temperos e farinha; incorpore ao caldo + água, mexendo bem.  
-3. Despeje sobre as almôndegas e cozinhe 4‑5 h em fogo alto ou o dia todo em fogo baixo.  
-4. Sirva sobre purê de batatas simples.
-
-#### Almôndegas Grelhadas com Abacaxi  
-**Ingredientes:** compota de damasco, molho barbecue, açúcar mascavo, **almôndegas congeladas**, pedaços de abacaxi.  
-**Passos:**  
-1. Misture todos os ingredientes mantendo as almôndegas congeladas.  
-2. Cozinhe em fogo baixo até que as almôndegas descongelem e aqueçam.  
-3. Sirva quente.
-
-#### Almôndegas Bêbadas com Instruções para Panela Lenta  
-**Ingredientes:** bourbon, açúcar mascavo, ketchup, **almôndegas**.  
-**Passos:**  
-1. Misture bourbon, açúcar e ketchup, leve ao fogo 5 min até integrar.  
-2. Adicione as almôndegas e cozinhe 45 min tampado.  
-3. (Opcional) Transfira a mistura para a panela lenta e cozinhe em fogo baixo 8‑12 h.
-
-#### Almôndegas Agridoce Super Fáceis  
-**Ingredientes:** molho de pimenta, **almôndegas congeladas**, molho de cranberry gelificado, água.  
-**Passos:**  
-1. Coloque as almôndegas congeladas na panela lenta (ou assadeira grande).  
-2. Misture molho de pimenta, cranberry e água, despeje sobre as almôndegas.  
-3. Cozinhe em fogo baixo 5‑6 h.
+Message 3 - Assistant Response:
+Aqui está a receita de **bacalhau com grão‑de‑bico** que consta no nosso repositório.
 
 ---
 
-## ❄️ Almôndegas Congeladas (frozen meatballs)
+## Bacalhau (salt cod) com grão‑de‑bico  
 
-| Receita | Tempo | Tags principais |
-|---|---|---|
-| **Ragout de Almôndegas** | 250 min | carne bovina, canadense, prato principal, norte‑americano |
-| **Almôndegas Grelhadas com Abacaxi** | 23 min | até 30 min, até 3 passos, até 5 ingredientes, aperitivos, fácil |
-| **Almôndegas Agridoce Super Fáceis** | 310 min | até 3 passos, até 5 ingredientes, prato principal, fácil |
+**Tempo de preparo:** 2910 min ≈ 48 h + cozimento  
+**Tags:** mais‑de‑1‑dia, brunch, bacalhau, prato, cozinha, dietético, europeu, peixe, prato‑principal, ingrediente‑principal, ocasião, português  
 
-*(Os detalhes dos passos e ingredientes já foram descritos na seção anterior.)*
+### Ingredientes
+- Grão‑de‑bico  
+- Ovos  
+- Dentes de alho  
+- Azeitonas Kalamata  
+- Azeite de oliva  
+- Cebolas  
+- Salsa (salsa fresca)  
+- Piri‑piri  
+- Sal e pimenta a gosto  
+- Bacalhau (salt cod)  
+- Vinagre de vinho branco  
 
----
-
-## 🥩 Carne (meat)
-
-Todas as receitas acima também contêm **carne** (principalmente carne bovina nas almôndegas). Não há receitas adicionais que incluam apenas “carne” sem almôndegas no conjunto de dados fornecido.
+### Modo de preparo
+1. **Preparar o bacalhau** – demolhar o peixe em água fria por, no mínimo, 24 h (preferencialmente 48 h), trocando a água 3‑4 vezes ao dia.  
+2. Escorrer e enxaguar bem; colocar o bacalhau numa panela com água suficiente para cobri‑lo.  
+3. Levar ao ponto de fervura.  
+4. Provar a água; se estiver muito salgada, escorrer o peixe, acrescentar água fresca e ferver novamente.  
+5. Reduzir o fogo e cozinhar em fogo brando por 20 min.  
+6. Escorrer e deixar esfriar.  
+7. (Opcional) Desfiar o bacalhau e misturá‑lo com os demais ingredientes – grão‑de‑bico cozido, ovos cozidos picados, alho, cebola refogada, azeitonas, salsa, piri‑piri e temperar com sal, pimenta e vinagre – formando um prato frio ou ligeiramente aquecido, conforme a preferência.  
 
 ---
 
 ## Outros resultados encontrados
-
-Além das receitas com almôndegas, o banco de dados inclui opções como:
-
-- **Shrimp and Crab Gazpacho** – sopa fria de camarão e caranguejo (20 min).  
-- **Nut Cake** – bolo de nozes (75 min).  
-- **Summertime Crab Salad** – salada de caranguejo (10 min).  
-- **Shrimp and Crab Salad Rolls** – rolinhos de salada de frutos do mar (15 min).  
-- **Ted Kennedy’s Favorite Lobster Salad** – salada de lagosta (135 min).
-
-Caso queira explorar alguma dessas ou filtrar por tempo, tipo de prato ou dificuldade, basta informar!
+- **Salt cod bacalhau bacalao morue baccal stew** – ensopado de bacalhau com tomate, courgette e especiarias (2340 min).  
+- **Bacalhau Gomes de S – cod & potato Cape Verd** (50 min).  
+- **Bacalhau no forno (baked cod)** (80 min).  
+- **Bacalhau à Brás** (75 min).  
+- **Portuguese bacalhau BRS – salt cod and potatoes** (75 min).  
+- **Bacalhau à Algarvia – golden codfish with potatoes** (70 min).  
+- **Moonshine** (bebida) (10 min).
