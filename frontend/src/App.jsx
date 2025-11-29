@@ -1,31 +1,45 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
 import TriangleBackground from "./components/TriangleBackground.jsx"
-import RoundedInput from "./components/InputBar.jsx"
+import InputBar from "./components/InputBar.jsx"
 import WelcomeMessage from "./components/WelcomeMessage.jsx"
-import LLMMarkdownViewer from "./components/ChatViewer.jsx"
+import LLMMarkdownViewer from "./components/MarkdownViewer.jsx"
+import UserMessageBubble from "./components/UserMessageBubble.jsx"
 import CornerText from "./components/CornerText.jsx"
 import LanguageSelector from "./components/LanguageSelector.jsx"
+import LoadingAnimation from "./components/LoadingAnimation.jsx"
+import ChatContainer from "./components/ChatContainer.jsx"
 
 import circleCuoco from "./assets/circle_cuoco.png"
 
-
 export default function Page() {
+
   const [query, setQuery] = useState("")
-  const [chatHistory, setChatHistory] = useState([]) // stores conversation
-  const [uiState, setUiState] = useState("initial") // "initial" | "loading" | "chat"
+  const [chatHistory, setChatHistory] = useState([])
+  const [uiState, setUiState] = useState("initial")
+  const [pendingQuery, setPendingQuery] = useState(null)
+  const [retryDelayMs, setRetryDelayMs] = useState(1000)
+  const [retryTimerId, setRetryTimerId] = useState(null)
   const [lang, setLang] = useState(() => {
     try {
-      const stored = typeof window !== 'undefined' ? window.localStorage.getItem('cuoco_lang') : null
+      const stored = typeof window !== "undefined" ? window.localStorage.getItem('cuoco_lang') : null
       if (stored === 'en' || stored === 'pt') return stored
     } catch {}
     return 'en'
   })
+  const [showSharedInput, setShowSharedInput] = useState(false)
 
-  // Listen for changes from other tabs/windows
+  const chatContainerRef = useRef(null)
+  const bottomRef = useRef(null)     // ← sentinel ref for auto-scroll
+
+
+
+  /* -----------------------------------------------------
+     LANGUAGE STORAGE
+  ----------------------------------------------------- */
   useEffect(() => {
     const handler = (e) => {
       if (e.key === 'cuoco_lang') {
@@ -37,57 +51,138 @@ export default function Page() {
     return () => window.removeEventListener('storage', handler)
   }, [])
 
-  // Persist language to localStorage
   useEffect(() => {
     try {
       window.localStorage.setItem('cuoco_lang', lang)
     } catch {}
   }, [lang])
 
-  // Handle Enter key to send query
+
+
+  /* -----------------------------------------------------
+     SEND QUERY
+  ----------------------------------------------------- */
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
       await sendQuery()
     }
   }
 
-  // Send query to backend
   const sendQuery = async () => {
     if (!query.trim()) return
-
-    // switch to loading state
     setUiState("loading")
+    // clear input immediately upon prompting
+    setQuery("")
 
     try {
       const res = await fetch("http://localhost:8000/chat", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query }),
       })
 
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
+
+      const initializing = (!res.ok && (res.status === 503 || (data?.error || "").toLowerCase().includes("initializ")))
+      if (initializing) {
+        if (retryTimerId) clearTimeout(retryTimerId)
+        setPendingQuery(query)
+        const nextDelay = Math.min(retryDelayMs * 2, 6000)
+        const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
+        setRetryTimerId(tid)
+        setRetryDelayMs(nextDelay)
+        return
+      }
+
       const backendResponse = data.response || "No response from backend"
-
-      // update chat history
       setChatHistory((prev) => [...prev, { role: "user", text: query }, { role: "bot", text: backendResponse }])
-
-      // switch to chat state
       setUiState("chat")
+
     } catch (err) {
       console.error("Error:", err)
-      setChatHistory((prev) => [...prev, { role: "user", text: query }, { role: "bot", text: "An error occurred." }])
-      setUiState("chat")
-    }
+      setPendingQuery(query)
 
-    setQuery("") // clear input
+      if (retryTimerId) clearTimeout(retryTimerId)
+      const nextDelay = Math.min(retryDelayMs * 2, 10000)
+      const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
+      setRetryTimerId(tid)
+      setRetryDelayMs(nextDelay)
+    }
+  }
+
+  const resendPendingQuery = async () => {
+    const q = pendingQuery
+    if (!q) return
+
+    try {
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: q }),
+      })
+
+      const data = await res.json().catch(() => ({}))
+      const notReady = (!res.ok && (res.status === 503 || (data?.error || "").toLowerCase().includes("initializ")))
+
+      if (notReady) {
+        if (retryTimerId) clearTimeout(retryTimerId)
+        const nextDelay = Math.min(retryDelayMs * 2, 10000)
+        const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
+        setRetryTimerId(tid)
+        setRetryDelayMs(nextDelay)
+        return
+      }
+
+      const backendResponse = data.response || "No response"
+      setChatHistory((prev) => [...prev, { role: "user", text: q }, { role: "bot", text: backendResponse }])
+      setUiState("chat")
+
+      setPendingQuery(null)
+      setRetryDelayMs(1000)
+      if (retryTimerId) clearTimeout(retryTimerId)
+      setRetryTimerId(null)
+      setQuery("")
+
+    } catch (err) {
+      if (retryTimerId) clearTimeout(retryTimerId)
+      const nextDelay = Math.min(retryDelayMs * 2, 10000)
+      const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
+      setRetryTimerId(tid)
+      setRetryDelayMs(nextDelay)
+    }
   }
 
 
+
+  /* -----------------------------------------------------
+     ⭐ RELIABLE AUTO-SCROLL (NO CRASHES)
+  ----------------------------------------------------- */
+  useEffect(() => {
+    if (!bottomRef.current) return
+
+    // first attempt after paint
+    requestAnimationFrame(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "auto" })
+    })
+
+    // fallback for images / markdown expansion / animations
+    const id = setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: "auto" })
+    }, 80)
+
+    return () => clearTimeout(id)
+
+  }, [chatHistory])
+
+
+
+  /* -----------------------------------------------------
+     RENDER
+  ----------------------------------------------------- */
   return (
     <div className="min-h-screen flex items-center justify-center relative">
-      {/* Floating Cuoco circle image */}
+
+      {/* background floating image */}
       <motion.img
         src={circleCuoco}
         alt="Cuoco circle"
@@ -97,10 +192,8 @@ export default function Page() {
         transition={{ duration: 0.7, ease: "easeOut" }}
       />
 
-      {/* Background triangles */}
       <TriangleBackground />
 
-      {/* Language selector*/}
       <motion.div
         style={{ position: 'fixed', top: 16, right: 16, zIndex: 12 }}
         initial={{ opacity: 0, y: -24 }}
@@ -110,11 +203,11 @@ export default function Page() {
         <LanguageSelector lang={lang} onChange={setLang} />
       </motion.div>
 
-      {/* Corner Text */}
       <div style={{ position: "fixed", left: 120, bottom: 100, zIndex: 11, pointerEvents: "none" }}>
         <CornerText lang={lang} align="left" gapPx={4} />
       </div>
 
+      {/* MAIN CONTAINER */}
       <div
         style={{
           display: "flex",
@@ -126,21 +219,24 @@ export default function Page() {
           position: "relative",
         }}
       >
-        <AnimatePresence exitBeforeEnter>
+
+        <AnimatePresence mode="wait" onExitComplete={() => {
+          if (uiState !== 'initial') setShowSharedInput(true)
+        }}>
+
+          {/* INITIAL VIEW */}
           {uiState === "initial" && (
             <motion.div
               key="initial"
               initial={{ opacity: 0, y: -24 }}
               animate={{ opacity: 1, y: [ -24, 6, 0 ] }}
-              transition={{ delay: 0.1, duration: 0.7, ease: "easeOut" }}
               exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", top:"20%" , left: "47%", position: "absolute" }}
             >
-              <div style={{ width: "auto" }}>
-                <WelcomeMessage className="mt-6 mb-4" lang={lang} />
-              </div>
+              <WelcomeMessage className="mt-6 mb-4" lang={lang} />
               <div style={{ width: "850px", maxWidth: "90vw" }}>
-                <RoundedInput
+                <InputBar
                   placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -150,6 +246,7 @@ export default function Page() {
             </motion.div>
           )}
 
+          {/* LOADING VIEW */}
           {uiState === "loading" && (
             <motion.div
               key="loading"
@@ -159,53 +256,70 @@ export default function Page() {
               transition={{ duration: 0.3 }}
               style={{ textAlign: "center", fontSize: "24px", color: "#555" }}
             >
-              Processing your query...
+              <div style={{ width: "850px", maxWidth: "90vw", margin: "0 auto", left:"47%", position: "absolute", top: "45%" }}>
+                <LoadingAnimation lang={lang} />
+              </div>
             </motion.div>
           )}
 
+          {/* CHAT VIEW */}
           {uiState === "chat" && (
             <motion.div
               key="chat"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
               style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}
             >
-              <div style={{ marginBottom: "20px", width: "60%", maxHeight: "50vh", overflowY: "auto" }}>
-                {chatHistory.map((msg, i) => (
+              <div
+                ref={chatContainerRef}
+                style={{
+                  marginBottom: "20px",
+                  width: "850px",
+                  maxWidth: "90vw",
+                  overflowY: "auto",
+                  position: "absolute",
+                  left: "47%",
+                  top: "20%",
+                  bottom: "12%"
+                }}
+              >
+                {chatHistory.map((msg, i) =>
                   msg.role === "bot" ? (
-                    <LLMMarkdownViewer key={i} text={msg.text} widthPx={1000} />
+                    <LLMMarkdownViewer key={i} text={msg.text} widthPx={850} />
                   ) : (
-                    <div
-                      key={i}
-                      style={{
-                        margin: "10px 0",
-                        alignSelf: "flex-end",
-                        background: "#ffe0dc",
-                        padding: "12px 20px",
-                        borderRadius: "20px",
-                        boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                        fontSize: "18px",
-                        lineHeight: "1.4",
-                      }}
-                    >
-                      {msg.text}
+                    <div key={i} style={{ margin: "10px 0" }}>
+                      <UserMessageBubble text={msg.text} maxWidthPx={Math.floor(850 * 2 / 3)} />
                     </div>
                   )
-                ))}
-              </div>
+                )}
 
-              {/* Bottom input bar for initial state */}
-              <div style={{ position: "fixed", left: 0, right: 0, bottom: 20, display: "flex", justifyContent: "center" }}>
-                <div style={{ width: "1000px", maxWidth: "90vw" }}>
-                  <RoundedInput
-                    placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                </div>
+                {/* sentinel for auto-scroll */}
+                <div ref={bottomRef} />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* SHARED INPUT BAR */}
+        <AnimatePresence>
+          {showSharedInput && uiState !== "initial" && (
+            <motion.div
+              key="shared-input"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              style={{ position: "absolute", left: "47%", top: "90%" }}
+            >
+              <div style={{ width: "850px", maxWidth: "90vw" }}>
+                <InputBar
+                  placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                />
               </div>
             </motion.div>
           )}

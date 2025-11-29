@@ -3,8 +3,8 @@ import React, { useEffect, useMemo, useState } from "react";
 export default function CornerText({ lang = 'en', align = 'center', gapPx = 6, charDelayMs = 30, lineDelayMs = 0, startDelayMs = 500 }) {
   const lines = useMemo(() => {
     const firstLine = lang === 'pt' ? 'TRAZIDO POR' : 'POWERED BY'
-    const secondLine = 'OS TRAQUINAS'
-    const thirdLine = 'DEI FCTUC'
+    const secondLine = 'OSTRAQUINAS'
+    const thirdLine = 'FCTUC | DEI'
     return [firstLine, secondLine, thirdLine]
   }, [lang])
 
@@ -58,35 +58,52 @@ export default function CornerText({ lang = 'en', align = 'center', gapPx = 6, c
         </div>
       </div>
 
-      {/* Line 2: Panton Bold (grey) */}
+      {/* Line 2: OS (Thin) + TRAQUINAS (ExtraBold), grey */}
       <div style={{ height: '48px', display: 'flex', alignItems: 'baseline' }}>
-        <div style={{ fontFamily: 'Panton, sans-serif', fontWeight: 800, fontStyle: 'normal', fontSize: '40px', lineHeight: 1.2, color: '#6b7280', whiteSpace: 'pre' }}>
-          {displayed[1]}
+        <div style={{ fontSize: '40px', lineHeight: 1.2, color: '#6b7280', whiteSpace: 'pre' }}>
+          {displayed[1].length < lines[1].length ? (
+            (() => {
+              const typed = displayed[1]
+              const thinLen = 2 // "OS"
+              const thinTyped = typed.slice(0, Math.min(thinLen, typed.length))
+              const boldTyped = typed.slice(Math.min(thinLen, typed.length))
+              return (
+                <>
+                  <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 100, fontStyle: 'normal' }}>{thinTyped}</span>
+                  <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 800, fontStyle: 'normal' }}>{boldTyped}</span>
+                </>
+              )
+            })()
+          ) : (
+            <>
+              <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 100, fontStyle: 'normal' }}>OS</span>
+              <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 800, fontStyle: 'normal' }}>TRAQUINAS</span>
+            </>
+          )}
         </div>
       </div>
 
-      {/* Line 3: DEI (Bold while typing) + FCTUC (Regular) */}
+      {/* Line 3: FCTUC (Bold while typing) + " | DEI" (Regular) */}
       <div style={{ height: '44px', display: 'flex', alignItems: 'baseline' }}>
         <div style={{ fontSize: '36px', lineHeight: 1.2, color: '#000', whiteSpace: 'pre' }}>
           {/* While typing, render bold for "DEI" portion and regular for the rest */}
           {displayed[2].length < lines[2].length ? (
             (() => {
-              const full = lines[2];
               const typed = displayed[2];
-              const deiLen = 3; // "DEI" length
-              const deiTyped = typed.slice(0, Math.min(deiLen, typed.length));
-              const restTyped = typed.slice(Math.min(deiLen, typed.length));
+              const boldLen = 5; // "FCTUC" length
+              const boldTyped = typed.slice(0, Math.min(boldLen, typed.length));
+              const restTyped = typed.slice(Math.min(boldLen, typed.length));
               return (
                 <>
-                  <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 700, fontStyle: 'normal', color: '#000' }}>{deiTyped}</span>
+                  <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 700, fontStyle: 'normal', color: '#000' }}>{boldTyped}</span>
                   <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 400, fontStyle: 'normal', color: '#000' }}>{restTyped}</span>
                 </>
               );
             })()
           ) : (
             <>
-              <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 700, fontStyle: 'normal', color: '#000' }}>DEI</span>
-              <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 400, fontStyle: 'normal', color: '#000' }}> FCTUC</span>
+              <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 700, fontStyle: 'normal', color: '#000' }}>FCTUC</span>
+              <span style={{ fontFamily: 'Panton, sans-serif', fontWeight: 400, fontStyle: 'normal', color: '#000' }}> | DEI</span>
             </>
           )}
         </div>
