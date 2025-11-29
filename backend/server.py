@@ -46,3 +46,11 @@ async def chat(payload: ChatQuery):
     summary = await asyncio.to_thread(recipe_bot._process_query, payload.query)
     return {"response": summary}    
 
+
+@app.post("/clear")
+async def clear_conversation():
+    """Clear the backend conversation context stored in memory."""
+    await asyncio.to_thread(ensure_loaded)
+    await asyncio.to_thread(recipe_bot.clear_conversation_context)
+    return {"status": "cleared"}
+
