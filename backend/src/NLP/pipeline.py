@@ -275,7 +275,7 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
 
             # CASE 1: Range Query (e.g., "menos de 30 minutos")
             if max_minutes is not None:
-                print(f"\n---- Range search: minutes <= {max_minutes} ----")
+                print(f"\n---- Range search: minutes < {max_minutes} ----")
                 recs = sparql_queries.query_by_max_minutes(KG.graph, max_minutes, top_k=sparql_top_k)
                 if recs:
                     print(f"   ✔ Found {len(recs)} recipes under {max_minutes} mins")

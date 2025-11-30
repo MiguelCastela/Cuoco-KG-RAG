@@ -22,9 +22,294 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: receitas em menos de 30 minutos
+User query: receitas em menos de quarenta e cinco minutos
+
+Description snippets (semantic matches):
+1. (0.410) muy deliciosa!.
 
 Structured recipe data:
+original_query=receitas em menos de quarenta e cinco minutos
+detected_language=pt
+translated_query=recipes in less than 45 minutes
+intent=list_by_time
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+slot_max_minutes=45
+
+Recipe: napa valley basil smoked burgers
+Minutes: 44
+Tags: 60-minutes-or-less, barbecue, beef, course, equipment, grilling, ground-beef, main-dish, main-ingredient, meat, preparation, time-to-make
+Ingredients: basil pesto, basil sprigs, fresh basil, garlic salt, ground sirloin, italian seasoned breadcrumbs, mayonnaise, monterey jack cheese, red leaf lettuce, red onion, red onions, sandwich buns, sun-dried tomatoes packed in oil, tomatoes, zinfandel
+Steps:
+01. prepare a med-hot fire in a charcoal grill with a cover or preheat a gas grill to med-high
+02. make the mayonnaise: combine the mayo and pesto in a small bowl
+03. mix well
+04. cover and chill until needed
+05. make the burgers: in a large mixing bowl , combine the sirloin , zinfandel , basil , onion , bread crumbs , sun-dried tomatoes , and garlic salt
+06. handling the meat as little as possible to avoid compacting it , mix well
+07. divide the mixture into 6 equal portions and form the portions into patties to fit the rolls
+08. when the grill is ready , brush the grill rack with vegetable oil
+Recipe: lemon blueberry cookies
+Minutes: 44
+Tags: 60-minutes-or-less, american, berries, blueberries, citrus, cookies-and-brownies, course, cuisine, desserts, eggs-dairy, equipment, for-large-groups
+Ingredients: baking powder, butter, cornstarch, dried blueberries, egg yolks, flour, lemon peel, parchment paper, salt, sugar, white sugar
+Steps:
+01. preheat oven to 375 degrees
+02. like a cookie sheet with parchment paper and set aside
+03. in a large mixing bowl combine the butter and sugar
+04. using an electric mixer beat at medium until well incorporated and fluffy
+05. beat in egg yolks and lemon peel
+06. sift into a medium mixing bowl the flour , cornstarch , baking powder and salt
+07. add flour mixture 1 / 2 cup at a time to the butter mixture , mixing on low speed until just crumbly
+08. stir in blueberries
+Recipe: grilled mexican chicken over rice
+Minutes: 44
+Tags: 60-minutes-or-less, barbecue, chicken, course, cuisine, dietary, equipment, grilling, healthy, low-fat, low-in-something, low-saturated-fat
+Ingredients: boneless skinless chicken breast halves, chili powder, cumin, garlic, instant rice, orange juice, salsa
+Steps:
+01. in shallow non-metal pan or dish , combine orange juice , chili powder , cumin and garlic
+02. mix well
+03. add chicken breast halves
+04. turn to coat well
+05. let stand at room temperature for 15 minutes to marinate
+06. if marinating chicken for more than 15 minutes , cover and refrigerate
+07. meanwhile , heat grill
+08. cook rice as directed on package , omitting margarine and salt
+Recipe: spring mackerel with sour grapes and saffron salsa
+Minutes: 44
+Tags: 60-minutes-or-less, beginner-cook, course, cuisine, dietary, easy, european, fish, free-of-something, gluten-free, inexpensive, kosher
+Ingredients: cornmeal, frying oil, garlic cloves, grapes, mackerel, olive oil, onion, red pepper, saffron thread, salt, wine vinegar
+Steps:
+01. first make the salsa -- combine the onion , garlic , pepper , vinegar and a little salt in a bowl and marinate for the time it takes to prepare the fish
+02. dry roast the saffron threads until they barely darken
+03. crush the saffron and add it to the marinating salsa in the bowl
+04. mix in the olive oil and the grapes
+05. now for the fish -- rinse and clean the fish
+06. salt both sides and the cavity
+07. dredge through the cornmeal , making sure to get a thorough coating
+08. heat up 1-2 tbsp oil in the frying pan , then pan fry each fish for 4-6 minutes per side , turning gently to leave the cornmeal coating intact
+Recipe: chocolate cherry kisses
+Minutes: 44
+Tags: 3-steps-or-less, 60-minutes-or-less, christmas, cookies-and-brownies, course, desserts, easy, hand-formed-cookies, holiday-event, occasion, preparation, time-to-make
+Ingredients: all-purpose flour, almond extract, butter, granulated sugar, hershey chocolate kisses, liquid, maraschino cherry, powdered sugar, salt
+Steps:
+01. preheat oven to 325
+02. beat butter about 30 seconds , add powdered sugar and salt
+03. beat until combined
+04. beat in 2 teaspoons cherry liquid and almond extract
+05. beat in flour
+06. stir in cherries
+07. shape dough into 1 inches balls
+08. place 2 inches apart on ungreased cookie sheet
+
+Answer:
+
+Conversation context (previous messages):
+
+Message 1 - User query:
+receitas em menos de fourty-five minutes
+
+Message 1 - Structured recipe data:
+original_query=receitas em menos de fourty-five minutes
+detected_language=pt
+translated_query=recipes in less than four-five minutes
+intent=list_by_time
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+slot_max_minutes=None
+
+
+Message 1 - Assistant Response:
+**Receitas que podem ser feitas em até 45 minutos**
+
+| Receita | Tempo | Tags principais |
+|---|---|---|
+| **Marinada de veado** | 30 min | 30‑minutos‑ou‑menos, churrasco, veado, equipamento, grelha, preparo‑rápido, carne |
+| **Sopa cremosa de couve‑flor com presunto** | 40 min | 60‑minutos‑ou‑menos, americana, iniciante, couve‑flor, conforto, fácil, equipamento |
+| **Tofu frito com molho de ameixa asiático ou molho de amendoim tailandês** | 20 min | 30‑minutos‑ou‑menos, aperitivos, asiático, feijão, fritura‑profunda, dietético, alto‑cálcio, baixo‑carboidrato |
+| **Asas de frango ao estilo búfalo** | 35 min | 60‑minutos‑ou‑menos, americana, aperitivos, iniciante, frango, fritura‑profunda, fácil, finger‑food |
+| **Anéis de cebola finos empanados** | 8 min | 15‑minutos‑ou‑menos, aperitivos, fritura‑profunda, cebola, preparo‑rápido, técnica |
+| **Sorvete fácil de torta de abóbora** | 13 min | 15‑minutos‑ou‑menos, 3‑passos‑ou‑menos, sobremesa, dietético, fácil, inverno, congelado |
+| **Quadrados de parfait de abóbora** | 30 min | 30‑minutos‑ou‑menos, sobremesa, dietético, congelado, baixo‑teor‑de‑proteína, sem‑cozimento, preparo‑rápido |
+
+---
+
+### Detalhes das receitas
+
+#### 1. Marinada de veado  
+**Tempo:** 30 min  
+**Tags:** 30‑minutos‑ou‑menos, churrasco, veado, equipamento, grelha, preparo‑rápido, carne  
+
+**Ingredientes**  
+- Óleo de cozinha  
+- Dentes de alho  
+- Suco de limão  
+- Tempero de limão e pimenta  
+- Costeletas de porco  
+- Molho de soja  
+- Água  
+
+**Modo de preparo**  
+1. Misture bem todos os ingredientes da marinada e cubra as costeletas ou bifes.  
+2. Deixe marinar por, no mínimo, 45 minutos.  
+3. Cozinhe na grelha untada, em fogo médio, por cerca de 25 minutos no total, virando e regando durante o cozimento.  
+
+---
+
+#### 2. Sopa cremosa de couve‑flor com presunto  
+**Tempo:** 40 min  
+**Tags:** 60‑minutos‑ou‑menos, americana, iniciante, couve‑flor, conforto, fácil, equipamento  
+
+**Ingredientes**  
+- Flor de couve‑flor  
+- Granulado de caldo de frango  
+- Presunto cozido  
+- Farinha  
+- Leite  
+- Cebola  
+- Batatas  
+- Água  
+
+**Modo de preparo**  
+1. Em uma panela grande, cozinhe batatas, água, cebola e caldo de frango, tampado, por 10 minutos.  
+2. Acrescente a couve‑flor e cozinhe até ficar macia.  
+3. Misture 2 ½ xícaras de leite, o presunto e os temperos desejados.  
+4. Leve à fervura.  
+5. Em outra tigela, misture leite com farinha e incorpore ao caldo quente.  
+6. Cozinhe até engrossar e sirva.  
+
+---
+
+#### 3. Tofu frito com molho de ameixa asiático ou molho de amendoim tailandês  
+**Tempo:** 20 min  
+**Tags:** 30‑minutos‑ou‑menos, aperitivos, asiático, feijão, fritura‑profunda, dietético, alto‑cálcio, baixo‑carboidrato  
+
+**Ingredientes**  
+- Amido de milho  
+- Tofu firme  
+- Farinha  
+- Molho de amendoim  
+- Molho de ameixa  
+- Sal e pimenta  
+- Sementes de gergelim  
+- Açúcar  
+- Óleo vegetal  
+- Seu molho favorito  
+
+**Modo de preparo**  
+1. Misture amido de milho, farinha, açúcar, sal e pimenta.  
+2. Envolva os cubos de tofu na mistura até ficarem bem cobertos.  
+3. Aqueça o óleo em uma frigideira até ficar bem quente.  
+4. Frite os cubos até dourarem.  
+5. Escorra em papel absorvente e sirva com o molho de sua escolha.  
+
+---
+
+#### 4. Asas de frango ao estilo búfalo  
+**Tempo:** 35 min  
+**Tags:** 60‑minutos‑ou‑menos, americana, aperitivos, iniciante, frango, fritura‑profunda, fácil, finger‑food  
+
+**Ingredientes**  
+- Molho de queijo azul  
+- Óleo de canola  
+- Pimenta caiena  
+- Asas de frango  
+- Molho Frank’s Red Hot  
+- Molho Tabasco  
+- Manteiga sem sal  
+
+**Modo de preparo**  
+1. Aqueça 10 cm de óleo em uma fritadeira ou panela funda até 190 °C.  
+2. Teste colocando um pedacinho de pão; se chiar, o óleo está pronto.  
+3. Forre uma assadeira com papel toalha.  
+4. Frite as asas até ficarem douradas (15‑25 min).  
+5. Enquanto isso, derreta a manteiga em uma panela, adicione os molhos e a pimenta caiena, mexendo até aquecer.  
+6. Misture as asas fritas ao molho e sirva.  
+
+---
+
+#### 5. Anéis de cebola finos empanados  
+**Tempo:** 8 min  
+**Tags:** 15‑minutos‑ou‑menos, aperitivos, fritura‑profunda, cebola, preparo‑rápido, técnica  
+
+**Ingredientes**  
+- Tempero especial (accent seasoning)  
+- Óleo de canola  
+- Ovos  
+- Pimenta preta moída  
+- Tempero de limão e pimenta  
+- Leite  
+- Farinha de fermento químico (self‑rising flour)  
+- Açúcar  
+- Cebolas Vidalia  
+
+**Modo de preparo**  
+1. Corte as cebolas em rodelas, depois quebre cada anel ao meio.  
+2. Bata ovos, leite e açúcar em um recipiente.  
+3. Misture a farinha com os temperos em outro recipiente.  
+4. Passe os anéis primeiro na mistura de ovo, depois na farinha temperada.  
+5. Frite em óleo a 200 °C por 3 minutos ou até ficarem levemente dourados.  
+
+---
+
+#### 6. Sorvete fácil de torta de abóbora  
+**Tempo:** 13 min  
+**Tags:** 15‑minutos‑ou‑menos, 3‑passos‑ou‑menos, sobremesa, dietético, fácil, inverno, congelado  
+
+**Ingredientes**  
+- Açúcar mascavo  
+- Abóbora enlatada  
+- Canela  
+- Cravo  
+- Noz‑moscada  
+- Sorvete de baunilha  
+
+**Modo de preparo**  
+1. Aqueça levemente a abóbora, o açúcar mascavo e as especiarias até o açúcar dissolver.  
+2. Deixe esfriar.  
+3. Misture a mistura de abóbora ao sorvete de baunilha amolecido.  
+4. Coloque em uma forma, cubra e congele até ficar sólido.  
+
+---
+
+#### 7. Quadrados de parfait de abóbora  
+**Tempo:** 30 min  
+**Tags:** 30‑minutos‑ou‑menos, sobremesa, dietético, congelado, baixo‑teor‑de‑proteína, sem‑cozimento, preparo‑rápido  
+
+**Ingredientes**  
+- Açúcar mascavo  
+- Manteiga  
+- Farinha de biscoito graham  
+- Canela em pó  
+- Cravo em pó  
+- Noz‑moscada em pó  
+- Abóbora  
+- Sal  
+- Sorvete de baunilha  
+- Chantilly  
+
+**Modo de preparo**  
+1. Misture a farinha de biscoito, ¼ xícara de açúcar mascavo e a manteiga derretida.  
+2. Pressione a mistura em uma forma quadrada de 9 polegadas.  
+3. Combine a abóbora, ½ xícara de açúcar mascavo, sal, canela, noz‑moscada e cravo; depois incorpore o sorvete de baunilha.  
+4. Despeje sobre a base, cubra e congele de 4‑6 horas.  
+5. Retire 15 minutos antes de servir, corte em quadrados e sirva com chantilly.  
+
+---
+
+## Outros resultados encontrados
+- **Receitas que excedem 45 minutos** (não listadas acima): *Passion strawberry fruit leather* (363 min), *Danish meatballs with creamy dill sauce* (65 min), *Venison chops with mushroom sauce* (1460 min), *Best venison stroganoff ever* (120 min), *Scottish collops* (60 min), *River’s Copper River chowder* (480 min), *Delicious corn chowder* (55 min), *Mimi’s cafe corn chowder* (60 min), *Creamy corn potato ham chowder (crock‑pot)* (560 min), *Southern fried oysters* (50 min), *Fried almond chicken* (50 min), *Frozen custard* (260 min), *Frangelico ice cream* (370 min), *Strawberry cheese cake ice cream* (1450 min).  
+
+Essas receitas podem ser consultadas caso deseje tempos de preparo maiores.
+
+Message 2 - User query:
+receitas em menos de 30 minutos
+
+Message 2 - Structured recipe data:
 original_query=receitas em menos de 30 minutos
 detected_language=pt
 translated_query=recipes in less than 30 minutes
@@ -35,121 +320,252 @@ slot_tag=
 slot_cooking_time=None
 slot_max_minutes=30
 
-Recipe: garam masala  hot mixed spice
-Minutes: 1
-Tags: 15-minutes-or-less, asian, condiments-etc, cooking-mixes, course, cuisine, dietary, for-large-groups, free-of-something, gluten-free, herb-and-spice-mixes, indian
-Ingredients: black peppercorns, cardamom seeds, cinnamon stick, cloves, coriander seed, cumin seed, fennel seed, nutmeg
-Steps:
-01. this spice is used in many indian receipes to add flavor
-02. it can also be used as garnish for salad , yogurt , meat etc
-03. the proportion of the ingredients can be changed to suit one's personal taste
-04. place all dry ingredients in a blender and blend into a fine powder
-05. the spice powder can be stored in any airtight container
-Recipe: outrageous egg free new zealand mayonnaise
-Minutes: 1
-Tags: 15-minutes-or-less, 5-ingredients-or-less, beginner-cook, condiments-etc, course, cuisine, dietary, dinner-party, easy, egg-free, for-large-groups, free-of-something
-Ingredients: condensed milk, malt vinegar, mustard powder
-Steps:
-01. put the milk in a bowl
-02. add the mustard
-03. then a dollop of vinegar
-04. mix
-05. test taste
-06. keep adding to taste small amounts at a time
-07. you shouldn't be able to get the taste of condensed milk when you taste it , but something very unique
-Recipe: paris hilton s favorite drink
-Minutes: 1
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, easy, for-1-or-2, number-of-servings, preparation, time-to-make
-Ingredients: cranberry juice, jagermeister, peach schnapps
-Steps:
-01. combine ingredients in shaker with ice
-02. chill , strain
-Recipe: mike s peach puff martini
-Minutes: 1
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dinner-party, easy, for-1-or-2, holiday-event, number-of-servings, occasion
-Ingredients: ice cubes, peach schnapps, raspberry vodka, sprite
-Steps:
-01. add ice cubes , peach schnapps , raspberry vodka , and sprite to a cocktail shaker
-02. shake well for 4 seconds
-03. strain into a martini glass
-Recipe: bananas foster cocktail
-Minutes: 1
-Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
-Ingredients: banana, banana liqueur, butterscotch schnapps, chocolate liqueur, ice, light cream, vanilla vodka
-Steps:
-01. in a rocks glass filled with ice , stir together all ingredients
-02. garnish with banana
 
-Answer:
+Message 2 - Assistant Response:
+**Aqui estão todas as receitas que podem ser preparadas em até 30 minutos:**
+
+| Receita | Tempo | Principais tags |
+|---|---|---|
+| **Pizza de legumes assados** | 29 min | 30‑minutes‑or‑less, cheese, low‑carb, pizza, main‑dish |
+| **Coroa de biscoitos com bacon** | 29 min | 30‑minutes‑or‑less, 5‑ingredients‑or‑less, breakfast, easy, appetizer |
+| **Biscoitos de aveia, abóbora e passas** | 29 min | 30‑minutes‑or‑less, beginner‑cook, cookies‑and‑brownies, fall, dessert |
+| **Scones de milho com cranberry** | 29 min | 30‑minutes‑or‑less, berries, brunch, breads, inexpensive |
+| **Frango assado com maçã e mel** | 29 min | 30‑minutes‑or‑less, 5‑ingredients‑or‑less, chicken, healthy, easy |
+
+---
+
+### Outros resultados encontrados
+- **Tags adicionais** presentes nas receitas que não foram listadas acima: *course, dietary, eggs‑dairy, low‑in‑something, preparation, time‑to‑make, breads, comfort‑food, dinner‑party, beginner‑cook, drop‑cookies, holiday‑event, main‑ingredient, occasion, equipment, fruit, healthy, apples, chicken‑breasts, chicken‑thighs‑legs*.
+- **Ingredientes comuns** entre as receitas: azeite, queijo, farinha, açúcar, manteiga, ovos, e especiarias como alho e canela.
 
 Conversation context (previous messages):
 
 Message 1 - User query:
-aye
+receitas em menos de fourty-five minutes
 
 Message 1 - Structured recipe data:
-original_query=aye
-detected_language=en
-translated_query=Aye
-intent=list_by_tag
+original_query=receitas em menos de fourty-five minutes
+detected_language=pt
+translated_query=recipes in less than four-five minutes
+intent=list_by_time
 slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=None
 
 
 Message 1 - Assistant Response:
+**Receitas que podem ser feitas em até 45 minutos**
 
+| Receita | Tempo | Tags principais |
+|---|---|---|
+| **Marinada de veado** | 30 min | 30‑minutos‑ou‑menos, churrasco, veado, equipamento, grelha, preparo‑rápido, carne |
+| **Sopa cremosa de couve‑flor com presunto** | 40 min | 60‑minutos‑ou‑menos, americana, iniciante, couve‑flor, conforto, fácil, equipamento |
+| **Tofu frito com molho de ameixa asiático ou molho de amendoim tailandês** | 20 min | 30‑minutos‑ou‑menos, aperitivos, asiático, feijão, fritura‑profunda, dietético, alto‑cálcio, baixo‑carboidrato |
+| **Asas de frango ao estilo búfalo** | 35 min | 60‑minutos‑ou‑menos, americana, aperitivos, iniciante, frango, fritura‑profunda, fácil, finger‑food |
+| **Anéis de cebola finos empanados** | 8 min | 15‑minutos‑ou‑menos, aperitivos, fritura‑profunda, cebola, preparo‑rápido, técnica |
+| **Sorvete fácil de torta de abóbora** | 13 min | 15‑minutos‑ou‑menos, 3‑passos‑ou‑menos, sobremesa, dietético, fácil, inverno, congelado |
+| **Quadrados de parfait de abóbora** | 30 min | 30‑minutos‑ou‑menos, sobremesa, dietético, congelado, baixo‑teor‑de‑proteína, sem‑cozimento, preparo‑rápido |
+
+---
+
+### Detalhes das receitas
+
+#### 1. Marinada de veado  
+**Tempo:** 30 min  
+**Tags:** 30‑minutos‑ou‑menos, churrasco, veado, equipamento, grelha, preparo‑rápido, carne  
+
+**Ingredientes**  
+- Óleo de cozinha  
+- Dentes de alho  
+- Suco de limão  
+- Tempero de limão e pimenta  
+- Costeletas de porco  
+- Molho de soja  
+- Água  
+
+**Modo de preparo**  
+1. Misture bem todos os ingredientes da marinada e cubra as costeletas ou bifes.  
+2. Deixe marinar por, no mínimo, 45 minutos.  
+3. Cozinhe na grelha untada, em fogo médio, por cerca de 25 minutos no total, virando e regando durante o cozimento.  
+
+---
+
+#### 2. Sopa cremosa de couve‑flor com presunto  
+**Tempo:** 40 min  
+**Tags:** 60‑minutos‑ou‑menos, americana, iniciante, couve‑flor, conforto, fácil, equipamento  
+
+**Ingredientes**  
+- Flor de couve‑flor  
+- Granulado de caldo de frango  
+- Presunto cozido  
+- Farinha  
+- Leite  
+- Cebola  
+- Batatas  
+- Água  
+
+**Modo de preparo**  
+1. Em uma panela grande, cozinhe batatas, água, cebola e caldo de frango, tampado, por 10 minutos.  
+2. Acrescente a couve‑flor e cozinhe até ficar macia.  
+3. Misture 2 ½ xícaras de leite, o presunto e os temperos desejados.  
+4. Leve à fervura.  
+5. Em outra tigela, misture leite com farinha e incorpore ao caldo quente.  
+6. Cozinhe até engrossar e sirva.  
+
+---
+
+#### 3. Tofu frito com molho de ameixa asiático ou molho de amendoim tailandês  
+**Tempo:** 20 min  
+**Tags:** 30‑minutos‑ou‑menos, aperitivos, asiático, feijão, fritura‑profunda, dietético, alto‑cálcio, baixo‑carboidrato  
+
+**Ingredientes**  
+- Amido de milho  
+- Tofu firme  
+- Farinha  
+- Molho de amendoim  
+- Molho de ameixa  
+- Sal e pimenta  
+- Sementes de gergelim  
+- Açúcar  
+- Óleo vegetal  
+- Seu molho favorito  
+
+**Modo de preparo**  
+1. Misture amido de milho, farinha, açúcar, sal e pimenta.  
+2. Envolva os cubos de tofu na mistura até ficarem bem cobertos.  
+3. Aqueça o óleo em uma frigideira até ficar bem quente.  
+4. Frite os cubos até dourarem.  
+5. Escorra em papel absorvente e sirva com o molho de sua escolha.  
+
+---
+
+#### 4. Asas de frango ao estilo búfalo  
+**Tempo:** 35 min  
+**Tags:** 60‑minutos‑ou‑menos, americana, aperitivos, iniciante, frango, fritura‑profunda, fácil, finger‑food  
+
+**Ingredientes**  
+- Molho de queijo azul  
+- Óleo de canola  
+- Pimenta caiena  
+- Asas de frango  
+- Molho Frank’s Red Hot  
+- Molho Tabasco  
+- Manteiga sem sal  
+
+**Modo de preparo**  
+1. Aqueça 10 cm de óleo em uma fritadeira ou panela funda até 190 °C.  
+2. Teste colocando um pedacinho de pão; se chiar, o óleo está pronto.  
+3. Forre uma assadeira com papel toalha.  
+4. Frite as asas até ficarem douradas (15‑25 min).  
+5. Enquanto isso, derreta a manteiga em uma panela, adicione os molhos e a pimenta caiena, mexendo até aquecer.  
+6. Misture as asas fritas ao molho e sirva.  
+
+---
+
+#### 5. Anéis de cebola finos empanados  
+**Tempo:** 8 min  
+**Tags:** 15‑minutos‑ou‑menos, aperitivos, fritura‑profunda, cebola, preparo‑rápido, técnica  
+
+**Ingredientes**  
+- Tempero especial (accent seasoning)  
+- Óleo de canola  
+- Ovos  
+- Pimenta preta moída  
+- Tempero de limão e pimenta  
+- Leite  
+- Farinha de fermento químico (self‑rising flour)  
+- Açúcar  
+- Cebolas Vidalia  
+
+**Modo de preparo**  
+1. Corte as cebolas em rodelas, depois quebre cada anel ao meio.  
+2. Bata ovos, leite e açúcar em um recipiente.  
+3. Misture a farinha com os temperos em outro recipiente.  
+4. Passe os anéis primeiro na mistura de ovo, depois na farinha temperada.  
+5. Frite em óleo a 200 °C por 3 minutos ou até ficarem levemente dourados.  
+
+---
+
+#### 6. Sorvete fácil de torta de abóbora  
+**Tempo:** 13 min  
+**Tags:** 15‑minutos‑ou‑menos, 3‑passos‑ou‑menos, sobremesa, dietético, fácil, inverno, congelado  
+
+**Ingredientes**  
+- Açúcar mascavo  
+- Abóbora enlatada  
+- Canela  
+- Cravo  
+- Noz‑moscada  
+- Sorvete de baunilha  
+
+**Modo de preparo**  
+1. Aqueça levemente a abóbora, o açúcar mascavo e as especiarias até o açúcar dissolver.  
+2. Deixe esfriar.  
+3. Misture a mistura de abóbora ao sorvete de baunilha amolecido.  
+4. Coloque em uma forma, cubra e congele até ficar sólido.  
+
+---
+
+#### 7. Quadrados de parfait de abóbora  
+**Tempo:** 30 min  
+**Tags:** 30‑minutos‑ou‑menos, sobremesa, dietético, congelado, baixo‑teor‑de‑proteína, sem‑cozimento, preparo‑rápido  
+
+**Ingredientes**  
+- Açúcar mascavo  
+- Manteiga  
+- Farinha de biscoito graham  
+- Canela em pó  
+- Cravo em pó  
+- Noz‑moscada em pó  
+- Abóbora  
+- Sal  
+- Sorvete de baunilha  
+- Chantilly  
+
+**Modo de preparo**  
+1. Misture a farinha de biscoito, ¼ xícara de açúcar mascavo e a manteiga derretida.  
+2. Pressione a mistura em uma forma quadrada de 9 polegadas.  
+3. Combine a abóbora, ½ xícara de açúcar mascavo, sal, canela, noz‑moscada e cravo; depois incorpore o sorvete de baunilha.  
+4. Despeje sobre a base, cubra e congele de 4‑6 horas.  
+5. Retire 15 minutos antes de servir, corte em quadrados e sirva com chantilly.  
+
+---
+
+## Outros resultados encontrados
+- **Receitas que excedem 45 minutos** (não listadas acima): *Passion strawberry fruit leather* (363 min), *Danish meatballs with creamy dill sauce* (65 min), *Venison chops with mushroom sauce* (1460 min), *Best venison stroganoff ever* (120 min), *Scottish collops* (60 min), *River’s Copper River chowder* (480 min), *Delicious corn chowder* (55 min), *Mimi’s cafe corn chowder* (60 min), *Creamy corn potato ham chowder (crock‑pot)* (560 min), *Southern fried oysters* (50 min), *Fried almond chicken* (50 min), *Frozen custard* (260 min), *Frangelico ice cream* (370 min), *Strawberry cheese cake ice cream* (1450 min).  
+
+Essas receitas podem ser consultadas caso deseje tempos de preparo maiores.
 
 Message 2 - User query:
-ayo
+receitas em menos de 30 minutos
 
 Message 2 - Structured recipe data:
-original_query=ayo
-detected_language=en
-intent=list_by_tag
+original_query=receitas em menos de 30 minutos
+detected_language=pt
+translated_query=recipes in less than 30 minutes
+intent=list_by_time
 slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=30
 
 
 Message 2 - Assistant Response:
-Could you let me know which tag you’d like to see recipes for?  
-For example: **“recipes with tag easy”**.
+**Aqui estão todas as receitas que podem ser preparadas em até 30 minutos:**
 
-Conversation context (previous messages):
+| Receita | Tempo | Principais tags |
+|---|---|---|
+| **Pizza de legumes assados** | 29 min | 30‑minutes‑or‑less, cheese, low‑carb, pizza, main‑dish |
+| **Coroa de biscoitos com bacon** | 29 min | 30‑minutes‑or‑less, 5‑ingredients‑or‑less, breakfast, easy, appetizer |
+| **Biscoitos de aveia, abóbora e passas** | 29 min | 30‑minutes‑or‑less, beginner‑cook, cookies‑and‑brownies, fall, dessert |
+| **Scones de milho com cranberry** | 29 min | 30‑minutes‑or‑less, berries, brunch, breads, inexpensive |
+| **Frango assado com maçã e mel** | 29 min | 30‑minutes‑or‑less, 5‑ingredients‑or‑less, chicken, healthy, easy |
 
-Message 1 - User query:
-aye
+---
 
-Message 1 - Structured recipe data:
-original_query=aye
-detected_language=en
-translated_query=Aye
-intent=list_by_tag
-slot_ingredient=
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 1 - Assistant Response:
-
-
-Message 2 - User query:
-ayo
-
-Message 2 - Structured recipe data:
-original_query=ayo
-detected_language=en
-intent=list_by_tag
-slot_ingredient=
-slot_recipe_name=
-slot_tag=
-slot_cooking_time=None
-
-
-Message 2 - Assistant Response:
-Could you let me know which tag you’d like to see recipes for?  
-For example: **“recipes with tag easy”**.
+### Outros resultados encontrados
+- **Tags adicionais** presentes nas receitas que não foram listadas acima: *course, dietary, eggs‑dairy, low‑in‑something, preparation, time‑to‑make, breads, comfort‑food, dinner‑party, beginner‑cook, drop‑cookies, holiday‑event, main‑ingredient, occasion, equipment, fruit, healthy, apples, chicken‑breasts, chicken‑thighs‑legs*.
+- **Ingredientes comuns** entre as receitas: azeite, queijo, farinha, açúcar, manteiga, ovos, e especiarias como alho e canela.

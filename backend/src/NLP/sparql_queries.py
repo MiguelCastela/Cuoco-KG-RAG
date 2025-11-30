@@ -340,14 +340,15 @@ def query_by_max_minutes(graph, max_minutes: int, top_k: int = 20):
     if max_minutes is None:
         return []
     
+    # CHANGED: Added DESC() to ORDER BY to prioritize recipes closer to the limit
     q = f"""
     SELECT ?r ?label ?minutes WHERE {{
       ?r a ex:Recipe ;
          rdfs:label ?label ;
          ex:minutes ?minutes .
-      FILTER(xsd:integer(?minutes) <= {max_minutes} && xsd:integer(?minutes) > 0)
+      FILTER(xsd:integer(?minutes) < {max_minutes} && xsd:integer(?minutes) > 0)
     }}
-    ORDER BY ?minutes
+    ORDER BY DESC(?minutes)
     LIMIT {top_k}
     """
     out = []
