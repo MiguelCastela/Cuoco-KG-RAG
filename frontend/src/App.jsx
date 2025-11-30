@@ -11,7 +11,7 @@ import UserMessageBubble from "./components/UserMessageBubble.jsx"
 import CornerText from "./components/CornerText.jsx"
 import LanguageSelector from "./components/LanguageSelector.jsx"
 import LoadingAnimation from "./components/LoadingAnimation.jsx"
-import ChatContainer from "./components/ChatContainer.jsx"
+import ChatLoadingAnimation from "./components/ChatLoadingAnimation.jsx"
 
 import circleCuoco from "./assets/circle_cuoco.png"
 
@@ -33,6 +33,7 @@ export default function Page() {
 
   const chatContainerRef = useRef(null)
   const bottomRef = useRef(null)     // ← sentinel ref for auto-scroll
+  const inputRef = useRef(null)      // ← ref for input bar focus
   const processingRef = useRef(false)
   const retryTimeoutRef = useRef(null)
   const uiStateRef = useRef(uiState) // Ref to access current uiState in async functions
@@ -42,7 +43,24 @@ export default function Page() {
     uiStateRef.current = uiState
   }, [uiState])
 
+  /* -----------------------------------------------------
+     FOCUS INPUT ON LOAD & STATE CHANGE
+  ----------------------------------------------------- */
+  useEffect(() => {
+    if (uiState === 'initial' || showSharedInput) {
+      // Small delay to ensure element is mounted/animated in
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 50)
+    }
+  }, [uiState, showSharedInput])
 
+  /* -----------------------------------------------------
+     CLEAR ON MOUNT (REFRESH)
+  ----------------------------------------------------- */
+  useEffect(() => {
+    fetch("http://localhost:8000/clear", { method: "POST" }).catch(() => {})
+  }, [])
 
   /* -----------------------------------------------------
      LANGUAGE STORAGE
@@ -173,21 +191,14 @@ export default function Page() {
     const q = query.trim()
     setQuery("")
     
-    const isChat = uiState === "chat"
-    
-    if (isChat) {
-      // If in chat mode, show user message immediately
-      setChatHistory((prev) => [...prev, { role: "user", text: q }])
-    } else {
-      // If in initial/loading mode, don't show yet (wait for response or transition to chat)
-      if (uiState === "initial") {
-        setUiState("loading")
-      }
+    // If in initial mode, switch to loading
+    if (uiState === "initial") {
+      setUiState("loading")
     }
     
     console.log(`[frontend] enqueuing prompt:`, q)
     // Store both text and whether it was already added to history
-    setPromptQueue((prev) => [...prev, { text: q, addedToHistory: isChat }])
+    setPromptQueue((prev) => [...prev, { text: q, addedToHistory: false }])
   }
 
   /* -----------------------------------------------------
@@ -214,6 +225,11 @@ export default function Page() {
     setQuery("")
     setUiState("initial")
     setShowSharedInput(false)
+
+    // Force focus immediately (for case where we are already in initial state)
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 0)
   }
 
 
@@ -296,10 +312,12 @@ export default function Page() {
               exit={{ opacity: 0, y: 20 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
               style={{ display: "flex", flexDirection: "column", alignItems: "center", top:"20%" , left: "47%", position: "absolute" }}
+              onAnimationComplete={() => inputRef.current?.focus()}
             >
               <WelcomeMessage className="mt-6 mb-4" lang={lang} />
               <div style={{ width: "850px", maxWidth: "90vw" }}>
                 <InputBar
+                  ref={inputRef}
                   placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -359,6 +377,12 @@ export default function Page() {
                   )
                 )}
 
+                {isProcessing && (
+                  <div style={{ width: "850px", maxWidth: "90vw", display: "flex", justifyContent: "center" }}>
+                    <ChatLoadingAnimation />
+                  </div>
+                )}
+
                 {/* sentinel for auto-scroll */}
                 <div ref={bottomRef} />
               </div>
@@ -376,9 +400,11 @@ export default function Page() {
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               style={{ position: "absolute", left: "47%", top: "90%" }}
+              onAnimationComplete={() => inputRef.current?.focus()}
             >
               <div style={{ width: "850px", maxWidth: "90vw" }}>
                 <InputBar
+                  ref={inputRef}
                   placeholder={lang === 'pt' ? 'Pergunta ao Cuoco!' : 'Ask Cuoco!'}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}

@@ -1,4 +1,5 @@
 import React from "react"
+import { motion } from "framer-motion"
 
 export default function UserMessageBubble({ text, maxWidthPx = 566 }) {
   const containerStyle = {
@@ -22,7 +23,14 @@ export default function UserMessageBubble({ text, maxWidthPx = 566 }) {
 
   return (
     <div style={containerStyle}>
-      <div style={bubbleStyle}>{text}</div>
+      <motion.div
+        style={bubbleStyle}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {text}
+      </motion.div>
     </div>
   )
 }

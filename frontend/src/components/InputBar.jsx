@@ -1,9 +1,11 @@
+import React, { forwardRef } from "react";
 import NewChatButton from "./NewChatButton.jsx";
 
-export default function InputBar({ placeholder, value, onChange, onKeyDown, onNewChat }) {
+const InputBar = forwardRef(({ placeholder, value, onChange, onKeyDown, onNewChat }, ref) => {
   return (
     <div style={{ position: "relative", width: "100%" }}>
       <input
+        ref={ref}
         type="text"
         placeholder={placeholder}
         value={value}
@@ -37,5 +39,7 @@ export default function InputBar({ placeholder, value, onChange, onKeyDown, onNe
       </div>
     </div>
   );
-}
+});
+
+export default InputBar;
 
