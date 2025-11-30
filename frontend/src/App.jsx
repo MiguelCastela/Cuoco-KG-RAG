@@ -20,9 +20,16 @@ export default function Page() {
   const [query, setQuery] = useState("")
   const [chatHistory, setChatHistory] = useState([])
   const [uiState, setUiState] = useState("initial")
-  const [pendingQuery, setPendingQuery] = useState(null)
+  const [promptQueue, setPromptQueue] = useState([])
   const [retryDelayMs, setRetryDelayMs] = useState(1000)
   const [retryTimerId, setRetryTimerId] = useState(null)
+  // refs to avoid stale closures in timers
+  const promptQueueRef = useRef([])
+  const retryDelayRef = useRef(1000)
+  const retryTimerRef = useRef(null)
+  const processQueueRef = useRef(null)
+  const isProcessingRef = useRef(false)
+  const initializedRef = useRef(false)
   const [lang, setLang] = useState(() => {
     try {
       const stored = typeof window !== "undefined" ? window.localStorage.getItem('cuoco_lang') : null
@@ -57,6 +64,11 @@ export default function Page() {
     } catch {}
   }, [lang])
 
+  // sync refs with state
+  useEffect(() => { promptQueueRef.current = promptQueue }, [promptQueue])
+  useEffect(() => { retryDelayRef.current = retryDelayMs }, [retryDelayMs])
+  useEffect(() => { retryTimerRef.current = retryTimerId }, [retryTimerId])
+
 
 
   /* -----------------------------------------------------
@@ -71,86 +83,80 @@ export default function Page() {
   const sendQuery = async () => {
     if (!query.trim()) return
     setUiState("loading")
-    // clear input immediately upon prompting
+    const q = query
     setQuery("")
-
-    try {
-      const res = await fetch("http://localhost:8000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
-      })
-
-      const data = await res.json().catch(() => ({}))
-
-      const initializing = (!res.ok && (res.status === 503 || (data?.error || "").toLowerCase().includes("initializ")))
-      if (initializing) {
-        if (retryTimerId) clearTimeout(retryTimerId)
-        setPendingQuery(query)
-        const nextDelay = Math.min(retryDelayMs * 2, 6000)
-        const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
-        setRetryTimerId(tid)
-        setRetryDelayMs(nextDelay)
-        return
-      }
-
-      const backendResponse = data.response || "No response from backend"
-      setChatHistory((prev) => [...prev, { role: "user", text: query }, { role: "bot", text: backendResponse }])
-      setUiState("chat")
-
-    } catch (err) {
-      console.error("Error:", err)
-      setPendingQuery(query)
-
-      if (retryTimerId) clearTimeout(retryTimerId)
-      const nextDelay = Math.min(retryDelayMs * 2, 10000)
-      const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
-      setRetryTimerId(tid)
-      setRetryDelayMs(nextDelay)
+    // always enqueue, then process — covers both ready and not-ready backends
+    setPromptQueue((prev) => {
+      const next = [...prev, q]
+      console.log(`[frontend] enqueue prompt:`, q, `| queue size ->`, next.length)
+      return next
+    })
+    // kick processor immediately if not already scheduled or running
+    if (!isProcessingRef.current && !retryTimerRef.current) {
+      isProcessingRef.current = true
+      const tid = setTimeout(() => processQueueRef.current && processQueueRef.current(), 0)
+      retryTimerRef.current = tid
     }
   }
 
-  const resendPendingQuery = async () => {
-    const q = pendingQuery
-    if (!q) return
+  // queue processor kept fresh via ref to avoid stale state
+  useEffect(() => {
+    if (initializedRef.current) return
+    initializedRef.current = true
+    processQueueRef.current = async () => {
+      const q = promptQueueRef.current[0]
+      if (!q) return
 
-    try {
-      const res = await fetch("http://localhost:8000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: q }),
-      })
+      try {
+        const res = await fetch("http://localhost:8000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: q }),
+        })
 
-      const data = await res.json().catch(() => ({}))
-      const notReady = (!res.ok && (res.status === 503 || (data?.error || "").toLowerCase().includes("initializ")))
+        const data = await res.json().catch(() => ({}))
+        const notReady = (!res.ok && (res.status === 503 || (data?.error || "").toLowerCase().includes("initializ")))
 
-      if (notReady) {
-        if (retryTimerId) clearTimeout(retryTimerId)
-        const nextDelay = Math.min(retryDelayMs * 2, 10000)
-        const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
-        setRetryTimerId(tid)
+        if (notReady) {
+          if (retryTimerRef.current) clearTimeout(retryTimerRef.current)
+          const nextDelay = Math.min(retryDelayRef.current * 2, 10000)
+          const tid = setTimeout(() => processQueueRef.current && processQueueRef.current(), retryDelayRef.current)
+          retryTimerRef.current = tid
+          setRetryDelayMs(nextDelay)
+          return
+        }
+
+        const backendResponse = data.response || "No response"
+        setChatHistory((prev) => [...prev, { role: "user", text: q }, { role: "bot", text: backendResponse }])
+        setUiState("chat")
+        // remove processed item
+        setPromptQueue((prev) => {
+          const removed = prev[0]
+          const next = prev.slice(1)
+          console.log(`[frontend] dequeue prompt:`, removed, `| queue size ->`, next.length)
+          return next
+        })
+        setRetryDelayMs(1000)
+        if (retryTimerRef.current) clearTimeout(retryTimerRef.current)
+        retryTimerRef.current = null
+        setQuery("")
+        // process next if any, otherwise clear processing flag
+        if (promptQueueRef.current.length > 0) {
+          const tid = setTimeout(() => processQueueRef.current && processQueueRef.current(), 0)
+          retryTimerRef.current = tid
+        } else {
+          isProcessingRef.current = false
+        }
+
+      } catch (err) {
+        if (retryTimerRef.current) clearTimeout(retryTimerRef.current)
+        const nextDelay = Math.min(retryDelayRef.current * 2, 10000)
+        const tid = setTimeout(() => processQueueRef.current && processQueueRef.current(), retryDelayRef.current)
+        retryTimerRef.current = tid
         setRetryDelayMs(nextDelay)
-        return
       }
-
-      const backendResponse = data.response || "No response"
-      setChatHistory((prev) => [...prev, { role: "user", text: q }, { role: "bot", text: backendResponse }])
-      setUiState("chat")
-
-      setPendingQuery(null)
-      setRetryDelayMs(1000)
-      if (retryTimerId) clearTimeout(retryTimerId)
-      setRetryTimerId(null)
-      setQuery("")
-
-    } catch (err) {
-      if (retryTimerId) clearTimeout(retryTimerId)
-      const nextDelay = Math.min(retryDelayMs * 2, 10000)
-      const tid = setTimeout(() => resendPendingQuery(), retryDelayMs)
-      setRetryTimerId(tid)
-      setRetryDelayMs(nextDelay)
     }
-  }
+  }, [])
 
   /* -----------------------------------------------------
      NEW CHAT (RESET)
@@ -164,11 +170,16 @@ export default function Page() {
 
     // cancel any retry timer
     if (retryTimerId) clearTimeout(retryTimerId)
+    if (retryTimerRef.current) clearTimeout(retryTimerRef.current)
     setRetryTimerId(null)
+    retryTimerRef.current = null
+    isProcessingRef.current = false
 
     // reset client state to initial
-    setPendingQuery(null)
+    setPromptQueue([])
+    promptQueueRef.current = []
     setRetryDelayMs(1000)
+    retryDelayRef.current = 1000
     setChatHistory([])
     setQuery("")
     setUiState("initial")
