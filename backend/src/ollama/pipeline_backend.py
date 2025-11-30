@@ -229,16 +229,17 @@ def run_groq(user_query: str, base_prompt: str, structured_block: str) -> tuple[
     if _current_model is None:
         _current_model = DEFAULT_MODEL
 
-    # Inject previous turn summaries
+    # Build previous turn summaries
     prev_context = _build_context_annotation(_conversation_history)
-    current_full_prompt = (prev_context + "\n\n" + base_prompt) if prev_context else base_prompt
 
+    # CHANGE: put previous context at the END, so tail-trimming removes history first
+    current_full_prompt = base_prompt + ("\n\n" + prev_context if prev_context else "")
+
+    # Always enforce a 7000-token cap and trim from the END
     MAX_PROMPT_TOKENS = 7000
-
     tok = _count_tokens(current_full_prompt, _current_model)
-
-    if tok >= MAX_PROMPT_TOKENS:
-        print(f"[WARN] Prompt too large: {tok} tokens → trimming to {MAX_PROMPT_TOKENS}")
+    if tok > MAX_PROMPT_TOKENS:
+        print(f"[WARN] Prompt too large: {tok} tokens → trimming to {MAX_PROMPT_TOKENS} from tail")
         current_full_prompt = _trim_prompt(current_full_prompt, MAX_PROMPT_TOKENS, _current_model)
 
     resp = api_chat(current_full_prompt, _current_model)
@@ -246,7 +247,7 @@ def run_groq(user_query: str, base_prompt: str, structured_block: str) -> tuple[
     _conversation_history.append({
         "query": user_query,
         "structured": structured_block,
-        "response": resp,   
+        "response": resp,
         "prompt": current_full_prompt
     })
     _write_context_file(current_full_prompt, structured_block)
@@ -492,37 +493,30 @@ def _count_tokens(prompt: str, model_name: str) -> int:
 
 def _trim_prompt(prompt: str, max_tokens: int, model_name: str) -> str:
     """
-    Aggressively trims the least important sections of the prompt
-    to stay under max_tokens.
+    Always trim from the END to fit under max_tokens.
+    We do not remove sections by meaning; we just cut the tail.
+    Note: This does NOT erase conversation history from memory; it only affects this request's prompt.
     """
+    def count(text: str) -> int:
+        return _count_tokens(text, model_name)
 
-    def count():
-        return _count_tokens(prompt, model_name)
+    current = prompt
+    cur_tok = count(current)
+    print(f"[TRIM] Initial tokens: {cur_tok}")
 
-    print(f"[TRIM] Initial tokens: {count()}")
+    if cur_tok <= max_tokens:
+        print(f"[TRIM] No trimming needed.")
+        return current
 
-    # Priority removal order
-    CUT_SECTIONS = [
-        "Description snippets",
-        "Conversation context",
-        "Structured recipe data",
-    ]
+    # Aggressive tail truncation loop
+    # Cut 20% of the remaining text from the end repeatedly until within budget
+    while count(current) > max_tokens and len(current) > 0:
+        cut_len = int(len(current) * 0.80)
+        current = current[:cut_len]  # keep head, drop tail (history is at tail)
+        print(f"[TRIM] Tail truncated to {cut_len} chars → tokens={count(current)}")
 
-    for marker in CUT_SECTIONS:
-        if count() <= max_tokens:
-            break
-
-        if marker in prompt:
-            print(f"[TRIM] Removing section: {marker}")
-            prompt = prompt.split(marker)[0].strip()
-
-    # Emergency hard clip
-    while count() > max_tokens:
-        print("[TRIM] Hard truncating...")
-        prompt = prompt[: int(len(prompt) * 0.80)]
-
-    print(f"[TRIM] Final tokens: {count()}")
-    return prompt
+    print(f"[TRIM] Final tokens: {count(current)}")
+    return current
 
 def _process_query(user_query: str) -> str:
     """

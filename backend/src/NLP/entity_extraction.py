@@ -57,6 +57,7 @@ SAFETY_MAX_RESULTS = {
     "ingredient": 10,
     "tag": 10,
     "recipe_name": 10,
+    "time": 10,
 }
 
 
@@ -447,8 +448,11 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
     text_join = " ".join(chunks).lower() if chunks else ""
     prefer_pt = has_portuguese_chars(text_join)
 
+
     if intent == "list_by_time":
-        out["cooking_time"] = cooking_time_raw
+        # assuming candidates.get("time_results") is the list of recipes filtered by time
+        time_results = candidates.get("time_results", [])
+        out["cooking_time"] = _cap_scored_list(time_results, SAFETY_MAX_RESULTS["time"])
         return out
 
     if intent == "list_by_ingredient":
