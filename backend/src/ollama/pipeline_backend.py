@@ -6,6 +6,7 @@ from typing import Any, Dict
 from contextlib import redirect_stdout, redirect_stderr
 import importlib
 
+
 # -------------------------
 # Load groq.env optionally (same folder)
 # -------------------------
@@ -232,12 +233,20 @@ def run_groq(user_query: str, base_prompt: str, structured_block: str) -> tuple[
     prev_context = _build_context_annotation(_conversation_history)
     current_full_prompt = (prev_context + "\n\n" + base_prompt) if prev_context else base_prompt
 
+    MAX_PROMPT_TOKENS = 7000
+
+    tok = _count_tokens(current_full_prompt, _current_model)
+
+    if tok >= MAX_PROMPT_TOKENS:
+        print(f"[WARN] Prompt too large: {tok} tokens → trimming to {MAX_PROMPT_TOKENS}")
+        current_full_prompt = _trim_prompt(current_full_prompt, MAX_PROMPT_TOKENS, _current_model)
+
     resp = api_chat(current_full_prompt, _current_model)
 
     _conversation_history.append({
         "query": user_query,
         "structured": structured_block,
-        "response": resp,
+        "response": resp,   
         "prompt": current_full_prompt
     })
     _write_context_file(current_full_prompt, structured_block)
@@ -444,6 +453,9 @@ def api_chat(prompt: str, model_name: str) -> str:
         choices = getattr(completion, "choices", [])
         if not choices:
             return ""
+        usage = getattr(completion, "usage", None)
+        if usage:
+            print(f"Usage: prompt={usage.prompt_tokens}, completion={usage.completion_tokens}")
         return (choices[0].message.content or "").strip()
     except Exception as e:
         print(f"[LLM EXCEPTION] {e}")
@@ -462,6 +474,55 @@ def clear_conversation_context() -> None:
             f.write("")
     except Exception:
         pass
+
+
+def _count_tokens(prompt: str, model_name: str) -> int:
+    """
+    Approximate token count using OpenAI-compatible tokenizer.
+    Works well for GPT-4 / LLaMA-like models.
+    """
+    try:
+        import tiktoken
+        enc = tiktoken.get_encoding("cl100k_base")
+        return len(enc.encode(prompt))
+    except Exception as e:
+        if DEBUG:
+            print(f"[token count error] {e}")
+        return 0
+
+def _trim_prompt(prompt: str, max_tokens: int, model_name: str) -> str:
+    """
+    Aggressively trims the least important sections of the prompt
+    to stay under max_tokens.
+    """
+
+    def count():
+        return _count_tokens(prompt, model_name)
+
+    print(f"[TRIM] Initial tokens: {count()}")
+
+    # Priority removal order
+    CUT_SECTIONS = [
+        "Description snippets",
+        "Conversation context",
+        "Structured recipe data",
+    ]
+
+    for marker in CUT_SECTIONS:
+        if count() <= max_tokens:
+            break
+
+        if marker in prompt:
+            print(f"[TRIM] Removing section: {marker}")
+            prompt = prompt.split(marker)[0].strip()
+
+    # Emergency hard clip
+    while count() > max_tokens:
+        print("[TRIM] Hard truncating...")
+        prompt = prompt[: int(len(prompt) * 0.80)]
+
+    print(f"[TRIM] Final tokens: {count()}")
+    return prompt
 
 def _process_query(user_query: str) -> str:
     """
@@ -572,6 +633,14 @@ def _process_query(user_query: str) -> str:
     print("=== LLM PROMPT (truncated to 800 chars) ===")
     print(used_prompt[:800] + ("..." if len(used_prompt) > 800 else ""))
     print("=== END PROMPT ===")
+
+    # NEW: print token count of the sent prompt (between prompt and summary)
+    try:
+        tok_count = _count_tokens(used_prompt, _current_model or DEFAULT_MODEL)
+        print(f"\n≈ Prompt tokens: {tok_count}\n")
+    except Exception as e:
+        if DEBUG:
+            print(f"[token count error] {e}")
 
     print("\n=== LLM SUMMARY ===")
     print(summary if summary else "(LLM empty response)")

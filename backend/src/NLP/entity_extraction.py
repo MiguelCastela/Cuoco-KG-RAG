@@ -52,6 +52,14 @@ THRESHOLDS = {
     "ingredient": 85,    
     "tag": 90,           
 }
+
+SAFETY_MAX_RESULTS = {
+    "ingredient": 10,
+    "tag": 10,
+    "recipe_name": 10,
+}
+
+
 # If candidate contains explicit Portuguese features, boost preference
 PT_PREF_BOOST = 1
 
@@ -430,7 +438,7 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
         lang,
         translate_to=other_lang,
         bag_mode=bag_mode,
-        original_text=candidate_text,  # NEW: always include full text and its translation
+        original_text=candidate_text,  
     )
 
     cooking_time_raw = candidates.get("cooking_time") if intent == "list_by_time" else None
@@ -445,20 +453,32 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
 
     if intent == "list_by_ingredient":
         for tok in chunks:
-            matches = kg.search("ingredients", tok, limit=3,
+            matches = kg.search("ingredients", tok, limit=5,
                                 score_cutoff=THRESHOLDS["ingredient"],
                                 prefer_pt=prefer_pt)
             out["ingredient"].extend(matches)
+
+        out["ingredient"] = _cap_scored_list(
+            out["ingredient"],
+            SAFETY_MAX_RESULTS["ingredient"]
+        )
         return out
+
 
     if intent == "list_by_tag":
         tag_cutoff = THRESHOLDS["tag"]
         for tok in chunks:
-            matches = kg.search("tags", tok, limit=3,
+            matches = kg.search("tags", tok, limit=5,
                                 score_cutoff=tag_cutoff,
                                 prefer_pt=prefer_pt)
             out["tag"].extend(matches)
+
         out["tag"].extend(_expand_time_tag_synonyms(chunks))
+
+        out["tag"] = _cap_scored_list(
+            out["tag"],
+            SAFETY_MAX_RESULTS["tag"]
+        )
         return out
 
     # Recipe-oriented intents: try exact/containment before fuzzy
@@ -489,10 +509,15 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
         longest = max(candidate_phrases, key=len) if candidate_phrases else ""
         if longest:
             matches = kg.search("recipes", longest,
-                                limit=3,
+                                limit=10,
                                 score_cutoff=max(THRESHOLDS["recipe_name"], 75),
                                 prefer_pt=prefer_pt)
             out["recipe_name"].extend(matches)
+
+        out["recipe_name"] = _cap_scored_list(
+            out["recipe_name"],
+            SAFETY_MAX_RESULTS["recipe_name"]
+        )
         return out
 
     # fallback
@@ -550,6 +575,20 @@ def _merge_scored_lists(a, b):
         if label not in best or s > best[label]:
             best[label] = s
     return sorted(best.items(), key=lambda x: x[1], reverse=True)
+
+def _cap_scored_list(items, limit: int):
+    """
+    Keeps the TOP N results by score.
+    Deduplicates by label.
+    """
+    best = {}
+    for label, score in items:
+        score = float(score)
+        if label not in best or score > best[label]:
+            best[label] = score
+
+    return sorted(best.items(), key=lambda x: x[1], reverse=True)[:limit]
+
 
 #pipeline-compatible function
 def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):

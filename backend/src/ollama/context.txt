@@ -22,452 +22,302 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: e de bifes de frango?
+User query: receitas com pato
 
 Description snippets (semantic matches):
-1. (0.464) delizioso!!.
-2. (0.416) adapted from "food of spain and portugal".
+1. (0.525) french inspired seared duck breast with leeks, cranberries and a wonderful red wine sauce. fabulous served with wasabi mashed potatoes for a warm aromatic contrast. my version of a recipe from a duck supplier.
+2. (0.467) were i have put the pate feel free to use proper fois gras which is what i use in my beef wellington, but of course that is triple the price of getting chicken or duck liver pate.
+3. (0.467) this is one of my favourite recipes. its a  portuguese recipe, made of boneless chicken breasts. it's braised in a white portuguese port wine, with mushrooms and cream. you can serve it over noddles, rice, or with french.
 
 Structured recipe data:
-original_query=e de bifes de frango?
+original_query=receitas com pato
 detected_language=pt
-translated_query=And chicken steaks?
-intent=list_by_time
-slot_ingredient=
+translated_query=recipes with duck
+intent=list_by_ingredient
+slot_ingredient=duck(100.00), boneless duck breasts(90.00), duck breast(90.00)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
 
-Recipe: tex mex chicken stack
-Minutes: 35
-Tags: 60-minutes-or-less, appetizers, cheese, chicken, course, dietary, eggs-dairy, equipment, lunch, main-ingredient, meat, oven
-Ingredients: barbecue sauce, cheese, cooked chicken, cumin, flour tortillas, green onion, onions, taco seasoning, water
+recipes with ingredient: duck
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
 Steps:
-01. preheat oven to 350 degrees
-02. fry onions in a frying pan until tender crisp
-03. add rest of the ingredients for chicken mixture and simmer until heated through
-04. lay 1 tortilla on a lightly greased baking sheet
-05. cover tortilla with half the chicken mixture and then half the cheese
-06. top with the second tortilla then repeat the chicken and cheese layers
-07. cover with the last tortilla
-08. top with reserved sauce and cheese
-Recipe: georgia chicken with peach sauce
-Minutes: 60
-Tags: 60-minutes-or-less, american, canadian, chicken, chicken-breasts, chicken-thighs-legs, course, cuisine, dietary, dinner-party, egg-free, equipment
-Ingredients: brown sugar, dried basil leaves, flour, fresh ginger, garlic, nutmeg, olive oil, orange juice, peaches, salt and pepper, skinless chicken breasts, vinegar
-Steps:
-01. dredge chicken in seasoned flour , shake off and lay on wire rack to dry , abot 10 minutes
-02. heat oil in deep sided saute pan , until it is quite hot
-03. cook chicken , turning to brown evenly , about 3-5 minutes
-04. remove chicken to paper towel to drain
-05. there should be 1 tbsp of oil in pan , if not , add a little more
-06. reduce heat to medium and whisk reserved peach and orange juices until smooth
-07. stir in remaining ingredients , bring to a boil , cook 3 minutes
-08. add chicken to pan , cover and continue to cook until chicken is longer pick in center , about 25 minutes
-Recipe: chutney rum chicken
-Minutes: 65
-Tags: 4-hours-or-less, chicken, chicken-breasts, course, dietary, main-dish, main-ingredient, meat, occasion, poultry, preparation, romantic
-Ingredients: black pepper, boneless skinless chicken breast halves, breadcrumbs, chutney, parmesan cheese, parsley, salt, sliced almonds, unsalted butter, white rum
-Steps:
-01. preheat oven to 325f
-02. place 1 tsp chutney in the center of each pounded chicken breast and roll up , folding in the edges as you roll , pinching edges closed
-03. place rum in a bowl
-04. in another bowl combine bread crumbs , cheese , parsley , and salt and pepper to taste
-05. dip each chicken roll first into the rum , then into the crumb mixture to coat
-06. melt butter in a skillet and saute chicken rolls in the butter just to brown lightly , but not cook all the way
-07. place browned rolls into a greased baking dish and drizzle with any of the remaining rum around the edges
-08. seal tightly with foil and bake for 30-35 minutes or until chicken is cooked through
-Recipe: oven baked drumsticks
-Minutes: 75
-Tags: 4-hours-or-less, chicken, chicken-thighs-legs, course, dietary, easy, equipment, holiday-event, kid-friendly, lunch, main-ingredient, meat
-Ingredients: butter, chicken drumsticks, dijon mustard, dried oregano, fresh parsley, fresh white breadcrumbs, onion powder, parmesan cheese, pepper, salt, sweet hungarian paprika
-Steps:
-01. preheat oven to 350f
-02. butter 2 large baking sheets
-03. combine breadcrumbs , parmesan , parsley , onion powder , paprika , oregano , salt and pepper in large bowl and stir to blend
-04. melt butter in small saucepan over medium-low heat
-05. remove saucepan from heat
-06. add mustard and whisk to blend
-07. brush drumsticks generously with butter mixture and roll in breadcrumb mixture , coating completely
-08. arrange drumsticks on prepared baking sheets
-Recipe: healthy and easy chicken and biscuits casserole
-Minutes: 40
-Tags: 60-minutes-or-less, beginner-cook, casseroles, chicken, chicken-breasts, course, cuisine, easy, equipment, main-dish, main-ingredient, meat
-Ingredients: celery seed, chicken breasts, dried parsley, dried thyme leaves, frozen broccoli carrots cauliflower mix, low-fat cream of celery soup, low-fat cream of potato soup, paprika, pepper, refrigerated reduced-fat buttermilk biscuits, savory, skim milk
-Steps:
-01. blend soups and milk in large skillet on low heat
-02. add herbs and spices and mix well
-03. add cooked cut up chicken and frozen vegetables
-04. heat to warm vegetables and chicken
-05. put in large ovenproof dish and bake in 400 degree oven for 15 minute
-06. take chicken dish out of oven and stir well
-07. cut up biscuits into fourths and top chicken with biscuts
-08. bake another 15 minute until biscuits are browned
-Recipe: bacon   chicken liver pate
-Minutes: 180
-Tags: 4-hours-or-less, appetizers, bacon, chicken, chicken-livers, course, dietary, finger-food, lunch, main-ingredient, meat, pork
-Ingredients: back bacon, butter, button mushrooms, chicken liver, double cream, dry sherry, garlic, lemon juice, onions, parsley, thyme
-Steps:
-01. melt the butter in a large pan
-02. add the bacon , garlic and onion and cook gently for 3 minutes
-03. stir in the chicken livers and cook for 5 minutes
-04. season liberally with salt and pepper
-05. stir in the herbs and mushrooms
-06. add the sherry and cook until the liquid has evaporated
-07. cool , then work in an electric blender until smooth
-08. stir in the cream and lemon juice
-Recipe: rumaki
-Minutes: 400
-Tags: appetizers, asian, bacon, chicken, chicken-livers, course, cuisine, dietary, equipment, finger-food, japanese, low-carb
-Ingredients: bacon, brown sugar, chicken liver, cooking oil, dry sherry, fresh ginger, garlic, sliced water chestnuts, soy sauce, toasted sesame oil, toothpicks
-Steps:
-01. mix together the soy , sherry , 3 t of brown sugar , garlic , ginger , and oils in a resealable plastic bag
-02. add chicken livers and mix gently
-03. refrigerate 6 hours or overnight
-04. preheat broiler or over grill to high
-05. drain marinade from chicken livers , reserving 1 / 4 cup
-06. chop larger chicken livers in half or thirds
-07. cut each bacon slice into 2 pieces
-08. place 1 slice of water chestnut on top of each 1 / 2 piece of bacon
-Recipe: chopped chicken liver
-Minutes: 25
-Tags: 30-minutes-or-less, appetizers, chicken, chicken-livers, comfort-food, course, cuisine, dietary, dinner-party, equipment, european, jewish-ashkenazi
-Ingredients: cayenne pepper, chicken livers, extra large eggs, fat, fresh ground pepper, fresh parsley leaves, fresh thyme leaves, kosher salt, madeira wine, yellow onions
-Steps:
-01. drain and pat the livers dry saute them in 2 batches in 2 tablespoons of rendered fat over med-high heat
-02. turning once , for about 5 minutes , or until just barley pink inside
-03. transfer them to a large bowl
-04. don't overcook or livers will be dry
-05. in the same pan , saute the onions in 3 tablespoons of chicken fat over med-high heat for about 10 minutes or until browned
-06. add the madeira and deglaze the pan , scraping the sides for about 15 seconds
-07. pour into the bowl with livers
-08. add the eggs , parsley , thyme , salt , black pepper , cayenne and remaining chicken fat to the bowl
-Recipe: chicken livers w caramelized onion and madeira
-Minutes: 32
-Tags: 60-minutes-or-less, american, brunch, chicken, chicken-livers, comfort-food, course, cuisine, dietary, equipment, low-calorie, low-carb
-Ingredients: chicken livers, cooking oil, fresh ground black pepper, fresh parsley, hard-boiled egg, madeira wine, onions, salt, sugar
-Steps:
-01. in a frying pan , heat 2 tablespoons of the oil over moderate heat
-02. add the onions , 1 / 2 tsp salt , 1 / 8 tsp pepper and sugar
-03. cook , stirring frequently , until the onions are well browned , about 15 minutes
-04. remove the onions from the pan and put on a serving platter or individual plates and keep warm
-05. in the same frying pan , heat the remaining 1 tablespoon of oil over moderately high heat
-06. season the chicken livers with the remaining salt & pepper
-07. put the livers in the pan , in two batches if necessary , and cook for 2 minutes
-08. turn and cook until browned , about 2 minutes longer
-Recipe: portuguese piri piri chicken livers
-Minutes: 20
-Tags: 30-minutes-or-less, chicken, chicken-livers, course, cuisine, european, inexpensive, main-dish, main-ingredient, meat, portuguese, poultry
-Ingredients: bay leaf, chicken liver, garlic cloves, ground birds eye peppers, ground black pepper, ground cloves, ground cumin, ground paprika, olive oil, onion, table salt, white wine
-Steps:
-01. saute the chopped onion and crushed garlic in olive oil in a large pan
-02. add all ingredients except the wine & chicken livers
-03. add chicken livers and fry over medium heat until browned
-04. add the white wine and simmer on gentle heat until done
-05. serve with rice or bread
-Recipe: black and white chile
-Minutes: 90
-Tags: 4-hours-or-less, chicken, chili, course, dietary, main-dish, main-ingredient, meat, poultry, preparation, time-to-make, whole-chicken
-Ingredients: bell pepper, black pepper, cumin, dried black beans, dried navy beans, dried oregano, flour, fresh cilantro, fryer chicken, garlic, green chilies, olive oil, red pepper flakes, salt, yellow onions
-Steps:
-01. rinse and drain the beans in separate pots , cover the beans with about an inch of cold water and bring to a boil
-02. cover the boiling pots and remove from the heat
-03. allow them to soak off heat , for 2 hours
-04. put the chicken pieces in a stock pot and cover with about 2 inches of cold water , bring to a boil then simmer for about an hour
-05. remove the chicken and allow to cool , bone it and chop to about 1 / 4 inch
-06. drain each of the bean pots and add your new chicken stock to each to cover the beans by at least 1 inch
-07. if theres not enough stock , add water
-08. bring the beans to a boil , then reduce to a simmer and cook until each is just getting tender
-Recipe: chardonnay chicken   wild mushroom stew
-Minutes: 95
-Tags: 4-hours-or-less, american, chicken, course, cuisine, dinner-party, equipment, main-dish, main-ingredient, meat, mushrooms, north-american
-Ingredients: boiling water, boneless chicken breasts, cayenne pepper, chardonnay wine, cornstarch, cremini mushroom, dijon mustard, dried porcini mushrooms, dried tarragon, fresh parsley, heavy cream, instant rice, lemon juice, olive oil, pepper
-Steps:
-01. in a dutch oven or stockpot , heat 1 / 2 tablespoon olive oil over med-high heat
-02. saut chicken with dijon mustard , 1 / 4 teaspoon salt , and 1 / 8 teaspoon pepper , until golden brown
-03. in a small bowl , soak dried porcinis in boiling water until soft
-04. remove chicken to a plate
-05. pour in the wine and bring to a boil , scraping up any bits of chicken left in the pan
-06. return the chicken and add the stock , 1 / 4 teaspoon each tarragon , salt , and pepper
-07. cover pan , and let simmer over med-low heat until chicken is tender
-08. remove the porcini from their soaking liquid , and squeeze them out over the bowl to remove excess liquid
-Recipe: erin s orange roasted chicken
-Minutes: 70
-Tags: 4-hours-or-less, beginner-cook, chicken, comfort-food, course, dietary, easy, equipment, fall, fruit, heirloom-historical, holiday-event
-Ingredients: butter, garlic cloves, orange, orange juice, roasting chickens, salt and pepper
-Steps:
-01. clean chicken and pat dry
-02. rub skin with half of 1 orange
-03. stuff cavity of chicken with 2 orange halves , garlic cloves and the butter
-04. roast at 350f for 22 minutes for each pound
-05. make sauce by adding orange juice to the pan drippings and reducing by half
-Recipe: the lady s chicken noodle soup   paula deen
-Minutes: 85
-Tags: 4-hours-or-less, bisques-cream-soups, chicken, comfort-food, course, cuisine, diabetic, dietary, easy, european, italian, main-ingredient
-Ingredients: bay leaves, broiler-fryer chickens, carrots, celery, chicken bouillon cubes, cooking sherry, egg noodles, french bread, fresh ground black pepper, fresh rosemary leaves, garlic cloves, heavy cream, italian seasoning, kosher salt, lemon pepper seasoning
-Steps:
-01. for the stock:
-02. add all ingredients to a soup pot
-03. cook until chicken is tender , about 35-45 minutes
-04. remove chicken from pot and set aside to cool
-05. remove and discard bay leaves and onion
-06. you should have approximately 3 quarts of stock
-07. when chicken is cool enough to touch , pick bones clean , discarding bone , skin and cartilage
-08. set chicken aside
-Recipe: chicken   chile pepper stew
-Minutes: 170
-Tags: 4-hours-or-less, american, chicken, course, cuisine, dietary, dinner-party, equipment, fall, healthy-2, low-calorie, low-carb
-Ingredients: bay leaves, black pepper, carrots, cayenne pepper, celery, chilies, evaporated milk, fresh dill, fresh parsley, garlic cloves, ground cumin, hard-boiled eggs, lime juice, new potatoes, onion
-Steps:
-01. in a large stockpot , bring the chicken , onion , carrots , celery , dill , parsley , bay , peppercorns , cayenne pepper , salt , and water to a boil
-02. decrease heat to low and simmer until the chicken is tender
-03. remove chicken from pot and set aside to cool
-04. let stock continue to simmer for another 15 minutes , then strain into a clean stockpot and set aside
-05. using two forks , shred the chicken
-06. in a small mixing bowl , combine the orange juice and lime juice
-07. break the chiles into pieces and soak in the juice mixture for 20 minutes
-08. transfer to a blender and blend until smooth
-Recipe: grilled steak
-Minutes: 25
-Tags: 30-minutes-or-less, american, barbecue, beef, course, cuisine, dietary, easy, equipment, grilling, main-dish, main-ingredient
-Ingredients: black pepper, brown sugar, crushed pineapple, crystallized ginger, garlic, onions, port wine, steak, teriyaki sauce
-Steps:
-01. place all ingredients except for steak in storage bag and give a shake to mix marinade
-02. add steak and marinade 6-8 hours or even overnight
-03. remove steak from marinade
-04. bring steak to room temperature
-05. place marinade in a small saucepan add 2 tablespoons port and simmer 5-10 minutes
-06. grill steak on a medium high heat for 4-6 minutes each side
-07. let steak sit for 10 minutes before slicing and serve along with the hot sauce
-Recipe: filet mignon marinated
-Minutes: 210
-Tags: 4-hours-or-less, barbecue, beef, course, dietary, equipment, grilling, main-dish, main-ingredient, meat, preparation, steaks
-Ingredients: beef tenderloin steaks, dried oregano, garlic powder, lemon pepper seasoning, olive oil, seasoning salt
-Steps:
-01. combine first 5 ingredients in a large shallow container
-02. add steaks
-03. cover and marinate 3 hours in refrigerater turning occasionally
-04. remove steaks from marinade
-05. grill over hot coals 5 to 7 minutes on each side or until desired doneness
-Recipe: tournedos au poivre et champignons filet au poivre w mushrooms
-Minutes: 80
-Tags: 4-hours-or-less, beef, course, cuisine, dinner-party, european, french, main-dish, main-ingredient, meat, mushrooms, occasion
-Ingredients: butter, cognac, filet mignon, mushroom, parsley, peppercorn, salt, whipping cream
-Steps:
-01. mash peppercorns with a mallet or the back of a heavy pan
-02. press each side of the fillets into the cracked peppercorns and let the beef stand about an hour to absorb the flavor
-03. heat the butter and add the beef and sear about 8 minutes per side for rare , 10 for medium , 12 for well done
-04. remove the steaks to a platter and allow to rest
-05. add cognac to the pan and heat for just a few seconds and then set ablaze
-06. option 1: boil the liquid about a minute then stir in additional butter , salt and cream
-07. bring to a boil , reduce heat , add mushrooms and saute till mushrooms are soft
-08. pour over fillets and sprinkle with parsley
-Recipe: filet mignon with mushrooms and creamy madeira sauce
-Minutes: 40
-Tags: 60-minutes-or-less, beef, christmas, course, dietary, dinner-party, easy, eggs-dairy, equipment, holiday-event, low-carb, low-in-something
-Ingredients: beef broth, butter, cayenne pepper, filet mignon steaks, fresh garlic, fresh thyme, madeira wine, oil, salt and pepper, shallot, whipping cream, white button mushrooms
-Steps:
-01. in a large skillet melt 3 tablespoons butter with 1 tablespoon oil
-02. add in the sliced fresh mushrooms and saute until they release their liquid and are tender
-03. add in 1 / 4 cup shallots and garlic
-04. saute for about 3 minutes
-05. stir in fresh thyme and season with salt and pepper
-06. transfer to a bowl
-07. add in another 2 tablespoons butter with 1 tablespoon oil to the same skillet over medium-high heat
-08. season the steaks with salt and pepper , then add to skillet and cook until desired doneness
-Recipe: minute steak gyros  greek
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: oak smoked breast of duck with port wine reduction
 Minutes: 30
-Tags: 30-minutes-or-less, beef, beginner-cook, cuisine, easy, european, greek, main-ingredient, meat, preparation, steaks, time-to-make
-Ingredients: coriander, dill, dried oregano, dry oregano, feta cheese, garlic clove, garlic powder, ground allspice, minute steaks, olive oil, onions, pepper, pita bread, red wine vinegar, salt
+Tags: 30-minutes-or-less, duck, duck-breasts, for-1-or-2, main-ingredient, meat, number-of-servings, poultry, preparation, time-to-make
+Ingredients: dried currant, duck breast, port wine, shallot
 Steps:
-01. combine first 5 ingredients or use your favorate greek seasoning
-02. separate the steaks , pat dry , and season liberally with greek seasoning
-03. restack and let sit in refrigerator for 20-30 minutes
-04. combine the stuff for the veggies in a bowl and let sit until ready to serve
-05. in a non-stick pan , with a tiny bit of oil , fry the steaks in small stacks of 4-6 steaks per stack until brown
-06. remove and set aside
-07. when all meat is cooked , slice the stacks into 1" segments
-08. brush the pita with olive oil and warm on a griddle or fry pan
-Recipe: saturday steak
-Minutes: 2890
-Tags: 1-day-or-more, 5-ingredients-or-less, australian, beef, beginner-cook, comfort-food, course, cuisine, dietary, dinner-party, easy, main-dish
-Ingredients: flour, onions, rump steak, tomato sauce, tomatoes
+01. for the duck:
+02. soak the wood chips in water for about 1 hour
+03. season the duck breasts with salt and pepper and sear in a hot pan skin side down on medium low heat for 10-12 minutes to render the fat from the skin
+04. remove from the pan and place in the smoker with the dried chips and soaked chips and smoke at 350f for 5-7 minutes for medium rare
+05. remove and let the duck rest for 3-5 minutes before serving
+06. for the port wine reduction:
+07. in a medium size sauce pan , place shallots , currents and port wine on medium high heat
+08. reduce the wine to 1 / 2-3 / 4 until thickened
+Recipe: turducken  a chicken in a duck in a turkey
+Minutes: 660
+Tags: chicken, christmas, course, cuisine, dietary, dinner-party, duck, equipment, for-large-groups, high-in-something, high-protein, holiday-event
+Ingredients: black pepper, dried thyme, ducklings, paprika, prepared stuffing, salt, whole chickens, whole turkey
 Steps:
-01. put your rump steak in one layer , in a baking tray or casserole dish
-02. choose one that the meat "just" fits in , without overlapping
-03. sprinkle over salt and pepper , thinly sliced onion , sliced tomatoes , and tomato sauce
-04. sprinkle over plain flour , and cover the meat with cold water
-05. the amount depends on the size of your pan , but the meat and flour should be covered
-06. cover with lid or alfoil , i use a cookie tray :)
-07. put in a very slow oven and leave for about 2 hours
-08. the flour should have turned into the best gravy by then , if , after an hour , there are still bits of flour showing , give them a little whisk with a fork
-Recipe: cooking light beef broccoli lo mein
-Minutes: 25
-Tags: 30-minutes-or-less, asian, beef, chicken, comfort-food, course, cuisine, dinner-party, main-dish, main-ingredient, meat, occasion
-Ingredients: broccoli, brown sugar, chili paste with garlic, cooked spaghetti, dark sesame oil, flank steak, fresh ginger, garlic cloves, low sodium soy sauce, onions, oyster sauce, peanut oil
+01. debone the birds:
+02. if it is your first time deboning a fowl , you might want to practice first on the chicken rather than the turkey since mistakes will be hidden inside the bigger birds
+03. rinse the turkey and remove the neck and any giblets
+04. place the turkey , breast side down , on a clean flat surface
+05. cut through the skin along the length of the spine
+06. using the
+07. toward neck end , cut through the meat to expose the shoulder blade
+08. cut meat away from and around the bone , severing bone at the joint to remove shoulder blade
+Recipe: duck breast with leek and cranberry
+Minutes: 30
+Tags: 30-minutes-or-less, course, cuisine, duck, duck-breasts, easy, european, for-1-or-2, french, main-dish, main-ingredient, meat
+Ingredients: butter, cracked pepper, dried cranberries, duck breasts, grapeseed oil, leek, nutmeg, red wine, red wine vinegar, salt, sugar
 Steps:
-01. combine pasta and sesame oil , tossing well to coat
-02. heat peanut oil in a large nonstick skillet over medium-high heat
-03. add the ginger and garlic
-04. saut 30 seconds
-05. add broccoli and onion
-06. saut 3 minutes
-07. add steak
-08. saut 5 minutes or until done
-Recipe: steak oscar  for 2
-Minutes: 40
-Tags: 60-minutes-or-less, american, asparagus, beef, beginner-cook, course, crab, cuisine, dietary, dinner-party, easy, european
-Ingredients: asparagus, bearnaise sauce mix, butter, crabmeat, filet mignon, whole milk
+01. cut leek into thin slices
+02. heat butter in sauce pan
+03. add the leek and cook until translucent
+04. season with salt , pepper and nutmeg
+05. remove from heat and set aside
+06. in a skillet over high heat , brown duck breast for 3 minutes
+07. on each side
+08. remove and place in a pre-heated 175f oven
+Recipe: steamed and roasted whole duck
+Minutes: 150
+Tags: 4-hours-or-less, asian, chinese, course, cuisine, duck, for-1-or-2, main-dish, main-ingredient, meat, number-of-servings, poultry
+Ingredients: chinese five spice powder, duck, fresh ginger, garlic, green onion, honey, rice vinegar, salt, soy sauce, sugar, tangerine
 Steps:
-01. salt and pepper raw steaks before grilling
-02. broil 10 - 12 minutes on one side , then 8 - 9 minutes on other side
-03. simmer 1 / 2 stick butter with crabmeat on low heat until warm
-04. prepare knorr's bernaise sauce with one whole stick of butter and using whole milk only , by following directions on package
-05. put asparagus and some water into microwave for 2 - 2 1 / 2 minutes
-06. to serve: crabmeat over steak
-07. asparagus over crabmeat
-08. cover with bernaise sauce
+01. to reduce the fat and produce a crispy skin , begin by trimming the excess fat from the neck and body
+02. rinse the duck , inside and out , and pat dry thoroughly with paper towels
+03. combine the chinese five-spice , sugar , and salt in a small bowl
+04. rub the spice mixture all over the duck , inside and out
+05. salt and five-spice powder makes a fragrant dry marinade , which draws some of the moisture from the duck so that the spices penetrate
+06. stuff the duck cavity with the aromatics: the ginger , garlic , green onions , and tangerine peel
+07. fold the wing
+08. poke the duck breast a few times , piercing the skin
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: oak smoked breast of duck with port wine reduction
+Minutes: 30
+Tags: 30-minutes-or-less, duck, duck-breasts, for-1-or-2, main-ingredient, meat, number-of-servings, poultry, preparation, time-to-make
+Ingredients: dried currant, duck breast, port wine, shallot
+Steps:
+01. for the duck:
+02. soak the wood chips in water for about 1 hour
+03. season the duck breasts with salt and pepper and sear in a hot pan skin side down on medium low heat for 10-12 minutes to render the fat from the skin
+04. remove from the pan and place in the smoker with the dried chips and soaked chips and smoke at 350f for 5-7 minutes for medium rare
+05. remove and let the duck rest for 3-5 minutes before serving
+06. for the port wine reduction:
+07. in a medium size sauce pan , place shallots , currents and port wine on medium high heat
+08. reduce the wine to 1 / 2-3 / 4 until thickened
+Recipe: duck breast with leek and cranberry
+Minutes: 30
+Tags: 30-minutes-or-less, course, cuisine, duck, duck-breasts, easy, european, for-1-or-2, french, main-dish, main-ingredient, meat
+Ingredients: butter, cracked pepper, dried cranberries, duck breasts, grapeseed oil, leek, nutmeg, red wine, red wine vinegar, salt, sugar
+Steps:
+01. cut leek into thin slices
+02. heat butter in sauce pan
+03. add the leek and cook until translucent
+04. season with salt , pepper and nutmeg
+05. remove from heat and set aside
+06. in a skillet over high heat , brown duck breast for 3 minutes
+07. on each side
+08. remove and place in a pre-heated 175f oven
+Recipe: oven braised teal
+Minutes: 60
+Tags: 60-minutes-or-less, american, british-columbian, canadian, comfort-food, course, cuisine, dietary, dinner-party, duck, equipment, heirloom-historical
+Ingredients: butter, button mushrooms, chicken broth, duck breasts, flour, parsley, salt & pepper, wine
+Steps:
+01. season teal breast halves with salt and pepper
+02. melt butter in a black iron pot and brown breast halves
+03. remove to baking dish
+04. add flour to butter in pot , stirring well
+05. brown a little or not , your taste
+06. slowly add chicken broth and sherry
+07. season to taste
+08. blend well and pour over teal
+
+recipes with ingredient: boneless duck breasts
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+
+recipes with ingredient: duck breast
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: oak smoked breast of duck with port wine reduction
+Minutes: 30
+Tags: 30-minutes-or-less, duck, duck-breasts, for-1-or-2, main-ingredient, meat, number-of-servings, poultry, preparation, time-to-make
+Ingredients: dried currant, duck breast, port wine, shallot
+Steps:
+01. for the duck:
+02. soak the wood chips in water for about 1 hour
+03. season the duck breasts with salt and pepper and sear in a hot pan skin side down on medium low heat for 10-12 minutes to render the fat from the skin
+04. remove from the pan and place in the smoker with the dried chips and soaked chips and smoke at 350f for 5-7 minutes for medium rare
+05. remove and let the duck rest for 3-5 minutes before serving
+06. for the port wine reduction:
+07. in a medium size sauce pan , place shallots , currents and port wine on medium high heat
+08. reduce the wine to 1 / 2-3 / 4 until thickened
+Recipe: duck breast with leek and cranberry
+Minutes: 30
+Tags: 30-minutes-or-less, course, cuisine, duck, duck-breasts, easy, european, for-1-or-2, french, main-dish, main-ingredient, meat
+Ingredients: butter, cracked pepper, dried cranberries, duck breasts, grapeseed oil, leek, nutmeg, red wine, red wine vinegar, salt, sugar
+Steps:
+01. cut leek into thin slices
+02. heat butter in sauce pan
+03. add the leek and cook until translucent
+04. season with salt , pepper and nutmeg
+05. remove from heat and set aside
+06. in a skillet over high heat , brown duck breast for 3 minutes
+07. on each side
+08. remove and place in a pre-heated 175f oven
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: divine boneless duck breast with port wine sauce
+Minutes: 540
+Tags: course, dinner-party, duck, duck-breasts, main-dish, main-ingredient, meat, occasion, poultry
+Ingredients: balsamic vinegar, beef broth, boneless duck breasts, dry red wine, fresh ginger, garlic clove, garlic cloves, heavy cream, lemon juice, olive oil, shallot, soy sauce, sugar, tawny port, water
+Steps:
+01. marinade:
+02. in a bowl whisk together the wine , the vinegar , soy sauce , lemon juice , garlic , gingerroot , oil and salt and pepper to taste
+03. put the duck breasts in a large resealable plastic bag , pour the marinade over them , and seal the bag
+04. put the plastic bag in a large bowl and let the duck marinate , chilled , overnight
+05. remove the duck from the marinade and pat it dry between layers of paper towels
+06. preheat oven to 450
+07. score the skin of each duck breast in a crosshatch pattern with a sharp knife and sprinkle both sides of the duck with salt and pepper to taste
+08. heat 2 heavy skillets over moderately high heat until they are hot and in each skillet cook 1 of the duck breasts , skin side down , for 10 minutes
+Recipe: oak smoked breast of duck with port wine reduction
+Minutes: 30
+Tags: 30-minutes-or-less, duck, duck-breasts, for-1-or-2, main-ingredient, meat, number-of-servings, poultry, preparation, time-to-make
+Ingredients: dried currant, duck breast, port wine, shallot
+Steps:
+01. for the duck:
+02. soak the wood chips in water for about 1 hour
+03. season the duck breasts with salt and pepper and sear in a hot pan skin side down on medium low heat for 10-12 minutes to render the fat from the skin
+04. remove from the pan and place in the smoker with the dried chips and soaked chips and smoke at 350f for 5-7 minutes for medium rare
+05. remove and let the duck rest for 3-5 minutes before serving
+06. for the port wine reduction:
+07. in a medium size sauce pan , place shallots , currents and port wine on medium high heat
+08. reduce the wine to 1 / 2-3 / 4 until thickened
+Recipe: duck breast with leek and cranberry
+Minutes: 30
+Tags: 30-minutes-or-less, course, cuisine, duck, duck-breasts, easy, european, for-1-or-2, french, main-dish, main-ingredient, meat
+Ingredients: butter, cracked pepper, dried cranberries, duck breasts, grapeseed oil, leek, nutmeg, red wine, red wine vinegar, salt, sugar
+Steps:
+01. cut leek into thin slices
+02. heat butter in sauce pan
+03. add the leek and cook until translucent
+04. season with salt , pepper and nutmeg
+05. remove from heat and set aside
+06. in a skillet over high heat , brown duck breast for 3 minutes
+07. on each side
+08. remove and place in a pre-heated 175f oven
+Recipe: oven braised teal
+Minutes: 60
+Tags: 60-minutes-or-less, american, british-columbian, canadian, comfort-food, course, cuisine, dietary, dinner-party, duck, equipment, heirloom-historical
+Ingredients: butter, button mushrooms, chicken broth, duck breasts, flour, parsley, salt & pepper, wine
+Steps:
+01. season teal breast halves with salt and pepper
+02. melt butter in a black iron pot and brown breast halves
+03. remove to baking dish
+04. add flour to butter in pot , stirring well
+05. brown a little or not , your taste
+06. slowly add chicken broth and sherry
+07. season to taste
+08. blend well and pour over teal
+
 
 Answer:
 
-Conversation context (previous messages):
-
-Message 1 - User query:
-da receita de lombo no forno
-
-Message 1 - Structured recipe data:
-original_query=da receita de lombo no forno
-detected_language=pt
-translated_query=from the loin recipe in the oven
-intent=find_recipe
-slot_ingredient=
-slot_recipe_name=verdure al forno(100.00), baked  cod   bacalhau no forno(100.00), ovos no forno com queijo  individual baked eggs with cheese(100.00), oven baked drumsticks(85.50), hearty oven stew(85.50), soup mix in a jar(85.50)
-slot_tag=
-slot_cooking_time=None
-
-
-Message 1 - Assistant Response:
-Desculpe, não encontrei nenhuma receita de **lombo no forno** no nosso repositório.
-
-**Sugestão de consulta:**  
-*“receitas de lombo assado”*  
-
----
-
-### Outros resultados encontrados
-
-- **Verdure al forno** – 60 min; tags: até 60 min, queijo, fácil, europeu, italiano, low‑carb.  
-- **Bacalhau no forno (baked cod)** – 80 min; tags: até 4 h, jantar, saudável, low‑calorie, low‑carb, low‑colesterol.  
-- **Ovos no forno com queijo** – 20 min; tags: até 30 min, café da manhã, queijo, fácil, europeu.  
-- **Oven baked drumsticks** – 75 min; tags: até 4 h, frango, fácil, kid‑friendly, almoço.  
-- **Hearty oven stew** – 120 min; tags: até 4 h, carne‑bovina, prato‑principal, fácil.  
-- **Soup mix in a jar** – 10 min; tags: até 15 min, low‑calorie, low‑carb, saudável, presente.
-
-Message 2 - User query:
-encontra a receita Bacalhau no forno (baked cod)
-
-Message 2 - Structured recipe data:
-original_query=encontra a receita Bacalhau no forno (baked cod)
-detected_language=pt
-translated_query=Find the recipe Cod in the oven (baked cod)
-intent=find_recipe
-slot_ingredient=
-slot_recipe_name=bacalhau  salt cod  with chickpeas(100.00), salt cod  bacalhau  bacalao  morue  baccal  stew(100.00), bacalhau  gomes de s  cod   potato cape verd(100.00), baked  cod   bacalhau no forno(100.00), bacalhau a bras(100.00), portuguese bacalhau  brs  salt cod and potatoes(100.00), bacalhau a algarvia   golden codfish with potatoes(100.00), the recipe  moonshine(100.00)
-slot_tag=
-slot_cooking_time=None
-
-
-Message 2 - Assistant Response:
-**Bacalhau no forno (baked cod)**  
-
-- **Tempo de preparo:** 80 min  
-- **Tags principais:** até 4 horas, prato, cozinha, dietético, jantar, fácil, europeu, saudável, baixo‑calórico, baixo‑carboidrato, baixo‑colesterol  
-
-### Ingredientes
-- Folha de louro  
-- Filés de bacalhau (cod fish)  
-- Salsa fresca  
-- Dentes de alho  
-- Azeite de oliva  
-- Cebolas  
-- Batatinhas novas (tiny new potatoes)  
-- Tomates  
-- Vinho branco  
-
-### Modo de preparo
-1. Depois de demolhar o bacalhau, retire‑o da água e seque bem com um pano de cozinha.  
-2. Descasque as cebolas e corte‑as em meias‑luas; descasque o alho e pique‑o.  
-3. Retire a pele dos tomates em água quente, descasque‑os e corte‑os em rodelas.  
-4. Em um refratário retangular coloque metade do azeite e metade do vinho branco.  
-5. Distribua as cebolas, o alho, os tomates, a folha de louro e as batatinhas sobre o azeite/vinho.  
-6. Disponha os filés de bacalhau por cima de tudo e regue com o restante do vinho e do azeite.  
-7. Regue o bacalhau continuamente com o azeite restante para que não resseque.  
-8. Leve ao forno pré‑aquecido a **190 °C (380 °F)** por cerca de **1 hora**, ou até que as batatas estejam macias.
-
----
-
-### Outros resultados encontrados
-- **Bacalhau com grão‑de‑bico** – 2910 min, tags: 1‑dia‑ou‑mais, brunch, peixe, português.  
-- **Ensopado de bacalhau (salt cod stew)** – 2340 min, tags: 1‑dia‑ou‑mais, sem glúten, sem lactose, baixo‑teor de ovos.  
-- **Bacalhau Gomes de S (cod & potato – Cape Verde)** – 50 min, tags: até 60 min, africano, fácil, saudável.  
-- **Bacalhau à Brás** – 75 min, tags: baixo‑calórico, baixo‑carboidrato, baixo‑sódio.  
-- **Portuguese bacalhau BRS (bacalhau com batatas)** – 75 min, tags: alto teor de proteína, baixo‑gordura.  
-- **Bacalhau à Algarvia (golden codfish with potatoes)** – 70 min, tags: alto teor de proteína, baixo‑saturado.  
-- **Moonshine (bebida)** – 10 min, tags: até 15 min, 5‑ingredientes‑ou‑menos, bebida.
-
-Message 3 - User query:
-encontra a receita de bacalhau com grão-de-bico
-
-Message 3 - Structured recipe data:
-original_query=encontra a receita de bacalhau com grão-de-bico
-detected_language=pt
-translated_query=finds the recipe for cod with chickpeas
-intent=find_recipe
-slot_ingredient=
-slot_recipe_name=bacalhau  salt cod  with chickpeas(100.00), salt cod  bacalhau  bacalao  morue  baccal  stew(100.00), bacalhau  gomes de s  cod   potato cape verd(100.00), baked  cod   bacalhau no forno(100.00), bacalhau a bras(100.00), portuguese bacalhau  brs  salt cod and potatoes(100.00), bacalhau a algarvia   golden codfish with potatoes(100.00), the recipe  moonshine(100.00)
-slot_tag=
-slot_cooking_time=None
-
-
-Message 3 - Assistant Response:
-Aqui está a receita de **bacalhau com grão‑de‑bico** que consta no nosso repositório.
-
----
-
-## Bacalhau (salt cod) com grão‑de‑bico  
-
-**Tempo de preparo:** 2910 min ≈ 48 h + cozimento  
-**Tags:** mais‑de‑1‑dia, brunch, bacalhau, prato, cozinha, dietético, europeu, peixe, prato‑principal, ingrediente‑principal, ocasião, português  
-
-### Ingredientes
-- Grão‑de‑bico  
-- Ovos  
-- Dentes de alho  
-- Azeitonas Kalamata  
-- Azeite de oliva  
-- Cebolas  
-- Salsa (salsa fresca)  
-- Piri‑piri  
-- Sal e pimenta a gosto  
-- Bacalhau (salt cod)  
-- Vinagre de vinho branco  
-
-### Modo de preparo
-1. **Preparar o bacalhau** – demolhar o peixe em água fria por, no mínimo, 24 h (preferencialmente 48 h), trocando a água 3‑4 vezes ao dia.  
-2. Escorrer e enxaguar bem; colocar o bacalhau numa panela com água suficiente para cobri‑lo.  
-3. Levar ao ponto de fervura.  
-4. Provar a água; se estiver muito salgada, escorrer o peixe, acrescentar água fresca e ferver novamente.  
-5. Reduzir o fogo e cozinhar em fogo brando por 20 min.  
-6. Escorrer e deixar esfriar.  
-7. (Opcional) Desfiar o bacalhau e misturá‑lo com os demais ingredientes – grão‑de‑bico cozido, ovos cozidos picados, alho, cebola refogada, azeitonas, salsa, piri‑piri e temperar com sal, pimenta e vinagre – formando um prato frio ou ligeiramente aquecido, conforme a preferência.  
-
----
-
-## Outros resultados encontrados
-- **Salt cod bacalhau bacalao morue baccal stew** – ensopado de bacalhau com tomate, courgette e especiarias (2340 min).  
-- **Bacalhau Gomes de S – cod & potato Cape Verd** (50 min).  
-- **Bacalhau no forno (baked cod)** (80 min).  
-- **Bacalhau à Brás** (75 min).  
-- **Portuguese bacalhau BRS – salt cod and potatoes** (75 min).  
-- **Bacalhau à Algarvia – golden codfish with potatoes** (70 min).  
-- **Moonshine** (bebida) (10 min).
