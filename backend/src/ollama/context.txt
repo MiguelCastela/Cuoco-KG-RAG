@@ -22,13 +22,10 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: 3g3434
-
-Description snippets (semantic matches):
-1. (0.431) 5g  sugars: 8g  protein: 3g   points® value 3*.
+User query: ayo
 
 Structured recipe data:
-original_query=3g3434
+original_query=ayo
 detected_language=en
 intent=list_by_tag
 slot_ingredient=
@@ -38,3 +35,74 @@ slot_cooking_time=None
 
 Answer:
 
+Conversation context (previous messages):
+
+Message 1 - User query:
+aye
+
+Message 1 - Structured recipe data:
+original_query=aye
+detected_language=en
+translated_query=Aye
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 1 - Assistant Response:
+
+
+Message 2 - User query:
+ayo
+
+Message 2 - Structured recipe data:
+original_query=ayo
+detected_language=en
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 2 - Assistant Response:
+Could you let me know which tag you’d like to see recipes for?  
+For example: **“recipes with tag easy”**.
+
+Conversation context (previous messages):
+
+Message 1 - User query:
+aye
+
+Message 1 - Structured recipe data:
+original_query=aye
+detected_language=en
+translated_query=Aye
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 1 - Assistant Response:
+
+
+Message 2 - User query:
+ayo
+
+Message 2 - Structured recipe data:
+original_query=ayo
+detected_language=en
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+
+
+Message 2 - Assistant Response:
+Could you let me know which tag you’d like to see recipes for?  
+For example: **“recipes with tag easy”**.
