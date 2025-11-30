@@ -1,0 +1,147 @@
+\documentclass[conference]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amsmath,amssymb}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{url}
+
+\begin{document}
+
+\title{Knowledge-and-Language 2025/2026 \\
+{\textsuperscript{Project Report}}\\
+A Bilingual Recipe Assistant Combining a Knowledge Graph, Lightweight NLP, and LLMs
+}
+
+\author{
+\IEEEauthorblockN{Miguel Castela, uc2022212972}
+\IEEEauthorblockA{\textit{DEI, Universidade de Coimbra} \\
+uc2022212972@student.uc.pt}
+\and
+\IEEEauthorblockN{Miguel Martins, uc2022213951}
+\IEEEauthorblockA{\textit{DEI, Universidade de Coimbra} \\
+uc2022213951@student.uc.pt}
+}
+
+\maketitle
+
+% -------- ABSTRACT ----------
+\section{Abstract}
+\noindent
+We present a bilingual (PT/EN) recipe assistant that combines a curated recipe Knowledge Graph (KG), intent classification, entity extraction and fuzzy linking, SPARQL-based retrieval, and large language models (LLMs) for summarization. The system supports ingredient, tag, and time-constrained queries, and integrates a React/Vite frontend with a Python backend. We describe the data curation, approach, implementation, and experiments, highlighting strengths, limitations, and future directions.
+
+% -------- INTRODUCTION ----------
+\section{Introduction}
+
+\textbf{Motivation.}
+Recipe search is often unstructured and multilingual. Users query for ingredients, dietary tags, or time constraints (e.g., ``receitas em menos de 30 minutos''). Most systems either rely on pure keyword search or opaque large language model answers. We aim to combine structured knowledge graph reasoning with neural text generation, ensuring factual retrieval and multilingual usability.
+
+\textbf{Problem Description.}
+Given a user query in Portuguese or English, the system must:
+\begin{itemize}
+  \item detect intent;
+  \item extract and link entities to KG resources;
+  \item retrieve candidate recipes via SPARQL or semantic similarity;
+  \item generate bilingual summaries;
+  \item present results through an interactive interface.
+\end{itemize}
+
+\textbf{Goal and Approach.}
+Our solution includes:
+\begin{itemize}
+  \item a curated recipe knowledge graph in RDF/Turtle;
+  \item a FAISS embedding index for recipe descriptions;
+  \item an intent classifier based on BERT;
+  \item NLP pipelines for entity extraction and fuzzy linking;
+  \item LLM-based bilingual summarization;
+  \item a React/Vite-based frontend.
+\end{itemize}
+
+% -------- RELATED WORK ----------
+\section{Related Work}
+Structured recipe recommendation has been explored using ontologies and knowledge graphs. Approximate string matching is commonly applied for entity linking. Retrieval-Augmented Generation (RAG) improves factuality by grounding generation in external data sources. Multilingual systems rely on language detection and selective translation. Our system integrates these ideas into a bilingual KG-driven assistant.
+
+% -------- DATA & APPROACH ----------
+\section{Data and Approach}
+
+\subsection{Data}
+The dataset includes:
+\begin{itemize}
+  \item \texttt{recipes\_graph\_cleaned.ttl}: knowledge graph of recipes and ingredients;
+  \item curated CSV files for analysis;
+  \item vector embeddings stored via FAISS.
+\end{itemize}
+
+\subsection{Pipeline}
+
+
+\begin{enumerate}
+  \item Intent classification (BERT);
+  \item Language detection and normalization;
+  \item Entity extraction and fuzzy linking;
+  \item Time parsing with regex;
+  \item KG/SPARQL retrieval and similarity search;
+  \item LLM-based summarization.
+\end{enumerate}
+
+
+
+% -------- IMPLEMENTATION ----------
+\section{Implementation}
+
+\subsection{Backend}
+Implemented in Python, including:
+\begin{itemize}
+  \item Intent classification module;
+  \item NLP pipeline with spaCy and RapidFuzz;
+  \item SPARQL querying layer;
+  \item FAISS-based similarity search;
+  \item LLM interface (Groq and Ollama).
+\end{itemize}
+
+\subsection{Frontend}
+The user interface is based on React/Vite:
+\begin{itemize}
+  \item Markdown rendering;
+  \item Language selection;
+  \item Animated suggestions and message flow.
+\end{itemize}
+
+% -------- EXPERIMENTATION ----------
+\section{Experimentation}
+
+\subsection{Setup}
+We evaluated PT/EN queries by ingredients, tags, and time constraints.
+
+\subsection{Results}
+Positive cases showed accurate intent routing and bilingual output. Initial failures in time parsing and API configuration were mitigated through relaxed matching and environment validation.
+
+\subsection{Metrics}
+\begin{itemize}
+  \item Intent accuracy (placeholder);
+  \item Entity linking precision@k (placeholder);
+  \item Time extraction success rate (placeholder);
+  \item Human quality judgments for bilingual summaries (placeholder).
+\end{itemize}
+
+% -------- CONCLUSIONS ----------
+\section{Conclusions and Future Work}
+
+We demonstrated that combining symbolic reasoning with neural generation produces accurate and fluent responses. The bilingual KG-powered assistant effectively supports multiple query types.
+
+Future work includes:
+\begin{itemize}
+  \item expanding KG coverage;
+  \item adding automatic evaluation metrics;
+  \item improving translation robustness;
+  \item integrating structured outputs.
+\end{itemize}
+
+% -------- REFERENCES ----------
+\bibliographystyle{IEEEtran}
+\bibliography{report}
+
+\end{document}

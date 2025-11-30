@@ -73,7 +73,7 @@ TIME_PATTERNS = [
     # 1: Hours only
     re.compile(r"(?P<val>\d{1,2})\s*(?:h|hora|horas|hour|hours)", re.I),
     # 2: Minutes only - Ensure \b is at start to avoid matching inside numbers, but NOT at end to allow "30min"
-    re.compile(r"\b(?P<val>\d{1,3})\s*(?:minutos|min|mins|minute|minutes)", re.I),
+    re.compile(r"\b(?P<val>\d{1,3})\s*(?:minutos|min|mins|minute|minutes|munutes|minuts)", re.I),
 ]
 
 # Pattern to detect "less than" / "under" context
