@@ -66,12 +66,76 @@ PT_PREF_BOOST = 1
 
 
 # 1. COOKING TIME REGEX
+# Lenient patterns (removed strict \b boundaries around units)
 TIME_PATTERNS = [
-    re.compile(r"\b(?P<val>\d{1,3})\s*(minutos|min|mins|minute|minutes)\b", re.I),
-    re.compile(r"\b(?P<val>\d{1,2})\s*(h|hora|horas|hour|hours)\b", re.I),
-    re.compile(r"\b(?P<h>\d{1,2})\s*h\s*(?P<m>\d{1,2})\s*m?\b", re.I),
-    re.compile(r"\b(?P<h>\d{1,2}):(?P<m>\d{1,2})\b"),
+    # 0: Combined H + M (e.g., 1h30, 1h 30m)
+    re.compile(r"(?P<h>\d{1,2})\s*h\s*(?P<m>\d{1,2})", re.I),
+    # 1: Hours only
+    re.compile(r"(?P<val>\d{1,2})\s*(?:h|hora|horas|hour|hours)", re.I),
+    # 2: Minutes only - Ensure \b is at start to avoid matching inside numbers, but NOT at end to allow "30min"
+    re.compile(r"\b(?P<val>\d{1,3})\s*(?:minutos|min|mins|minute|minutes)", re.I),
 ]
+
+# Pattern to detect "less than" / "under" context
+RANGE_PREFIX_REGEX = re.compile(r"\b(menos de|less than|under|até|up to|max|maximum)\b", re.I)
+
+def parse_time_constraints(text: str) -> Tuple[Optional[int], Optional[int]]:
+    if not text or not isinstance(text, str):
+        return None, None
+    
+    t = text.lower()
+    print(f"[TIME DEBUG] Parsing: '{t}'")
+
+    # 1. Fast fail
+    if not re.search(r"\d", t):
+        print("[TIME DEBUG] No digits found.")
+        return None, None
+
+    extracted_val = None
+
+    # 2. Extraction Logic
+    # Try Combined H:M first (Index 0)
+    m_hm = TIME_PATTERNS[0].search(t)
+    if m_hm:
+        try:
+            extracted_val = int(m_hm.group("h")) * 60 + int(m_hm.group("m"))
+            print(f"[TIME DEBUG] Matched H+M: {extracted_val}")
+        except ValueError:
+            pass
+    
+    # Try Hours only (Index 1)
+    if extracted_val is None:
+        m_h = TIME_PATTERNS[1].search(t)
+        if m_h:
+            try:
+                extracted_val = int(m_h.group("val")) * 60
+                print(f"[TIME DEBUG] Matched Hours: {extracted_val}")
+            except ValueError:
+                pass
+
+    # Try Minutes only (Index 2)
+    if extracted_val is None:
+        m_min = TIME_PATTERNS[2].search(t)
+        if m_min:
+            try:
+                extracted_val = int(m_min.group("val"))
+                print(f"[TIME DEBUG] Matched Minutes: {extracted_val}")
+            except ValueError:
+                pass
+
+    if extracted_val is None:
+        print("[TIME DEBUG] No time value extracted.")
+        return None, None
+
+    # 3. Determine if it is Exact or Range (Max)
+    # Check if a range prefix exists in the text
+    range_match = RANGE_PREFIX_REGEX.search(t)
+    if range_match:
+        print(f"[TIME DEBUG] Range detected ('{range_match.group(0)}'). Max: {extracted_val}")
+        return None, extracted_val  # It is a max limit (Range)
+    else:
+        print(f"[TIME DEBUG] Exact time: {extracted_val}")
+        return extracted_val, None  # It is exact
 
 def content_tokens(chunks, lang, translate_to: Optional[str] = None, bag_mode: bool = False, original_text: Optional[str] = None):
     """
@@ -164,37 +228,37 @@ def cooking_time_to_minutes(text: str) -> Optional[int]:
     if not text or not isinstance(text, str):
         return None
     t = text.lower()
-
-    # Require an explicit digit somewhere to consider time extraction
-    if not re.search(r"\d", t):
-        return None
-
-    # Combined H + M first
-    for pat in TIME_PATTERNS[2:]:
+    
+    # 1. Try Combined H + M first
+    for pat in TIME_PATTERNS[3:]:
         m = pat.search(t)
         if m:
-            try:
-                return int(m.group("h")) * 60 + int(m.group("m"))
-            except Exception:
-                pass
+            d = m.groupdict()
+            if "h" in d and "m" in d:
+                try:
+                    return int(d["h"]) * 60 + int(d["m"])
+                except ValueError:
+                    continue
 
-    # Minutes only
+    # 2. Try Minutes (Pattern 0)
     m = TIME_PATTERNS[0].search(t)
     if m:
         try:
             return int(m.group("val"))
-        except Exception:
+        except ValueError:
             pass
 
-    # Hours only
-    m = TIME_PATTERNS[1].search(t)
-    if m:
-        try:
-            return int(m.group("val")) * 60
-        except Exception:
-            pass
+    # 3. Try Hours (Patterns 1 and 2)
+    for pat in TIME_PATTERNS[1:3]:
+        m = pat.search(t)
+        if m:
+            try:
+                return int(m.group("val")) * 60
+            except ValueError:
+                continue
 
     return None
+
 
 
 # 2. SPACY PIPELINE
@@ -389,6 +453,7 @@ def extract_candidates(text: str, nlp):
     """
     doc = nlp(text)
     # gather noun_chunks (avoid duplicates)
+    time = cooking_time_to_minutes(text)  # always from original text
     noun_chunks = []
     try:
         for nc in doc.noun_chunks:
@@ -415,7 +480,15 @@ def extract_candidates(text: str, nlp):
             seen.add(ck)
             final_chunks.append(c)
 
-    return {"candidate_chunks": final_chunks, "cooking_time": cooking_time_to_minutes(text), "doc": doc}
+    # Use the new parser
+    exact_m, max_m = parse_time_constraints(text)
+
+    return {
+        "candidate_chunks": final_chunks,
+        "cooking_time": exact_m,
+        "max_minutes": max_m,
+        "doc": doc
+    }
 
 
 # 5. LINKING (intent-aware, PT-first)
@@ -442,17 +515,24 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
         original_text=candidate_text,  
     )
 
+    # FIX: Capture both exact and max minutes from candidates
     cooking_time_raw = candidates.get("cooking_time") if intent == "list_by_time" else None
-    out = {"ingredient": [], "recipe_name": [], "tag": [], "cooking_time": cooking_time_raw}
+    max_minutes_raw = candidates.get("max_minutes") if intent == "list_by_time" else None
+
+    out = {
+        "ingredient": [], 
+        "recipe_name": [], 
+        "tag": [], 
+        "cooking_time": cooking_time_raw,
+        "max_minutes": max_minutes_raw  # Pass this through
+    }
 
     text_join = " ".join(chunks).lower() if chunks else ""
     prefer_pt = has_portuguese_chars(text_join)
 
-
     if intent == "list_by_time":
-        # assuming candidates.get("time_results") is the list of recipes filtered by time
-        time_results = candidates.get("time_results", [])
-        out["cooking_time"] = _cap_scored_list(time_results, SAFETY_MAX_RESULTS["time"])
+        # FIX: Do NOT overwrite cooking_time with empty list.
+        # Just return the extracted values so pipeline can use them.
         return out
 
     if intent == "list_by_ingredient":
@@ -467,7 +547,6 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
             SAFETY_MAX_RESULTS["ingredient"]
         )
         return out
-
 
     if intent == "list_by_tag":
         tag_cutoff = THRESHOLDS["tag"]
@@ -485,7 +564,7 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
         )
         return out
 
-    # Recipe-oriented intents: try exact/containment before fuzzy
+    # Recipe-oriented intents
     if intent in {"find_recipe", "retrieve_ingredients"}:
         # 1) Build candidate phrases: original ordered chunks + full text
         candidate_phrases: list[str] = []
@@ -503,7 +582,7 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
                 if _token_contains(label, phrase):
                     primary.append((label, 100.0))
             if primary:
-                break  # prefer longest phrase exact/containment
+                break
 
         if primary:
             out["recipe_name"] = primary
@@ -524,7 +603,6 @@ def link_candidates_to_kg(candidates: Dict[str, Any], kg: KGIndex, intent: str) 
         )
         return out
 
-    # fallback
     return out
 
 
@@ -605,7 +683,6 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
     candidates_primary = extract_candidates(text, nlp_primary)
 
     bag_intents = {"list_by_ingredient","list_by_tag"}
-    # Always create linked_primary first
     linked_primary = link_candidates_to_kg(candidates_primary, kg, intent=intent)
 
     # For bag-mode intents skip secondary pass
@@ -615,6 +692,7 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
             "recipe_name": linked_primary.get("recipe_name", []),
             "tag": linked_primary.get("tag", []),
             "cooking_time": linked_primary.get("cooking_time") if intent == "list_by_time" else None,
+            "max_minutes": linked_primary.get("max_minutes") if intent == "list_by_time" else None, # Add this
             "detected_language": lang,
             "original_query": text,
             "translated_query": translate_between(text, lang, other),
@@ -630,7 +708,9 @@ def extract_and_link(text: str, kg: KGIndex, nlp, intent: str):
         "ingredient": _merge_scored_lists(linked_primary.get("ingredient", []), linked_secondary.get("ingredient", [])),
         "recipe_name": _merge_scored_lists(linked_primary.get("recipe_name", []), linked_secondary.get("recipe_name", [])),
         "tag": _merge_scored_lists(linked_primary.get("tag", []), linked_secondary.get("tag", [])),
+        # FIX: Merge max_minutes from both passes
         "cooking_time": linked_primary.get("cooking_time") or linked_secondary.get("cooking_time") if intent == "list_by_time" else None,
+        "max_minutes": linked_primary.get("max_minutes") or linked_secondary.get("max_minutes") if intent == "list_by_time" else None,
         "detected_language": lang,
         "original_query": text,
         "translated_query": translated_text,

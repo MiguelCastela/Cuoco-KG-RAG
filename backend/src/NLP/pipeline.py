@@ -266,57 +266,68 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
         # INTENT: list_by_time
         elif top_intent == "list_by_time":
             print("[DEBUG] Entered list_by_time handler")
-            minutes = slots.get("cooking_time")
-            print(f"[DEBUG] Extracted minutes: {minutes}")
-            if minutes is not None:
-                print(f"\n---- Exact time search: minutes == {minutes} ----")
-                recs_exact = sparql_queries.query_by_exact_minutes(KG.graph, minutes, top_k=sparql_top_k)
-                print(f"[DEBUG] Exact minutes query returned {len(recs_exact)} rows")
-                if recs_exact:
-                    print(f"   ✔ Found {len(recs_exact)} recipes (regex exact minutes match)")
-                    for r in recs_exact:
+            
+            # Get extracted values
+            exact_minutes = slots.get("cooking_time")
+            max_minutes = slots.get("max_minutes")
+            
+            print(f"[DEBUG] Exact: {exact_minutes}, Max: {max_minutes}")
+
+            # CASE 1: Range Query (e.g., "menos de 30 minutos")
+            if max_minutes is not None:
+                print(f"\n---- Range search: minutes <= {max_minutes} ----")
+                recs = sparql_queries.query_by_max_minutes(KG.graph, max_minutes, top_k=sparql_top_k)
+                if recs:
+                    print(f"   ✔ Found {len(recs)} recipes under {max_minutes} mins")
+                    for r in recs:
                         for line in _fmt_recipe(r):
                             print(line)
-                    result["kg_results"] = recs_exact
-                    result["result_basis"] = "regex_exact_minutes"
-                    print("\n[Result basis] regex_exact_minutes")
+                    result["kg_results"] = recs
+                    result["result_basis"] = "range_minutes"
                 else:
-                    print("   ✖ No exact matches by minutes. Falling back to fuzzy tag matching only.")
-                    tag_slots = extract_and_link(text, intent="list_by_tag", nlp=NLP, kg=KG)
-                    tags_scored = _slot_all_scored(tag_slots, "tag")
-                    seq: list[Dict[str, Any]] = []
-                    seen = set()
-                    for tag, score in tags_scored[:sparql_top_k]:
-                        print(f"\n---- Fuzzy tag fallback: {tag} (score {score:.1f}) ----")
-                        recs = sparql_queries.query_list_by_tag(KG.graph, tag, top_k=sparql_top_k)
-                        if not recs:
-                            print("   ✖ No recipes for tag.")
-                            continue
-                        print(f"   ✔ {len(recs)} recipes for tag '{tag}':")
-                        for r in recs:
-                            uri = r.get("recipe_uri")
-                            if uri in seen:
-                                continue
-                            seen.add(uri)
-                            for line in _fmt_recipe(r):
-                                print(line)
-                            seq.append(r)
-                    result["kg_results"] = seq
-                    result["result_basis"] = "fuzzy_tag_fallback"
-                    print("\n[Result basis] fuzzy_tag_fallback")
-            else:
-                print("\n---- No explicit minutes detected. Using fuzzy tag fallback only. ----")
+                    print("   ✖ No recipes found in that time range.")
+
+            # CASE 2: Exact Query (e.g., "30 minutos")
+            elif exact_minutes is not None:
+                print(f"\n---- Exact time search: minutes == {exact_minutes} ----")
+                # Pass as list to match signature
+                recs = sparql_queries.query_by_exact_minutes(KG.graph, [exact_minutes], top_k=sparql_top_k)
+                if recs:
+                    print(f"   ✔ Found {len(recs)} recipes exactly {exact_minutes} mins")
+                    for r in recs:
+                        for line in _fmt_recipe(r):
+                            print(line)
+                    result["kg_results"] = recs
+                    result["result_basis"] = "exact_minutes"
+                else:
+                    print("   ✖ No exact matches. Trying fuzzy tag fallback.")
+                    # Fallback logic below...
+                    
+            # CASE 3: No numbers found -> Fuzzy Tag Fallback
+            if (exact_minutes is None and max_minutes is None) or (not result.get("kg_results")):
+                print("\n---- No time numbers found or no results. Using fuzzy tag fallback. ----")
                 tag_slots = extract_and_link(text, intent="list_by_tag", nlp=NLP, kg=KG)
                 tags_scored = _slot_all_scored(tag_slots, "tag")
+                
                 seq: list[Dict[str, Any]] = []
                 seen = set()
+                
+                # If we have a number but no results, try to find tags like "30-minutes-or-less"
+                # This handles cases where the number exists but isn't in the exact 'minutes' property
+                if exact_minutes or max_minutes:
+                    val = exact_minutes or max_minutes
+                    if val <= 15:
+                        tags_scored.insert(0, ("15-minutes-or-less", 100.0))
+                    elif val <= 30:
+                        tags_scored.insert(0, ("30-minutes-or-less", 100.0))
+                    elif val <= 60:
+                        tags_scored.insert(0, ("60-minutes-or-less", 100.0))
+
                 for tag, score in tags_scored[:sparql_top_k]:
                     print(f"\n---- Fuzzy tag fallback: {tag} (score {score:.1f}) ----")
                     recs = sparql_queries.query_list_by_tag(KG.graph, tag, top_k=sparql_top_k)
                     if not recs:
-                        print("   ✖ No recipes for tag.")
                         continue
-                    print(f"   ✔ {len(recs)} recipes for tag '{tag}':")
                     for r in recs:
                         uri = r.get("recipe_uri")
                         if uri in seen:
@@ -327,7 +338,6 @@ def handle_query(text: str, intent_top_k: int = 1, sparql_top_k: int = 5) -> Dic
                         seq.append(r)
                 result["kg_results"] = seq
                 result["result_basis"] = "fuzzy_tag_fallback"
-                print("\n[Result basis] fuzzy_tag_fallback")
 
     return result
 

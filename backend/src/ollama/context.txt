@@ -22,19 +22,63 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: 3g3434
-
-Description snippets (semantic matches):
-1. (0.431) 5g  sugars: 8g  protein: 3g   points® value 3*.
+User query: receitas em menos de 30 minutos
 
 Structured recipe data:
-original_query=3g3434
-detected_language=en
-intent=list_by_tag
+original_query=receitas em menos de 30 minutos
+detected_language=pt
+translated_query=recipes in less than 30 minutes
+intent=list_by_time
 slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=30
+
+Recipe: garam masala  hot mixed spice
+Minutes: 1
+Tags: 15-minutes-or-less, asian, condiments-etc, cooking-mixes, course, cuisine, dietary, for-large-groups, free-of-something, gluten-free, herb-and-spice-mixes, indian
+Ingredients: black peppercorns, cardamom seeds, cinnamon stick, cloves, coriander seed, cumin seed, fennel seed, nutmeg
+Steps:
+01. this spice is used in many indian receipes to add flavor
+02. it can also be used as garnish for salad , yogurt , meat etc
+03. the proportion of the ingredients can be changed to suit one's personal taste
+04. place all dry ingredients in a blender and blend into a fine powder
+05. the spice powder can be stored in any airtight container
+Recipe: outrageous egg free new zealand mayonnaise
+Minutes: 1
+Tags: 15-minutes-or-less, 5-ingredients-or-less, beginner-cook, condiments-etc, course, cuisine, dietary, dinner-party, easy, egg-free, for-large-groups, free-of-something
+Ingredients: condensed milk, malt vinegar, mustard powder
+Steps:
+01. put the milk in a bowl
+02. add the mustard
+03. then a dollop of vinegar
+04. mix
+05. test taste
+06. keep adding to taste small amounts at a time
+07. you shouldn't be able to get the taste of condensed milk when you taste it , but something very unique
+Recipe: paris hilton s favorite drink
+Minutes: 1
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, easy, for-1-or-2, number-of-servings, preparation, time-to-make
+Ingredients: cranberry juice, jagermeister, peach schnapps
+Steps:
+01. combine ingredients in shaker with ice
+02. chill , strain
+Recipe: mike s peach puff martini
+Minutes: 1
+Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dinner-party, easy, for-1-or-2, holiday-event, number-of-servings, occasion
+Ingredients: ice cubes, peach schnapps, raspberry vodka, sprite
+Steps:
+01. add ice cubes , peach schnapps , raspberry vodka , and sprite to a cocktail shaker
+02. shake well for 4 seconds
+03. strain into a martini glass
+Recipe: bananas foster cocktail
+Minutes: 1
+Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
+Ingredients: banana, banana liqueur, butterscotch schnapps, chocolate liqueur, ice, light cream, vanilla vodka
+Steps:
+01. in a rocks glass filled with ice , stir together all ingredients
+02. garnish with banana
 
 Answer:
 

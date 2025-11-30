@@ -287,44 +287,79 @@ def query_get_prep_time(graph: Graph, recipe_name: str, top_k: int = 5, debug_pr
         })
     return results
 
-def query_by_exact_minutes(graph: Graph, minutes: int, top_k: int = 5):
-    """Return up to top_k distinct recipes whose ex:minutes value equals the given minutes.
-    Enriched like other list queries. Used for regex-extracted exact minute searches before fuzzy fallback.
+def query_by_exact_minutes(graph, minutes_list, top_k: int = 20):
     """
+    Return recipes where ex:minutes equals any value in minutes_list.
+    """
+    # Flatten inputs
+    flat_minutes = []
+    def _flatten(item):
+        if isinstance(item, (list, tuple)):
+            for sub in item:
+                _flatten(sub)
+        elif isinstance(item, (int, float)):
+            flat_minutes.append(int(item))
+        elif isinstance(item, str) and item.isdigit():
+            flat_minutes.append(int(item))
+    _flatten(minutes_list)
+
+    # --- CRITICAL FIX: Return empty immediately if list is empty ---
+    if not flat_minutes:
+        return []
+    # -------------------------------------------------------------
+
+    values = ", ".join(str(m) for m in sorted(set(flat_minutes)))
     q = f"""
-    SELECT ?recipe ?label ?n_steps ?m WHERE {{
-        {{
-            SELECT DISTINCT ?recipe ?m WHERE {{
-                ?recipe rdf:type ex:Recipe .
-                ?recipe ex:minutes ?rawM .
-                FILTER(xsd:integer(?rawM) = {minutes})
-                BIND(xsd:integer(?rawM) AS ?m)
-            }} LIMIT {top_k}
-        }}
-        ?recipe rdfs:label ?label .
-        ?recipe ex:n_steps ?n_steps .
+    SELECT ?r ?label ?minutes WHERE {{
+      ?r a ex:Recipe ;
+         rdfs:label ?label ;
+         ex:minutes ?minutes .
+      FILTER(xsd:integer(?minutes) IN ({values}))
     }}
+    LIMIT {top_k}
     """
-    results = []
+    
+    out = []
     for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS, "xsd": XSD}):
-        recipe = row.recipe
-        mins = None
-        if row.m is not None:
-            try:
-                mins = int(str(row.m))
-            except Exception:
-                try:
-                    mins = float(str(row.m))
-                except Exception:
-                    mins = str(row.m)
-        results.append({
+        recipe = row.r
+        out.append({
             "recipe_uri": str(recipe),
             "recipe_name": str(row.label),
-            "n_steps": int(row.n_steps),
-            "minutes": mins,
+            "minutes": int(row.minutes),
             "nutrition": _nutrition_dict(graph, recipe),
             "tags": _tags_list(graph, recipe),
             "ingredients": _ingredients_list(graph, recipe),
             "steps": _steps_list(graph, recipe),
         })
-    return results
+    return out
+
+def query_by_max_minutes(graph, max_minutes: int, top_k: int = 20):
+    """
+    Return recipes where ex:minutes <= max_minutes
+    """
+    if max_minutes is None:
+        return []
+    
+    q = f"""
+    SELECT ?r ?label ?minutes WHERE {{
+      ?r a ex:Recipe ;
+         rdfs:label ?label ;
+         ex:minutes ?minutes .
+      FILTER(xsd:integer(?minutes) <= {max_minutes} && xsd:integer(?minutes) > 0)
+    }}
+    ORDER BY ?minutes
+    LIMIT {top_k}
+    """
+    out = []
+    for row in graph.query(q, initNs={"ex": EX, "rdf": RDF, "rdfs": RDFS, "xsd": XSD}):
+        recipe = row.r
+        out.append({
+            "recipe_uri": str(recipe),
+            "recipe_name": str(row.label),
+            "minutes": int(row.minutes),
+            "nutrition": _nutrition_dict(graph, recipe),
+            "tags": _tags_list(graph, recipe),
+            "ingredients": _ingredients_list(graph, recipe),
+            "steps": _steps_list(graph, recipe),
+        })
+    return out
