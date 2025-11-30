@@ -6,6 +6,7 @@ from typing import Any, Dict
 from contextlib import redirect_stdout, redirect_stderr
 import importlib
 
+
 # -------------------------
 # Load groq.env optionally (same folder)
 # -------------------------
@@ -228,9 +229,18 @@ def run_groq(user_query: str, base_prompt: str, structured_block: str) -> tuple[
     if _current_model is None:
         _current_model = DEFAULT_MODEL
 
-    # Inject previous turn summaries
+    # Build previous turn summaries
     prev_context = _build_context_annotation(_conversation_history)
-    current_full_prompt = (prev_context + "\n\n" + base_prompt) if prev_context else base_prompt
+
+    # CHANGE: put previous context at the END, so tail-trimming removes history first
+    current_full_prompt = base_prompt + ("\n\n" + prev_context if prev_context else "")
+
+    # Always enforce a 7000-token cap and trim from the END
+    MAX_PROMPT_TOKENS = 7000
+    tok = _count_tokens(current_full_prompt, _current_model)
+    if tok > MAX_PROMPT_TOKENS:
+        print(f"[WARN] Prompt too large: {tok} tokens → trimming to {MAX_PROMPT_TOKENS} from tail")
+        current_full_prompt = _trim_prompt(current_full_prompt, MAX_PROMPT_TOKENS, _current_model)
 
     resp = api_chat(current_full_prompt, _current_model)
 
@@ -444,6 +454,9 @@ def api_chat(prompt: str, model_name: str) -> str:
         choices = getattr(completion, "choices", [])
         if not choices:
             return ""
+        usage = getattr(completion, "usage", None)
+        if usage:
+            print(f"Usage: prompt={usage.prompt_tokens}, completion={usage.completion_tokens}")
         return (choices[0].message.content or "").strip()
     except Exception as e:
         print(f"[LLM EXCEPTION] {e}")
@@ -462,6 +475,48 @@ def clear_conversation_context() -> None:
             f.write("")
     except Exception:
         pass
+
+
+def _count_tokens(prompt: str, model_name: str) -> int:
+    """
+    Approximate token count using OpenAI-compatible tokenizer.
+    Works well for GPT-4 / LLaMA-like models.
+    """
+    try:
+        import tiktoken
+        enc = tiktoken.get_encoding("cl100k_base")
+        return len(enc.encode(prompt))
+    except Exception as e:
+        if DEBUG:
+            print(f"[token count error] {e}")
+        return 0
+
+def _trim_prompt(prompt: str, max_tokens: int, model_name: str) -> str:
+    """
+    Always trim from the END to fit under max_tokens.
+    We do not remove sections by meaning; we just cut the tail.
+    Note: This does NOT erase conversation history from memory; it only affects this request's prompt.
+    """
+    def count(text: str) -> int:
+        return _count_tokens(text, model_name)
+
+    current = prompt
+    cur_tok = count(current)
+    print(f"[TRIM] Initial tokens: {cur_tok}")
+
+    if cur_tok <= max_tokens:
+        print(f"[TRIM] No trimming needed.")
+        return current
+
+    # Aggressive tail truncation loop
+    # Cut 20% of the remaining text from the end repeatedly until within budget
+    while count(current) > max_tokens and len(current) > 0:
+        cut_len = int(len(current) * 0.80)
+        current = current[:cut_len]  # keep head, drop tail (history is at tail)
+        print(f"[TRIM] Tail truncated to {cut_len} chars → tokens={count(current)}")
+
+    print(f"[TRIM] Final tokens: {count(current)}")
+    return current
 
 def _process_query(user_query: str) -> str:
     """
@@ -572,6 +627,14 @@ def _process_query(user_query: str) -> str:
     print("=== LLM PROMPT (truncated to 800 chars) ===")
     print(used_prompt[:800] + ("..." if len(used_prompt) > 800 else ""))
     print("=== END PROMPT ===")
+
+    # NEW: print token count of the sent prompt (between prompt and summary)
+    try:
+        tok_count = _count_tokens(used_prompt, _current_model or DEFAULT_MODEL)
+        print(f"\n≈ Prompt tokens: {tok_count}\n")
+    except Exception as e:
+        if DEBUG:
+            print(f"[token count error] {e}")
 
     print("\n=== LLM SUMMARY ===")
     print(summary if summary else "(LLM empty response)")
