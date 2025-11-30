@@ -152,6 +152,28 @@ export default function Page() {
     }
   }
 
+  /* -----------------------------------------------------
+     NEW CHAT (RESET)
+  ----------------------------------------------------- */
+  const handleNewChat = async () => {
+    try {
+      // clear backend conversation context
+      await fetch("http://localhost:8000/clear", { method: "POST" })
+        .catch(() => {})
+    } catch {}
+
+    // cancel any retry timer
+    if (retryTimerId) clearTimeout(retryTimerId)
+    setRetryTimerId(null)
+
+    // reset client state to initial
+    setPendingQuery(null)
+    setRetryDelayMs(1000)
+    setChatHistory([])
+    setQuery("")
+    setUiState("initial")
+    setShowSharedInput(false)
+  }
 
 
   /* -----------------------------------------------------
@@ -241,6 +263,7 @@ export default function Page() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  onNewChat={handleNewChat}
                 />
               </div>
             </motion.div>
@@ -319,6 +342,7 @@ export default function Page() {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
+                  onNewChat={handleNewChat}
                 />
               </div>
             </motion.div>
