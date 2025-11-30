@@ -83,7 +83,8 @@ def parse_time_constraints(text: str) -> Tuple[Optional[int], Optional[int]]:
     if not text or not isinstance(text, str):
         return None, None
     
-    t = text.lower()
+    # 1. Normalize numbers first (PT & EN)
+    t = normalize_pt_numbers(text.lower())
     print(f"[TIME DEBUG] Parsing: '{t}'")
 
     # 1. Fast fail
@@ -759,4 +760,82 @@ def _fallback_tokens_from_text(text: str, lang: str, other_lang: str) -> List[st
     except Exception:
         pass
     return [bag[k] for k in sorted(bag.keys())]
+
+def normalize_pt_numbers(text: str) -> str:
+    """
+    Converts Portuguese AND English number words (e.g., 'quarenta e cinco', 'forty five') into digits ('45').
+    Focuses on common cooking time ranges (0-100).
+    """
+    mapping = {
+        # Portuguese
+        "um": 1, "uma": 1, "dois": 2, "duas": 2, "três": 3, "tres": 3, "quatro": 4,
+        "cinco": 5, "seis": 6, "sete": 7, "oito": 8, "nove": 9, "dez": 10,
+        "onze": 11, "doze": 12, "treze": 13, "quatorze": 14, "catorze": 14, "quinze": 15,
+        "dezesseis": 16, "dezassete": 17, "dezoito": 18, "dezenove": 19, "vinte": 20,
+        "trinta": 30, "quarenta": 40, "cinquenta": 50, "sessenta": 60,
+        "setenta": 70, "oitenta": 80, "noventa": 90, "cem": 100,
+        
+        # English
+        "one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+        "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15,
+        "sixteen": 16, "seventeen": 17, "eighteen": 18, "nineteen": 19, "twenty": 20,
+        "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60,
+        "seventy": 70, "eighty": 80, "ninety": 90, "hundred": 100
+    }
+    
+    words = text.lower().split()
+    new_words = []
+    i = 0
+    while i < len(words):
+        val = mapping.get(words[i])
+        
+        if val is not None:
+            # Look ahead for PT "e" + number (e.g., "vinte e cinco")
+            if i + 2 < len(words) and words[i+1] == "e" and words[i+2] in mapping:
+                val += mapping[words[i+2]]
+                new_words.append(str(val))
+                i += 3 
+            # Look ahead for EN compound (e.g., "forty five" or "forty-five")
+            elif i + 1 < len(words) and words[i+1] in mapping:
+                 # e.g. "forty five" -> 40 + 5
+                 # Only combine if first is a multiple of 10 (20,30...) and second is single digit
+                 if val >= 20 and val % 10 == 0:
+                     val += mapping[words[i+1]]
+                     new_words.append(str(val))
+                     i += 2
+                 else:
+                     new_words.append(str(val))
+                     i += 1
+            else:
+                new_words.append(str(val))
+                i += 1
+        else:
+            # Handle hyphenated English words like "forty-five"
+            if "-" in words[i]:
+                parts = words[i].split("-")
+                if len(parts) == 2 and parts[0] in mapping and parts[1] in mapping:
+                    v1 = mapping[parts[0]]
+                    v2 = mapping[parts[1]]
+                    if v1 >= 20 and v1 % 10 == 0:
+                        new_words.append(str(v1 + v2))
+                        i += 1
+                        continue
+            
+            new_words.append(words[i])
+            i += 1
+            
+    return " ".join(new_words)
+
+def extract_time_info(text: str) -> dict:
+    # 1. Normalize Portuguese words to digits
+    # "receitas em quarenta e cinco minutos" -> "receitas em 45 minutos"
+    text = normalize_pt_numbers(text) 
+
+    match = re.search(r'(\d+)', text)
+    if match:
+        return {"cooking_time": int(match.group(1)), "max_minutes": None}
+
+    # No explicit time found, fallback to parsing logic
+    exact, max_range = parse_time_constraints(text)
+    return {"cooking_time": exact, "max_minutes": max_range}
 
