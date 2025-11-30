@@ -22,72 +22,183 @@ Formatting and coverage:
   • receitas em até [min] minutos
   • procurar receita [recipe you know works in the KG using the Conversation context block, if not any use a common recipe]
  - As Post-processing and Discovery footer: add a final section called 'Outros resultados encontrados' (or 'Other results found' if the query is EN). In this section, summarize any OTHER relevant entities found in the structured data that were NOT expanded in the main sections.
-User query: receitas em menos de 30 minutos
+User query: receitas com tomate
+
+Description snippets (semantic matches):
+1. (0.581) this is an old campbell's soup recipe, but they quit making the zesty italian tomato soup it called for. i found that jarred spaghetti sauce was a good substitute.
+2. (0.564) submitted per request for tomato soup and i thought this seemed really interesting and a bit different from the ordinary tomato soup. recipe source: bon appetit (december 1986).
+3. (0.544) this is a lighter copy cat version of the tomato soup from safeway. i found it on the internet. it was revamped by carol devenot from hawaii. i have never had the "real stuff" so i don't know what i am missing. this was very tasty though.
 
 Structured recipe data:
-original_query=receitas em menos de 30 minutos
+original_query=receitas com tomate
 detected_language=pt
-translated_query=recipes in less than 30 minutes
-intent=list_by_time
-slot_ingredient=
+translated_query=recipes with tomato
+intent=list_by_ingredient
+slot_ingredient=campbell's condensed tomato soup(90.00), campbell's tomato soup(90.00), canned stewed tomatoes(90.00), concentrated tomato paste(90.00), condensed tomato soup with basil & oregano(90.00), tomatoes(85.71)
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
-slot_max_minutes=30
+slot_max_minutes=None
 
-Recipe: garam masala  hot mixed spice
-Minutes: 1
-Tags: 15-minutes-or-less, asian, condiments-etc, cooking-mixes, course, cuisine, dietary, for-large-groups, free-of-something, gluten-free, herb-and-spice-mixes, indian
-Ingredients: black peppercorns, cardamom seeds, cinnamon stick, cloves, coriander seed, cumin seed, fennel seed, nutmeg
+recipes with ingredient: campbell's condensed tomato soup
+Recipe: campbell s beefy pasta skillet
+Minutes: 25
+Tags: 30-minutes-or-less, 3-steps-or-less, beef, beginner-cook, course, dietary, easy, inexpensive, kid-friendly, main-dish, main-ingredient, meat
+Ingredients: campbell's condensed tomato soup, cheddar cheese, fusilli, ground beef, onion, water, worcestershire sauce
 Steps:
-01. this spice is used in many indian receipes to add flavor
-02. it can also be used as garnish for salad , yogurt , meat etc
-03. the proportion of the ingredients can be changed to suit one's personal taste
-04. place all dry ingredients in a blender and blend into a fine powder
-05. the spice powder can be stored in any airtight container
-Recipe: outrageous egg free new zealand mayonnaise
-Minutes: 1
-Tags: 15-minutes-or-less, 5-ingredients-or-less, beginner-cook, condiments-etc, course, cuisine, dietary, dinner-party, easy, egg-free, for-large-groups, free-of-something
-Ingredients: condensed milk, malt vinegar, mustard powder
+01. cook beef and onion in skillet until browned
+02. pour off fat
+03. add soup , water , worcestershire , cheese and pasta and heat through
+
+recipes with ingredient: campbell's tomato soup
+Recipe: crock pot salsa chicken
+Minutes: 125
+Tags: 4-hours-or-less, beginner-cook, chicken, chicken-breasts, course, crock-pot-slow-cooker, cuisine, dietary, easy, equipment, for-1-or-2, healthy
+Ingredients: boneless skinless chicken breasts, campbell's tomato soup, cheddar cheese, cheese, chunky salsa, sour cream
 Steps:
-01. put the milk in a bowl
-02. add the mustard
-03. then a dollop of vinegar
-04. mix
-05. test taste
-06. keep adding to taste small amounts at a time
-07. you shouldn't be able to get the taste of condensed milk when you taste it , but something very unique
-Recipe: paris hilton s favorite drink
-Minutes: 1
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dietary, easy, for-1-or-2, number-of-servings, preparation, time-to-make
-Ingredients: cranberry juice, jagermeister, peach schnapps
+01. put crockpot on high setting & pour in both cans of tomato soup
+02. put chicken in crockpot and top with salsa
+03. cook for about 2-3 hours
+04. put chicken on plate and top with more salsa , shredded cheese , and sour cream , if desired
+05. place 3 cheese cubes together on one edge of chicken for decoration & a great follow-up to a bite of terrific salsa chicken !
+
+recipes with ingredient: canned stewed tomatoes
+Recipe: easy cabbage soup
+Minutes: 45
+Tags: 3-steps-or-less, 60-minutes-or-less, course, dietary, easy, for-large-groups, healthy, low-calorie, low-cholesterol, low-fat, low-in-something, low-protein
+Ingredients: canned stewed tomatoes, celery, chicken bouillon cube, green cabbage head, green onions, green peppers, lipton onion soup mix, salt
 Steps:
-01. combine ingredients in shaker with ice
-02. chill , strain
-Recipe: mike s peach puff martini
-Minutes: 1
-Tags: 15-minutes-or-less, 3-steps-or-less, 5-ingredients-or-less, beverages, cocktails, course, dinner-party, easy, for-1-or-2, holiday-event, number-of-servings, occasion
-Ingredients: ice cubes, peach schnapps, raspberry vodka, sprite
+01. cut vegetables in small pieces
+02. in a large pot , add vegetables , soup mix , bouillon cube and cover with water
+03. season as desired
+04. boil rapidly for ten minutes
+05. lower heat and simmer until vegetables are tender
+
+recipes with ingredient: concentrated tomato paste
+Recipe: francesinha  super indulgent portuguese sandwich
+Minutes: 15
+Tags: 15-minutes-or-less, beef, brunch, cheese, comfort-food, course, cuisine, eggs-dairy, european, for-1-or-2, holiday-event, lunch
+Ingredients: bay leaf, beer, brandy, butter, cheese, chicken stock cube, chili flakes, concentrated tomato paste, cooked sausage, cornstarch, milk, roast beef, salt, smoked ham, white bread
 Steps:
-01. add ice cubes , peach schnapps , raspberry vodka , and sprite to a cocktail shaker
-02. shake well for 4 seconds
-03. strain into a martini glass
-Recipe: bananas foster cocktail
-Minutes: 1
-Tags: 15-minutes-or-less, 3-steps-or-less, american, beverages, cocktails, course, cuisine, easy, for-1-or-2, north-american, number-of-servings, preparation
-Ingredients: banana, banana liqueur, butterscotch schnapps, chocolate liqueur, ice, light cream, vanilla vodka
+01. make the sauce first by dissolving the cornstarch into the milk
+02. add all the other sauce ingredients and blend in food processor
+03. put it into a pan over low heat and add the bay leaf
+04. stir it until it starts to boil , remove bay leaf and then set aside
+05. assemble the sandwich saving 2 slices of cheese
+06. put the sandwich on a plate or shallow bowl and place the 2 slices of cheese on top
+07. pour the sauce over the sandwich
+08. eat -- you may want a bib
+
+recipes with ingredient: condensed tomato soup with basil & oregano
+Recipe: pasta mozzarella bake with ground turkey
+Minutes: 45
+Tags: 60-minutes-or-less, beginner-cook, comfort-food, course, cuisine, easy, main-dish, main-ingredient, meat, north-american, occasion, one-dish-meal
+Ingredients: basil, condensed tomato soup with basil & oregano, cream of mushroom soup, garlic clove, ground turkey, mozzarella cheese, oregano, shell pasta, water
 Steps:
-01. in a rocks glass filled with ice , stir together all ingredients
-02. garnish with banana
+01. in a skillet brown ground turkey with seasonings (black pepper , basil , oregano , and garlic
+02. meanwhile cook pasta to a little under el dente
+03. in a 2 quart oblong casserole dish add ground turkey , 1 cup of mozzarella , water and soup
+04. for the soup i use low sodium or low fat
+05. sir together to mix
+06. add pasta and stir to incorporate
+07. sprinkle with remaining 1 / 2 cup of mozzarella cheese
+08. bake at 400f for 25 minute or until bubbly
+
+recipes with ingredient: tomatoes
+Recipe: easy cabbage soup
+Minutes: 45
+Tags: 3-steps-or-less, 60-minutes-or-less, course, dietary, easy, for-large-groups, healthy, low-calorie, low-cholesterol, low-fat, low-in-something, low-protein
+Ingredients: canned stewed tomatoes, celery, chicken bouillon cube, green cabbage head, green onions, green peppers, lipton onion soup mix, salt
+Steps:
+01. cut vegetables in small pieces
+02. in a large pot , add vegetables , soup mix , bouillon cube and cover with water
+03. season as desired
+04. boil rapidly for ten minutes
+05. lower heat and simmer until vegetables are tender
+Recipe: green goddess taco salad
+Minutes: 30
+Tags: 30-minutes-or-less, beans, beef, beginner-cook, course, cuisine, dietary, easy, ground-beef, kid-friendly, main-ingredient, meat
+Ingredients: extra lean ground beef, green goddess salad dressing, green onions, iceberg lettuce, kidney beans, mexican blend cheese, nacho cheese flavored tortilla chips, taco seasoning mix, tomatoes
+Steps:
+01. heat skillet to med-hi heat with small amount of oil
+02. saute ground beef
+03. brown , and drain well
+04. add taco seasoning mix and follow directions of package
+05. cool
+06. to assemble: crush chips into bite-size pieces and add to salad bowl along with the meat , cheese , beans , tomatoes , lettuce , and green onions
+07. pour dressing over all and toss to combine
+08. serve immediately
+Recipe: cauliflower provencal
+Minutes: 25
+Tags: 30-minutes-or-less, brunch, cauliflower, course, dietary, dinner-party, easy, main-ingredient, occasion, preparation, side-dishes, time-to-make
+Ingredients: anchovy fillets, canned tomatoes, cauliflower, cheese, fresh ground black pepper, garlic clove, marjoram, oil, onion, red chile, worcestershire sauce
+Steps:
+01. place cauliflower in a shallow microwave dish , cover and cook on high for 6-8 minutes
+02. to make sauce , in a microwave-safe jug combine oil , garlic , onion , chili and anchovy if using
+03. cook on high for 3 minutes
+04. stir in tomatoes and juice , pepper , worcestershire sauce and marjoram , cook on high 2-3 minutes
+05. pour sauce over cauliflower
+06. sprinkle with cheese and cook on high for 1 minute
+Recipe: shrimp and crab gazpacho
+Minutes: 20
+Tags: 30-minutes-or-less, course, crab, dietary, equipment, healthy-2, low-calorie, low-carb, low-cholesterol, low-in-something, low-saturated-fat, main-ingredient
+Ingredients: crabmeat, crouton, cucumbers, fresh garlic, green bell pepper, green onion, lemon juice, olive oil, red bell pepper, salt, small shrimp, tomatoes, yellow bell pepper
+Steps:
+01. in a food processor , place the garlic and tomatoes
+02. blend until a rough-chop stage
+03. dice peppers and green onions
+04. in a large mixing bowl , place the crushed tomatoes , cucumbers , peppers , green onions , olive oil , lemon juice and salt
+05. mix well
+06. chill for 2 hours
+07. ladle into small soup bowls
+08. cut the shellfish into bite-size pieces , and divide equally among the bowls
+Recipe: auntie s vegetable casserole
+Minutes: 130
+Tags: 3-steps-or-less, 4-hours-or-less, casseroles, course, dietary, easy, equipment, green-yellow-beans, main-ingredient, oven, preparation, side-dishes
+Ingredients: canned tomatoes, carrots, celery, frozen cut green beans, granulated sugar, green bell pepper, minute tapioca, pepper, red onion, salt, unsalted butter
+Steps:
+01. mix all except butter together and pour into a covered casserole large enough to hold everything
+02. dot with butter , cover , and bake in a preheated 350 f oven for 2 hours or cook on lowest heat in a covered suacepan for 40 minutes , then pour into a covered casserole and bake 1 hour
+Recipe: rustic vegetable baguette with smashed avocado
+Minutes: 18
+Tags: 30-minutes-or-less, 5-ingredients-or-less, course, dietary, easy, lunch, preparation, sandwiches, time-to-make
+Ingredients: avocados, cheddar cheese, italian dressing, sourdough baguette, tomatoes
+Steps:
+01. cut bread horizontally in half
+02. drizzle dressing on cut side of top half of bread
+03. place both halves on large cookie sheet
+04. mash avocados until slightly smooth
+05. spread avocado over bottom half of bread
+06. top with tomato slices and cheese
+07. broil with tops 4 to 6 inches from heat 2 to 3 minutes or until cheese is melted and bread is slightly golden brown
+08. top with top half of bread
+
 
 Answer:
 
 Conversation context (previous messages):
 
 Message 1 - User query:
-aye
+ayi
 
 Message 1 - Structured recipe data:
+original_query=ayi
+detected_language=en
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+slot_max_minutes=None
+
+
+Message 1 - Assistant Response:
+
+
+Message 2 - User query:
+aye
+
+Message 2 - Structured recipe data:
 original_query=aye
 detected_language=en
 translated_query=Aye
@@ -96,15 +207,18 @@ slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=None
 
 
-Message 1 - Assistant Response:
+Message 2 - Assistant Response:
+I’m not sure what you’re looking for. Could you tell me a tag, ingredient, or recipe name you’d like to see?
 
+**Example query:** “recipes with tag quick” or “recipes using chicken”.
 
-Message 2 - User query:
+Message 3 - User query:
 ayo
 
-Message 2 - Structured recipe data:
+Message 3 - Structured recipe data:
 original_query=ayo
 detected_language=en
 intent=list_by_tag
@@ -112,18 +226,37 @@ slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=None
 
 
-Message 2 - Assistant Response:
-Could you let me know which tag you’d like to see recipes for?  
-For example: **“recipes with tag easy”**.
+Message 3 - Assistant Response:
+I’m not sure what you’re looking for. Could you clarify the ingredient, tag, or type of recipe you’d like?  
+
+**Example query:** “recipes with tag quick” or “recipes using chicken”.
 
 Conversation context (previous messages):
 
 Message 1 - User query:
-aye
+ayi
 
 Message 1 - Structured recipe data:
+original_query=ayi
+detected_language=en
+intent=list_by_tag
+slot_ingredient=
+slot_recipe_name=
+slot_tag=
+slot_cooking_time=None
+slot_max_minutes=None
+
+
+Message 1 - Assistant Response:
+
+
+Message 2 - User query:
+aye
+
+Message 2 - Structured recipe data:
 original_query=aye
 detected_language=en
 translated_query=Aye
@@ -132,15 +265,18 @@ slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=None
 
 
-Message 1 - Assistant Response:
+Message 2 - Assistant Response:
+I’m not sure what you’re looking for. Could you tell me a tag, ingredient, or recipe name you’d like to see?
 
+**Example query:** “recipes with tag quick” or “recipes using chicken”.
 
-Message 2 - User query:
+Message 3 - User query:
 ayo
 
-Message 2 - Structured recipe data:
+Message 3 - Structured recipe data:
 original_query=ayo
 detected_language=en
 intent=list_by_tag
@@ -148,8 +284,10 @@ slot_ingredient=
 slot_recipe_name=
 slot_tag=
 slot_cooking_time=None
+slot_max_minutes=None
 
 
-Message 2 - Assistant Response:
-Could you let me know which tag you’d like to see recipes for?  
-For example: **“recipes with tag easy”**.
+Message 3 - Assistant Response:
+I’m not sure what you’re looking for. Could you clarify the ingredient, tag, or type of recipe you’d like?  
+
+**Example query:** “recipes with tag quick” or “recipes using chicken”.

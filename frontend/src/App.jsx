@@ -35,6 +35,12 @@ export default function Page() {
   const bottomRef = useRef(null)     // ← sentinel ref for auto-scroll
   const processingRef = useRef(false)
   const retryTimeoutRef = useRef(null)
+  const uiStateRef = useRef(uiState) // Ref to access current uiState in async functions
+
+  // Keep uiStateRef in sync
+  useEffect(() => {
+    uiStateRef.current = uiState
+  }, [uiState])
 
 
 
@@ -67,7 +73,20 @@ export default function Page() {
     // Don't process if already processing or queue is empty
     if (processingRef.current || promptQueue.length === 0) return
     
-    const processPrompt = async (prompt, retryDelay = 1000) => {
+    const currentItem = promptQueue[0]
+    // Handle both object items (new format) and legacy strings
+    const promptText = typeof currentItem === 'object' ? currentItem.text : currentItem
+    const initialAddedToHistory = typeof currentItem === 'object' ? currentItem.addedToHistory : false
+
+    const processPrompt = async (prompt, isAddedToHistory, retryDelay = 1000) => {
+      // If we are in chat mode and the user message hasn't been shown yet, show it now
+      // This handles the case where a message was queued during "loading" state but is processed after entering "chat" state
+      let userMessageShown = isAddedToHistory
+      if (!userMessageShown && uiStateRef.current === 'chat') {
+        setChatHistory(prev => [...prev, { role: 'user', text: prompt }])
+        userMessageShown = true
+      }
+
       try {
         const res = await fetch("http://localhost:8000/chat", {
           method: "POST",
@@ -89,19 +108,30 @@ export default function Page() {
           console.log(`[frontend] backend not ready, retrying in ${retryDelay}ms`)
           
           retryTimeoutRef.current = setTimeout(() => {
-            processPrompt(prompt, nextDelay)
+            processPrompt(prompt, userMessageShown, nextDelay)
           }, retryDelay)
           return
         }
 
-        // Success - add bot response to chat history
+        // Success
         const backendResponse = data.response || "No response"
         console.log(`[frontend] completed prompt:`, prompt)
         
-        setChatHistory((prev) => [
-          ...prev,
-          { role: "bot", text: backendResponse }
-        ])
+        if (userMessageShown) {
+          // User message already in history, just add bot response
+          setChatHistory((prev) => [
+            ...prev,
+            { role: "bot", text: backendResponse }
+          ])
+        } else {
+          // User message not in history (was processed during loading screen), add both
+          setChatHistory((prev) => [
+            ...prev,
+            { role: "user", text: prompt },
+            { role: "bot", text: backendResponse }
+          ])
+        }
+        
         setUiState("chat")
         
         // Done processing this prompt - remove from queue
@@ -115,7 +145,7 @@ export default function Page() {
         console.log(`[frontend] error processing prompt, retrying in ${retryDelay}ms:`, err)
         
         retryTimeoutRef.current = setTimeout(() => {
-          processPrompt(prompt, nextDelay)
+          processPrompt(prompt, userMessageShown, nextDelay)
         }, retryDelay)
       }
     }
@@ -123,9 +153,8 @@ export default function Page() {
     // Start processing the first prompt in queue
     processingRef.current = true
     setIsProcessing(true)
-    const currentPrompt = promptQueue[0]
-    console.log(`[frontend] processing prompt:`, currentPrompt, `| queue size:`, promptQueue.length)
-    processPrompt(currentPrompt)
+    console.log(`[frontend] processing prompt:`, promptText, `| queue size:`, promptQueue.length)
+    processPrompt(promptText, initialAddedToHistory)
     
   }, [promptQueue])
 
@@ -144,16 +173,21 @@ export default function Page() {
     const q = query.trim()
     setQuery("")
     
-    // Add user message to chat history immediately
-    setChatHistory((prev) => [...prev, { role: "user", text: q }])
+    const isChat = uiState === "chat"
     
-    // Only show loading screen if not already in chat mode
-    if (uiState !== "chat") {
-      setUiState("loading")
+    if (isChat) {
+      // If in chat mode, show user message immediately
+      setChatHistory((prev) => [...prev, { role: "user", text: q }])
+    } else {
+      // If in initial/loading mode, don't show yet (wait for response or transition to chat)
+      if (uiState === "initial") {
+        setUiState("loading")
+      }
     }
     
     console.log(`[frontend] enqueuing prompt:`, q)
-    setPromptQueue((prev) => [...prev, q])
+    // Store both text and whether it was already added to history
+    setPromptQueue((prev) => [...prev, { text: q, addedToHistory: isChat }])
   }
 
   /* -----------------------------------------------------
