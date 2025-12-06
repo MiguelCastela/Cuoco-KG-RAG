@@ -23,7 +23,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+print("pingas")
 # preload pipeline once
 pipeline_loaded = False
 
