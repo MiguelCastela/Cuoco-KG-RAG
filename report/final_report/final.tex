@@ -1,12 +1,14 @@
 \documentclass[conference]{IEEEtran}
+\usepackage[utf8]{inputenc}
 
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{amsmath,amssymb}
 \usepackage{multirow}
 \usepackage{hyperref}
-\usepackage{float}
+\usepackage{float}  
 \usepackage{booktabs}
+\usepackage{siunitx}
 \usepackage{url}
 
 \begin{document}
@@ -31,84 +33,621 @@ uc2022213951@student.uc.pt}
 % -------- ABSTRACT ----------
 \section{Abstract}
 \noindent
-We present a bilingual (PT/EN) recipe assistant that combines a curated recipe Knowledge Graph (KG), intent classification, entity extraction and fuzzy linking, SPARQL-based retrieval, and large language models (LLMs) for summarization. The system supports ingredient, tag, and time-constrained queries, and integrates a React/Vite frontend with a Python backend. We describe the data curation, approach, implementation, and experiments, highlighting strengths, limitations, and future directions.
+We present a bilingual recipe assistant that combines a curated recipe Knowledge Graph (KG), intent classification, entity extraction and SPARQL query retrieval.
+This ends in an LLM generating the summary of the results in the user's language. In this report, we describe the data curation, approach, implementation, and experiments, highlighting strengths, limitations, and future directions.
 
 % -------- INTRODUCTION ----------
 \section{Introduction}
 
+\noindent
 \textbf{Motivation.}
-Recipe search is often unstructured and multilingual. Users query for ingredients, dietary tags, or time constraints (e.g., ``receitas em menos de 30 minutos''). Most systems either rely on pure keyword search or opaque large language model answers. We aim to combine structured knowledge graph reasoning with neural text generation, ensuring factual retrieval and multilingual usability.
+\\
+Recipe search is often unstructured and specific. Users can query for ingredients, dietary tags, or time constraints. Most systems either rely on pure keyword search or naive large language model answers. We aim to combine structured knowledge graph retrieval with natural language generation, ensuring factual retrieval and  usability.
 
+\noindent
+\\
 \textbf{Problem Description.}
 Given a user query in Portuguese or English, the system must:
 \begin{itemize}
-  \item detect intent;
-  \item extract and link entities to KG resources;
-  \item retrieve candidate recipes via SPARQL or semantic similarity;
-  \item generate bilingual summaries;
-  \item present results through an interactive interface.
+  \item Detect intent;
+  \item Extract and link entities to the KG via fuzzy matching;
+  \item Retrieve candidate results via SPARQL;
+  \item Perform a RAG similarity search over recipe descriptions;   
+  \item Generate summaries based on all the information, the user's query and the recent history;
+  \item Present results through an interactive interface.
 \end{itemize}
 
-\textbf{Goal and Approach.}
-Our solution includes:
+
+
+\noindent
+\\
+\textbf{Goal and Approach}
+Our approach is building the following pipeline:
+
+
+
 \begin{itemize}
-  \item a curated recipe knowledge graph in RDF/Turtle;
-  \item a FAISS embedding index for recipe descriptions;
-  \item an intent classifier based on BERT;
-  \item NLP pipelines for entity extraction and fuzzy linking;
-  \item LLM-based bilingual summarization;
-  \item a React/Vite-based frontend.
+  \item A curated recipe knowledge graph in RDF/Turtle;
+  \item An intent classifier trained with BERT;
+  \item An NLP pipeline for entity extraction and fuzzy linking;
+  \item A FAISS embedding index for recipe descriptions;
+  \item LLM-based summarization;
+  \item A React/Vite-based frontend.
 \end{itemize}
+
 
 % -------- RELATED WORK ----------
+
 \section{Related Work}
-Structured recipe recommendation has been explored using ontologies and knowledge graphs. Approximate string matching is commonly applied for entity linking. Retrieval-Augmented Generation (RAG) improves factuality by grounding generation in external data sources. Multilingual systems rely on language detection and selective translation. Our system integrates these ideas into a bilingual KG-driven assistant.
+
+\noindent
+TODO
+
+
 
 % -------- DATA & APPROACH ----------
-\section{Data and Approach}
+\section{Data Selection}
 
-\subsection{Data}
-The dataset includes:
+
+
+\noindent
+
+\noindent
+Firstly we searched for a dataset with portuguese recipes, but the ones we found were poorly structured.
+(\cite{portuguese_meals_kaggle}) is a portuguese cuisine dataset that unfortunately did not meet our requirements for structure and completeness.
+
+\noindent
+Thus, we opted to use a portion of the Food.com \cite{foodcom_kaggle} dataset that, in whole, contains over 200,000 recipes, 
+
+\noindent
+The dataset was already curated beacuse its based on the website data that contain only recipes with the following information:
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{5cm} p{7cm}}
+\hline
+\textbf{Field} & \textbf{Description} \\
+\hline
+name & Recipe name \\
+id & Unique recipe identifier \\
+minutes & Total preparation/cooking time \\
+contributor\_id & ID of the user who submitted the recipe \\
+submitted & Submission date \\
+tags & List of categorical tags \\
+nutrition & Nutritional information vector \\
+n\_steps & Number of preparation steps \\
+steps & Ordered list of preparation steps \\
+description & Short user's recipe description \\
+ingredients & List of ingredients \\
+n\_ingredients & Number of ingredients \\
+\hline
+\end{tabular}
+\caption{Fields present in each recipe entry.}
+\end{table}
+
+
+\noindent
+However, as stated in the project proposal, we aim to have a bilingual dataset containing recipes in either portuguese or english languages. This is necessary to then be able to make acurate similarity retrievals and SPARQL queries based on user queries in either of these two languages.
+
+
+\noindent
+This filtering was achieved using two methods 
 \begin{itemize}
-  \item \texttt{recipes\_graph\_cleaned.ttl}: knowledge graph of recipes and ingredients;
-  \item curated CSV files for analysis;
-  \item vector embeddings stored via FAISS.
-\end{itemize}
+  \item Firstly, some portuguese recipes were automatically matched using a set of specific keywords defined by hand (for example: "bacalhau", "lisbon", "azores") using regular expressions. In this stage, a pre-trained langid model was also used (CITAÇÃO) to classify portuguese recipes by their full scentences, with a probability score of above 0.8. In this stage
+  \item A lot of false negatives were still present from the first step. A pre-trained fasttext LLM (lid.176.bin) (CITAÇÃO) was used to predict the language of each token from the data of each recipe. To be labeled as portuguese a token would have to be considered as 'PT' with a confidence > 0.7 and the difference to the second detected language had to be >0.15. 
+\end{itemize} 
 
-\subsection{Pipeline}
+\noindent
+\\
+Both datasets were merged, however there was stil a relatively high rate of false positives, a total of around 1435. This was partially due to a lot of spanish recipes being classified as portuguese on account of the similarity of the two languages. This problem was solved with a pass of the merged dataset through an LLM (chatGPT) (CITAÇÃO) to classify the recipes as portuguese or not portuguese.
 
-
-\begin{enumerate}
-  \item Intent classification (BERT);
-  \item Language detection and normalization;
-  \item Entity extraction and fuzzy linking;
-  \item Time parsing with regex;
-  \item KG/SPARQL retrieval and similarity search;
-  \item LLM-based summarization.
-\end{enumerate}
-
-
+\noindent
+\\
+After removing the false positives 1015 portuguese recipes remained. After this around 9000 random recipes were added to the dataset. To keep portuguese and english recipes (VER O METODO DE TIRAR RECEITAS QUE N SEJAM INGLES)
 
 % -------- IMPLEMENTATION ----------
-\section{Implementation}
+\section{Approach}
 
-\subsection{Backend}
-Implemented in Python, including:
+\subsection{Knowledge Graph Construction}
+\noindent
+After the final dataset of around 10,000 recipes was obtained, the knowledge graph was gemerated io RDFS format. For the graph generation only the following fields were used as RDFS classes: name, id, minutes, tags, nutrition, n\_steps, steps, ingredients, n\_ingredients. This was the decided structured considered most relevant to build the proposed chatbot.
+
+\subsection{Intent Training}
+
+\noindent
+The first step to analise the user query is to detect its intent.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+After, we processed the dataset to generate a knowledge graph in RDFS format. The script converts a filtered recipes CSV into an RDF/Turtle knowledge graph by creating cleaned URIs and structured entities for recipes, ingredients, tags, steps, and nutrition, then serializes the result to a .ttl file.
+This is an example of how a recipe is represented in the knowledge graph:
+
+\begin{verbatim}
+
+@prefix ex: <...> .
+@prefix rdf: <...> .
+@prefix rdfs: <...> .
+@prefix xsd: <...> .
+
+ex:Ingredient a rdfs:Class .
+
+ex:Nutrition a rdfs:Class .
+
+ex:Recipe a rdfs:Class .
+
+ex:Step a rdfs:Class .
+
+ex:Tag a rdfs:Class .
+
+ex:Recipe_100002 a ex:Recipe ;
+    rdfs:label "chips ahoy chocolate pie" ;
+    ex:hasIngredient ex:Ingredient_butter,
+        ex:Ingredient_chocolate_
+        chip_cookies,
+    ex:hasNutrition ex:Recipe_
+    100002_Nutrition ;
+    ex:hasStep ex:Recipe_100002
+    _StepsSeq ;
+    ex:hasTag ex:Tag_60_minutes
+    _or_less,
+        ex:Tag_course,
+    ex:id 100002 ;
+    ex:minutes 40 ;
+    ex:n_ingredients 5 ;
+    ex:n_steps 10 ;
+    ex:origin "original randomized" .
+
+
+ex:Recipe_100002_Nutrition a ex:Nutrition ;
+    ex:calories 3.581e+02 ;
+    ex:protein 7e+00 ;
+    ex:saturatedFat 6.3e+01 ;
+    ex:sodium 1.5e+01 ;
+    ex:sugar 4.2e+01 ;
+    ex:totalFat 3.5e+01 ;
+    ex:unknown 1.1e+01 .
+
+ex:Recipe_100002_Step_1 a ex:Step ;
+    rdfs:comment "crush 16 cookies in a sealable plastic bag until fine crumbs form" .
+
+ex:Recipe_100002_Step_2 a ex:Step ;
+    rdfs:comment "mix 1 1 / 2 cups of the crumbs with melted butter" .
+
+ex:Recipe_100002_StepsSeq a rdf:Seq ;
+    rdf:_1 ex:Recipe_100002_Step_1 ;
+    rdf:_2 ex:Recipe_100002_Step_2 ;
+
+ex:Ingredient_chocolate_chip_cookies a ex:Ingredient ;
+    rdfs:label "chocolate chip cookies" .
+
+ex:Tag_60_minutes_or_less a ex:Tag ;
+    rdfs:label "60-minutes-or-less" .
+
+ex:Tag_course a ex:Tag ;
+    rdfs:label "course" .
+
+
+\end{verbatim}
+
+As we can see from the example above, each recipe is represented as an instance of the Recipe class, with properties linking to its ingredients, nutrition information, preparation steps, and associated tags. Each ingredient, nutrition attribute, step, and tag is also represented as an individual resource in the graph. This structured representation allows for efficient querying and retrieval of recipe information based on various criteria.
+This allows us to re-use entities like ingredients and tags across multiple recipes without duplication. The steps were transformed into a an RDF sequence (rdf:Seq) The script converts a curated recipes CSV into a clean RDF/Turtle knowledge graph by generating URI-safe recipe, ingredient, tag, step, and nutrition entities with structured relationships, this was done using the RDFlib library in python.
+To maintain their order, and each step is linked to the recipe using the ex:hasStep property. Nutrition information is encapsulated in a separate Nutrition instance linked to the recipe via the ex:hasNutrition property. Tags are linked using the ex:hasTag property, allowing for categorization and filtering of recipes based on various attributes.
+The nutrition information is represented as a separate Nutrition instance linked to the recipe via the ex:hasNutrition property. Each nutrition attribute (e.g., calories, protein, saturated fat) is represented as a property of the Nutrition instance with appropriate data types. A small subset with two recipes and their full atribute was put into a ttl tag for observation using the pyvis library after parsing.
+
+
+METER AQUI A IMAGEM 
+
+% ...existing code...
+
+
+4-> 
+
+
+We defined five intents --- \texttt{get\_prep\_time}, \texttt{list\_by\_tag}, \texttt{retrieve\_ingredients}, \texttt{list\_by\_ingredient}, and \texttt{find\_recipe} --- and generated a dataset of around 1{,}100 training examples using seed samples and an LLM, ensuring clear separation between similar cases such as ``recipes that take 30 minutes'' (\texttt{list\_by\_time}) and ``how long does arroz de pato take to cook?'' (\texttt{get\_prep\_time}). Using this dataset, we trained a multilingual BERT intent classifier: it loads the labeled CSV, tokenizes the text with \texttt{bert-base-multilingual-cased}, builds label mappings, fine-tunes a sequence-classification model with appropriate hyperparameters, evaluates it on an 80/20 split, and finally saves the trained model, tokenizer, and label map. Alongside the classifier, we developed an entity extractor that uses spaCy for NER and RapidFuzz for fuzzy matching against Knowledge Graph entities, allowing downstream components to resolve ingredients, tags, recipes, and time expressions.
+
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{8cm} p{4cm}}
+\hline
+\textbf{User Query} & \textbf{Intent} \\
+\hline
+quanto tempo para cozer peito de frango & get\_prep\_time \\
+find low-carb meals & list\_by\_tag \\
+what do I need for paella & retrieve\_ingredients \\
+como fazer francesinha em casa & find\_recipe \\
+pratos para cozinhar em 45 minutos & list\_by\_time \\
+\hline
+\end{tabular}
+\caption{Examples of user queries and their associated intents.}
+\end{table}
+
+The \texttt{list\_by\_time} intent required special attention because user descriptions of preparation time are highly variable and often ambiguous. Unlike other intents that rely on explicit lexical markers, time expressions can appear in many different forms: numerical values (``30 minutos''), written numbers (``trinta minutos''), comparative forms (``menos de 20 minutos'', ``under 10 minutes''), vague descriptions (``algo rápido'', ``something quick''), and mixed-unit expressions such as ``1h20'' or ``1 hora e meia''. Users may omit units, combine formats, or express constraints indirectly, which makes it difficult to rely on a single pattern or keyword. The system therefore has to distinguish between exact-time queries (asking for recipes that take exactly a specific number of minutes) and maximum-time queries (asking for recipes that take at most a certain amount of time). It also must interpret comparative structures correctly and normalize written forms into numeric values. For these reasons, the \texttt{list\_by\_time} logic integrates layered numeric parsing, distinction between exact and maximum constraints, translation normalization, and fallback mechanisms so that the intent behaves consistently across differently phrased queries.
+
+
 \begin{itemize}
-  \item Intent classification module;
-  \item NLP pipeline with spaCy and RapidFuzz;
-  \item SPARQL querying layer;
-  \item FAISS-based similarity search;
-  \item LLM interface (Groq and Ollama).
+
+  \item Language detection and normalization:
+    \begin{itemize}
+      \item Detects query language (pt/en) and falls back using Portuguese heuristics (accents, “ç”, common PT words).
+      \item Strips accents for robust matching while preserving original forms for display.
+    \end{itemize}
+
+  \item spaCy pipeline:
+    \begin{itemize}
+      \item Loads pt/en spaCy models (fallback: blank ``xx'').
+      \item Adds an EntityRuler for TIME keywords (min/minutos/hora/hours) to improve chunking.
+      \item Extracts noun chunks and quoted phrases; deduplicates while preserving order.
+    \end{itemize}
+
+  \item Cooking-time parsing (PT/EN, tolerant to typos):
+    \begin{itemize}
+      \item Normalizes number words (e.g., ``quarenta e cinco'', ``forty-five'') into digits.
+      \item Uses regexes to detect minutes, hours, or combined ``H+M'' formats (e.g., ``1h 30m'').
+      \item Detects range prefixes (e.g., ``under'', ``menos de'', ``até'') to separate exact vs.\ max\_minutes.
+    \end{itemize}
+  \item Translation with protected culinary terms:
+    \begin{itemize}
+      \item Uses Argos Translate offline for PT$\leftrightarrow$EN (bag-mode and dual-pass).
+      \item Preserves protected PT terms (e.g., ``açorda'', ``brás'') by reinjecting them if mistranslated.
+    \end{itemize}
+
+  \item Candidate tokenization (\texttt{content\_tokens}):
+    \begin{itemize}
+      \item Removes stopwords and domain noise; sorts tokens for canonical matching.
+      \item Bag-mode aggregates tokens from original chunks, full text, and its translation (for ingredient/tag intents).
+    \end{itemize}
+
+  \item Knowledge Graph indexing:
+    \begin{itemize}
+      \item Loads the RDF/Turtle KG into rdflib; collects labels for recipes, ingredients, and tags.
+      \item Precomputes accent-stripped normalized labels for fast fuzzy search.
+    \end{itemize}
+
+  \item Fuzzy search and linking (intent-aware):
+    \begin{itemize}
+      \item RapidFuzz WRatio over normalized labels with thresholds:
+        \texttt{ingredient}=85, \texttt{tag}=90, \texttt{recipe\_name}=70 (raised to 75 in fallback).
+      \item Portuguese label preference boost when the query appears to be PT.
+      \item \texttt{list\_by\_ingredient}: returns top ingredient matches with scores.
+      \item \texttt{list\_by\_tag}: returns tag matches and injects time-related tag synonyms (e.g., ``rápido''→``15/30-minutes-or-less'').
+      \item \texttt{find\_recipe} / \texttt{retrieve\_ingredients}: exact/containment first; fuzzy fallback on the longest phrase.
+      \item \texttt{list\_by\_time}: passes through \texttt{cooking\_time} or \texttt{max\_minutes} for SPARQL filtering.
+    \end{itemize}
+
+  \item Output structure for downstream pipeline:
+    \begin{itemize}
+      \item Returns a dict with slots:\\
+      \texttt{ingredient}=[(label,score)], \texttt{tag}=[(label,score)], \texttt{recipe\_name}=[(label,score)],\\
+      \texttt{cooking\_time}=int|None, \texttt{max\_minutes}=int|None,\\
+      plus \texttt{detected\_language}, \texttt{original\_query}, \texttt{translated\_query}.
+      \item These slots feed SPARQL templates and RAG similarity; results are summarized by the LLM in the query language.
+    \end{itemize}
+
 \end{itemize}
 
-\subsection{Frontend}
-The user interface is based on React/Vite:
+After this the retrieved information is used to generate SPARQL queries to retrieve the desired information from the knowledge graph.
+
+
+
+
+INSERIR AQUI O SPARQL 
+
+
+
+This part of the pipeline is all joined in the pipeline module that does this:
+
+
+
+\subsection{Pipeline Orchestration (pipeline.py)}
+
 \begin{itemize}
-  \item Markdown rendering;
-  \item Language selection;
-  \item Animated suggestions and message flow.
+
+  \item Robust setup:
+    \begin{itemize}
+      \item Imports the intent classifier (\texttt{predict\_intent}), slot extractor (\texttt{extract\_and\_link}), spaCy pipeline builder, and SPARQL helper functions.
+      \item Loads the Knowledge Graph from \texttt{recipes\_graph\_cleaned.ttl} and builds a Portuguese-priority spaCy pipeline.
+    \end{itemize}
+
+  \item Slot extraction without SPARQL:
+    \begin{itemize}
+      \item \texttt{extract\_slots\_only(text)} predicts the top intent and extracts structured slots (ingredients, tags, recipe names, time fields) without executing any SPARQL queries.
+      \item Returns \texttt{(intent, confidence, slots)} for logging, debugging, and UI previews.
+    \end{itemize}
+
+  \item Sequential query execution (\texttt{handle\_query}):
+    \begin{itemize}
+      \item Determines the user intent and extracts slots with \texttt{extract\_and\_link}, then routes execution to the appropriate SPARQL query based on the intent.
+
+      \item list\_by\_ingredient:
+        \begin{itemize}
+          \item Collects all ingredient labels from slots and runs \texttt{query\_list\_by\_ingredient} for each.
+          \item Prints formatted recipe entries (name, URI, origin, minutes, tags, ingredients, nutrition, steps).
+          \item Aggregates all results into \texttt{kg\_results}.
+        \end{itemize}
+
+      \item list\_by\_tag:
+        \begin{itemize}
+          \item Uses all extracted tag labels, executes \texttt{query\_list\_by\_tag}, and deduplicates recipes by URI.
+          \item Stores the deduplicated list in \texttt{kg\_results}.
+        \end{itemize}
+
+      \item find\_recipe:
+        \begin{itemize}
+          \item For each candidate recipe name, calls \texttt{query\_find\_recipe} and prints a full recipe card.
+          \item Stores results in \texttt{kg\_results}.
+        \end{itemize}
+
+      \item retrieve\_ingredients:
+        \begin{itemize}
+          \item Calls \texttt{query\_retrieve\_ingredients} for each recipe name and prints the ingredient list.
+          \item Appends entries to \texttt{kg\_results}.
+        \end{itemize}
+
+      \item get\_prep\_time:
+        \begin{itemize}
+          \item For each recipe name, runs \texttt{query\_get\_prep\_time} and prints the preparation time in minutes.
+          \item Aggregates results into \texttt{kg\_results}.
+        \end{itemize}
+
+      \item list\_by\_time:
+        \begin{itemize}
+          \item Reads \texttt{cooking\_time} (exact) or \texttt{max\_minutes} (range) from the slots.
+          \item Range queries use \texttt{query\_by\_max\_minutes}; exact queries use \texttt{query\_by\_exact\_minutes}; sets \texttt{result\_basis}.
+          \item If no results or no numbers are detected, performs a fuzzy tag fallback:
+                injects time-related tags (\texttt{15/30/60-minutes-or-less}), queries \texttt{query\_list\_by\_tag}, deduplicates, and sets \texttt{result\_basis} to \texttt{fuzzy\_tag\_fallback}.
+        \end{itemize}
+
+    \end{itemize}
+
+  \item Formatting helpers:
+    \begin{itemize}
+      \item \texttt{\_fmt\_recipe}: renders a compact multi-line recipe card (URI, origin, minutes, steps, ingredients, nutrition).
+      \item \texttt{\_slot\_top\_label}, \texttt{\_slot\_all\_labels}, \texttt{\_slot\_all\_scored}: helper utilities for consistently retrieving labels and scores from slot structures.
+    \end{itemize}
+
+  \item CLI entry-point:
+    \begin{itemize}
+      \item When executed as a script, accepts \texttt{--intent-topk}, \texttt{--sparql-topk}, or \texttt{--topk}.
+      \item Prints query metadata: detected language, original and translated query, and detected slots before SPARQL execution.
+      \item Runs the sequential pipeline and prints per-intent SPARQL outputs; returns a structured dict containing \texttt{intent}, \texttt{confidence}, \texttt{text}, \texttt{slots}, and \texttt{kg\_results}.
+    \end{itemize}
+
 \end{itemize}
+
+In the early versions of the pipeline we relied on a plain large-language-model translation step to normalize user queries into English before intent classification and entity extraction. While this worked reasonably well, it produced non-deterministic translations: the same Portuguese phrasing translated into English would not necessarily translate back into the same Portuguese string, and small paraphrases in the input would sometimes yield semantically equivalent but structurally different English renderings. This inconsistency became problematic because the multilingual BERT intent classifier and the spaCy--KG entity extractor depend on predictable lexical patterns. To address this, we introduced several normalization measures to make the translation stage behave more ``objective'' and reproducible. First, we removed Portuguese stopwords that added noise and led the LLM to produce stylistic rather than literal translations. Second, instead of translating token by token---which caused the LLM to reinterpret fragments---we translated the entire sentence as a single unit, preserving intent and syntactic structure. Third, we fixed a systematic discrepancy in number handling: PT\textrightarrow{}EN translation tends to convert written numbers into digits (e.g., ``trinta minutos'' \textrightarrow{} ``30 minutes''), while EN\textrightarrow{}PT does not reliably convert digits back into words. To preserve semantic symmetry, we introduced a digit-to-word mapping that rewrites numbers consistently in the canonical representation. Finally, we stored the original query, the detected language, and the normalized English form so downstream components always receive a stable and deterministic string. Together, these fixes substantially reduced variation and improved both intent classification and entity extraction accuracy.
+In the early versions of the pipeline we relied on a plain large-language-model translation step to normalize user queries into English before intent classification and entity extraction. While this worked reasonably well, it produced non-deterministic translations: the same Portuguese phrasing translated into English would not necessarily translate back into the same Portuguese string, and small paraphrases in the input would sometimes yield semantically equivalent but structurally different English renderings. This inconsistency became problematic because the multilingual BERT intent classifier and the spaCy--KG entity extractor depend on predictable lexical patterns. To address this, we introduced several normalization measures to make the translation stage behave more ``objective'' and reproducible. First, we removed Portuguese stopwords that added noise and led the LLM to produce stylistic rather than literal translations. Second, instead of translating token by token---which caused the LLM to reinterpret fragments---we translated the entire sentence as a single unit, preserving intent and syntactic structure. Third, we fixed a systematic discrepancy in number handling: PT\textrightarrow{}EN translation tends to convert written numbers into digits (e.g., ``trinta minutos'' \textrightarrow{} ``30 minutes''), while EN\textrightarrow{}PT does not reliably convert digits back into words. To preserve semantic symmetry, we introduced a digit-to-word mapping that rewrites numbers consistently in the canonical representation. Finally, we stored the original query, the detected language, and the normalized English form so downstream components always receive a stable and deterministic string. Together, these fixes substantially reduced variation and improved both intent classification and entity extraction accuracy.
+
+The \texttt{list\_by\_time} intent required special attention because user descriptions of preparation time are highly variable and often ambiguous. Unlike other intents that rely on explicit lexical markers, time expressions can appear in many different forms: numerical values (``30 minutos''), written numbers (``trinta minutos''), comparative forms (``menos de 20 minutos'', ``under 10 minutes''), vague descriptions (``algo rápido'', ``something quick''), and mixed-unit expressions such as ``1h20'' or ``1 hora e meia''. Users may omit units, combine formats, or express constraints indirectly, which makes it difficult to rely on a single pattern or keyword. The system therefore has to distinguish between exact-time queries (asking for recipes that take exactly a specific number of minutes) and maximum-time queries (asking for recipes that take at most a certain amount of time). It also must interpret comparative structures correctly and normalize written forms into numeric values. For these reasons, the \texttt{list\_by\_time} logic integrates layered numeric parsing, distinction between exact and maximum constraints, translation normalization, and fallback mechanisms so that the intent behaves consistently across differently phrased queries.
+
+Paragraph: Initial translation problems and motivation for fixes
+
+In the early versions of the pipeline, we relied on a plain large-language-model translation step to normalize user queries into English before running intent classification and entity extraction. Although this approach worked on a superficial level, it produced non-deterministic and sometimes unstable translations: identical Portuguese phrasing could generate slightly different English outputs, and paraphrased inputs could result in inconsistent structural transformations. This unpredictability created problems because both the multilingual BERT intent classifier and the spaCy-based entity extractor rely on lexical regularity and stable patterns. Moreover, number expressions behaved differently across translation directions: Portuguese written numbers were often converted to digits in PT→EN, but EN→PT translation would not always preserve the same normalization. To address these issues, the translation stage was redesigned to be more “objective,” removing sources of randomness and enforcing uniform preprocessing rules.
+
+Paragraph: Explanation of the fixes implemented
+
+To mitigate the inconsistencies introduced by LLM-based translation, we introduced several normalization steps that force the system to behave deterministically. First, we added stopword removal to reduce noise and avoid subtle LLM paraphrasing triggered by function words. Second, instead of translating token-by-token or in fragments—which increases variability—we translate the entire user sentence as a single unit, which preserves structure and meaning more reliably. Third, because written Portuguese numbers were being converted into digits on the PT→EN pass but not symmetrically handled on the EN→PT pass, we implemented a dictionary mapping written numbers to their numeric forms so that normalization becomes rule-based rather than dependent on translation behavior. Finally, we added additional deterministic parsing logic, visible in functions such as \verb|parse_time_constraints()| and \verb|normalize_pt_numbers()|, to ensure that mixed formats like “1h30”, “1 hora”, or “vinte e cinco minutos” are always converted into consistent numerical outputs. Together, these modifications eliminate translation drift and ensure that intent detection and slot extraction operate on stable, predictable inputs.
+
+Python references using \verb|...| for LaTeX
+
+Here are the relevant code identifiers wrapped for LaTeX:
+
+\verb|parse_time_constraints()|
+
+\verb|normalize_pt_numbers()|
+
+\verb|link_candidates_to_kg()|
+
+\verb|extract_and_link()|
+
+\verb|cooking_time_raw|
+
+\verb|max_minutes_raw|
+
+\verb|RANGE_PREFIX_REGEX|
+
+
+2. Pre-loading heavy components (spaCy pipeline + KG index + PKL TTL loader)
+
+A crucial architectural decision in the pipeline is the pre-loading of all heavy components—namely the multilingual spaCy pipeline and the knowledge-graph index—before any user query is processed. The spaCy model initialization involves loading statistical components, taggers, dependency parsers, custom extension attributes, and multilingual vocabulary vectors; performing this at runtime for every query would be prohibitively expensive. Similarly, the knowledge graph, sourced from a Turtle file exceeding one million lines, cannot be reparsed from RDF on demand. To address this, the pipeline implements a PKL-based caching system: on the first run, the TTL file is parsed into an in-memory graph structure, which is then serialized to disk as a .pkl snapshot. Subsequent executions detect the presence of the pickle file and load the graph directly in a fraction of the time. This strategy not only improves performance dramatically but also stabilizes memory usage, since the expensive graph structure is built exactly once and then reused. By storing these pre-loaded components in global module scope, the pipeline mirrors the deployment model of mature production NLP systems, where models and indexes behave as long-lived, immutable dependencies, ensuring deterministic processing and consistent latency during interactive use.
+
+3. Intent-dependent slot extraction
+
+The pipeline introduces a dedicated mechanism that controls when entity extraction is executed, preventing unnecessary or harmful parsing for intents that do not require semantic grounding. This is achieved through the set \verb|INTENTS_NEEDING_EXTRACTION|, which acts as a whitelist of intents for which slot extraction using spaCy and the knowledge graph is meaningful. For intents such as greetings, confirmations, or generic help requests, attempting entity extraction would lead to spurious results, noise in the entity linker, and contradictions between the detected intent and the returned slot set. By gating extraction behind an explicit membership check, the pipeline ensures that computational resources are used only when needed while also improving the semantic cleanliness of downstream processing. This design aligns with standard NLU frameworks such as Rasa, Snips, and Dialogflow, where entity extraction is conditioned on the intent rather than blindly applied to all utterances. The result is a more predictable and efficient NLU layer that avoids over-generation and keeps intent--slot coherence intact.
+
+4. Clear separation between “slot extraction only” and full pipeline execution
+
+Another important structural decision in the codebase is the strict separation between two main operations: NLU-only processing and full end-to-end query resolution. The function \verb|extract_slots_only(text)| performs intent classification and optional entity extraction but halts before invoking any SPARQL logic, making it ideal for debugging, unit testing, and batch evaluation of the NLU layer without the noise of the knowledge-graph back-end. In contrast, \verb|handle_query(text)| performs the complete pipeline: classification, slot extraction, SPARQL execution, aggregation of results, and formatted output. This separation of responsibilities reflects a widely adopted architecture in dialogue systems, where the NLU module is distinct from the dialogue manager or API layer. It also facilitates integration into GUIs or external services, which may only need intent and slot information and would be disrupted by the verbose SPARQL printing the full pipeline produces. By keeping both modes available, the system gains flexibility, debuggability, and modularity, allowing each component to be validated in isolation.
+
+6. De-duplication logic for overlapping recipe results
+
+The knowledge graph’s structure and tagging system make it possible for a single recipe to satisfy multiple filtering criteria at once—for example, a dish might be labeled both as “quick” and “under 30 minutes,” or appear in multiple result sets inferred through different SPARQL paths. Without explicit handling, such overlaps would cause duplicated recipe entries in the output, misleading users and complicating evaluation of recall and precision. To solve this issue, the pipeline applies a deterministic de-duplication pass after SPARQL results are collected. It iterates over the returned recipes, tracks seen URIs in a set, and retains only the first occurrence of each unique recipe. This lightweight but effective mechanism guarantees that results remain clean, non-redundant, and semantically meaningful. The decision to deduplicate at the pipeline level rather than the SPARQL level preserves query flexibility: the SPARQL routines remain simple and independent, while the consolidation logic ensures their results form a coherent whole.
+
+
+\section{RAG implementation}
+
+As the descriptions of the recipes in the knowledge graph are more textual and less structured, we decided to implement a RAG (retrieval augmented generation) system to be able to retrieve the most relevant recipes based on the user query.
+This module builds and serves a vector-based semantic search index over recipe descriptions. It loads a curated bilingual CSV file containing recipe IDs, names, and descriptions. Before indexing, the code applies a quality-filtering step: short, boilerplate, or low-information descriptions are detected using heuristics such as length, alphabetic-character ratio, presence of boilerplate patterns (e.g., \verb|prep time|, \verb|yield|), and token count. Any description that fails these checks is skipped. Valid descriptions are then turned into “chunks”—in this version, each description is a single chunk—which are stored in a list of records containing fields like \verb|{"id": ..., "name": ..., "chunk_id": ..., "text": ...}|.
+The build step encodes all chunks using a SentenceTransformer model. The model name is configurable via an environment variable, defaulting to \verb|intfloat/multilingual-e5-base|; if the selected model is an E5 model, the code automatically prepends the prefix \verb|"passage: "| to each description, following the E5 formatting convention. The resulting embeddings are L2-normalized and saved to \verb|embeddings.npy|. A FAISS inner-product index is then created and written to \verb|faiss.index|. Alongside it, a metadata file \verb|desc_meta.json| is generated, containing fields such as \verb|{"records": [...], "meta": {"model": "...", "use_e5": true, "source_csv": "...", "n_chunks": ...}}| stored via \verb|\verb|{}| so it can be used later for querying.
+When querying, the index and metadata are lazily loaded and cached. A query string is encoded using the same model, applying the prefix \verb|"query: "| if E5 is active. The FAISS index retrieves the most similar chunks; extra candidates are fetched to allow deduplication by their \verb|chunk_id|. Results below a similarity threshold are filtered out. The returned list includes the recipe ID, recipe name, chunk ID, the original description text, and the similarity score.
+Several helper functions enhance retrieval. The function \verb|best_description_for_names| returns stored descriptions for a given list of recipe names. The function \verb|_augment_with_descriptions| enriches an intent-extraction result object by attaching two fields: \verb|descriptions_by_name|, which maps detected recipe names to their best descriptions, and \verb|similar_description_chunks|, which provides up to the top 3 most semantically similar description chunks for the user’s entire query. Finally, running the module directly (\verb|python module.py|) triggers the index-building process.
+
+\section{System Architecture}
+
+
+Initial tests with the local Ollama model proved unsatisfactory. Despite the advantage of running locally without relying on an external service, the models demonstrated semantic inconsistencies, context drift, and high variability in intent and label extraction. The low latency was not enough to compensate for the poor response quality. Consequently, the implementation was migrated to the Groq API, which provided significant improvements in response accuracy, coherence across turns, and overall stability. The Groq client is initialized lazily, ensuring that the module is loaded only when required.
+This section describes the evolution of the LLM query module implementation, including the limitations encountered with Ollama, the subsequent migration to the Groq API, the mechanism for tracking the last messages, the \textit{prompt\ engineering} strategy, the pipeline import process via \verb|pickle|, the command-line interface (CLI), as well as the \textit{prompt trimming} system to ensure the \num{7000}-token limit is not exceeded.
+
+\subsection*{9. Testing with Ollama and Migration to Groq}
+
+Initially, tests were conducted with the local Ollama model. Despite the advantage of not relying on an external service, these tests were unsatisfactory. The models exhibited semantic inconsistencies, context drift, and high variability in intent and label extraction. Latency was low, but the response quality was insufficient for the level of precision required by the project.
+Therefore, a migration to the Groq service was carried out. This transition significantly improved response quality, coherence across turns, and model stability. The integration now uses a Groq client initialized lazily (\textit{lazy init}), ensuring the module is only loaded when actually needed.
+The initialization logic is encapsulated in the client:
+
+\begin{verbatim}
+_groq_client = None
+
+def _ensure_client():
+    from groq import Groq
+    return Groq(api_key=GROQ_API_KEY)
+\end{verbatim}
+
+\subsection*{Conversation History of Recent Messages}
+
+To avoid exceeding the per-minute request limit and reduce computational costs, a compact history of the last three messages was implemented. Only three fields are stored:
+
+\begin{itemize}
+    \item \verb|query| – the original user question,
+    \item \verb|structured| – the structured block generated by the semantic pipeline,
+    \item \verb|response| – the final response returned by the LLM.
+\end{itemize}
+
+This history is used to generate a reduced context block appended at the end of the \textit{prompt}. The format is defined as:
+
+\begin{verbatim}
+_conversation_history: list[dict[str, str]] = []
+CONTEXT_WINDOW = 3
+\end{verbatim}
+
+And rendered with:
+
+\begin{verbatim}
+def _build_context_annotation(prev_turns):
+    ...
+\end{verbatim}
+
+Placing the history at the end — rather than at the beginning — ensures that the trimming system always cuts from the tail, preserving the most relevant part of the main prompt.
+
+\subsection*{Prompt Engineering}
+
+The section responsible for prompt construction integrates:
+
+\begin{itemize}
+    \item structured summary of the pipeline result;
+    \item similarity \textit{snippets} from the RAG index;
+    \item assistant behavioral decision rules;
+    \item compact block of recent message history.
+\end{itemize}
+
+This block is generated by the function:
+
+\begin{verbatim}
+_summary, full_prompt_sent = _summarize_with_llm(user_query, result)
+\end{verbatim}
+
+The \textit{prompt engineering} includes:
+
+\begin{itemize}
+    \item responding always in the original query language,
+    \item modularization of responses by entities (ingredients, tags, names),
+    \item detection of meta-queries (“what did I ask before?”),
+    \item safe fallback when there is noise or off-topic content,
+    \item conservative use of semantic snippets (RAG).
+\end{itemize}
+
+\subsection*{Pipeline Import (Pickle, TTL, Lazy Loading)}
+
+The semantic pipeline is loaded only when necessary, avoiding startup costs:
+
+\begin{verbatim}
+mod = importlib.import_module("NLP.pipeline")
+
+def _load_pipeline():
+    _handle_query = getattr(mod, "handle_query")
+\end{verbatim}
+
+The components are pre-serialized in a TTL file (ontology) and \verb|pickle| files to accelerate initialization.
+
+\subsection*{CLI Information}
+
+The module exposes a fully interactive command-line mode:
+
+\begin{verbatim}
+Interactive Recipe Chatbot (Pipeline + Groq)
+Type a recipe-related query in PT or EN.
+Commands: /exit to quit
+\end{verbatim}
+
+Features include:
+
+\begin{itemize}
+    \item direct execution: \verb|python module.py "recipes with tofu"|;
+    \item interactive mode: continuous input;
+    \item \verb|clear| command to reset internal history;
+    \item non-interactive \verb|stdin| support (useful for scripts).
+\end{itemize}
+
+\subsection*{Automatic Prompt Trimming (7000-Token Limit)}
+
+To avoid context overflow errors, a trimming system based on approximate token count (via \verb|tiktoken|) was implemented.  
+The default behavior is:
+
+\begin{itemize}
+    \item calculate the tokens of the full prompt;
+    \item if it exceeds 7000, always trim from the end (tail);
+    \item repeat successive 20\% cuts until within the limit.
+\end{itemize}
+
+The logic:
+
+\begin{verbatim}
+def _trim_prompt(prompt, max_tokens, model):
+    cut_len = int(len(current) * 0.80)
+    current = current[:cut_len]
+\end{verbatim}
+
+This strategy preserves the most important part of the prompt: the main instruction block and the structured pipeline summary, removing only the older history.
+
+\subsection*{Overall Code Description}
+
+The module coordinates:
+
+\begin{itemize}
+    \item conditional loading of environment variables using \verb|dotenv|;
+    \item lazy loading of the semantic pipeline;
+    \item integration with the RAG similarity engine;
+    \item prompt construction with history and response policy;
+    \item sending requests to Groq via \verb|client.chat.completions|;
+    \item logging conversation history in \verb|context.txt|;
+    \item maintaining an interactive session in the CLI.
+\end{itemize}
+
+The main workflow occurs in:
+
+\begin{verbatim}
+def _process_query(user_query):
+    handle_query_fn, _ = _load_pipeline()
+    result = handle_query_fn(...)
+    summary, used_prompt = _summarize_with_llm(...)
+    return summary
+\end{verbatim}
+
+
+\subsection{Frontend details}
+
+
+
+The frontend of     the recipe chatbot was designed with several key user-focused features. Users can create a new chat, which clears the message history stored in the Groq prompt, ensuring that subsequent queries start with a fresh context. While a new chat is loading, the interface allows users to view the previous message history for reference. The displayed text on the interface can also be dynamically translated, independent of the chatbot response language, which is automatically matched to the query's language. Additionally, all LLM responses are converted to Markdown for rendering, enabling proper formatting of tables and structured content. These frontend features are integrated with the backend described earlier, which is exposed via a FastAPI server. The API supports endpoints for health checks, submitting chat queries, and clearing the conversation context. The FastAPI backend ensures that the semantic pipeline is loaded once, lazily, and that all requests—including clearing the conversation history—are handled asynchronously for a responsive user experience. The frontend itself is implemented in React, with a dedicated \texttt{fonts} and \texttt{components} folder to manage styling and reusable UI elements.
+
 
 % -------- EXPERIMENTATION ----------
 \section{Experimentation}
@@ -118,6 +657,16 @@ We evaluated PT/EN queries by ingredients, tags, and time constraints.
 
 \subsection{Results}
 Positive cases showed accurate intent routing and bilingual output. Initial failures in time parsing and API configuration were mitigated through relaxed matching and environment validation.
+
+Resultados
+
+- Mostrar o quão boas as SPARQL queries foram a buscar os resultados desejados do dataset - resultado
+
+- Refletir a introdução do RAG para a descrição no sistema, mesmo com as melhorias. - resultado
+
+- Mostrar a interpretação das mensagens do historico + prompt + resultados do groq (receitas/ingredients/tags/steps/time pedidos de acordo com a query) - uma tablea com exeplos na parte do prompt engineering
+
+
 
 \subsection{Metrics}
 \begin{itemize}
