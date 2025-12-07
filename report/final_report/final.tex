@@ -10,6 +10,17 @@
 \usepackage{booktabs}
 \usepackage{siunitx}
 \usepackage{url}
+% Table wrapping and better column control
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{makecell}
+% Better verbatim with line breaking
+\usepackage{fvextra}
+% Slightly increase default cell padding in tables
+\setlength{\tabcolsep}{7pt}
+% Ragged-right X column that allows wrapping
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
 
 \begin{document}
 
@@ -104,25 +115,28 @@ The dataset was already curated beacuse its based on the website data that conta
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{5cm} p{7cm}}
-\hline
-\textbf{Field} & \textbf{Description} \\
-\hline
-name & Recipe name \\
-id & Unique recipe identifier \\
-minutes & Total preparation/cooking time \\
-contributor\_id & ID of the user who submitted the recipe \\
-submitted & Submission date \\
-tags & List of categorical tags \\
-nutrition & Nutritional information vector \\
-n\_steps & Number of preparation steps \\
-steps & Ordered list of preparation steps \\
-description & Short user's recipe description \\
-ingredients & List of ingredients \\
-n\_ingredients & Number of ingredients \\
-\hline
-\end{tabular}
 \caption{Fields present in each recipe entry.}
+\label{tab:recipe-fields}
+% Add explicit spacing between columns (1em) and keep outer margins tight
+\begin{tabularx}{\columnwidth}{@{} l @{\hspace{1.5em}} Y @{}}
+% Left-align headers to match column alignment
+\toprule
+\textbf{Field} & \textbf{Description} \\
+\midrule
+\texttt{name} & Recipe name \\
+\texttt{id} & Unique recipe identifier \\
+\texttt{minutes} & Total preparation/cooking time \\
+\texttt{contributor\_id} & ID of the user who submitted the recipe \\
+\texttt{submitted} & Submission date \\
+\texttt{tags} & List of categorical tags \\
+\texttt{nutrition} & Nutritional information vector \\
+\texttt{n\_steps} & Number of preparation steps \\
+\texttt{steps} & Ordered list of preparation steps \\
+\texttt{description} & Short user's recipe description \\
+\texttt{ingredients} & List of ingredients \\
+\texttt{n\_ingredients} & Number of ingredients \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 
@@ -145,7 +159,6 @@ Both datasets were merged, however there was stil a relatively high rate of fals
 \\
 After removing the false positives 1015 portuguese recipes remained. After this around 9000 random recipes were added to the dataset. To keep portuguese and english recipes (VER O METODO DE TIRAR RECEITAS QUE N SEJAM INGLES)
 
-% -------- IMPLEMENTATION ----------
 \section{Approach}
 
 \subsection{Knowledge Graph Construction}
@@ -160,18 +173,19 @@ The first step to analise the user's query is to detect its intent. A list of fi
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{8cm} p{4cm}}
-\hline
-\textbf{User Query} & \textbf{Intent} \\
-\hline
-quanto tempo para cozer peito de frango & get\_prep\_time \\
-find low-carb meals & list\_by\_tag \\
-what do I need for paella & retrieve\_ingredients \\
-como fazer francesinha em casa & find\_recipe \\
-pratos para cozinhar em 45 minutos & list\_by\_time \\
-\hline
-\end{tabular}
 \caption{Examples of user queries and their associated intents.}
+\label{tab:intent-examples}
+\begin{tabularx}{\columnwidth}{@{} l @{\hspace{1.5em}} Y @{}}
+\toprule
+\textbf{User Query} & \textbf{Intent} \\
+\midrule
+Quanto tempo para cozer peito de frango & \texttt{get\_prep\_time} \\
+Find low-carb meals & \texttt{list\_by\_tag} \\
+What do I need for paella & \texttt{retrieve\_ingredients} \\
+Como fazer francesinha em casa & \texttt{find\_recipe} \\
+Pratos para cozinhar em 45 minutos & \texttt{list\_by\_time} \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 
@@ -181,19 +195,20 @@ The next task is to extract relevant entities from the user query in order to ha
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{p{4cm} p{7cm}}
-\hline
-\textbf{Intent} & \textbf{Extracted Entity / Slot} \\
-\hline
-\texttt{get\_prep\_time} & \texttt{recipe\_name}  \\
-\texttt{list\_by\_tag} & \texttt{tag} \\
-\texttt{retrieve\_ingredients} & \texttt{recipe\_name} \\
-\texttt{find\_recipe} & \texttt{recipe\_name} \\
-\texttt{list\_by\_ingredient} & \texttt{ingredient} \\
-\texttt{list\_by\_time} & \texttt{minutes}  \\
-\hline
-\end{tabular}
 \caption{Mapping of intents to the entities extracted by the pipeline.}
+\label{tab:intent-to-slots}
+\begin{tabularx}{\columnwidth}{@{} l @{\hspace{1.5em}} Y @{}}
+	\toprule
+	\textbf{Intent} & \textbf{Extracted Entity / Slot} \\
+\midrule
+	\texttt{get\_prep\_time} & \texttt{recipe\_name} \\
+	\texttt{list\_by\_tag} & \texttt{tag} \\
+	\texttt{retrieve\_ingredients} & \texttt{recipe\_name} \\
+	\texttt{find\_recipe} & \texttt{recipe\_name} \\
+	\texttt{list\_by\_ingredient} & \texttt{ingredient} \\
+	\texttt{list\_by\_time} & \texttt{minutes} \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \subsection{SPAQRQL Queries}
@@ -203,9 +218,8 @@ The valid entities extracted from the user query are then used to build SPARQL q
 
 (IMAGENS DOS QUERIES)
 
-\subsection{RAG}
+\subsection{Retrieval Augmented Generation}
 \noindent
-
 As the descriptions of the recipes in the knowledge graph are more textual and less structured,a RAG (CITAÇÃO) (retrieval augmented generation) system was implemented to be able to retrieve the most relevant descriptions based on the user query.
 
 \subsection{LLM Contextual Response}
@@ -213,13 +227,15 @@ As the descriptions of the recipes in the knowledge graph are more textual and l
 Finally, the retrieved information from the SPARQL queries and the RAG system is used to generate a summary response to the user query. This is done using an LLM that takes as input the user query, the retrieved recipes, and their descriptions. The LLM then generates a coherent and informative response that answers the user's query based on the retrieved information and past conversation history.
 
 \section{implementation}
-
-
-
+\noindent
+This section will explain in detail how each of the components described in the approach section were implemented.
+\subsection{Knowledge Graph Construction}
+\noindent
 After, we processed the dataset to generate a knowledge graph in RDFS format. The script converts a filtered recipes CSV into an RDF/Turtle knowledge graph by creating cleaned URIs and structured entities for recipes, ingredients, tags, steps, and nutrition, then serializes the result to a .ttl file.
 This is an example of how a recipe is represented in the knowledge graph:
 
-\begin{verbatim}
+% Use fancy verbatim with line breaking to avoid column overflow
+\begin{Verbatim}[breaklines=true, breakanywhere=true, fontsize=\small]
 
 @prefix ex: <...> .
 @prefix rdf: <...> .
@@ -281,23 +297,53 @@ ex:Tag_60_minutes_or_less a ex:Tag ;
     rdfs:label "60-minutes-or-less" .
 
 ex:Tag_course a ex:Tag ;
-    rdfs:label "course" .
+  rdfs:label "course" .
 
 
-\end{verbatim}
+\end{Verbatim}
 
-As we can see from the example above, each recipe is represented as an instance of the Recipe class, with properties linking to its ingredients, nutrition information, preparation steps, and associated tags. Each ingredient, nutrition attribute, step, and tag is also represented as an individual resource in the graph. This structured representation allows for efficient querying and retrieval of recipe information based on various criteria.
-This allows us to re-use entities like ingredients and tags across multiple recipes without duplication. The steps were transformed into a an RDF sequence (rdf:Seq) The script converts a curated recipes CSV into a clean RDF/Turtle knowledge graph by generating URI-safe recipe, ingredient, tag, step, and nutrition entities with structured relationships, this was done using the RDFlib library in python.
-To maintain their order, and each step is linked to the recipe using the ex:hasStep property. Nutrition information is encapsulated in a separate Nutrition instance linked to the recipe via the ex:hasNutrition property. Tags are linked using the ex:hasTag property, allowing for categorization and filtering of recipes based on various attributes.
-The nutrition information is represented as a separate Nutrition instance linked to the recipe via the ex:hasNutrition property. Each nutrition attribute (e.g., calories, protein, saturated fat) is represented as a property of the Nutrition instance with appropriate data types. A small subset with two recipes and their full atribute was put into a ttl tag for observation using the pyvis library after parsing.
+As seen from the example above, each recipe is represented as an instance of the \texttt{Recipe} class, with properties linking to several of its components. Some of these components have their own classes, as shown below:
+
+\begin{table}[h!]
+\centering
+\caption{Recipe class attributes \& RDFS classes.}
+\label{tab:rdf-classes}
+\begin{tabularx}{\columnwidth}{@{} l @{\hspace{5em}} Y @{}}
+\toprule
+\textbf{Recipe Attributes} & \textbf{RDFS Classes} \\
+\midrule
+\texttt{recipe} &  \texttt{Recipe} \\
+\texttt{ingredient} & \texttt{Ingredient} \\
+\texttt{tag} & \texttt{Tag} \\
+\texttt{step} & \texttt{Step} \\
+\texttt{nutrition} & \texttt{Nutrition} \\
+\texttt{id} & \\
+\texttt{minutes} & \\
+\texttt{n\_ingredients} & \\
+\texttt{n\_steps} & \\
+
+\bottomrule
+\end{tabularx}
+\end{table}
+
+This structured representation allows for the reuse of entities like ingredients and tags across multiple recipes without duplication. The steps were transformed into a an RDF sequence (rdf:Seq) as shown in the example above and to maintain their order, each step is linked to the recipe using the \texttt{ex:hasStep} property. Nutrition attributes (e.g., calories, protein, saturated fat) are encapsulated in a separate \texttt{Nutrition} instance linked to the recipe via the \texttt{ex:hasNutrition} property. Tags are linked using the \texttt{ex:hasTag} property, allowing for categorization and filtering of recipes based on various attributes.
+This allowed for efficient querying and easier retrieval of the relevant information for the predicted intent.
+
+% Meter se calhar o display das receitas na demo
 
 
-METER AQUI A IMAGEM 
-
-% ...existing code...
+% As seen from the example above, each recipe is represented as an instance of the Recipe class, with properties linking to its ingredients, nutrition information, preparation steps, and associated tags. Each ingredient, nutrition attribute, step, and tag is also represented as an individual resource in the graph. This structured representation allows for efficient querying and retrieval of recipe information based on various criteria.
 
 
-4-> 
+% This allows us to re-use entities like ingredients and tags across multiple recipes without duplication. The steps were transformed into a an RDF sequence (rdf:Seq) The script converts a curated recipes CSV into a clean RDF/Turtle knowledge graph by generating URI-safe recipe, ingredient, tag, step, and nutrition entities with structured relationships, this was done using the RDFlib library in python.
+% To maintain their order, and each step is linked to the recipe using the ex:hasStep property. Nutrition information is encapsulated in a separate Nutrition instance linked to the recipe via the ex:hasNutrition property. Tags are linked using the ex:hasTag property, allowing for categorization and filtering of recipes based on various attributes.
+% The nutrition information is represented as a separate Nutrition instance linked to the recipe via the ex:hasNutrition property. Each nutrition attribute (e.g., calories, protein, saturated fat) is represented as a property of the Nutrition instance with appropriate data types. A small subset with two recipes and their full atribute was put into a ttl tag for observation using the pyvis library after parsing.
+
+\subsection{Intent Training}
+\noindent
+The first step to analise the user's query is to detect its intent. In order to do so we've trained an intent classifier using a multilingual BERT model, and 
+
+
 
 
 We defined five intents --- \texttt{get\_prep\_time}, \texttt{list\_by\_tag}, \texttt{retrieve\_ingredients}, \texttt{list\_by\_ingredient}, and \texttt{find\_recipe} --- and generated a dataset of around 1{,}100 training examples using seed samples and an LLM, ensuring clear separation between similar cases such as ``recipes that take 30 minutes'' (\texttt{list\_by\_time}) and ``how long does arroz de pato take to cook?'' (\texttt{get\_prep\_time}). Using this dataset, we trained a multilingual BERT intent classifier: it loads the labeled CSV, tokenizes the text with \texttt{bert-base-multilingual-cased}, builds label mappings, fine-tunes a sequence-classification model with appropriate hyperparameters, evaluates it on an 80/20 split, and finally saves the trained model, tokenizer, and label map. Alongside the classifier, we developed an entity extractor that uses spaCy for NER and RapidFuzz for fuzzy matching against Knowledge Graph entities, allowing downstream components to resolve ingredients, tags, recipes, and time expressions.
