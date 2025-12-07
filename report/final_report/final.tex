@@ -155,26 +155,64 @@ After the final dataset of around 10,000 recipes was obtained, the knowledge gra
 \subsection{Intent Training}
 
 \noindent
-The first step to analise the user query is to detect its intent.
+The first step to analise the user's query is to detect its intent. A list of five possible intents was defined, and a dataset of around 1,100 training examples was generated using seed samples and an LLM. This dataset contained both portuguese and english examples. The following table shows some examples of user queries and their associated intents:
 
 
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{8cm} p{4cm}}
+\hline
+\textbf{User Query} & \textbf{Intent} \\
+\hline
+quanto tempo para cozer peito de frango & get\_prep\_time \\
+find low-carb meals & list\_by\_tag \\
+what do I need for paella & retrieve\_ingredients \\
+como fazer francesinha em casa & find\_recipe \\
+pratos para cozinhar em 45 minutos & list\_by\_time \\
+\hline
+\end{tabular}
+\caption{Examples of user queries and their associated intents.}
+\end{table}
 
 
+\subsection{Entity Extraction}
+\noindent
+The next task is to extract relevant entities from the user query in order to have a base to build the SPARQL queries. This is done using a similarity search with fuzzy matching against the knowledge graph entities. The entites are extracted according to the predicted intent that has the most confidence. The entities that are considered and thus passed to the pipeline are ordered according to their similarity score, if above a certain threshold. The following table shows the mapping of intents to the entities extracted by the pipeline:
 
+\begin{table}[h!]
+\centering
+\begin{tabular}{p{4cm} p{7cm}}
+\hline
+\textbf{Intent} & \textbf{Extracted Entity / Slot} \\
+\hline
+\texttt{get\_prep\_time} & \texttt{recipe\_name}  \\
+\texttt{list\_by\_tag} & \texttt{tag} \\
+\texttt{retrieve\_ingredients} & \texttt{recipe\_name} \\
+\texttt{find\_recipe} & \texttt{recipe\_name} \\
+\texttt{list\_by\_ingredient} & \texttt{ingredient} \\
+\texttt{list\_by\_time} & \texttt{minutes}  \\
+\hline
+\end{tabular}
+\caption{Mapping of intents to the entities extracted by the pipeline.}
+\end{table}
 
+\subsection{SPAQRQL Queries}
 
+\noindent
+The valid entities extracted from the user query are then used to build SPARQL queries to retrieve the desired information from the knowledge graph. Each intent has its own SPARQL query template that is filled with the extracted entities. The following graphs shows the mapping of intents to their corresponding SPARQL query functions:
 
+(IMAGENS DOS QUERIES)
 
+\subsection{RAG}
+\noindent
 
+As the descriptions of the recipes in the knowledge graph are more textual and less structured,a RAG (CITAÇÃO) (retrieval augmented generation) system was implemented to be able to retrieve the most relevant descriptions based on the user query.
 
+\subsection{LLM Contextual Response}
+\noindent
+Finally, the retrieved information from the SPARQL queries and the RAG system is used to generate a summary response to the user query. This is done using an LLM that takes as input the user query, the retrieved recipes, and their descriptions. The LLM then generates a coherent and informative response that answers the user's query based on the retrieved information and past conversation history.
 
-
-
-
-
-
-
-
+\section{implementation}
 
 
 
@@ -265,21 +303,6 @@ METER AQUI A IMAGEM
 We defined five intents --- \texttt{get\_prep\_time}, \texttt{list\_by\_tag}, \texttt{retrieve\_ingredients}, \texttt{list\_by\_ingredient}, and \texttt{find\_recipe} --- and generated a dataset of around 1{,}100 training examples using seed samples and an LLM, ensuring clear separation between similar cases such as ``recipes that take 30 minutes'' (\texttt{list\_by\_time}) and ``how long does arroz de pato take to cook?'' (\texttt{get\_prep\_time}). Using this dataset, we trained a multilingual BERT intent classifier: it loads the labeled CSV, tokenizes the text with \texttt{bert-base-multilingual-cased}, builds label mappings, fine-tunes a sequence-classification model with appropriate hyperparameters, evaluates it on an 80/20 split, and finally saves the trained model, tokenizer, and label map. Alongside the classifier, we developed an entity extractor that uses spaCy for NER and RapidFuzz for fuzzy matching against Knowledge Graph entities, allowing downstream components to resolve ingredients, tags, recipes, and time expressions.
 
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{p{8cm} p{4cm}}
-\hline
-\textbf{User Query} & \textbf{Intent} \\
-\hline
-quanto tempo para cozer peito de frango & get\_prep\_time \\
-find low-carb meals & list\_by\_tag \\
-what do I need for paella & retrieve\_ingredients \\
-como fazer francesinha em casa & find\_recipe \\
-pratos para cozinhar em 45 minutos & list\_by\_time \\
-\hline
-\end{tabular}
-\caption{Examples of user queries and their associated intents.}
-\end{table}
 
 The \texttt{list\_by\_time} intent required special attention because user descriptions of preparation time are highly variable and often ambiguous. Unlike other intents that rely on explicit lexical markers, time expressions can appear in many different forms: numerical values (``30 minutos''), written numbers (``trinta minutos''), comparative forms (``menos de 20 minutos'', ``under 10 minutes''), vague descriptions (``algo rápido'', ``something quick''), and mixed-unit expressions such as ``1h20'' or ``1 hora e meia''. Users may omit units, combine formats, or express constraints indirectly, which makes it difficult to rely on a single pattern or keyword. The system therefore has to distinguish between exact-time queries (asking for recipes that take exactly a specific number of minutes) and maximum-time queries (asking for recipes that take at most a certain amount of time). It also must interpret comparative structures correctly and normalize written forms into numeric values. For these reasons, the \texttt{list\_by\_time} logic integrates layered numeric parsing, distinction between exact and maximum constraints, translation normalization, and fallback mechanisms so that the intent behaves consistently across differently phrased queries.
 
@@ -485,7 +508,7 @@ The knowledge graph’s structure and tagging system make it possible for a sing
 
 \section{RAG implementation}
 
-As the descriptions of the recipes in the knowledge graph are more textual and less structured, we decided to implement a RAG (retrieval augmented generation) system to be able to retrieve the most relevant recipes based on the user query.
+
 This module builds and serves a vector-based semantic search index over recipe descriptions. It loads a curated bilingual CSV file containing recipe IDs, names, and descriptions. Before indexing, the code applies a quality-filtering step: short, boilerplate, or low-information descriptions are detected using heuristics such as length, alphabetic-character ratio, presence of boilerplate patterns (e.g., \verb|prep time|, \verb|yield|), and token count. Any description that fails these checks is skipped. Valid descriptions are then turned into “chunks”—in this version, each description is a single chunk—which are stored in a list of records containing fields like \verb|{"id": ..., "name": ..., "chunk_id": ..., "text": ...}|.
 The build step encodes all chunks using a SentenceTransformer model. The model name is configurable via an environment variable, defaulting to \verb|intfloat/multilingual-e5-base|; if the selected model is an E5 model, the code automatically prepends the prefix \verb|"passage: "| to each description, following the E5 formatting convention. The resulting embeddings are L2-normalized and saved to \verb|embeddings.npy|. A FAISS inner-product index is then created and written to \verb|faiss.index|. Alongside it, a metadata file \verb|desc_meta.json| is generated, containing fields such as \verb|{"records": [...], "meta": {"model": "...", "use_e5": true, "source_csv": "...", "n_chunks": ...}}| stored via \verb|\verb|{}| so it can be used later for querying.
 When querying, the index and metadata are lazily loaded and cached. A query string is encoded using the same model, applying the prefix \verb|"query: "| if E5 is active. The FAISS index retrieves the most similar chunks; extra candidates are fetched to allow deduplication by their \verb|chunk_id|. Results below a similarity threshold are filtered out. The returned list includes the recipe ID, recipe name, chunk ID, the original description text, and the similarity score.

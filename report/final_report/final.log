@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.12.6)  7 DEC 2025 02:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.12.6)  7 DEC 2025 02:42
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -496,398 +496,439 @@ Underfull \hbox (badness 2229) in paragraph at lines 137--138
 
 
 ]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 184.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+Overfull \hbox (113.43306pt too wide) in paragraph at lines 163--174
+ [][] 
+ []
+
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 188.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (6.0pt too wide) in paragraph at lines 249--249
+Overfull \hbox (84.9803pt too wide) in paragraph at lines 184--196
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 287--287
 []    \OT1/pcr/m/n/10 rdfs:label "chips ahoy chocolate pie" ;[] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 249--249
+Overfull \hbox (6.0pt too wide) in paragraph at lines 287--287
 []\OT1/pcr/m/n/10 ex:Recipe_100002_Nutrition a ex:Nutrition ;[] 
  []
 
 
-Overfull \hbox (264.0pt too wide) in paragraph at lines 249--249
+Overfull \hbox (264.0pt too wide) in paragraph at lines 287--287
 []    \OT1/pcr/m/n/10 rdfs:comment "crush 16 cookies in a sealable plastic bag until fine crumbs form" .[] 
  []
 
 
-Overfull \hbox (168.0pt too wide) in paragraph at lines 249--249
+Overfull \hbox (168.0pt too wide) in paragraph at lines 287--287
 []    \OT1/pcr/m/n/10 rdfs:comment "mix 1 1 / 2 cups of the crumbs with melted butter" .[] 
  []
 
 
-Overfull \hbox (72.0pt too wide) in paragraph at lines 249--249
+Overfull \hbox (72.0pt too wide) in paragraph at lines 287--287
 []\OT1/pcr/m/n/10 ex:Ingredient_chocolate_chip_cookies a ex:Ingredient ;[] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [2]
-Underfull \hbox (badness 10000) in paragraph at lines 265--266
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 []\OT1/ptm/m/n/10 We de-fined five in-tents --- \OT1/pcr/m/n/10 get_prep_time\OT1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--266
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 \OT1/pcr/m/n/10 list_by_tag\OT1/ptm/m/n/10 , \OT1/pcr/m/n/10 retrieve_ingredients\OT1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 5345) in paragraph at lines 265--266
+Underfull \hbox (badness 5345) in paragraph at lines 303--304
 \OT1/pcr/m/n/10 list_by_ingredient\OT1/ptm/m/n/10 , and \OT1/pcr/m/n/10 find_recipe \OT1/ptm/m/n/10 --- and
  []
 
 
-Underfull \hbox (badness 2119) in paragraph at lines 265--266
+Underfull \hbox (badness 2119) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 gen-er-ated a dataset of around 1,100 train-ing ex-am-ples
  []
 
 
-Underfull \hbox (badness 3930) in paragraph at lines 265--266
+Underfull \hbox (badness 3930) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 be-tween sim-i-lar cases such as ``recipes that take 30
  []
 
 
-Underfull \hbox (badness 1831) in paragraph at lines 265--266
+Underfull \hbox (badness 1831) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 min-utes'' (\OT1/pcr/m/n/10 list_by_time\OT1/ptm/m/n/10 ) and ``how long does ar-roz
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--266
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 de pato take to cook?'' (\OT1/pcr/m/n/10 get_prep_time\OT1/ptm/m/n/10 ). Us-ing
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 265--266
+Underfull \hbox (badness 6510) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 this dataset, we trained a mul-ti-lin-gual BERT in-tent
  []
 
 
-Underfull \hbox (badness 1983) in paragraph at lines 265--266
+Underfull \hbox (badness 1983) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 clas-si-fier: it loads the la-beled CSV, to-k-enizes the text
  []
 
 
-Underfull \hbox (badness 2073) in paragraph at lines 265--266
+Underfull \hbox (badness 2073) in paragraph at lines 303--304
 \OT1/ptm/m/n/10 against Knowl-edge Graph en-ti-ties, al-low-ing down-stream
  []
 
-
-Overfull \hbox (113.43306pt too wide) in paragraph at lines 270--281
- [][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 298--299
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 321--322
 []\OT1/ptm/m/n/10 Adds an En-ti-tyRuler for TIME key-words
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 328--330
+Underfull \hbox (badness 10000) in paragraph at lines 351--353
 []\OT1/ptm/m/n/10 RapidFuzz WRatio over nor-mal-ized la-bels
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 328--330
+Underfull \hbox (badness 10000) in paragraph at lines 351--353
 \OT1/ptm/m/n/10 with thresh-olds: \OT1/pcr/m/n/10 ingredient\OT1/ptm/m/n/10 =85, \OT1/pcr/m/n/10 tag\OT1/ptm/m/n/10 =90,
  []
 
 
-Underfull \hbox (badness 1466) in paragraph at lines 331--332
+Underfull \hbox (badness 1466) in paragraph at lines 354--355
 []\OT1/pcr/m/n/10 list_by_ingredient\OT1/ptm/m/n/10 : re-turns top in-gre-di-ent
  []
 
-[3]
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 332.
+            Default family used instead on input line 355.
 
-Underfull \hbox (badness 10000) in paragraph at lines 339--343
+Underfull \hbox (badness 10000) in paragraph at lines 362--366
 \OT1/pcr/m/n/10 cooking_time\OT1/ptm/m/n/10 =int|None,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 367--368
+Underfull \hbox (badness 10000) in paragraph at lines 390--391
 \OT1/ptm/m/n/10 slot ex-trac-tor (\OT1/pcr/m/n/10 extract_and_link\OT1/ptm/m/n/10 ), spaCy
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 368--369
+Underfull \hbox (badness 10000) in paragraph at lines 391--392
 []\OT1/ptm/m/n/10 Loads the Knowl-edge Graph from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 368--369
+Underfull \hbox (badness 10000) in paragraph at lines 391--392
 \OT1/pcr/m/n/10 recipes_graph_cleaned.ttl \OT1/ptm/m/n/10 and builds
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 390--391
+Underfull \hbox (badness 10000) in paragraph at lines 413--414
 []\OT1/ptm/m/n/10 Uses all ex-tracted tag la-bels, ex-e-cutes
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 390--391
+Underfull \hbox (badness 10000) in paragraph at lines 413--414
 \OT1/pcr/m/n/10 query_list_by_tag\OT1/ptm/m/n/10 , and dedu-pli-cates
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 396--397
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 []\OT1/ptm/m/n/10 For each can-di-date recipe name, calls
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 396--397
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 \OT1/pcr/m/n/10 query_find_recipe \OT1/ptm/m/n/10 and prints a full
  []
 
-
-Underfull \hbox (badness 1371) in paragraph at lines 402--403
+[4]
+Underfull \hbox (badness 1371) in paragraph at lines 425--426
 []\OT1/ptm/m/n/10 Calls \OT1/pcr/m/n/10 query_retrieve_ingredients \OT1/ptm/m/n/10 for
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 408--409
+Underfull \hbox (badness 10000) in paragraph at lines 431--432
 []\OT1/ptm/m/n/10 For each recipe name, runs
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 408--409
+Underfull \hbox (badness 10000) in paragraph at lines 431--432
 \OT1/pcr/m/n/10 query_get_prep_time \OT1/ptm/m/n/10 and prints the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 414--415
+Underfull \hbox (badness 10000) in paragraph at lines 437--438
 []\OT1/ptm/m/n/10 Reads \OT1/pcr/m/n/10 cooking_time \OT1/ptm/m/n/10 (ex-act) or
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 415--416
+Underfull \hbox (badness 10000) in paragraph at lines 438--439
 []\OT1/ptm/m/n/10 Range queries use
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 415--416
+Underfull \hbox (badness 10000) in paragraph at lines 438--439
 \OT1/pcr/m/n/10 query_by_max_minutes\OT1/ptm/m/n/10 ; ex-act queries
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 415--416
+Underfull \hbox (badness 10000) in paragraph at lines 438--439
 \OT1/ptm/m/n/10 use \OT1/pcr/m/n/10 query_by_exact_minutes\OT1/ptm/m/n/10 ; sets
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 416--418
+Underfull \hbox (badness 10000) in paragraph at lines 439--441
 \OT1/ptm/m/n/10 (\OT1/pcr/m/n/10 15/30/60-minutes-or-less\OT1/ptm/m/n/10 ), queries
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 425--426
+Underfull \hbox (badness 10000) in paragraph at lines 448--449
 []\OT1/pcr/m/n/10 _slot_top_label\OT1/ptm/m/n/10 , \OT1/pcr/m/n/10 _slot_all_labels\OT1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 425--426
+Underfull \hbox (badness 10000) in paragraph at lines 448--449
 \OT1/pcr/m/n/10 _slot_all_scored\OT1/ptm/m/n/10 : helper util-i-ties for
  []
 
 
-Underfull \hbox (badness 4805) in paragraph at lines 425--426
+Underfull \hbox (badness 4805) in paragraph at lines 448--449
 \OT1/ptm/m/n/10 con-sis-tently re-triev-ing la-bels and scores from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 430--431
+Underfull \hbox (badness 10000) in paragraph at lines 453--454
 []\OT1/ptm/m/n/10 When ex-e-cuted as a script, ac-cepts
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 430--431
+Underfull \hbox (badness 10000) in paragraph at lines 453--454
 \OT1/pcr/m/n/10 --intent-topk\OT1/ptm/m/n/10 , \OT1/pcr/m/n/10 --sparql-topk\OT1/ptm/m/n/10 , or
  []
 
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 437.
+            Default family used instead on input line 460.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 437.
+            Default family used instead on input line 460.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 437.
+            Default family used instead on input line 460.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 438.
+            Default family used instead on input line 461.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 438.
+            Default family used instead on input line 461.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 438.
-[4]
+            Default family used instead on input line 461.
+[5]
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 444.
+            Default family used instead on input line 467.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 444.
+            Default family used instead on input line 467.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 448.
+            Default family used instead on input line 471.
 LaTeX Info: Symbol \textrightarrow not provided by
             font family ptm in TS1 encoding.
-            Default family used instead on input line 448.
+            Default family used instead on input line 471.
 
-Underfull \hbox (badness 2042) in paragraph at lines 448--449
+Underfull \hbox (badness 2042) in paragraph at lines 471--472
 \OT1/ptm/m/n/10 as a sin-gle unit, which pre-serves struc-ture and mean-
  []
 
 
-Underfull \hbox (badness 1859) in paragraph at lines 448--449
+Underfull \hbox (badness 1859) in paragraph at lines 471--472
 \OT1/ptm/m/n/10 bers were be-ing con-verted into dig-its on the PT\TS1/cmr/m/n/10 ^^Y\OT1/ptm/m/n/10 EN
  []
 
-[5]
-Underfull \hbox (badness 1400) in paragraph at lines 475--476
+
+Underfull \hbox (badness 1400) in paragraph at lines 498--499
 \OT1/ptm/m/n/10 trols when en-tity ex-trac-tion is ex-e-cuted, pre-vent-ing un-
  []
 
+[6]
+Underfull \hbox (badness 3281) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 bilin-gual CSV file con-tain-ing recipe IDs, names, and
+ []
 
-Underfull \hbox (badness 3189) in paragraph at lines 488--493
+
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 filtering step: short, boil-er-plate, or low-information
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 de-scrip-tions are de-tected us-ing heuris-tics such as
+ []
+
+
+Underfull \hbox (badness 1629) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 length, alphabetic-character ra-tio, pres-ence of boil-er-plate
+ []
+
+
+Underfull \hbox (badness 2261) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 pat-terns (e.g., [][]\OT1/pcr/m/n/10 prep time[]\OT1/ptm/m/n/10 , [][]\OT1/pcr/m/n/10 yield[]\OT1/ptm/m/n/10 ), and to-ken count.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 Any de-scrip-tion that fails these checks is skipped.
+ []
+
+
+Underfull \hbox (badness 6412) in paragraph at lines 512--516
+\OT1/ptm/m/n/10 Valid de-scrip-tions are then turned into \chunks"|in
+ []
+
+
+Underfull \hbox (badness 3189) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 are stored in a list of records con-tain-ing fields like
  []
 
 
-Overfull \hbox (74.5pt too wide) in paragraph at lines 488--493
+Overfull \hbox (74.5pt too wide) in paragraph at lines 512--516
 [][]\OT1/pcr/m/n/10 {"id": ..., "name": ..., "chunk_id": ..., "text": ...}[]\OT1/ptm/m/n/10 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 488--493
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 The build step en-codes all chunks us-ing a
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 488--493
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 Sen-tence-Trans-former model. The model name is
  []
 
 
-Underfull \hbox (badness 2547) in paragraph at lines 488--493
+Underfull \hbox (badness 2547) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 con-fig-urable via an en-vi-ron-ment vari-able, de-fault-ing to
  []
 
 
-Underfull \hbox (badness 3118) in paragraph at lines 488--493
+Underfull \hbox (badness 3118) in paragraph at lines 512--516
 [][]\OT1/pcr/m/n/10 intfloat/multilingual-e5-base[]\OT1/ptm/m/n/10 ; if the se-lected
  []
 
 
-Underfull \hbox (badness 7558) in paragraph at lines 488--493
+Underfull \hbox (badness 7558) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 are L2-normalized and saved to [][]\OT1/pcr/m/n/10 embeddings.npy[]\OT1/ptm/m/n/10 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 488--493
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 A FAISS inner-product in-dex is then cre-ated and
  []
 
 
-Overfull \hbox (336.0pt too wide) in paragraph at lines 488--493
+Overfull \hbox (336.0pt too wide) in paragraph at lines 512--516
 [][]\OT1/pcr/m/n/10 {"records": [...], "meta": {"model": "...", "use_e5": true, "source_csv": "...", "n_chunks": ...}}
  []
 
 
-Underfull \hbox (badness 3849) in paragraph at lines 488--493
+Underfull \hbox (badness 3849) in paragraph at lines 512--516
 []\OT1/ptm/m/n/10 re-turns stored de-scrip-tions for a given list of recipe
  []
 
 
-Underfull \hbox (badness 3333) in paragraph at lines 488--493
+Underfull \hbox (badness 3333) in paragraph at lines 512--516
 []\OT1/ptm/m/n/10 en-riches an intent-extraction re-sult ob-ject by at-tach-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 488--493
+Underfull \hbox (badness 10000) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 two fields: [][]\OT1/pcr/m/n/10 descriptions_by_name[]\OT1/ptm/m/n/10 , which maps
  []
 
 
-Underfull \hbox (badness 4266) in paragraph at lines 488--493
+Underfull \hbox (badness 4266) in paragraph at lines 512--516
 \OT1/ptm/m/n/10 de-tected recipe names to their best de-scrip-tions, and
  []
 
-[6]
-Overfull \hbox (36.0pt too wide) in paragraph at lines 529--529
+[7]
+Overfull \hbox (36.0pt too wide) in paragraph at lines 552--552
 []\OT1/pcr/m/n/10 _conversation_history: list[dict[str, str]] = [][] 
  []
 
 
-Overfull \hbox (156.0pt too wide) in paragraph at lines 555--555
+Overfull \hbox (156.0pt too wide) in paragraph at lines 578--578
 []\OT1/pcr/m/n/10 _summary, full_prompt_sent = _summarize_with_llm(user_query, result)[] 
  []
 
-[7]
-Overfull \hbox (18.0pt too wide) in paragraph at lines 576--576
+
+Overfull \hbox (18.0pt too wide) in paragraph at lines 599--599
 []\OT1/pcr/m/n/10 mod = importlib.import_module("NLP.pipeline")[] 
  []
 
 
-Overfull \hbox (36.0pt too wide) in paragraph at lines 576--576
+Overfull \hbox (36.0pt too wide) in paragraph at lines 599--599
 []    \OT1/pcr/m/n/10 _handle_query = getattr(mod, "handle_query")[] 
  []
 
 
-Overfull \hbox (12.0pt too wide) in paragraph at lines 588--588
+Overfull \hbox (12.0pt too wide) in paragraph at lines 611--611
 []\OT1/pcr/m/n/10 Interactive Recipe Chatbot (Pipeline + Groq)[] 
  []
 
 
-Overfull \hbox (55.60641pt too wide) in paragraph at lines 593--594
+Overfull \hbox (55.60641pt too wide) in paragraph at lines 616--617
 []\OT1/ptm/m/n/10 direct ex-e-cu-tion: [][]\OT1/pcr/m/n/10 python module.py "recipes with tofu"[]\OT1/ptm/m/n/10 ; 
  []
 
 
-Overfull \hbox (12.0pt too wide) in paragraph at lines 616--616
+Overfull \hbox (12.0pt too wide) in paragraph at lines 639--639
 []\OT1/pcr/m/n/10 def _trim_prompt(prompt, max_tokens, model):[] 
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 625--626
+Underfull \hbox (badness 3029) in paragraph at lines 648--649
 []\OT1/ptm/m/n/10 conditional load-ing of en-vi-ron-ment vari-ables us-ing
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 629--630
+Underfull \hbox (badness 10000) in paragraph at lines 652--653
 []\OT1/ptm/m/n/10 sending re-quests to Groq via
  []
 
 
-Overfull \hbox (54.0pt too wide) in paragraph at lines 642--642
+Overfull \hbox (54.0pt too wide) in paragraph at lines 665--665
 []    \OT1/pcr/m/n/10 summary, used_prompt = _summarize_with_llm(...)[] 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 667--668
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 690--691
 []\OT1/ptm/m/n/10 - Mostrar a interpreta[][]ao das men-sagens do
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 667--668
+Underfull \hbox (badness 10000) in paragraph at lines 690--691
 \OT1/ptm/m/n/10 his-torico + prompt + re-sul-ta-dos do groq (re-
  []
 
 
-Underfull \hbox (badness 4156) in paragraph at lines 667--668
+Underfull \hbox (badness 4156) in paragraph at lines 690--691
 \OT1/ptm/m/n/10 ceitas/ingredients/tags/steps/time pe-di-dos de acordo com
  []
 
-[8] (./final.bbl)
+(./final.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -899,29 +940,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[9
-
-] (./final.aux)
+[9] (./final.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `final.out' has not changed.
-(rerunfilecheck)             Checksum: 7C3507837095A7FE389DFD560D4376F6;2169.
+(rerunfilecheck)             Checksum: EECCEAD4489F7F18EF7A807FA0E613DF;2818.
  ) 
 Here is how much of TeX's memory you used:
- 15879 strings out of 476106
- 311366 string characters out of 5793933
+ 15892 strings out of 476106
+ 311543 string characters out of 5793933
  1952975 words of memory out of 5000000
- 37682 multiletter control sequences out of 15000+600000
- 599318 words of font info for 127 fonts, out of 8000000 for 9000
+ 37688 multiletter control sequences out of 15000+600000
+ 599833 words of font info for 129 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 75i,11n,79p,1957b,1068s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,1957b,1162s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on final.pdf (9 pages, 130945 bytes).
+Output written on final.pdf (9 pages, 134329 bytes).
 PDF statistics:
- 184 PDF objects out of 1000 (max. 8388607)
- 156 compressed objects within 2 object streams
- 38 named destinations out of 1000 (max. 500000)
- 137 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 206 PDF objects out of 1000 (max. 8388607)
+ 178 compressed objects within 2 object streams
+ 44 named destinations out of 1000 (max. 500000)
+ 177 words of extra memory for PDF output out of 10000 (max. 10000000)
 
