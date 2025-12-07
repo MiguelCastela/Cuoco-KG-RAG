@@ -1,15 +1,16 @@
 # Fdb version 4
-["bibtex final"] 1765126189.46218 "final.aux" "final.bbl" "final" 1765126190.45062 0
-  "./report.bib" 1765122690.26305 7159 5ae4d7b6425ff7ab8a76cdba5b5415e9 ""
+["bibtex final"] 1765144761.65738 "final.aux" "final.bbl" "final" 1765144944.50297 0
+  "./report.bib" 1764864906.76211 7159 5ae4d7b6425ff7ab8a76cdba5b5415e9 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "final.aux" 1765126190.18151 4675 f65f432160fee66c45ef2c3e6c544d95 "pdflatex"
+  "final.aux" 1765144944.25863 6637 977950535470104b1ef559aaa1857324 "pdflatex"
   (generated)
   "final.bbl"
   "final.blg"
   (rewritten before read)
-["pdflatex"] 1765126189.56392 "/home/ozzy/Desktop/mei/1ºano/1ºsemestre/CL/Knowledge-and-Language/report/final_report/final.tex" "final.pdf" "final" 1765126190.45078 0
-  "/etc/texmf/web2c/texmf.cnf" 1733336306.12301 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/ozzy/Desktop/mei/1ºano/1ºsemestre/CL/Knowledge-and-Language/report/final_report/final.tex" 1765126188.27526 49996 bf3dbd80d3cdda111d45997fd591be99 ""
+["pdflatex"] 1765144942.97274 "/home/castela/Documents/GitHub/Knowledge-and-Language/report/final_report/final.tex" "final.pdf" "final" 1765144944.5034 0
+  "/etc/texmf/web2c/texmf.cnf" 1759240955.47625 475 c0e671620eb5563b2130f56340a5fde8 ""
+  "/home/castela/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1760023769.835 11524 1a0083dd0ecd7a649ee67f38c95dbf6c ""
+  "/home/castela/Documents/GitHub/Knowledge-and-Language/report/final_report/final.tex" 1765144942.67467 39065 de7826f19a2a83502d051f6fa1aebea1 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -43,7 +44,6 @@
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb" 1248133631 37912 77d683123f92148345f3fc36a38d9ab1 ""
-  "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb" 1248133631 32915 7bf7720c61a5b3a7ff25b0964421c9b6 ""
   "/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
@@ -128,15 +128,13 @@
   "/usr/share/texlive/texmf-dist/tex/latex/upquote/upquote.sty" 1334873510 1048 517e01cde97c1c0baf72e69d43aa5a2e ""
   "/usr/share/texlive/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
-  "/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1636152094 2900 1537cc8184ad1792082cd229ecc269f4 ""
-  "/usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb" 1636152094 138258 6525c253f16cededa14c7fd0da7f67b2 ""
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1745943793.02127 5472669 54eaf61a88b6b7896ebd0dac973cb29c ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1745943951 8213120 d5da6b8c983a423033010a23a28ab577 ""
-  "final.aux" 1765126190.18151 4675 f65f432160fee66c45ef2c3e6c544d95 "pdflatex"
-  "final.bbl" 1765126189.5595 1265 9953712de41b8a28efaaed04bb4b22af "bibtex final"
-  "final.out" 1765126190.18151 3299 24fe2631c0b49a5409768197ffba09b1 "pdflatex"
-  "final.tex" 1765126188.27526 49996 bf3dbd80d3cdda111d45997fd591be99 ""
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1765048635.573 165012 f177baa1c39a3ebd62c3096a43521a0d ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1765048670 6831113 04fbb955ff855468cbb39d43faa3b15f ""
+  "final.aux" 1765144944.25863 6637 977950535470104b1ef559aaa1857324 "pdflatex"
+  "final.bbl" 1765144761.6898 4924 660ca8af2f928a66c60157d766ceef86 "bibtex final"
+  "final.out" 1765144944.26163 4746 ecde3c694730506ecff4e8d185617294 "pdflatex"
+  "final.tex" 1765144942.67467 39065 de7826f19a2a83502d051f6fa1aebea1 ""
   (generated)
   "final.aux"
   "final.log"
