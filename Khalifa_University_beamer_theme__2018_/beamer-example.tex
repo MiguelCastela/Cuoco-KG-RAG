@@ -44,23 +44,28 @@
       
       \vspace{1em}
       \textbf{Objective:}
+  \end{columns}
+\end{frame}
+
+
+\section{Objective}
+\begin{frame}{Objective}
+  \begin{columns}
+    \column{0.6\textwidth}
+      \textbf{Context:}
       \begin{itemize}
         \item Develop a \textbf{Bilingual Assistant} that understands intent.
         \item Combine the \textbf{precision of Knowledge Graphs (KG)} with the \textbf{fluency of LLMs}.
       \end{itemize}
-
-    \column{0.4\textwidth}
-      \begin{alertblock}{Core Challenge}
-        \justifying
-        Balancing the hallucination risks of LLMs with the rigidity of SPARQL queries to ensure factual accuracy.
-      \end{alertblock}
+      
+      \vspace{1em}
+      \textbf{Objective:}
   \end{columns}
 \end{frame}
 
 % --- Section 2: Architecture ---
 \section{System Architecture}
 \begin{frame}{System Pipeline}
-  \centering
   \textbf{Hybrid Retrieval: SPARQL (KG) + FAISS (Vector Search)}
   
   \vspace{0.5em}
@@ -92,7 +97,15 @@
           \item High entity linking accuracy using similarity thresholds (Ing=85, Tag=90).
         \end{itemize}
       \end{block}
-    \column{0.5\textwidth}
+  \end{columns}
+\end{frame}
+
+
+\section{Key Components}
+\subsection{NLP Pipeline \& Time Parsing}
+\begin{frame}{NLP: Intent \& Entity Extraction}
+  \begin{columns}
+\column{0.5\textwidth}
       \begin{block}{3. Time Constraint Handling}
         \begin{itemize}
           \item \textbf{Challenge:} User descriptions are highly variable and ambiguous (e.g., "1h20", "under 10 minutes").
@@ -128,29 +141,24 @@
         \item \textbf{List by Time} (\texttt{query\_by\_max/exact\_minutes}) 
       \end{itemize}
       % CORRECT PATHS with folder and fixed filenames:
+  \end{columns}
+  
+\end{frame}
+
+
+\begin{frame}{SPARQL Functions: Intent-to-Query Mapping}
+  \justifying
+  Each user intent is mapped to a specific SPARQL query function, filled with extracted entities, to retrieve structured data from the KG.
+
       \includegraphics[width=0.8\linewidth, height=0.2\textheight, keepaspectratio]{cl-drawio/cl-list_by_tag.drawio.png}
       \includegraphics[width=0.8\linewidth, height=0.2\textheight, keepaspectratio]{cl-drawio/cl-list_by_ingr.drawio.png}
       \includegraphics[width=0.8\linewidth, height=0.2\textheight, keepaspectratio]{cl-drawio/cl-get_max_time.drawio.png}
-  \end{columns}
   
 \end{frame}
 
 % --- Section 4: Results & Conclusion ---
 \section{Results \& Conclusion}
 \begin{frame}{Experimental Results Summary}
-  \begin{table}
-    \centering
-    \caption{Performance on Test Queries}
-    \begin{tabular}{lcc}
-      \toprule
-      \textbf{Metric} & \textbf{Value} & \textbf{Notes} \\
-      \midrule
-      Intent Accuracy & $\sim$92\% & BERT fine-tuning \\
-      Entity Linking & High & Threshold-based (85+) \\
-      Time Parsing & Robust & Handles typos ("munutes") \\
-      \bottomrule
-    \end{tabular}
-  \end{table}
 
   \vspace{1em}
   \textbf{Key Findings:}

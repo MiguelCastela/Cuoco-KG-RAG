@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.12.6)  15 DEC 2025 17:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.12.6)  15 DEC 2025 18:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1062,21 +1062,136 @@ Dictionary: translator-theorem-dictionary, Language: English
 Package pgfplots notification 'compat/show suggested version=true': you might b
 enefit from \pgfplotsset{compat=1.18} (current compat level: 1.14).
 
-No file beamer-example.nav.
-[1
+(./beamer-example.nav) [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./logos/KUlogoBlue2.png>]
-No file beamer-example.toc.
-[2
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./logos/KUlogoBlue2.png>] 
+(./beamer-example.toc) [2
 
  <./logos/KUlogoNarrowGray.png>]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 58.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 48.
 
-
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 58.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 48.
 
 
-(/usr/share/texlive/texmf-dist/tex/latex/amsfonts
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) [3
+
+] [4
+
+] [5
+
+]
+Overfull \vbox (34.02388pt too high) detected at line 101
+ []
+
+[6
+
+] [7
+
+]
+<cl-drawio/cl-retrieve_ingredients.drawio.png, id=94, 443.6575pt x 152.57pt>
+File: cl-drawio/cl-retrieve_ingredients.drawio.png Graphic file (type png)
+<use cl-drawio/cl-retrieve_ingredients.drawio.png>
+Package pdftex.def Info: cl-drawio/cl-retrieve_ingredients.drawio.png  used on 
+input line 146.
+(pdftex.def)             Requested size: 134.18819pt x 46.14616pt.
+<cl-drawio/cl-find_recipe.drawio.png, id=95, 443.6575pt x 151.56625pt>
+File: cl-drawio/cl-find_recipe.drawio.png Graphic file (type png)
+<use cl-drawio/cl-find_recipe.drawio.png>
+Package pdftex.def Info: cl-drawio/cl-find_recipe.drawio.png  used on input lin
+e 146.
+(pdftex.def)             Requested size: 135.07501pt x 46.14552pt.
+<cl-drawio/cl-get_prep_time.drawio.png, id=96, 443.6575pt x 152.57pt>
+File: cl-drawio/cl-get_prep_time.drawio.png Graphic file (type png)
+<use cl-drawio/cl-get_prep_time.drawio.png>
+Package pdftex.def Info: cl-drawio/cl-get_prep_time.drawio.png  used on input l
+ine 146.
+(pdftex.def)             Requested size: 134.18819pt x 46.14616pt.
+
+Overfull \vbox (60.18407pt too high) detected at line 146
+ []
+
+[8
+
+ <./cl-drawio/cl-retrieve_ingredients.drawio.png> <./cl-drawio/cl-find_recipe.d
+rawio.png> <./cl-drawio/cl-get_prep_time.drawio.png>]
+<cl-drawio/cl-list_by_tag.drawio.png, id=107, 442.65375pt x 151.56625pt>
+File: cl-drawio/cl-list_by_tag.drawio.png Graphic file (type png)
+<use cl-drawio/cl-list_by_tag.drawio.png>
+Package pdftex.def Info: cl-drawio/cl-list_by_tag.drawio.png  used on input lin
+e 157.
+(pdftex.def)             Requested size: 134.76941pt x 46.14552pt.
+<cl-drawio/cl-list_by_ingr.drawio.png, id=108, 443.6575pt x 152.57pt>
+File: cl-drawio/cl-list_by_ingr.drawio.png Graphic file (type png)
+<use cl-drawio/cl-list_by_ingr.drawio.png>
+Package pdftex.def Info: cl-drawio/cl-list_by_ingr.drawio.png  used on input li
+ne 157.
+(pdftex.def)             Requested size: 134.18819pt x 46.14616pt.
+<cl-drawio/cl-get_max_time.drawio.png, id=109, 443.6575pt x 191.71625pt>
+File: cl-drawio/cl-get_max_time.drawio.png Graphic file (type png)
+<use cl-drawio/cl-get_max_time.drawio.png>
+Package pdftex.def Info: cl-drawio/cl-get_max_time.drawio.png  used on input li
+ne 157.
+(pdftex.def)             Requested size: 106.7846pt x 46.14447pt.
+ [9
+
+ <./cl-drawio/cl-list_by_tag.drawio.png> <./cl-drawio/cl-list_by_ingr.drawio.pn
+g> <./cl-drawio/cl-get_max_time.drawio.png>] [10
+
+] [11
+
+] [12
+
+]
+\tf@nav=\write6
+\openout6 = `beamer-example.nav'.
+
+\tf@toc=\write7
+\openout7 = `beamer-example.toc'.
+
+\tf@snm=\write8
+\openout8 = `beamer-example.snm'.
+
+ (./beamer-example.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+
+
+Package rerunfilecheck Warning: File `beamer-example.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `beamer-example.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  F7527C0B68457C5614FF7D14AA0D543D;1303.
+ ) 
+Here is how much of TeX's memory you used:
+ 34608 strings out of 476106
+ 824789 string characters out of 5793933
+ 1934975 words of memory out of 5000000
+ 55967 multiletter control sequences out of 15000+600000
+ 568729 words of font info for 75 fonts, out of 8000000 for 9000
+ 59 hyphenation exceptions out of 8191
+ 101i,17n,107p,731b,808s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/symbols/msam10.pfb>
+Output written on beamer-example.pdf (12 pages, 582238 bytes).
+PDF statistics:
+ 188 PDF objects out of 1000 (max. 8388607)
+ 121 compressed objects within 2 object streams
+ 34 named destinations out of 1000 (max. 500000)
+ 83 words of extra memory for PDF output out of 10000 (max. 10000000)
+
