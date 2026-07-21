@@ -1,64 +1,36 @@
-# Chatbot Frontend (Vite + React)
+# Cuoco frontend (Vite + React)
 
-A lightweight React frontend for the Knowledge-and-Language chatbot.
-
-## Features
-- Vite dev server for fast iteration
-- Simple chat UI (user/bot bubbles)
-- Calls `POST /api/chat` (proxied to your backend during dev)
-- Minimal styling with plain CSS
+The chat interface for Cuoco. See the [root README](../README.md) for the full
+project overview and setup.
 
 ## Getting started
 
-1) Install dependencies:
-
 ```bash
-cd frontend
 npm install
+npm run dev        # starts Vite at http://localhost:5173
 ```
 
-2) Run the dev server:
+The UI calls the backend at `http://localhost:8000` (`POST /chat`, `POST /clear`).
+Start the backend first (see the root README).
 
-```bash
-npm run dev
-```
+## Configuration
 
-This starts Vite at http://localhost:5173.
-
-## Backend proxy
-- Dev server proxies `"/api"` to `VITE_BACKEND_URL` (defaults to `http://localhost:8000`).
-- Create a `.env` file if you need a different URL:
+Copy `.env.example` to `.env` to change the dev proxy target:
 
 ```
-VITE_BACKEND_URL=http://127.0.0.1:8000
+VITE_BACKEND_URL=http://localhost:8000
 ```
-
-## Expected API contract
-The UI sends:
-
-```http
-POST /api/chat
-Content-Type: application/json
-
-{ "text": "user message" }
-```
-
-Respond with:
-
-```json
-{ "reply": "bot message" }
-```
-
-Any additional fields are ignored by the UI for now.
 
 ## Build for production
 
 ```bash
 npm run build
-npm run preview # optional local preview of the built app
+npm run preview    # optional local preview of the build
 ```
 
-## Customize
-- Edit `src/App.jsx` for UI logic
-- Edit `src/index.css` for styles
-- Update proxy target in `vite.config.js` if needed
+## Where things live
+
+- `src/App.jsx` - top-level chat logic and backend calls
+- `src/components/` - UI components
+- `src/index.css`, `src/fonts.css` - styling
+- `vite.config.js` - dev server and `/api` proxy target
