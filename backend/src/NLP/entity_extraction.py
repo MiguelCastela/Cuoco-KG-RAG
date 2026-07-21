@@ -41,9 +41,9 @@ EX = Namespace("http://example.org/recipes#")
 
 STOPWORDS = {
     "en": {"with","of","the","a","an","and","or","for","to","in","on","at","by",
-           "recipe","recipes"},  # added
+           "recipe","recipes"},  
     "pt": {"com","de","do","da","das","dos","e","ou","para","em","no","na","nos","nas",
-           "receita","receitas"},  # added
+           "receita","receitas"},  
 }
 DOMAIN_NOISE = {"recipe","recipes","receita","receitas","ingredientes","ingredients"}
 

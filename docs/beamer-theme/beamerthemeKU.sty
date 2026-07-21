@@ -1,0 +1,393 @@
+% Copyright 2018 Andrei Sleptchenko
+
+\usepackage{pgfcomp-version-0-65}
+\usepackage{color}
+
+
+% introduce options
+%\newif\ifbeamer@color\beamer@colorfalse
+%\newcommand\beamer@colorvalue{}
+%\DeclareOptionBeamer{color}{\beamer@colortrue\renewcommand\beamer@colorvalue{#1}}
+
+\newif\ifbeamer@footline\beamer@footlinefalse
+\DeclareOptionBeamer{footline}{\beamer@footlinetrue}
+
+\newcommand\beamer@languagevalue{english}
+\DeclareOptionBeamer{language}{\renewcommand\beamer@languagevalue{#1}}
+
+\newif\ifbeamer@framenumber\beamer@framenumberfalse
+\DeclareOptionBeamer{framenumber}{\beamer@framenumbertrue}
+
+\newif\ifbeamer@totalframenumber\beamer@totalframenumberfalse
+\DeclareOptionBeamer{totalframenumber}{\beamer@totalframenumbertrue}
+
+\newif\ifbeamer@footertext\beamer@footertextfalse
+\DeclareOptionBeamer{footertext}{\beamer@footertexttrue}
+
+\def\footertext#1{\def\@footertext{#1}}
+\newcommand{\insertfootertext}{\@footertext}
+%\ifx\insertdate\@empty
+
+\newif\ifbeamer@framebx\beamer@framebxfalse
+\DeclareOptionBeamer{framebx}{\beamer@framebxtrue}
+
+%\RequirePackage{ifthen}
+%\newif\ifhandoutall
+%\handoutallfalse
+%\DeclareOption{handoutprintall}{\handoutalltrue}
+%\DeclareOption{handoutprintnotall}{\handoutallfalse}
+
+
+
+\ProcessOptionsBeamer
+
+% actual configuration
+\mode<presentation>
+
+
+%%%%%%%%%%%%%%
+%%
+%% Color theme
+%%
+%%%%%%%%%%%%%%
+
+
+
+% colors are based on the branding guide 2018
+% http://www.ku.ac.ae/pdf/KU_Branding_Guidelines_2018.pdf
+
+%% === KU Primary colors ==========
+% % PANTONE 2935 C:100 M:52 Y:0 K:0 R:0 G:87 B:184 HEX: 0057B8    <====== advised in the branding style document
+% \definecolor{kublue}{RGB}{0, 87, 184}
+\definecolor{kublue}{RGB}{18, 70, 181}  %   HEX: 1246B5                           <===== copied from the powerpont template (slightly darker)
+
+% PANTONE COOL GRAY 2 C:5 M:3 Y:5 K:11 R:208 G:208 B:206 HEX: D0D0CE
+\definecolor{kulightgray}{RGB}{208, 208, 206}
+
+% PANTONE COOL GRAY 9 C:0 M:0 Y:0 K:60 R:117 G:120 B:123 HEX: 75787B
+\definecolor{kudarkgray}{RGB}{117, 120, 123}
+
+
+%% ====== KU Secondary colors
+% PANTONE 7677 C:68 M:78 Y:0 K:0 R:111 G:80 B:145 HEX: 6F5091
+\definecolor{kuviolet}{RGB}{111, 80, 145}
+
+% PANTONE 7488 C:52 M:0 Y:82 K:0 R:120 G:214 B:75 HEX: 78D64B
+\definecolor{kugreen}{RGB}{120, 214, 75}
+
+% PANTONE 1785 C:0 M:76 Y:54 K:0 R:248 G:72 B:94 HEX: F8485E
+\definecolor{kured}{RGB}{248, 72, 94}
+
+% PANTONE 1495 C:0 M:46 Y:78 K:0 R:255 G:143 B:28 HEX: FF8F1C
+\definecolor{kuorange}{RGB}{255, 143, 28}
+
+% PANTONE 312 C:88 M:0 Y:11 K:0 R:0 G:169 B:206 HEX: 00A9CE
+\definecolor{kulightblue}{RGB}{0, 169, 206}
+
+% PANTONE 7528 C:5 M:10 Y:17 K:16 R:197 G:185 B:172 HEX: C5B9AC
+\definecolor{kumidgray}{RGB}{197, 185, 172}
+
+
+% black
+\definecolor{black}{RGB}{0, 0, 0}
+
+
+\colorlet{kualert}  {kured}
+\colorlet{kuexample}{kugreen}	
+
+%% switch between the generic use of highlights or faculty specific colors
+%\ifthenelse{ \boolean{beamer@color}}              %%%%     beamer@color   is not declared for now
+%{
+%  \colorlet{kualert}{kuorange!80!kured} %kured}
+%  \colorlet{kuexample}{kugreen}
+%}
+%{
+%  \colorlet{kualert}  {kured}
+%  \colorlet{kuexample}{kugreen}	
+%}
+
+
+% general colors
+\setbeamercolor*{structure}            				{fg = kublue}%
+\setbeamercolor*{normal text}         			  {fg = kublue!70!black}%
+\setbeamercolor*{frame title}          				{fg = kublue}%, bg=kuorange}%
+\setbeamercolor*{frame subtitle}          		{fg = kublue}%, bg=kugreen}%
+\setbeamercolor*{frame number in head}	{fg = kudarkgray}%
+\setbeamercolor*{title in head}				  {fg = kudarkgray}%
+\setbeamercolor*{title page header}  			{fg=kublue}
+\setbeamercolor*{subtitle}                			{fg = kudarkgray}%
+\setbeamercolor*{author}         	  	   			{fg = kudarkgray}%
+\setbeamercolor*{text in foot}       	  	  	  {fg = kudarkgray}%
+\setbeamercolor*{date}                   			{fg = kumidgray}%
+\setbeamercolor*{date in foot}                    {fg = kudarkgray}%
+
+
+% alert color
+\setbeamercolor{alerted text}{fg=kualert}
+
+% blocks
+\setbeamercolor{block title}				{use=structure,fg=white,bg=kublue}
+\setbeamercolor{block title alerted}	 {use=alerted text,fg=white,bg=kualert}
+\setbeamercolor{block title example}   {use=example text,fg=white,bg=kuexample}
+
+\setbeamercolor{block body}        		  {fg=kublue!80!black,use=block title,bg=kublue!8!white}
+\setbeamercolor{block body alerted}		{fg=kublue!80!black,use=block title alerted,bg=kualert!8!white}
+\setbeamercolor{block body example}	 {fg=kublue!80!black,use=block title example,bg=kuexample!8!white}
+
+%\usecolortheme{KU}
+
+
+%%%%%%%%%%%%%%
+%%
+%% Font theme
+%%
+%%%%%%%%%%%%%%
+
+\setbeamerfont{title}     {size=\huge}
+\setbeamerfont{subtitle}  {size=\Large}
+\setbeamerfont{frametitle}{size=\LARGE}
+\setbeamerfont{framesubtitle}{size=\large}
+
+\setbeamerfont{author}{size=\LARGE}
+
+\setbeamerfont{frame number in head}{size=\tiny}
+\setbeamerfont{text in foot}{size=\scriptsize}
+
+\setbeamerfont{title in head}{size=\footnotesize}
+
+%\usefonttheme {KU}
+
+
+%%%%%%%%%%%%%%
+%%
+%% Inner theme
+%%
+%%%%%%%%%%%%%%
+
+%\useinnertheme{rounded}
+
+
+\setbeamertemplate{itemize items}[triangle]
+
+\setbeamertemplate{blocks}[squared]
+
+%\useinnertheme{KU}
+
+
+%%%%%%%%%%%%%%
+%%
+%% Outer theme
+%%
+%%%%%%%%%%%%%%
+
+
+
+% lengths
+\newlength\margin
+\setlength\margin{0.5cm}% 0.85cm * 64/127
+
+% margins
+\setbeamersize{text margin left=2\margin,%
+               text margin right=2\margin}
+
+
+
+% images
+\pgfdeclareimage[height=0.25cm]{logoheader}{logos/KUlogoNarrowGray}
+\pgfdeclareimage[height=1.2cm]{logofull}{logos/KUlogoBlue2}
+
+
+
+% background
+%\defbeamertemplate*{background canvas}{ku theme}
+%{%
+%	\ifbeamer@color
+%	  	\color{kublue}
+%	\else
+%	  	\color{ku\beamer@colorvalue}
+%	\fi
+%
+%%  \ifbeamer@framenumber%
+%%    \ifnum\c@framenumber=1%
+%%   	   \banner{1.8cm}{\beamer@colorvalue}
+%%	   \begin{pgfpicture}{-4.5mm}{-0.825\bannerheight}{0cm}{0cm}%{#1}{\bannerheight} %
+%%			\color{white}
+%%	        \pgfrect[fill]{\pgfpoint{0cm}{0mm}}{\pgfpoint{43mm}{13.5mm}}  %\pgfxy(0cm,2cm)}{\pgfxy(#1, \bannerheight)} %
+%%	        \pgfnodebox{logonode}[virtual]{\pgfpoint{24mm}{6.75mm} }{\pgfuseimage{logofull}}{0pt}{0pt}
+%%	   \end{pgfpicture}
+%%	   \raisebox{\bannerheight}{}
+%%
+%%     \else
+%%   	   \banner{1cm}{\beamer@colorvalue}
+%%	   \begin{pgfpicture}{-3mm}{-0.87\bannerheight}{0cm}{0cm}%{#1}{\bannerheight} %
+%%			\color{white}
+%%	        \pgfrect[fill]{\pgfpoint{0cm}{0mm}}{\pgfpoint{9mm}{9mm}}  %\pgfxy(0cm,2cm)}{\pgfxy(#1, \bannerheight)} %
+%%	        \pgfnodebox{logosmallnode}[virtual]{\pgfpoint{4.5mm}{4.5mm} }{\pgfuseimage{logo}}{0pt}{0pt}
+%%	   \end{pgfpicture}  	  	   
+%%  	   \raisebox{\bannerheight}{}% %no ide why this is needed
+%%    \fi
+%%  \fi%
+%
+%}
+
+
+
+\setbeamertemplate{background}{
+  \ifbeamer@framebx
+	  \begin{tikzpicture}
+	  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+	  \draw[color=black] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+	  \end{tikzpicture}
+	\fi
+}
+
+% Title page
+\defbeamertemplate*{title page}{ku theme}[1][]
+{
+  
+  	\vskip\margin
+  	\hskip1\margin
+    \pgfuseimage{logofull}%
+    
+    \vskip1cm
+    \begin{beamercolorbox}[wd=15cm,leftskip=2\margin, #1]{title page header}
+      \usebeamerfont{title}\bf\inserttitle%
+	  %  \usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle%
+    \end{beamercolorbox}%
+    \ifx\insertsubtitle\@empty%
+    \else%
+      \vskip2ex%
+	    \begin{beamercolorbox}[wd=15cm,leftskip=2\margin,#1]{subtitle}
+	      \usebeamerfont{subtitle}\insertsubtitle%
+	      %\usebeamerfont{subtitle}\insertsubtitle[fg]{subtitle}\insertsubtitle%
+	    \end{beamercolorbox}
+    \fi%
+    \ifx\insertauthor\@empty%
+    \else%
+      \vskip5ex%
+    \begin{beamercolorbox}[wd=15cm,leftskip=2\margin,#1]{author}
+      \usebeamerfont{author}\insertauthor%
+      % \usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor%
+    \end{beamercolorbox}
+    \fi%
+  \vfill%
+    \begin{beamercolorbox}[wd=15cm,leftskip=2\margin,#1]{date}
+      \usebeamerfont{date}\insertdate%
+    \end{beamercolorbox}
+%      \vskip1ex%
+}
+
+% headline
+\defbeamertemplate*{headline}{ku theme}%
+{%
+  \ifnum\thepage>1\relax
+
+	\begin{tikzpicture}
+	\useasboundingbox (-\margin,0) rectangle (\the\paperwidth-2\margin,1.5\margin);
+	\draw[thick, kudarkgray](0,0) -- ++(\the\paperwidth-2\margin,0);
+	\node[right, xshift=-2pt] at (0,0.6\margin) {\pgfuseimage{logoheader}};
+%	\fill[color=orange] (0,0) rectangle (\the\paperwidth,\the\paperheight);
+
+	\end{tikzpicture}
+
+      \pgftext[right, at = \pgfpoint{\the\paperwidth-\margin}{0.5\margin}]{%
+        \usebeamerfont{frame number in head}%
+        \usebeamercolor[fg]{frame number in head}\insertframenumber{}%
+        \ifbeamer@totalframenumber%
+          /\inserttotalframenumber%
+        \fi
+      }%
+
+
+      \pgftext[left, at = \pgfpoint{0.35\paperwidth - \margin}{0.5\margin}]{%
+        \usebeamerfont{title in head}%
+        \usebeamercolor[fg]{title in head}
+            \ifx\insertshorttitle\@empty%
+            	\inserttitle
+            \else%
+        		\insertshorttitle
+        	\fi
+      }%
+  
+  
+      \pgftext[left, at = \pgfpoint{0.75\paperwidth }{0.5\margin}]{%
+        \usebeamerfont{frame number in head}%
+        \usebeamercolor[fg]{frame number in head}
+            \ifx\insertdate\@empty%
+            	\date{}
+            \else%
+            	\ifx\insertshortdate\@empty%
+            		\insertdate
+            	\else
+        			\insertshortdate
+        		\fi
+        	\fi
+      }%
+
+      \pgftext[left, at = \pgfpoint{0.87\paperwidth}{0.55\margin}]{%
+        \usebeamerfont{frame number in head}%
+        \usebeamercolor[fg]{frame number in head}
+            ku.ac.ae
+      }%
+
+   \fi
+
+}
+
+
+% footline
+\defbeamertemplate*{footline}{ku theme}
+{%
+    \ifnum\c@framenumber=1\else % \ifnum\thepage>1
+      \pgftext[bottom, left, at=\pgfpoint{\margin}{4pt}]{%
+	     \ifx\insertfootertext\@empty%
+	     \else   
+	        \usebeamerfont{text in foot}%
+	        \usebeamercolor[fg]{text in foot}
+	        \insertfootertext
+	      \fi
+      }%
+    \fi
+%    \beamertemplatenavigationsymbolshorizontal
+  
+}%
+
+
+% frametitle
+\defbeamertemplate*{frametitle}{ku theme}
+{%
+  \vskip 1.2\margin
+%  \usebeamercolor[fg]{frame title}
+%  
+%  \hskip -0.8\margin\usebeamerfont{frametitle}\insertframetitle \\
+%  \hskip -0.8\margin\usebeamerfont{framesubtitle}\insertframesubtitle
+  
+  \begin{beamercolorbox}[wd=1.07\textwidth,ht=2.1ex,dp=0.5ex]{frame title}%
+  	\begin{minipage}[t]{\textwidth}
+  	\usebeamerfont{frametitle}\insertframetitle
+  	\end{minipage}
+  \end{beamercolorbox}%
+  \ifx\insertframesubtitle\@empty\else
+  \vskip -0.6ex
+  \begin{beamercolorbox}[wd=1.07\textwidth,ht=1.5ex,dp=0.5ex]{frame subtitle}%
+  	\begin{minipage}[t]{\textwidth}
+    \usebeamerfont{framesubtitle}\insertframesubtitle
+  	\end{minipage}
+  \end{beamercolorbox}%
+  \fi
+}
+
+
+
+
+% remove navigation symbols
+%\beamertemplatenavigationsymbolsempty
+
+
+%\useoutertheme{KU}
+
+
+
+
+\mode
+<all>

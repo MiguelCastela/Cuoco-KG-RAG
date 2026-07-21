@@ -1,0 +1,12 @@
+KG - name, id, minutes, n_steps, nutrition, n_ingredients, tags, steps,
+
+RAG - tags, steps, descritpion, reviews
+
+Nutrition tags: calories, total fat, sugar, sodium, protein, saturated fat
+
+
+
++ portuguese, azores, lisbon, salt cod -> em tudo (name, tags, description, cooking steps)
+
+
+pip install "transformers>=4.44" "datasets>=2.19" "evaluate>=0.4" scikit-learn "torch>=2.2" sentencepiece accelerate
