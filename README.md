@@ -208,7 +208,9 @@ The `docs/` folder holds the assignment brief, the project proposal, the
 literature review, and the final report (LaTeX sources and compiled PDFs), plus
 the reference papers used during the project.
 
-## Security note
+## Authors
 
-Do not commit real API keys. Keys belong only in the git-ignored `*.env` files,
-never in the committed `*.env.example` templates.
+- Miguel Castela
+- Miguel Martins
+
+DEI, Universidade de Coimbra.
