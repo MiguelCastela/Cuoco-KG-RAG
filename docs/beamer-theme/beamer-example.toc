@@ -1,0 +1,9 @@
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@sectionintoc {2}{Objective}{4}{0}{2}
+\beamer@sectionintoc {3}{System Architecture}{5}{0}{3}
+\beamer@sectionintoc {4}{Key Components}{6}{0}{4}
+\beamer@subsectionintoc {4}{1}{NLP Pipeline \& Time Parsing}{6}{0}{4}
+\beamer@sectionintoc {5}{Key Components}{7}{0}{5}
+\beamer@subsectionintoc {5}{1}{NLP Pipeline \& Time Parsing}{7}{0}{5}
+\beamer@subsectionintoc {5}{2}{SPARQL Query Functions}{8}{0}{5}
+\beamer@sectionintoc {6}{Results \& Conclusion}{10}{0}{6}

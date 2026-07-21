@@ -1,0 +1,152 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Agrawal \bgroup \em et al.\egroup }{2024}]{agrawal2024kg_hallucinations}
+Garima Agrawal, Tharindu Kumarage, Zeyad Alghamdi, and Huan Liu.
+\newblock Can knowledge graphs reduce hallucinations in llms?: A survey.
+\newblock In {\em Proceedings of the North American Chapter of the Association for Computational Linguistics (NAACL)}, 2024.
+\newblock Accepted paper in NAACL 2024; also available as arXiv:2311.07914 [cs.CL].
+
+\bibitem[\protect\citeauthoryear{AI}{2024}]{llama3_8b_ollama}
+Meta AI.
+\newblock Llama 3 8b.
+\newblock \url{https://ollama.com/library/llama3:8b}, 2024.
+\newblock Model card hosted on Ollama.
+
+\bibitem[\protect\citeauthoryear{Antelo}{2021}]{portuguese_meals_kaggle}
+Catarina Antelo.
+\newblock Portuguese meals dataset.
+\newblock \url{https://www.kaggle.com/datasets/catarinaantelo/portuguese-meals}, 2021.
+
+\bibitem[\protect\citeauthoryear{{Argos Open Tech}}{2025}]{argos_opentech}
+{Argos Open Tech}.
+\newblock Argos open tech, 2025.
+
+\bibitem[\protect\citeauthoryear{Bachmann and contributors}{2025}]{rapidfuzz_github}
+Max Bachmann and RapidFuzz contributors.
+\newblock Rapidfuzz.
+\newblock \url{https://github.com/rapidfuzz/RapidFuzz}, 2025.
+
+\bibitem[\protect\citeauthoryear{Bordes \bgroup \em et al.\egroup }{2013}]{bordes2013translating}
+Antoine Bordes, Nicolas Usunier, Alberto Garc{\'\i}a-Dur{\'a}n, Jason Weston, and Oksana Yakhnenko.
+\newblock Translating embeddings for modeling multi-relational data.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages 2787--2795, 2013.
+
+\bibitem[\protect\citeauthoryear{Developers}{2025a}]{pyvis_docs}
+PyVis Developers.
+\newblock Pyvis documentation.
+\newblock \url{https://pyvis.readthedocs.io/en/latest/documentation.html}, 2025.
+\newblock Python library for interactive network visualization.
+
+\bibitem[\protect\citeauthoryear{Developers}{2025b}]{rdflib_docs}
+RDFLib Developers.
+\newblock Rdflib documentation.
+\newblock \url{https://rdflib.readthedocs.io/en/stable/}, 2025.
+\newblock Python library for working with RDF.
+
+\bibitem[\protect\citeauthoryear{Devlin \bgroup \em et al.\egroup }{2019}]{devlin2019bert}
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova.
+\newblock Bert: Pre-training of deep bidirectional transformers for language understanding.
+\newblock {\em arXiv preprint arXiv:1810.04805}, 2019.
+\newblock Submitted 11 Oct 2018 (v1); last revised 24 May 2019 (v2).
+
+\bibitem[\protect\citeauthoryear{Foundation}{2025}]{python_pickle_docs}
+Python~Software Foundation.
+\newblock pickle — python object serialization.
+\newblock \url{https://docs.python.org/3/library/pickle.html}, 2025.
+\newblock Python standard library documentation.
+
+\bibitem[\protect\citeauthoryear{{Groq, Inc.}}{2025}]{groq_website}
+{Groq, Inc.}
+\newblock Groq.
+\newblock \url{https://groq.com/}, 2025.
+\newblock Company website.
+
+\bibitem[\protect\citeauthoryear{Honnibal \bgroup \em et al.\egroup }{2020}]{honnibal2020spacy}
+Matthew Honnibal, Ines Montani, Sofie Van~Landeghem, and Adriane Boyd.
+\newblock spacy: Industrial-strength natural language processing in python.
+\newblock \url{https://zenodo.org/record/1215370}, 2020.
+\newblock Software release.
+
+\bibitem[\protect\citeauthoryear{Joulin \bgroup \em et al.\egroup }{2016}]{joulin2016fasttext}
+Armand Joulin, Edouard Grave, Piotr Bojanowski, Matthijs Douze, H{\'e}rve J{\'e}gou, and Tomas Mikolov.
+\newblock Fasttext.zip: Compressing text classification models.
+\newblock {\em arXiv preprint arXiv:1612.03651}, 2016.
+
+\bibitem[\protect\citeauthoryear{Karpukhin \bgroup \em et al.\egroup }{2020}]{karpukhin2020dense_passage_retrieval}
+Vladimir Karpukhin, Barlas Oguz, Sewon Min, Patrick Lewis, Ledell Wu, Sergey Edunov, Danqi Chen, and Wen-tau Yih.
+\newblock Dense passage retrieval for open-domain question answering.
+\newblock In {\em Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)}, 2020.
+\newblock EMNLP 2020; arXiv preprint.
+
+\bibitem[\protect\citeauthoryear{KL2}{2025}]{KL2025slides}
+Course slides, 2025.
+\newblock Course materials, PowerPoint slides.
+
+\bibitem[\protect\citeauthoryear{Lewis \bgroup \em et al.\egroup }{2019}]{lewis2019bart}
+Mike Lewis, Yinhan Liu, Naman Goyal, Marjan Ghazvininejad, Abdelrahman Mohamed, Omer Levy, Veselin Stoyanov, and Luke Zettlemoyer.
+\newblock Bart: Denoising sequence-to-sequence pre-training for natural language generation, translation, and comprehension.
+\newblock {\em arXiv preprint arXiv:1910.13461}, 2019.
+
+\bibitem[\protect\citeauthoryear{Lewis \bgroup \em et al.\egroup }{2020}]{lewis2020rag}
+Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich K{\"u}ttler, Mike Lewis, Wen-tau Yih, Tim Rockt{\"a}schel, Sebastian Riedel, and Douwe Kiela.
+\newblock Retrieval-augmented generation for knowledge-intensive nlp tasks.
+\newblock {\em arXiv preprint arXiv:2005.11401}, 2020.
+\newblock Accepted at NeurIPS 2020; v4.
+
+\bibitem[\protect\citeauthoryear{Li}{2020}]{foodcom_kaggle}
+Shuyang Li.
+\newblock Food.com recipes and interactions dataset.
+\newblock \url{https://www.kaggle.com/datasets/shuyangli94/food-com-recipes-and-user-interactions}, 2020.
+
+\bibitem[\protect\citeauthoryear{Loesch \bgroup \em et al.\egroup }{2025}]{loesch2025reciperag}
+T.~Loesch, E.~Durmuş, and R.~Celebi.
+\newblock Reciperag: A knowledge graph-driven approach to personalized recipe retrieval and generation.
+\newblock In {\em Proceedings of RAGE-KG 2025}, 2025.
+
+\bibitem[\protect\citeauthoryear{Lui and Baldwin}{2012}]{lui2012langid}
+Marco Lui and Timothy Baldwin.
+\newblock langid.py: An off-the-shelf language identification tool.
+\newblock In {\em Proceedings of the 50th Annual Meeting of the Association for Computational Linguistics: Demonstration Session}, pages 25--30, Jeju Island, Korea, 2012. Association for Computational Linguistics.
+
+\bibitem[\protect\citeauthoryear{Munnangi}{2024}]{A_Brief_History_of_Named_Entity_Recognition}
+Monica Munnangi.
+\newblock arxiv:2411.05057.
+\newblock \url{https://arxiv.org/abs/2411.05057}, 2024.
+\newblock University of Massachusetts, Amherst; mmunnangi@cs.umass.edu.
+
+\bibitem[\protect\citeauthoryear{OpenAI}{2025a}]{gpt_oss_120b_hf}
+OpenAI.
+\newblock Gpt-oss-120b.
+\newblock \url{https://huggingface.co/openai/gpt-oss-120b}, 2025.
+\newblock Model card on Hugging Face.
+
+\bibitem[\protect\citeauthoryear{OpenAI}{2025b}]{chatgpt_dataset_2025}
+OpenAI.
+\newblock Intent extraction dataset generated by chatgpt.
+\newblock Generated by ChatGPT (Version 5.1) during an interactive session, 2025.
+\newblock Large language model.
+
+\bibitem[\protect\citeauthoryear{Ramírez and contributors}{2019}]{fastapi_docs}
+Sebastián Ramírez and FastAPI contributors.
+\newblock Fastapi.
+\newblock \url{https://fastapi.tiangolo.com/}, 2019.
+\newblock Documentation.
+
+\bibitem[\protect\citeauthoryear{Reimers and Gurevych}{2019}]{sentence_transformers_sbert}
+Nils Reimers and Iryna Gurevych.
+\newblock Sentence-transformers.
+\newblock \url{https://sbert.net/}, 2019.
+
+\bibitem[\protect\citeauthoryear{Sun \bgroup \em et al.\egroup }{2019}]{sun2019rotate}
+Zhiqing Sun, Zhi-Hong Deng, Jian-Yun Nie, and Jian Tang.
+\newblock Rotate: Knowledge graph embedding by relational rotation in complex space.
+\newblock In {\em International Conference on Learning Representations (ICLR)}, 2019.
+\newblock Accepted to ICLR 2019.
+
+\bibitem[\protect\citeauthoryear{Zhang \bgroup \em et al.\egroup }{2019}]{zhang2019quaternion}
+Shuai Zhang, Yi~Tay, Lina Yao, and Qi~Liu.
+\newblock Quaternion knowledge graph embeddings.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, 2019.
+\newblock Accepted by NeurIPS 2019.
+
+\end{thebibliography}
