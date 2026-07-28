@@ -1,3 +1,5 @@
+<img src="frontend/src/assets/circle_cuoco.png" alt="Cuoco logo" width="140" align="right" />
+
 # Cuoco
 
 Cuoco is a bilingual (Portuguese / English) recipe assistant. It answers
@@ -50,6 +52,31 @@ the slots each one needs (ingredients, tags, recipe names, cooking time):
 - `list_by_ingredient` - recipes that use given ingredients
 - `list_by_tag` - recipes matching given tags
 - `list_by_time` - recipes that fit within a time budget
+
+Each intent has its own retrieval strategy against the Knowledge Graph. The
+flowcharts below are the ones used in the final report.
+
+**`find_recipe`** - resolve a name to exactly one recipe and return everything about it.
+
+![find_recipe flow](docs/beamer-theme/cl-drawio/cl-find_recipe.drawio.png)
+
+**`retrieve_ingredients`** - same lookup, but project only the ingredient list.
+
+![retrieve_ingredients flow](docs/beamer-theme/cl-drawio/cl-retrieve_ingredients.drawio.png)
+
+**`get_prep_time`** - the time queries split by how the user phrased the constraint:
+an exact duration, an upper bound, or the plain preparation time.
+
+| `get_prep_time` | `get_exact_time` | `get_max_time` |
+| --------------- | ---------------- | -------------- |
+| ![get_prep_time flow](docs/beamer-theme/cl-drawio/cl-get_prep_time.drawio.png) | ![get_exact_time flow](docs/beamer-theme/cl-drawio/cl-get_exact_time.drawio.png) | ![get_max_time flow](docs/beamer-theme/cl-drawio/cl-get_max_time.drawio.png) |
+
+**`list_by_ingredient`** and **`list_by_tag`** - filter the graph by extracted slots
+rather than resolving a single recipe.
+
+| `list_by_ingredient` | `list_by_tag` |
+| -------------------- | ------------- |
+| ![list_by_ingredient flow](docs/beamer-theme/cl-drawio/cl-list_by_ingr.drawio.png) | ![list_by_tag flow](docs/beamer-theme/cl-drawio/cl-list_by_tag.drawio.png) |
 
 ## Repository structure
 
