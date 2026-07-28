@@ -12,6 +12,12 @@ answer.
 The project pairs a FastAPI backend with a React (Vite) frontend, and includes
 the academic reports and literature produced alongside the system.
 
+![The CuocoGPT chat interface](docs/images/ui-welcome.jpg)
+
+The chat UI, served by `npm run dev` from `frontend/`. Everything the user sees is
+one input box; the intent classification, entity linking, SPARQL retrieval and
+semantic search all happen behind the single `/chat` call.
+
 ## How it works
 
 A single user query flows through the pipeline below. Everything up to the LLM
@@ -228,6 +234,18 @@ Knowledge Graph were built from the source recipe data:
 - `randomized_split.py` - train / evaluation splits
 - `rdfs_maker.py` - build the RDF Knowledge Graph from the curated CSVs
 - `visualization.py`, `small_visualization.py` - render the KG to HTML
+
+![A two-recipe slice of the recipe Knowledge Graph](docs/images/knowledge-graph.jpg)
+
+A two-recipe slice of the graph `rdfs_maker.py` produces, rendered by
+`small_visualization.py` to
+[`backend/data/curated/kg_visualization.html`](backend/data/curated/kg_visualization.html)
+(open it in a browser for the interactive version). Recipes are blue, ingredients
+red, tags orange, preparation steps green and nutrition facts purple. The shape is
+what makes the SPARQL retrieval work: ingredients and tags are shared nodes, so
+`list_by_ingredient` and `list_by_tag` are a single hop from an entity the NER
+stage linked, while `retrieve_ingredients` and `get_prep_time` are one hop the
+other way from a resolved recipe.
 
 ## Documentation
 
