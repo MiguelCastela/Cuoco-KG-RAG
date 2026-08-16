@@ -109,11 +109,12 @@ rather than resolving a single recipe.
 │
 └── docs/                        Project documentation and academic material
     ├── project-description.pdf  Original assignment brief
-    ├── reports/                LaTeX sources and PDFs
+    ├── reports/                LaTeX sources, PDFs, and slides
     │   ├── project-proposal/
     │   ├── literature-review/
     │   ├── final-report/
-    │   └── flowcharts/
+    │   ├── flowcharts/
+    │   └── presentation.pdf     Project presentation slides
     ├── literature/             Reference papers
     ├── beamer-theme/           Presentation template
     └── notes.md                Working notes
@@ -250,8 +251,8 @@ other way from a resolved recipe.
 ## Documentation
 
 The `docs/` folder holds the assignment brief, the project proposal, the
-literature review, and the final report (LaTeX sources and compiled PDFs), plus
-the reference papers used during the project.
+literature review, the final report (LaTeX sources and compiled PDFs), and the
+project presentation slides, plus the reference papers used during the project.
 
 ## Authors
 
